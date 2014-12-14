@@ -1,0 +1,6 @@
+#flash-messages
+  - if flash.present?
+    #flash
+      - flash.each do |key, value|
+        .alert-box.radius{class: value}
+          = h(value)
