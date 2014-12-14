@@ -1,0 +1,9 @@
+body {
+  h1, h2, p, a { color: $gray !important; }
+
+  input.button {
+    background: $light-green;
+    &:hover { background: $green; }
+    &:visited, &:focus { background: $light-green; }
+  }
+}

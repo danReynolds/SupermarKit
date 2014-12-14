@@ -1,6 +1,13 @@
-= simple_form_for @user do |f|
-  = f.input :name
-  = f.input :email
-  = f.input :password
-  = f.input :password_confirmation
-  = f.button :submit, 'Create'
+.users-new
+  .row
+    .columns.large-12
+      %h1 Sign up
+  = simple_form_for @user do |f|
+    .row
+      .columns.large-6
+        = f.input :name, input_html: { value: params[:user][:name] }
+        = f.input :email, input_html: { value: params[:user][:email] }
+      .columns.large-6
+        = f.input :password
+        = f.input :password_confirmation
+        = f.button :submit, 'Create'

@@ -1,0 +1,24 @@
+.home {
+  background: white;
+  #hero {
+    background-image: linear-gradient(rgba(207, 240, 158, 0.4), rgba(168, 219, 168, 0.6)), asset-url('assets/groceries/colorful-groceries.jpg');
+    text-align: center;
+    padding: 9rem 0;
+
+    li { display: inline-block; }
+    h2 { font-size: 2rem; }
+
+    .signup {
+      margin-top: 2rem;
+      input {
+        border-radius: 2px;
+        height: 3rem;
+      }
+    }
+  }
+
+  #hook {
+    margin-top: 9rem;
+    h2 { margin-top: 2rem; }
+  }
+}

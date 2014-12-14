@@ -3,8 +3,18 @@
 // =====================
 @import 'foundation_and_overrides';
 
+// =====================
+// Base Styles
+// =====================
+@import 'variables';
+@import 'commons';
+
 // ===================== 
 // Page Styles
 // =====================
 
-@import 'groceries/index';
+@import 'groceries/*';
+@import 'layouts/*';
+@import 'pages/*';
+@import 'users/*';
+@import 'user_sessions/*';

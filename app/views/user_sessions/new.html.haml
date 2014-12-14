@@ -1,4 +1,11 @@
-= simple_form_for :session, url: user_sessions_path do |f|
-  = f.input :email
-  = f.input :password
-  = f.button :submit, 'Login'
+.new-user-session
+  .row
+    .columns.large-12
+      %h1 Login
+  = simple_form_for :session, url: user_sessions_path do |f|
+    .row
+      .columns.large-6
+        = f.input :email
+      .columns.large-6
+        = f.input :password
+        = f.button :submit, 'Login'

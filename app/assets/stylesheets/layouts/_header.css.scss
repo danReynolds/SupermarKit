@@ -1,3 +1,6 @@
-h1 {
-  display: none;
+.header {
+  .top-bar { background: $light-green !important; }
+  li, a { background: $green !important; }
+  .top-bar { z-index: 10000; }
+  .name { padding: 0 1rem; }
 }

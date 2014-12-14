@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get 'password_resets/update'
 
-  root to: 'users#index'
+  root to: 'pages#home'
   resources :user_sessions
   resources :users
 

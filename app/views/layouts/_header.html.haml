@@ -1,7 +1,7 @@
-.header.fixed
+.header
   %nav.top-bar{"data-topbar" => "", role: "navigation"}
     %ul.title-area
-      %li
+      %li.name
         = link_to root_url do
           %h1 SoftGroceries
       %li.toggle-topbar.menu-icon
@@ -10,12 +10,13 @@
     %section.top-bar-section
       / Right Nav Section
       %ul.right
-        %li
-          = link_to 'Login', login_path
-        %li.has-dropdown
-          = link_to 'About', '#'
-          %ul.dropdown
-            %li
-              %a{:href => "#"} First link in dropdown
-            %li.active
-              %a{:href => "#"} Active link in dropdown
+        - if current_user
+          %li
+            = link_to 'Dashboard', current_user
+          %li
+            = link_to 'Logout', logout_path, method: :post
+        - else
+          %li
+            = link_to 'Login', login_path
+          %li
+            = link_to 'Sign up', new_user_path

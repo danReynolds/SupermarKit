@@ -1,12 +1,11 @@
 !!!
 %html
   %head
-    %meta{content: 'width=device-width, initial-scale=1.0', name: 'viewport'}
     %title Softgroceries
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    = render partial: 'layouts/flash_messages'
     = render partial: 'layouts/header'
+    = render partial: 'layouts/flash_messages'
     = yield
