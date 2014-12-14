@@ -2,5 +2,7 @@
   - if flash.present?
     #flash
       - flash.each do |key, value|
-        .alert-box.radius{class: value}
+        .alert-box.radius{class: value, data: { alert: true }}
           = h(value)
+          = link_to '#', class: 'close' do
+            &times

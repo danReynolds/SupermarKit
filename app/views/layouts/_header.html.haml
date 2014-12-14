@@ -1,0 +1,21 @@
+.header.fixed
+  %nav.top-bar{"data-topbar" => "", role: "navigation"}
+    %ul.title-area
+      %li
+        = link_to root_url do
+          %h1 SoftGroceries
+      %li.toggle-topbar.menu-icon
+        %a{:href => "#"}
+          %span Menu
+    %section.top-bar-section
+      / Right Nav Section
+      %ul.right
+        %li
+          = link_to 'Login', login_path
+        %li.has-dropdown
+          = link_to 'About', '#'
+          %ul.dropdown
+            %li
+              %a{:href => "#"} First link in dropdown
+            %li.active
+              %a{:href => "#"} Active link in dropdown
