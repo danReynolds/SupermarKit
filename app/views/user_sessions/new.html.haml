@@ -1,11 +1,12 @@
 .new-user-session
   .row
-    .columns.large-12
+    .columns.large-12.text-center
       %h1 Login
   = simple_form_for :session, url: user_sessions_path do |f|
     .row
-      .columns.large-6
+      .columns.large-6.large-centered
         = f.input :email
-      .columns.large-6
+    .row
+      .columns.large-6.large-centered
         = f.input :password
         = f.button :submit, 'Login'

@@ -2,3 +2,11 @@
   .row
     .columns.large-12
       %h1 #{@user.name}'s Groceries Dashboard
+  %section.dash-content
+    .row
+      .columns.large-4
+        %h3 Quick Add
+        = simple_form_for :item, url: quick_add_items_path, method: :patch, remote: true do |f|
+          = f.input :name
+          = f.input :id, as: :hidden
+          = f.button :submit, input_html: { class: 'button' }

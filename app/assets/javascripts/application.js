@@ -1,8 +1,12 @@
 //= require jquery
 //= require jquery_ujs
-//= require foundation
+//= require jquery.turbolinks
+//= require opal
+//= require opal_ujs
 //= require turbolinks
 //= require vendor/modernizr
-
 //= require foundation
-$(function(){ $(document).foundation(); });
+//= require typeahead.min
+//= require item_typeahead
+
+$(function(){ $(document).foundation() }); 
