@@ -1,9 +1,8 @@
-.header
+.header.fixed
   %nav.top-bar{"data-topbar" => "", role: "navigation"}
     %ul.title-area
       %li.name
-        = link_to root_url do
-          %h1 SoftGroceries
+        = link_to 'SoftGroceries', root_path, class: :button
       %li.toggle-topbar.menu-icon
         %a{:href => "#"}
           %span Menu

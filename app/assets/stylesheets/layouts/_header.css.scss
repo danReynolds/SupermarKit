@@ -1,6 +1,5 @@
 .header {
   .top-bar { background: $light-green !important; }
-  li, a { background: $green !important; }
+  li, a { background: $light-green !important; }
   .top-bar { z-index: 10000; }
-  .name { padding: 0 1rem; }
 }

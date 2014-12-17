@@ -5,8 +5,8 @@
   = simple_form_for @user do |f|
     .row
       .columns.large-6
-        = f.input :name, input_html: { value: params[:user][:name] }
-        = f.input :email, input_html: { value: params[:user][:email] }
+        = f.input :name, input_html: { value: params[:user].try(:[], :name) }
+        = f.input :email, input_html: { value: params[:user].try(:[], :email) }
       .columns.large-6
         = f.input :password
         = f.input :password_confirmation
