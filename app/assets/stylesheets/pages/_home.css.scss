@@ -1,13 +1,17 @@
 .home {
   background: white;
   #hero {
-    background-image: linear-gradient(rgba(207, 240, 158, 1), rgba(168, 219, 168, 0.9)), asset-url('assets/groceries/colorful-groceries.jpg');
+    background-image: linear-gradient($accent-green, $green), asset-url('assets/groceries/colorful-groceries.jpg');
     background-size: cover;
     text-align: center;
     padding: 9rem 0;
 
     li { display: inline-block; }
     h2 { font-size: 2rem; }
+
+    #apple {
+      fill: $green;
+    }
 
     .signup {
       margin-top: 2rem;

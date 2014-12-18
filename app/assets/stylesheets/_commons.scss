@@ -5,6 +5,7 @@ body {
     background: $light-green;
     &:hover { background: $green; }
     &:visited, &:focus { background: $light-green; }
+    padding-top: 0.8rem;
   }
 
   .container {
@@ -18,7 +19,7 @@ body {
 
     .header {
       padding: 1rem;
-      background: $light-green;
+      background: $accent-green;
     }
     .main {
       padding: 1.5rem;

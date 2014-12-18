@@ -3,10 +3,8 @@
     .section#hero
       .row
         .columns.large-12
-          %h1 Engineers like eating.
-      .row
-        .columns.large-12
-          %h2 Making food takes time. Getting it doesn't have to.
+          %h1 Your SupermarKit
+          = render partial: 'apple'
       = simple_form_for :user, url: new_user_path, method: :get do |f|
         .row.signup
           .columns.large-12
