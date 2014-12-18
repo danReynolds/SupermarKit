@@ -1381,10 +1381,10 @@ $font-family-serif: Georgia, "Open Sans", serif;
 // $topbar-dropdown-toggle-alpha: 0.4;
 
 // Set the link colors and styles for top-level nav
-// $topbar-link-color: $white;
-// $topbar-link-color-hover: $white;
-// $topbar-link-color-active: $white;
-// $topbar-link-color-active-hover: $white;
+$topbar-link-color: $text-color;
+$topbar-link-color-hover: $text-color;
+$topbar-link-color-active: $text-color;
+$topbar-link-color-active-hover: $text-color;
 // $topbar-link-weight: $font-weight-normal;
 // $topbar-link-font-size: rem-calc(13);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%

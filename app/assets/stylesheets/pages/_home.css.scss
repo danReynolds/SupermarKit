@@ -1,8 +1,6 @@
 .home {
-  background: white;
   #hero {
-    background-image: linear-gradient($accent-green, $green), asset-url('assets/groceries/colorful-groceries.jpg');
-    background-size: cover;
+    background-image: linear-gradient($light-green, $green);
     text-align: center;
     padding: 9rem 0;
 
@@ -23,6 +21,7 @@
   }
 
   #hook {
+    h2, p { color: $white; }
     margin-top: 9rem;
     h2 { margin-top: 2rem; }
   }

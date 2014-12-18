@@ -1,25 +1,26 @@
 body {
-  h1, h2, h3, p, a { color: $gray !important; }
+  background: $white !important;
+  h1, h2, h3, p, a { color: $text-color; }
 
   .button {
-    background: $light-green;
+    background: $button-color;
     &:hover { background: $green; }
-    &:visited, &:focus { background: $light-green; }
+    &:visited, &:focus { background: $button-color; }
     padding-top: 0.8rem;
   }
 
   .container {
     height: 100%;
-    background: asset-url('assets/wallpaper/restaurant_icons.png');
+    background: $white;
   }
 
   .widget {
-    background: white;
+    background: $white;
     box-shadow: 1px 1px 1px rgb(220, 220, 220);
 
     .header {
       padding: 1rem;
-      background: $accent-green;
+      background: $light-green;
     }
     .main {
       padding: 1.5rem;
