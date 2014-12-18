@@ -1,7 +1,8 @@
 .home {
   background: white;
   #hero {
-    background-image: linear-gradient(rgba(207, 240, 158, 0.4), rgba(168, 219, 168, 0.6)), asset-url('assets/groceries/colorful-groceries.jpg');
+    background-image: linear-gradient(rgba(207, 240, 158, 1), rgba(168, 219, 168, 0.9)), asset-url('assets/groceries/colorful-groceries.jpg');
+    background-size: cover;
     text-align: center;
     padding: 9rem 0;
 
