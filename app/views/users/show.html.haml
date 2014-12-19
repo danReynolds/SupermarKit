@@ -5,12 +5,11 @@
         %h1 #{@user.name}'s Groceries Dashboard
     %section.dash-content
       .row
-        .columns.large-4
-          .widget
+        .columns.large-6
+          .widget.quick-add
             .header
               %h3 Quick Add
             .main
-              = simple_form_for :item, url: quick_add_items_path, method: :patch, remote: true do |f|
+              = simple_form_for @active_grocery, url: add_items_grocery_path(@active_grocery), method: :post, remote: true do |f|
                 = f.input :name
-                = f.input :id, as: :hidden
                 = f.button :submit, input_html: { class: 'button' }

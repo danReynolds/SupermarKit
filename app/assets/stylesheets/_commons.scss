@@ -11,16 +11,17 @@ body {
 
   .container {
     height: 100%;
-    background: $white;
+    background-image: asset-url('assets/wallpaper/restaurant_icons.png');
   }
 
   .widget {
     background: $white;
-    box-shadow: 1px 1px 1px rgb(220, 220, 220);
+    box-shadow: 1px 1px 1px lighten($gray, 50%);
 
     .header {
       padding: 1rem;
-      background: $light-green;
+      background: $green;
+      h3 { color: $white; }
     }
     .main {
       padding: 1.5rem;
@@ -28,6 +29,24 @@ body {
     h3 {
       padding: 0;
       margin: 0;
+    }
+  }
+
+  .chosen-select.items {
+    .chosen-choices {
+      margin-top: 1rem !important;
+      height: 5rem !important;
+
+      .search-choice {
+        display: inline-block;
+      }
+    }
+
+    .chosen-drop {
+      .active-result.highlighted {
+        background-color: $green !important;
+        background-image: none !important;
+      }
     }
   }
 }

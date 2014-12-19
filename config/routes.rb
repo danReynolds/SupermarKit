@@ -9,12 +9,12 @@ Rails.application.routes.draw do
   resources :password_resets
   resources :user_sessions
   resources :users
-  resources :groceries
+  resources :items
 
-  resources :items do
-    collection do
+  resources :groceries do
+    member do
+      post :add_items
       get :auto_complete
-      patch :quick_add
     end
   end
 end

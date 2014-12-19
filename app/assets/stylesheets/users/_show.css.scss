@@ -4,4 +4,12 @@
   .dash-content {
     margin-top: 3rem;
   }
+
+  .widget {
+    &.quick-add {
+      .button {
+        margin-top: 1rem;
+      }
+    }
+  }
 }

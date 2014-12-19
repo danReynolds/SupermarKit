@@ -16,18 +16,4 @@ class ItemsController < ApplicationController
 
 	def update
 	end
-
-	def quick_add
-		Grocery.first.items << Item.find(params[:item][:id])
-	end
-
-	def auto_complete
-		items = Item.search(params[:query]).map do |a|
-			{
-				value: a.name,
-				id: a.id
-			}
-		end
-		render json: items.to_json
-	end
 end

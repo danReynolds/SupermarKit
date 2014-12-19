@@ -8,4 +8,5 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true
 
   has_and_belongs_to_many :groceries
+  has_many :items, through: :groceries
 end
