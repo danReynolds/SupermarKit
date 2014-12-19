@@ -22,7 +22,8 @@
 
   #hook {
     h2, p { color: $white; }
-    margin-top: 9rem;
     h2 { margin-top: 2rem; }
+    padding-top: 9rem;
+    padding-bottom: 7rem;
   }
 }

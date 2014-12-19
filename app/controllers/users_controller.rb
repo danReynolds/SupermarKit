@@ -5,11 +5,13 @@ class UsersController < ApplicationController
 	end
 
   def show
+    @active_grocery = Grocery.last
     @user = User.find(params[:id])
+    @items = @user.items - @active_grocery.items
   end
 
   def new
-  	@user = User.new
+    @user = User.new
   end
 
   def create

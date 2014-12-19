@@ -15,6 +15,7 @@ gem 'simple_form'
 gem 'foundation-rails'
 gem 'sorcery'
 gem 'opal-rails'
+gem 'select2-rails'
 
 group :development do
 	gem 'spring'
