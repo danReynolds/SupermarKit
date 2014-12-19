@@ -11,5 +11,5 @@
               %h3 Quick Add
             .main
               = simple_form_for @active_grocery, url: add_items_grocery_path(@active_grocery), method: :post, remote: true do |f|
-                = f.input :name
-                = f.button :submit, input_html: { class: 'button' }
+                = f.input :name, label: false
+                = f.button :submit, "Add", class: 'button'

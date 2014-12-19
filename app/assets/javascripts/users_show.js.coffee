@@ -8,7 +8,7 @@ itemsFormatSelection = (item) ->
   item.name
 
 $(document).ready ->
-  $("#grocery_name").select2
+  $('#grocery_name').select2
     placeholder: "Add grocery items."
     minimumInputLength: 1
     multiple: true
@@ -28,3 +28,7 @@ $(document).ready ->
     formatSelection: itemsFormatSelection
     escapeMarkup: (m) ->
       m
+
+  $("form.edit_grocery").on "ajax:success", (event, data, status, xhr) ->
+    $('#grocery_name').select2('val','')
+
