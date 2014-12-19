@@ -1,3 +1,7 @@
+# ============================
+# select2 multiselect
+# ============================
+
 itemsFormatResults = (item) ->
   markup = "<div class=\"row\">" +
   "<div class=\"columns large-2\"><img src=\"/assets/groceries/plate7.png\"</img></div>" +
@@ -32,3 +36,6 @@ $(document).ready ->
   $("form.edit_grocery").on "ajax:success", (event, data, status, xhr) ->
     $('#grocery_name').select2('val','')
 
+  $('#grocery-table').DataTable
+    responsive: true
+    searching: false

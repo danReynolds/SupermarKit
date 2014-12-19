@@ -5,9 +5,8 @@ class UsersController < ApplicationController
 	end
 
   def show
-    @active_grocery = Grocery.last
     @user = User.find(params[:id])
-    @items = @user.items - @active_grocery.items
+    @active_grocery = Grocery.last
   end
 
   def new

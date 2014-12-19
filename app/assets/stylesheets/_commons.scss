@@ -17,6 +17,7 @@ body {
   .widget {
     background: $white;
     box-shadow: 1px 1px 1px lighten($gray, 50%);
+    margin-bottom: 2rem;
 
     .header {
       padding: 1rem;

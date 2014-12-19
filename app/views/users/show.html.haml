@@ -10,6 +10,28 @@
             .header
               %h3 Quick Add
             .main
+              %p
+                Add items quickly to your current shopping list,
+                %strong= @active_grocery.name
               = simple_form_for @active_grocery, url: add_items_grocery_path(@active_grocery), method: :post, remote: true do |f|
                 = f.input :name, label: false
                 = f.button :submit, "Add", class: 'button'
+        .columns.large-6
+          .widget.groceries
+            .header
+              %h3 Groceries
+            .main
+              %table#grocery-table
+                %thead
+                  %tr
+                    %th Name
+                    %th Description
+                    %th Items
+                    %th Last Updated
+                %tbody
+                  - @user.groceries.each do |grocery|
+                    %tr
+                      %td= link_to grocery.name, grocery_path(grocery)
+                      %td= grocery.description
+                      %td= grocery.items.count
+                      %td= grocery.updated_at.to_date

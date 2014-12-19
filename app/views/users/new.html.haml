@@ -1,13 +1,16 @@
-.users-new
+.container.users-new
   .row
-    .columns.large-12
-      %h1 Sign up
-  = simple_form_for @user do |f|
-    .row
-      .columns.large-6
-        = f.input :name, input_html: { value: params[:user].try(:[], :name) }
-        = f.input :email, input_html: { value: params[:user].try(:[], :email) }
-      .columns.large-6
-        = f.input :password
-        = f.input :password_confirmation
-        = f.button :submit, 'Create'
+    .columns.large-8.large-centered
+      .widget
+        .header
+          %h1 Sign up
+        .main
+          = simple_form_for @user do |f|
+            .row
+              .columns.large-6
+                = f.input :name, input_html: { value: params[:user].try(:[], :name) }
+                = f.input :email, input_html: { value: params[:user].try(:[], :email) }
+              .columns.large-6
+                = f.input :password
+                = f.input :password_confirmation
+                = f.button :submit, 'Create'

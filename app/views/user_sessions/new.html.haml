@@ -1,12 +1,16 @@
-.new-user-session
+.container.new-user-session
   .row
-    .columns.large-12.text-center
-      %h1 Login
-  = simple_form_for :session, url: user_sessions_path do |f|
-    .row
-      .columns.large-6.large-centered
-        = f.input :email
-    .row
-      .columns.large-6.large-centered
-        = f.input :password
-        = f.button :submit, 'Login'
+    .columns.large-8.large-centered
+      .widget
+        .header
+          %h1 Login
+        .main
+          .row
+          = simple_form_for :session, url: user_sessions_path do |f|
+            .row
+              .columns.large-6.large-centered
+                = f.input :email
+            .row
+              .columns.large-6.large-centered
+                = f.input :password
+                = f.button :submit, 'Login'
