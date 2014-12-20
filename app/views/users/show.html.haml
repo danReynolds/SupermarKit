@@ -1,6 +1,6 @@
-:javascript
-  var active_grocery_id = #{ @user.groceries.last.id }
-  var user_id = #{ @user.id }
+:coffee
+  @active_grocery_id = #{ @active_grocery.id }
+  @user_id = #{ @user.id }
 
 .container
   .users-show
@@ -8,7 +8,7 @@
       .columns.large-12
         - if @active_grocery
           %h1
-            #{@user.name}, you're currently on
+            #{@user.name}, you're currently shopping for
             = link_to "#{@active_grocery.name}"
         - else
           %h1 Hey #{@user.name}
@@ -24,5 +24,5 @@
           .columns.large-6
             = render partial: 'users/widgets/groceries_table'
       .row
-        .columns.large-8
+        .columns.large-6
           = render partial: 'users/widgets/active_grocery_table'

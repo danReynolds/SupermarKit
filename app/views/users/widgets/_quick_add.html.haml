@@ -3,7 +3,7 @@
     %h3 Quick Add
   .main
     %p
-      Add items quickly to your current shopping list,
+      Add items to your current grocery list,
       %strong= @active_grocery.name
     = simple_form_for @active_grocery, url: add_items_grocery_path(@active_grocery), method: :post, remote: true do |f|
       = f.input :name, label: false

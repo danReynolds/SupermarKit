@@ -17,8 +17,8 @@
 // Page Scripts
 // =============================
 
-//= require users_show
+//= require users
 
 // =============================
 
-$(function(){ $(document).foundation() }); 
+$(function(){ $(document).foundation() });

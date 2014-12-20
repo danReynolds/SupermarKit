@@ -1,17 +1,43 @@
-.header.fixed
-  %nav.top-bar{"data-topbar" => "", role: "navigation"}
-    %section.top-bar-section
-      %ul.left
-        %li
-          = link_to 'SupermarKit', root_path
-      %ul.right
-        - if current_user
+.off-canvas-wrap{"data-offcanvas" => ""}
+  .inner-wrap
+    .show-for-medium-up
+      .fixed
+        %nav.header.top-bar{"data-topbar" => "", role: "navigation"}
+          %section.top-bar-section
+            %ul.left
+              %li
+                = link_to 'SupermarKit', root_path
+            %ul.right
+              - if current_user
+                %li
+                  = link_to 'Dashboard', current_user
+                %li
+                  = link_to 'Logout', logout_path, method: :post
+              - else
+                %li
+                  = link_to 'Login', login_path
+                %li
+                  = link_to 'Sign up', new_user_path
+    .hide-for-medium-up
+      %nav.header.tab-bar
+        %section.left-small
+          %a.left-off-canvas-toggle.menu-icon{href: '#'}
+            %span
+      %aside.left-off-canvas-menu
+        %ul.off-canvas-list
           %li
-            = link_to 'Dashboard', current_user
+            %label SupermarKit
           %li
-            = link_to 'Logout', logout_path, method: :post
-        - else
-          %li
-            = link_to 'Login', login_path
-          %li
-            = link_to 'Sign up', new_user_path
+            = link_to 'Home', root_path
+          - if current_user
+            %li
+              = link_to 'Dashboard', current_user
+            %li
+              = link_to 'Logout', logout_path, method: :post
+          - else
+            %li
+              = link_to 'Login', login_path
+            %li
+              = link_to 'Sign up', new_user_path
+      %a.exit-off-canvas
+    = yield

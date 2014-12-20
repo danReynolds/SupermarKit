@@ -1,7 +1,6 @@
 .header {
-  .top-bar {
+  &.top-bar {
     background: $green !important;
-    z-index: 10000;
   }
   li, a { background: $green !important; }
 }
