@@ -1,6 +1,6 @@
 .home {
   #hero {
-    background-image: linear-gradient($light-green, $green), asset-url('assets/wallpaper/restaurant_icons.png');
+    background-image: linear-gradient($green, $light-green);
     height: 100vh;
     text-align: center;
     padding: 9rem 0;
@@ -9,7 +9,7 @@
     h2 { font-size: 2rem; }
 
     #apple {
-      fill: $green;
+      fill: $dark-green;
     }
 
     .signup {
