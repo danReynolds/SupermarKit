@@ -28,28 +28,13 @@ class UsersController < ApplicationController
 
     groceries = user.groceries.map do |grocery|
       [
-        "<a src='/groceries/#{grocery.id}''>#{grocery.name}</a>".html_safe,
+        "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
         grocery.description,
         grocery.items.count,
         grocery.updated_at.to_date
       ]
     end
     render json: { data: groceries }
-  end
-
-  def items
-    user = User.find(params[:id])
-    grocery = Grocery.find(params[:grocery_id])
-
-    items = grocery.items.map do |item|
-      [
-        "<a src='/items/#{item.id}''>#{item.name}</a>".html_safe,
-        item.description,
-        item.updated_at.to_date
-      ]
-    end
-
-    render json: { data: items }
   end
 
 private

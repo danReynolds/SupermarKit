@@ -1,14 +1,16 @@
-# ============================
-# select2 multiselect
-# ============================
-
 $ ->
   if active_grocery_id? && user_id?
+
+    # ============================
+    # select2 multiselect
+    # ============================
+
     itemsFormatResults = (item) ->
       markup = "<div class=\"row\">" +
       "<div class=\"columns large-2\"><img src=\"/assets/groceries/plate7.png\"</img></div>" +
       "<div class=\"columns large-10\"><div class=\"row\"><div>" + item.name + "</div></div>" +
       "<div class=\"row\"><div>" + item.description + "</div></div></div>"
+
 
     itemsFormatSelection = (item) ->
       item.name
@@ -37,6 +39,11 @@ $ ->
     $("form.edit_grocery").on "ajax:success", (event, data, status, xhr) ->
       $('#grocery_name').select2('val','')
       $groceries_table.ajax.reload()
+      $active_grocery_table.ajax.reload()
+
+    # ============================
+    # Widget Tables Setup
+    # ============================
 
     $groceries_table = $('#groceries-table').DataTable
       responsive: false
@@ -48,4 +55,4 @@ $ ->
       responsive: true
       searching: false
       bLengthChange: false
-      ajax: "/users/" + user_id + "/items/?grocery_id=" + active_grocery_id
+      ajax: "/groceries/" + active_grocery_id + "/items"

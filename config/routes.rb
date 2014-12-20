@@ -13,14 +13,15 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get :groceries
-      get :items
     end
   end
 
   resources :groceries do
     member do
-      post :add_items
+      get :items
       get :auto_complete
+      post :add_items
+      post :remove_item
     end
   end
 end

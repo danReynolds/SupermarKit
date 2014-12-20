@@ -11,6 +11,7 @@ body {
   }
 
   .container {
+    padding-top: 4rem;
     height: 100%;
     background-image: asset-url('assets/wallpaper/restaurant_icons.png');
   }
@@ -51,5 +52,12 @@ body {
 
   .select2-result-label {
     margin-top: 0.8rem;
+  }
+
+  table {
+    width: 100%;
+    td {
+      background: white;
+    }
   }
 }

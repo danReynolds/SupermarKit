@@ -16,6 +16,7 @@ gem 'foundation-rails'
 gem 'sorcery'
 gem 'select2-rails'
 gem 'jquery-datatables-rails', '~> 3.1.1'
+gem "font-awesome-rails"
 
 group :development do
 	gem 'spring'

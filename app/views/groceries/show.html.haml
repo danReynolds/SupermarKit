@@ -1,0 +1,20 @@
+:coffee
+  @grocery_id = #{@grocery.id}
+
+.container.groceries-show
+  .row
+    .columns.large-12
+      .widget
+        .header
+          %h3 Groceries for #{@grocery.name}
+        .main
+          .row
+            .columns.large-12
+              %table#grocery-table
+                %thead
+                  %tr
+                    %th ID
+                    %th Name
+                    %th Description
+                    %th Last Updated
+                    %th Remove

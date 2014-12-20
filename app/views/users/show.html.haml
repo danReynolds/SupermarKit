@@ -9,7 +9,7 @@
         - if @active_grocery
           %h1
             #{@user.name}, you're currently shopping for
-            = link_to "#{@active_grocery.name}"
+            = link_to "#{@active_grocery.name}", @active_grocery
         - else
           %h1 Hey #{@user.name}
           %p
