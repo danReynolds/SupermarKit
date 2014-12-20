@@ -8,8 +8,14 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   resources :password_resets
   resources :user_sessions
-  resources :users
   resources :items
+
+  resources :users do
+    member do
+      get :groceries
+      get :items
+    end
+  end
 
   resources :groceries do
     member do

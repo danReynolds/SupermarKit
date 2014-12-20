@@ -1,6 +1,7 @@
 body {
   background: $white !important;
-  h1, h2, h3, p, a { color: $white; }
+  h1, h2, h3, p { color: $text-color; }
+  a, a:hover { color: $dark-green; }
 
   .button {
     background: $button-color;

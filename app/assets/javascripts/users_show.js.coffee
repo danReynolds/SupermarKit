@@ -17,7 +17,7 @@ $(document).ready ->
     minimumInputLength: 1
     multiple: true
     ajax:
-      url: "/groceries/2/auto_complete"
+      url: "/groceries/" + active_grocery_id + "/auto_complete"
       dataType: "json"
       quietMillis: 250
       data: (term, page) ->
@@ -35,7 +35,16 @@ $(document).ready ->
 
   $("form.edit_grocery").on "ajax:success", (event, data, status, xhr) ->
     $('#grocery_name').select2('val','')
+    $groceries_table.ajax.reload()
 
-  $('#grocery-table').DataTable
+  $groceries_table = $('#groceries-table').DataTable
+    responsive: false
+    searching: false
+    bLengthChange: false
+    ajax: "/users/" + user_id + "/groceries"
+
+  $active_grocery_table = $('#active-grocery-table').DataTable
     responsive: true
     searching: false
+    bLengthChange: false
+    ajax: "/users/" + user_id + "/items/?grocery_id=" + active_grocery_id

@@ -1,37 +1,28 @@
+:javascript
+  var active_grocery_id = #{ @user.groceries.last.id }
+  var user_id = #{ @user.id }
+
 .container
   .users-show
     .row
       .columns.large-12
-        %h1 #{@user.name}'s Groceries Dashboard
+        - if @active_grocery
+          %h1
+            #{@user.name}, you're currently on
+            = link_to "#{@active_grocery.name}"
+        - else
+          %h1 Hey #{@user.name}
+          %p
+            Click
+            = link_to 'here', new_grocery_path
+            to make your first grocery list.
     %section.dash-content
       .row
-        .columns.large-6
-          .widget.quick-add
-            .header
-              %h3 Quick Add
-            .main
-              %p
-                Add items quickly to your current shopping list,
-                %strong= @active_grocery.name
-              = simple_form_for @active_grocery, url: add_items_grocery_path(@active_grocery), method: :post, remote: true do |f|
-                = f.input :name, label: false
-                = f.button :submit, "Add", class: 'button'
-        .columns.large-6
-          .widget.groceries
-            .header
-              %h3 Groceries
-            .main
-              %table#grocery-table
-                %thead
-                  %tr
-                    %th Name
-                    %th Description
-                    %th Items
-                    %th Last Updated
-                %tbody
-                  - @user.groceries.each do |grocery|
-                    %tr
-                      %td= link_to grocery.name, grocery_path(grocery)
-                      %td= grocery.description
-                      %td= grocery.items.count
-                      %td= grocery.updated_at.to_date
+        - if @active_grocery
+          .columns.large-6
+            = render partial: 'users/widgets/quick_add'
+          .columns.large-6
+            = render partial: 'users/widgets/groceries_table'
+      .row
+        .columns.large-8
+          = render partial: 'users/widgets/active_grocery_table'

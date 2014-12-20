@@ -1,0 +1,11 @@
+.widget.active-grocery-table
+  .header
+    %h3 #{@active_grocery.name} items
+  .main
+    .row
+      %table#active-grocery-table.responsive.no-wrap
+        %thead
+          %tr
+            %th Name
+            %th Description
+            %th Last Updated

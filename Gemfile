@@ -14,7 +14,6 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'simple_form'
 gem 'foundation-rails'
 gem 'sorcery'
-gem 'opal-rails'
 gem 'select2-rails'
 gem 'jquery-datatables-rails', '~> 3.1.1'
 
