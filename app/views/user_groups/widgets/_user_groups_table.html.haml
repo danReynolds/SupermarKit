@@ -1,0 +1,16 @@
+.widget.user-groups-table
+  .header
+    %h3 Group Members
+  .main
+    .row
+      .columns.large-12
+        %table#user-groups-table.responsive.no-wrap
+          %thead
+            %tr
+              %th Name
+              %th Email
+          %tbody
+            - @user_group.users.each do |user|
+              %tr
+                %td= user.name
+                %td= user.email

@@ -31,7 +31,7 @@
             = link_to 'Home', root_path
           - if current_user
             %li
-              = link_to 'Kits', current_user
+              = link_to 'Kits', user_groups_path
             %li
               = link_to 'Logout', logout_path, method: :post
           - else

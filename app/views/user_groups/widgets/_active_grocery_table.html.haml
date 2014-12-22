@@ -1,6 +1,8 @@
 .widget.active-grocery-table
   .header
-    %h3 Groceries for #{@active_grocery.name}
+    %h3
+      Groceries for
+      = link_to @active_grocery.name, @active_grocery
   .main
     .row
       .columns.large-12

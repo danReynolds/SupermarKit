@@ -17,8 +17,8 @@
 // Page Scripts
 // =============================
 
-//= require users
-//= require user_groups
+//= require user_groups_show
+//= require user_groups_new
 //= require groceries
 
 // =============================

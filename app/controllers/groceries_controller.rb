@@ -12,8 +12,8 @@ class GroceriesController < ApplicationController
 
 	def create
     @grocery = Grocery.create(grocery_params)
-    @grocery.users << current_user
-
+    @grocery.user = current_user
+    
     if @grocery.save
       redirect_to @grocery
     else

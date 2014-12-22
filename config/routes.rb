@@ -11,15 +11,16 @@ Rails.application.routes.draw do
   resources :items
 
   resources :users do
-    member do
-      get :groceries
-    end
     collection do
       get :auto_complete
     end
   end
 
-  resources :user_groups
+  resources :user_groups do
+    member do
+      get :groceries
+    end
+  end
 
   resources :groceries do
     member do

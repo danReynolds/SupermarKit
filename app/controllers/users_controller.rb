@@ -6,7 +6,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @user_groups = @user.user_groups
   end
 
   def new
@@ -21,20 +20,6 @@ class UsersController < ApplicationController
     else  
       render :new
     end
-  end
-
-  def groceries
-    user = User.find(params[:id])
-
-    groceries = user.groceries.map do |grocery|
-      [
-        "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
-        grocery.description,
-        grocery.items.count,
-        grocery.updated_at.to_date
-      ]
-    end
-    render json: { data: groceries }
   end
 
   def auto_complete

@@ -4,14 +4,16 @@
     .wrapper {
       box-shadow: 0px 0px 1px rgb(189, 189, 189);
       text-align: center;
-      padding: 2rem 0 !important;
+      padding: 2rem 0 0 0 !important;
       width: 80%;
       margin: 0 auto;
       background: white;
+      height: 17rem;
+
 
       p {
         margin: 0;
-        padding: 0 1rem;
+        padding: 1rem;
       }
 
       &:hover {

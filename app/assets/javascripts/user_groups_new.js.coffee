@@ -7,7 +7,6 @@ $ ->
     markup = "<div class=\"row\">" +
     "<div class=\"columns large-12\"><div>" + item.name + "</div></div></div>"
 
-
   itemsFormatSelection = (item) ->
     item.name
 

@@ -9,6 +9,10 @@
           - current_user.user_groups.each do |group|
             %li
               .group
+                = link_to group do
+                  .wrapper
+                    = fa_icon 'group'
+                    %p #{group.name}
           %li.group
             = link_to new_user_group_path do
               .wrapper

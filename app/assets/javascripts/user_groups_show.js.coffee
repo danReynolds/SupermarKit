@@ -1,5 +1,5 @@
 $ ->
-  if active_grocery_id? && user_id?
+  if active_grocery_id? && user_group_id?
 
     # ============================
     # select2 multiselect
@@ -15,7 +15,7 @@ $ ->
     itemsFormatSelection = (item) ->
       item.name
 
-    $('.users-show #grocery_name').select2
+    $('.user-groups-show #grocery_name').select2
       placeholder: "Add grocery items."
       minimumInputLength: 1
       multiple: true
@@ -49,7 +49,7 @@ $ ->
       responsive: false
       searching: false
       bLengthChange: false
-      ajax: "/users/" + user_id + "/groceries"
+      ajax: "/user_groups/" + user_group_id + "/groceries"
 
     $active_grocery_table = $('#active-grocery-table').DataTable
       responsive: true

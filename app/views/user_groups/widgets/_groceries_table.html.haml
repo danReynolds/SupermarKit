@@ -2,7 +2,7 @@
   .header
     %h3 Grocery Lists
   .main
-    - if @user.groceries.present?
+    - if @user_group.groceries.count.nonzero?
       .row
         .columns.large-12
           %table#groceries-table.responsive.no-wrap
