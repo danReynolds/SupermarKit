@@ -3,18 +3,14 @@ body {
   h1, h2, h3, p { color: $text-color; }
   a, a:hover { color: $dark-green; }
 
-  .button {
-    background: $button-color;
-    &:hover { background: $green; }
-    &:visited, &:focus { background: $button-color; }
-    padding-top: 0.8rem;
-  }
-
   .container {
     padding-top: 4rem;
     height: 100%;
     background-image: asset-url('assets/wallpaper/restaurant_icons.png');
   }
+
+  .button { padding-top: 0.85rem; }
+  table { width: 100%; }
 
   .widget {
     background: $white;
@@ -35,10 +31,6 @@ body {
     }
   }
 
-  .select2-container {
-    width: 100% !important;
-  }
-
   .select2-search-choice {
     height: 2rem;
     padding-top: 0.5rem !important;
@@ -46,18 +38,12 @@ body {
     background: $white;
   }
 
-  .select2-search-choice-close {
-    top: 0.5rem !important;
-  }
+  .select2-container { width: 100% !important; }
+  .select2-search-choice-close { top: 0.5rem !important; }
+  .select2-result-label { margin-top: 0.8rem; }
 
-  .select2-result-label {
-    margin-top: 0.8rem;
-  }
-
-  table {
-    width: 100%;
-    td {
-      background: white;
-    }
+  .off-canvas-wrap, .inner-wrap {
+    height: 100%;
+    &.off-canvas-wrap { overflow: auto; }
   }
 }

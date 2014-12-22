@@ -1,0 +1,15 @@
+.container.groceries-new
+  .row
+    .columns.large-12
+      .widget
+        .header
+          %h3 New Grocery List
+        .main
+          = simple_form_for @grocery do |f|
+            .row
+              .columns.large-6
+                = f.input :name
+                = f.input :description
+                = f.button :submit, 'Create', class: 'button radius'
+              .columns.large-6.text-center
+                = image_tag 'groceries/paperbag256.png'

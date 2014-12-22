@@ -1,0 +1,16 @@
+.container
+  .user-groups-index
+    .row.title
+      .columns.large-12.text-center
+        %h1 #{current_user.name}'s Kits
+    .row
+      .columns.large-12
+        %ul.large-block-grid-4.small-block-grid-1
+          - current_user.user_groups.each do |group|
+            %li
+              .group
+          %li.group
+            = link_to new_user_group_path do
+              .wrapper
+                = fa_icon 'plus-square-o'
+                %p Create Shopping Group

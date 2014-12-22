@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141219035339) do
+ActiveRecord::Schema.define(version: 20141221181704) do
 
   create_table "groceries", force: true do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "owner_id"
   end
 
   create_table "groceries_items", id: false, force: true do |t|
@@ -39,6 +40,18 @@ ActiveRecord::Schema.define(version: 20141219035339) do
   end
 
   add_index "items", ["grocery_id"], name: "index_items_on_grocery_id", using: :btree
+
+  create_table "user_groups", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_groups_users", id: false, force: true do |t|
+    t.integer "user_group_id", null: false
+    t.integer "user_id",       null: false
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                           null: false

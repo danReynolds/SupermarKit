@@ -6,23 +6,16 @@
   .users-show
     .row
       .columns.large-12
-        - if @active_grocery
-          %h1
-            #{@user.name}, you're currently shopping for
-            = link_to "#{@active_grocery.name}", @active_grocery
-        - else
-          %h1 Hey #{@user.name}
-          %p
-            Click
-            = link_to 'here', new_grocery_path
-            to make your first grocery list.
-    %section.dash-content
-      .row
-        - if @active_grocery
-          .columns.large-6
-            = render partial: 'users/widgets/quick_add'
-          .columns.large-6
-            = render partial: 'users/widgets/groceries_table'
-      .row
-        .columns.large-6
-          = render partial: 'users/widgets/active_grocery_table'
+        %h1 #{@user.name}'s Kit
+          
+    - if @user.user_groups.count.nonzero?
+      %section.dash-content
+        .row
+          - if @active_grocery
+            .columns.large-6
+              = render partial: 'users/widgets/quick_add'
+              = render partial: 'users/widgets/active_grocery_table'
+
+            .columns.large-6
+              = render partial: 'users/widgets/groceries_table'
+              = render partial: 'users/widgets/shoppers_table'

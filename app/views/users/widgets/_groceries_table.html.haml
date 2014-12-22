@@ -2,12 +2,16 @@
   .header
     %h3 Grocery Lists
   .main
+    - if @user.groceries.present?
+      .row
+        .columns.large-12
+          %table#groceries-table.responsive.no-wrap
+            %thead
+              %tr
+                %th Name
+                %th Description
+                %th Items
+                %th Last Updated
     .row
       .columns.large-12
-        %table#groceries-table.responsive.no-wrap
-          %thead
-            %tr
-              %th Name
-              %th Description
-              %th Items
-              %th Last Updated
+        = link_to 'Create a new grocery list', new_grocery_path, class: :button

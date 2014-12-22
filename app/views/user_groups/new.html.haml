@@ -1,0 +1,16 @@
+.container.user-groups-new
+  .row
+    .columns.large-12.large-centered
+      .widget
+        .header
+          %h3 Create a Shopping Group
+        .main
+          = simple_form_for @user_group do |f|
+            .row
+              .columns.large-6
+                = f.input :name
+                = f.input :description
+                = f.input :user_ids, input_html: { value: "" }
+                = f.button :submit, 'Create', class: 'button radius'
+              .columns.large-6.text-center
+                = image_tag 'groceries/breads256.png'

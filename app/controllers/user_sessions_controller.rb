@@ -9,7 +9,7 @@ class UserSessionsController < ApplicationController
     if @user = login(params[:session][:email], params[:session][:password])
       redirect_back_or_to @user, notice: "Hey Softie #{@user.name}"
     else
-      flash.now[:alert] = 'Come on man. Remember your shit.'
+      flash.now[:alert] = 'Incorrect login information.'
       render action: 'new'
     end
   end

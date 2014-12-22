@@ -1,0 +1,28 @@
+.user-groups-index {
+  .title { padding-bottom: 3rem; }
+  .group {
+    .wrapper {
+      box-shadow: 0px 0px 1px rgb(189, 189, 189);
+      text-align: center;
+      padding: 2rem 0 !important;
+      width: 80%;
+      margin: 0 auto;
+      background: white;
+
+      p {
+        margin: 0;
+        padding: 0 1rem;
+      }
+
+      &:hover {
+        p { color: white; }
+        background: $text-color;
+      }
+
+      i {
+        font-size: 10rem;
+        color: $green;
+      }
+    }
+  }
+}

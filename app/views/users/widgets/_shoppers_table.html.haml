@@ -1,0 +1,16 @@
+.widget.shoppers-table
+  .header
+    %h3 Shoppers
+  .main
+    - if @user.shopping_groups.present?
+      .row
+        .columns.large-12
+          %table#shoppers-table.responsive.no-wrap
+            %thead
+              %tr
+                %th Name
+                %th Email
+    - else
+      .row
+        .columns.large-12
+          %p Don't shop alone! Invite fellow shoppers.

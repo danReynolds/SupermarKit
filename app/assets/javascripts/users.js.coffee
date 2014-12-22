@@ -15,7 +15,7 @@ $ ->
     itemsFormatSelection = (item) ->
       item.name
 
-    $('#grocery_name').select2
+    $('.users-show #grocery_name').select2
       placeholder: "Add grocery items."
       minimumInputLength: 1
       multiple: true

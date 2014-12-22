@@ -18,6 +18,7 @@
 // =============================
 
 //= require users
+//= require user_groups
 //= require groceries
 
 // =============================

@@ -7,9 +7,18 @@ class GroceriesController < ApplicationController
 	end
 
 	def new
+    @grocery = Grocery.new
 	end
 
 	def create
+    @grocery = Grocery.create(grocery_params)
+    @grocery.users << current_user
+
+    if @grocery.save
+      redirect_to @grocery
+    else
+      render action: :new
+    end
 	end
 
 	def edit
@@ -67,4 +76,11 @@ class GroceriesController < ApplicationController
 
     render json: { data: items }
   end
+
+private
+
+  def grocery_params
+    params.require(:grocery).permit(:name, :description)
+  end
+
 end

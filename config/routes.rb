@@ -14,7 +14,12 @@ Rails.application.routes.draw do
     member do
       get :groceries
     end
+    collection do
+      get :auto_complete
+    end
   end
+
+  resources :user_groups
 
   resources :groceries do
     member do

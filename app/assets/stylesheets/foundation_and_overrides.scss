@@ -432,7 +432,7 @@ $alert-bottom-margin: 0;
 // We use these to control button text styles.
 // $button-font-family: $body-font-family;
 // $button-font-color: $white;
-// $button-font-color-alt: $oil;
+$button-font-color-alt: $white;
 // $button-font-tny: rem-calc(11);
 // $button-font-sml: rem-calc(13);
 // $button-font-med: rem-calc(16);
@@ -446,8 +446,8 @@ $alert-bottom-margin: 0;
 // We use these to control button border and hover styles.
 // $button-border-width: 0px;
 // $button-border-style: solid;
-// $button-bg-color: $primary-color;
-// $button-bg-hover: scale-color($button-bg-color, $lightness: $button-function-factor);
+$button-bg-color: $button-color;
+$button-bg-hover: $green;
 // $button-border-color: $button-bg-hover;
 // $secondary-button-bg-hover: scale-color($secondary-color, $lightness: $button-function-factor);
 // $secondary-button-border-color: $secondary-button-bg-hover;
@@ -624,7 +624,7 @@ $alert-bottom-margin: 0;
 // $input-font-family: inherit;
 // $input-font-color: rgba(0,0,0,0.75);
 // $input-font-size: rem-calc(14);
-// $input-bg-color: $white;
+$input-bg-color: white;
 // $input-focus-bg-color: scale-color($white, $lightness: -2%);
 // $input-border-color: scale-color($white, $lightness: -20%);
 // $input-focus-border-color: scale-color($white, $lightness: -40%);
@@ -1266,7 +1266,7 @@ $tabbar-bg: $green;
 // $include-html-table-classes: $include-html-classes;
 
 // These control the background color for the table and even rows
-// $table-bg: $white;
+$table-bg: white;
 // $table-even-row-bg: $snow  ;
 
 // These control the table cell border style
