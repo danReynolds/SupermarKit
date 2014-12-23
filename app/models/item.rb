@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-	belongs_to :grocery
+	has_and_belongs_to_many :groceries
 
   scope :with_name, ->(q) { where('items.name LIKE ?', "%#{q}%").distinct }
 end

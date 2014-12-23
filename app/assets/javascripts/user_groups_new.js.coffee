@@ -11,7 +11,7 @@ $ ->
     item.name
 
   $('.user-groups-new #user_group_user_ids').select2
-    placeholder: "Add users."
+    placeholder: "Add other users to the group."
     minimumInputLength: 1
     multiple: true
     ajax:

@@ -10,11 +10,12 @@ body {
   }
 
   .button { padding-top: 0.85rem; }
-  table { width: 100%; }
+  table { width: 100% !important; }
 
   .widget {
-    background: $white;
+    background: white;
     box-shadow: 1px 1px 1px lighten($gray, 50%);
+    margin: 0.8rem;
     margin-bottom: 2rem;
 
     .header {
@@ -38,7 +39,7 @@ body {
     background: $white;
   }
 
-  .select2-container { width: 100% !important; }
+  .select2-container { width: 75% !important; }
   .select2-search-choice-close { top: 0.5rem !important; }
   .select2-result-label { margin-top: 0.8rem; }
 

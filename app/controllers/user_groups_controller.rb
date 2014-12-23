@@ -6,7 +6,7 @@ class UserGroupsController < ApplicationController
 
   def create
     @user_group = UserGroup.create(user_groups_params)
-    users = User.find(params[:user_group][:user_ids].split(","))
+    users = User.find(params[:user_group][:user_ids].split(",")) << current_user
     @user_group.users << users
 
     if @user_group.save
@@ -23,19 +23,6 @@ class UserGroupsController < ApplicationController
     @user = current_user
     @user_group = UserGroup.find(params[:id])
     @active_grocery = @user_group.groceries.last
-  end
-
-  def groceries
-    user_group = UserGroup.find(params[:id])
-    groceries = user_group.groceries.map do |grocery|
-      [
-        "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
-        grocery.description,
-        grocery.items.count,
-        grocery.updated_at.to_date
-      ]
-    end
-    render json: { data: groceries }
   end
 
 private

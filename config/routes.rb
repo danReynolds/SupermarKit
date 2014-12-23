@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   resources :password_resets
   resources :user_sessions
-  resources :items
 
   resources :users do
     collection do
@@ -16,18 +15,19 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :user_groups do
-    member do
-      get :groceries
-    end
-  end
-
-  resources :groceries do
-    member do
-      get :items
-      get :auto_complete
-      post :add_items
-      post :remove_item
+  shallow do
+    resources :user_groups do
+      resources :groceries do
+        resources :items do
+          collection do
+            get :auto_complete
+            post :add
+          end
+          member do
+            post :remove
+          end
+        end
+      end
     end
   end
 end

@@ -15,12 +15,12 @@ $ ->
     itemsFormatSelection = (item) ->
       item.name
 
-    $('.user-groups-show #grocery_name').select2
+    $('.user-groups-show #items_ids').select2
       placeholder: "Add grocery items."
       minimumInputLength: 1
       multiple: true
       ajax:
-        url: "/groceries/" + active_grocery_id + "/auto_complete"
+        url: "/groceries/" + active_grocery_id + "/items/auto_complete.json"
         dataType: "json"
         quietMillis: 250
         data: (term, page) ->
@@ -36,8 +36,8 @@ $ ->
       escapeMarkup: (m) ->
         m
 
-    $("form.edit_grocery").on "ajax:success", (event, data, status, xhr) ->
-      $('#grocery_name').select2('val','')
+    $("form.items").on "ajax:success", (event, data, status, xhr) ->
+      $('#s2id_items_ids').select2('val','')
       $groceries_table.ajax.reload()
       $active_grocery_table.ajax.reload()
 
@@ -49,10 +49,10 @@ $ ->
       responsive: false
       searching: false
       bLengthChange: false
-      ajax: "/user_groups/" + user_group_id + "/groceries"
+      ajax: "/user_groups/" + user_group_id + "/groceries.json"
 
     $active_grocery_table = $('#active-grocery-table').DataTable
       responsive: true
       searching: false
       bLengthChange: false
-      ajax: "/groceries/" + active_grocery_id + "/items"
+      ajax: "/groceries/" + active_grocery_id + "/items.json"

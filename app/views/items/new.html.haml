@@ -1,15 +1,15 @@
-.container.groceries-new
+.container.items-new
   .row
     .columns.large-12
       .widget
         .header
-          %h3 New Grocery List
+          %h3 New item
         .main
-          = simple_form_for [@user_group, @grocery] do |f|
+          = simple_form_for [@grocery, @item] do |f|
             .row
               .columns.large-6
                 = f.input :name
                 = f.input :description
                 = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
-                = image_tag 'groceries/paperbag256.png'
+                = image_tag 'groceries/cans256.png'
