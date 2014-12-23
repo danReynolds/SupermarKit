@@ -1,18 +1,17 @@
 body {
   background: $white !important;
   h1, h2, h3, p { color: $black; }
-  a, a:hover { color: $dark-green; }
+  a, a:hover, a:visited, a:focused { color: $dark-green; }
 
   .container {
-    padding-top: 4rem;
+    padding-top: 2rem;
+    @media #{$medium-up} { padding-top: 4rem;}
     height: 100%;
     background-image: asset-url('assets/wallpaper/restaurant_icons.png');
   }
 
   .button { padding-top: 0.85rem; }
   .button-group {
-    .button.secondary {
-    }
     li { margin: 0 0.4rem; }
   }
   table { width: 100% !important; }

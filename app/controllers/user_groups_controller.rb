@@ -1,5 +1,7 @@
 class UserGroupsController < ApplicationController
-
+  extend HappyPath
+  follow_happy_paths
+  
   def new
     @user_group = UserGroup.new
   end

@@ -1,4 +1,7 @@
 class GroceriesController < ApplicationController
+  extend HappyPath
+  follow_happy_paths
+
 	def index
     user_group = UserGroup.find(params[:user_group_id])
 

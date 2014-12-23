@@ -19,6 +19,7 @@ gem 'jquery-datatables-rails', '~> 3.1.1'
 gem 'font-awesome-rails'
 gem 'groupdate'
 gem 'chartkick'
+gem 'happy_path'
 
 group :development do
 	gem 'spring'

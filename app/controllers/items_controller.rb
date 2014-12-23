@@ -1,4 +1,7 @@
 class ItemsController < ApplicationController
+	extend HappyPath
+  follow_happy_paths
+  
 	def index
 		grocery = Grocery.find(params[:grocery_id])
 

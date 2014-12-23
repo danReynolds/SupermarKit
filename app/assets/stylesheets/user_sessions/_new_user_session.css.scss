@@ -1,3 +1,6 @@
 .new-user-session {
-  margin-top: 9rem;
+  margin-top: 4rem;
+  @media #{$medium-up} {
+    margin-top: 9rem;
+  }
 }

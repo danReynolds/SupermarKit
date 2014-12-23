@@ -2,12 +2,12 @@
 // Base Styles
 // =====================
 @import 'variables';
+@import 'foundation_and_overrides';
 @import 'commons';
 
 // =====================
 // Third parties
 // =====================
-@import 'foundation_and_overrides';
 @import 'select2';
 @import 'dataTables/jquery.dataTables.foundation';
 @import 'dataTables/extras/dataTables.responsive';
