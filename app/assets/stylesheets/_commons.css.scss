@@ -10,7 +10,13 @@ body {
     background-image: asset-url('assets/wallpaper/restaurant_icons.png');
   }
 
-  .button { padding-top: 0.85rem; }
+  .button {
+    padding-top: 0.85rem;
+    &.secondary {
+      background: $gray;
+      &:hover { background: lighten($gray, 10%) } 
+    }
+  }
   .button-group {
     li { margin: 0 0.4rem; }
   }

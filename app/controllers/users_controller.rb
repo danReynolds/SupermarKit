@@ -31,8 +31,8 @@ class UsersController < ApplicationController
     end
 
     render json: {
-      total_items: users.count,
-      items: users
+      total_users: users.count,
+      users: users
     }
   end
 

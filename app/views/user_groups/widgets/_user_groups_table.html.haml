@@ -14,3 +14,6 @@
               %tr
                 %td= user.name
                 %td= user.email
+    .row
+      .columns.large-12
+        = link_to "Edit your group", edit_user_group_path(@user_group), class: :button

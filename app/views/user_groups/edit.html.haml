@@ -1,0 +1,18 @@
+:coffee
+  @users = #{ @users.to_json }
+
+.container.user-groups-edit
+  .row
+    .columns.large-12
+      .widget
+        .header
+          %h3 Update Group
+        .main
+          .row
+            = simple_form_for @user_group do |f|
+              .columns.large-6
+                = f.input :name
+                = f.input :description, as: :text
+                = f.button :submit, 'Update', class: 'button radius'
+              .columns.large-6
+                = f.input :user_ids, label: 'Group Members'

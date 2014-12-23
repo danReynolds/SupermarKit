@@ -10,7 +10,7 @@ $ ->
   usersFormatSelection = (user) ->
     user.name
 
-  $('.user-groups-new #user_group_user_ids').select2
+  $('.user-groups-edit #user_group_user_ids').select2
     placeholder: "Add other users to the group."
     minimumInputLength: 1
     multiple: true
@@ -25,6 +25,9 @@ $ ->
         results: data.users
 
       cache: true
+    initSelection: (element, callback) ->
+      $(element).val("")
+      callback(users)
 
     formatResult: usersFormatResults
     formatSelection: usersFormatSelection
