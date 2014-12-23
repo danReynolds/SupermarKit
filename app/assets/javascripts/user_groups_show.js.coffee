@@ -52,7 +52,10 @@ $ ->
       ajax: "/user_groups/" + user_group_id + "/groceries.json"
 
     $active_grocery_table = $('#active-grocery-table').DataTable
-      responsive: true
+      responsive: false
       searching: false
       bLengthChange: false
       ajax: "/groceries/" + active_grocery_id + "/items.json"
+      "columnDefs": [
+        { "visible": false, "targets": 0 }
+      ]

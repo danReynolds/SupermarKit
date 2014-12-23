@@ -1,7 +1,7 @@
 body {
   background: $white !important;
   h1, h2, h3, p { color: $black; }
-  a, a:hover, a:visited, a:focused { color: $dark-green; }
+  a, a:hover { color: $dark-green; }
 
   .container {
     padding-top: 2rem;

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222205112) do
+ActiveRecord::Schema.define(version: 20141223162552) do
 
   create_table "groceries", force: true do |t|
     t.string   "name"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20141222205112) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "grocery_id"
+    t.integer  "price_cents"
   end
 
   add_index "items", ["grocery_id"], name: "index_items_on_grocery_id", using: :btree

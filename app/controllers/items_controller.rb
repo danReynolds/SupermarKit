@@ -9,13 +9,13 @@ class ItemsController < ApplicationController
 			format.json do
 		    items = grocery.items.map do |item|
 		      info = [
+		      	item.id,
 		        "<a href='/items/#{item.id}'>#{item.name}</a>".html_safe,
 		        item.description,
+		        item.price.format,
 		        item.updated_at.to_date,
 		        "<a class='remove' href='#'><i class='fa fa-remove'></i></a>".html_safe
 		      ]
-		      info.unshift(item.id) if params[:with_id]
-		      info
 		    end
     		render json: { data: items }
 		  end
@@ -85,6 +85,6 @@ class ItemsController < ApplicationController
 
 private
 	def item_params
-		params.require(:item).permit(:name, :description)
+		params.require(:item).permit(:name, :description, :price)
 	end
 end

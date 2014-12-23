@@ -20,6 +20,7 @@ gem 'font-awesome-rails'
 gem 'groupdate'
 gem 'chartkick'
 gem 'happy_path'
+gem 'money-rails'
 
 group :development do
 	gem 'spring'

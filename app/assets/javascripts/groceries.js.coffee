@@ -2,10 +2,10 @@ $ ->
   if grocery_id?
     $grocery_table = $('#grocery-table').dataTable
       responsive: false
-      ajax: "/groceries/" + grocery_id + "/items/?with_id=true.json"
+      ajax: "/groceries/" + grocery_id + "/items.json"
       "columnDefs": [
-        { "width": "5%", "targets": 4 },
-        { "visible": false, "targets": 0 },
+        { "width": "5%", "targets": 5 },
+        { "visible": false, "targets": 0 }
       ]
 
     $('.main').on 'click', '.remove', ->

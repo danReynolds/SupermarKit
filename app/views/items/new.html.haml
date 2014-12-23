@@ -8,8 +8,15 @@
           = simple_form_for [@grocery, @item] do |f|
             .row
               .columns.large-6
-                = f.input :name
-                = f.input :description
-                = f.button :submit, 'Create', class: 'button radius'
+                .row
+                  .columns.large-12
+                    = f.input :name
+                    = f.input :description, as: :text
+                .row
+                  .columns.large-4
+                    = f.input :price, input_html: { class: 'large-2' }
+                .row
+                  .columns.large-12
+                  = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
                 = image_tag 'groceries/cans256.png'
