@@ -3,7 +3,7 @@
     %h3 Grocery Lists
   .main
     - if @user_group.groceries.count.nonzero?
-      %table#groceries-table.responsive.no-wrap
+      %table#groceries-table
         %thead
           %tr
             %th Name

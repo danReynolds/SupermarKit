@@ -20,4 +20,8 @@
                     %th Remove
           .row
             .columns.large-12
-              = link_to 'Add item', new_grocery_item_path(@grocery), class: :button
+              %ul.button-group
+                %li
+                  = link_to 'Back to Kit', @grocery.user_group, class: 'button secondary'
+                %li
+                  = link_to 'Add item', new_grocery_item_path(@grocery), class: :button

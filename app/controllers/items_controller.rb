@@ -20,6 +20,8 @@ class ItemsController < ApplicationController
 	end
 	
 	def show
+		@item = Item.find(params[:id])
+		@kit = @item.groceries.first.user_group
 	end
 
 	def new

@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
-  shallow do
+  shallow do # Only the collection routes of the children get member routes of the parent
     resources :user_groups do
       resources :groceries do
         resources :items do

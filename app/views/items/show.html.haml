@@ -1,0 +1,25 @@
+.container.items-show
+  .row
+    .columns.large-12
+      .widget
+        .header
+          %h3 Item
+        .main
+          .row
+            .columns.large-6
+              .row
+                .columns.large-12
+                  %label Name
+                  %p= @item.name
+              %hr
+              .row
+                .columns.large-12
+                  %label Description
+                  %p= @item.description
+              %hr
+              .row
+                .columns.large-12
+                  = link_to 'Back to Kit', @kit, class: 'button secondary'
+
+            .columns.large-6.text-center
+              = image_tag 'groceries/boxes256.png'

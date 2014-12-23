@@ -27,8 +27,9 @@ class GroceriesController < ApplicationController
   end
 
   def create
+    params[:grocery].merge!(user_group_id: params[:user_group_id])
     @grocery = Grocery.new(grocery_params)
-    
+
     if @grocery.save
       redirect_to @grocery
     else
@@ -47,5 +48,4 @@ private
   def grocery_params
     params.require(:grocery).permit(:name, :description, :user_group_id)
   end
-
 end

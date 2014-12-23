@@ -1,6 +1,6 @@
 body {
   background: $white !important;
-  h1, h2, h3, p { color: $text-color; }
+  h1, h2, h3, p { color: $black; }
   a, a:hover { color: $dark-green; }
 
   .container {
@@ -10,11 +10,16 @@ body {
   }
 
   .button { padding-top: 0.85rem; }
+  .button-group {
+    .button.secondary {
+    }
+    li { margin: 0 0.4rem; }
+  }
   table { width: 100% !important; }
 
   .widget {
     background: white;
-    box-shadow: 1px 1px 1px lighten($gray, 50%);
+    box-shadow: 1px 1px 1px lighten($black, 50%);
     margin: 0.8rem;
     margin-bottom: 2rem;
 
