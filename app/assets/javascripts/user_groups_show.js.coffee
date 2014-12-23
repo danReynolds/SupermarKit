@@ -59,3 +59,18 @@ $ ->
       "columnDefs": [
         { "visible": false, "targets": 0 }
       ]
+      footerCallback: (row, data, start, end, display) ->
+        api = @api()
+        
+        # Remove the formatting to get integer data for summation
+        intVal = (i) ->
+          (if typeof i is "string" then i.replace(/[\$,]/g, "") * 1 else (if typeof i is "number" then i else 0))
+
+        if (api.column(3).data().length > 0)
+        # Total over all pages
+          total = api.column(3).data().reduce((a, b) ->
+            intVal(a) + intVal(b)
+          )
+          
+          # Update footer
+          $(api.column(4).footer()).html "$" + total + " total"
