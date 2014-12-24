@@ -12,6 +12,7 @@
 //= require dataTables/jquery.dataTables.foundation
 //= require dataTables/extras/dataTables.responsive
 //= require turbolinks
+//= require highcharts.min
 //= require chartkick
 
 // =============================
