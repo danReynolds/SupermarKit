@@ -27,7 +27,9 @@ $ ->
           )
           
           # Update footer
-          $(api.column(5).footer()).html "$" + total + " total"
+          $(api.column(5).footer()).html "$" + intVal(total) + " total"
+        else
+          $(api.column(5).footer()).html "$0 total"
 
     # ============================
     # Row Removal

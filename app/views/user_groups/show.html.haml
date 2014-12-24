@@ -18,3 +18,5 @@
             - if @active_grocery
               = render partial: 'user_groups/widgets/quick_add'
             = render partial: 'user_groups/widgets/groceries_table'
+            - if @active_grocery
+              = render partial: 'user_groups/widgets/metrics'

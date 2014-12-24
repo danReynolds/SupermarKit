@@ -1,0 +1,33 @@
+= javascript_include_tag "highcharts.min.js", "chartkick", "data-turbolinks-track" => true
+
+.container
+  .row
+    .columns.large-12
+      .widget
+        .header
+          %h3 #{@user_group.name} Metrics
+        .main
+          %dl.tabs#graph-tabs{data: {tab: true}}
+            %dd.active
+              = link_to 'Grocery Spending', '#panel1'
+            %dd
+              = link_to 'Grocery vs Cost', '#panel2'
+            %dd
+              = link_to 'Grocery vs Items', '#panel3'
+          .tabs-content 
+            .content.active#panel1
+              .row
+                .columns.large-12
+                  = line_chart @metrics[:grocery_spending]
+            .content#panel2
+              .row
+                .columns.large-12
+                  = column_chart @metrics[:grocery_cost]
+            .content#panel3
+              .row
+                .columns.large-12
+                  = column_chart @metrics[:grocery_items]
+
+          .row
+            .columns.large-12
+              = link_to 'Back to Kit', @user_group, class: 'button secondary'

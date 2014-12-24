@@ -28,6 +28,9 @@ Rails.application.routes.draw do
           end
         end
       end
+      member do
+        get :metrics
+      end
     end
   end
 end

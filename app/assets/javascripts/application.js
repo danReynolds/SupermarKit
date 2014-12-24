@@ -12,6 +12,7 @@
 //= require dataTables/jquery.dataTables.foundation
 //= require dataTables/extras/dataTables.responsive
 //= require turbolinks
+//= require chartkick
 
 // =============================
 // Page Scripts
@@ -20,6 +21,7 @@
 //= require user_groups_show
 //= require user_groups_new
 //= require user_groups_edit
+//= require user_group_metrics
 //= require groceries
 
 // =============================

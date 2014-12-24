@@ -1,8 +1,6 @@
 .widget.active-grocery-table
   .header
-    %h3
-      Groceries for
-      = link_to @active_grocery.name, @active_grocery
+    %h3 Groceries for #{@active_grocery.name}
   .main
     .row
       .columns.large-12
@@ -19,3 +17,6 @@
               %th.text-right{colspan: 4}
                 Total:
               %th
+    .row
+      .columns.large-12
+        = link_to "View #{@active_grocery.name}", @active_grocery, class: :button

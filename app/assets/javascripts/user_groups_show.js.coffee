@@ -77,4 +77,6 @@ $ ->
           )
           
           # Update footer
-          $(api.column(4).footer()).html "$" + total + " total"
+          $(api.column(4).footer()).html "$" + intVal(total) + " total"
+        else
+          $(api.column(4).footer()).html "$0 total"

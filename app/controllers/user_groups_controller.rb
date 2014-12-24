@@ -50,6 +50,16 @@ class UserGroupsController < ApplicationController
     end
   end
 
+  def metrics
+    @user_group = UserGroup.find(params[:id])
+    groceries = @user_group.groceries
+    @metrics = { 
+      grocery_spending: groceries.map{ |grocery| [grocery.created_at.to_date, grocery.total] },
+      grocery_cost: groceries.map{ |grocery| { name: grocery.name, data: { grocery.created_at.to_date => grocery.total } } },
+      grocery_items: groceries.map{ |grocery| { name: grocery.name, data: { grocery.created_at.to_date => grocery.items.count } } }
+    }
+  end
+
 private
 
   def user_groups_params
