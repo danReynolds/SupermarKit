@@ -46,18 +46,22 @@ $ ->
     # ============================
 
     $groceries_table = $('#groceries-table').DataTable
-      responsive: false
+      responsive: true
       searching: false
       bLengthChange: false
       ajax: "/user_groups/" + user_group_id + "/groceries.json"
+      "columnDefs": [
+        { "class": "never", "targets": 0 }
+      ]
 
     $active_grocery_table = $('#active-grocery-table').DataTable
-      responsive: false
+      responsive: true
       searching: false
       bLengthChange: false
+      iDisplayLength: 10,
       ajax: "/groceries/" + active_grocery_id + "/items.json"
       "columnDefs": [
-        { "visible": false, "targets": 0 }
+        { "class": "never", "targets": 0 }
       ]
       footerCallback: (row, data, start, end, display) ->
         api = @api()

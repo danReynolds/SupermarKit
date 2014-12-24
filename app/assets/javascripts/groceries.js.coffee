@@ -6,12 +6,13 @@ $ ->
     # ============================
 
     $grocery_table = $('#grocery-table').dataTable
-      responsive: false
+      responsive: true
       ajax: "/groceries/" + grocery_id + "/items.json"
       "columnDefs": [
         { "width": "5%", "targets": 5 },
-        { "visible": false, "targets": 0 }
+        { "class": "never", "targets": 0 }
       ]
+
       footerCallback: (row, data, start, end, display) ->
         api = @api()
         

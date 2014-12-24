@@ -9,6 +9,7 @@ class GroceriesController < ApplicationController
       format.json do
         groceries = user_group.groceries.map do |grocery|
           [
+            grocery.id,
             "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
             grocery.description,
             grocery.items.count,
