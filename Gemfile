@@ -21,6 +21,7 @@ gem 'groupdate'
 gem 'chartkick'
 gem 'happy_path'
 gem 'money-rails'
+gem 'cancancan', '~> 1.9'
 
 group :development do
 	gem 'spring'

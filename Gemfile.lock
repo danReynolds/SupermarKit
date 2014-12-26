@@ -36,6 +36,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
+    cancancan (1.9.2)
     chartkick (1.3.2)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -183,6 +184,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
+  cancancan (~> 1.9)
   chartkick
   coffee-rails (~> 4.0.0)
   font-awesome-rails
