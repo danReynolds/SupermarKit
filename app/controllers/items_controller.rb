@@ -1,13 +1,13 @@
 class ItemsController < ApplicationController
 	extend HappyPath
   follow_happy_paths
-  
-	def index
-		grocery = Grocery.find(params[:grocery_id])
+  load_and_authorize_resource :grocery
+  load_and_authorize_resource :item, through: :grocery, shallow: true
 
+	def index
 		respond_to do |format|
 			format.json do
-		    items = grocery.items.map do |item|
+		    items = @grocery.items.map do |item|
 		      info = [
 		      	item.id,
 		        "<a href='/items/#{item.id}'>#{item.name}</a>".html_safe,
@@ -21,21 +21,15 @@ class ItemsController < ApplicationController
 		  end
     end
 	end
-	
+
 	def show
-		@item = Item.find(params[:id])
 		@kit = @item.groceries.first.user_group
 	end
 
 	def new
-		@grocery = Grocery.find(params[:grocery_id])
-		@item = Item.new
 	end
 
 	def create
-		@item = Item.new(item_params)
-		@grocery = Grocery.find(params[:grocery_id])
-
 		if @item.save
 			@item.groceries << @grocery
 			redirect_to @grocery
@@ -51,8 +45,7 @@ class ItemsController < ApplicationController
 	end
 
 	def auto_complete
-		grocery = Grocery.find(params[:grocery_id])
-		items = grocery.user_group.items.with_name(params[:q]) - grocery.items
+		items = @grocery.user_group.items.with_name(params[:q]) - @grocery.items
 		items.map do |item|
 		  {
 				id: item.id,
@@ -68,18 +61,13 @@ class ItemsController < ApplicationController
 	end
 
 	def add
-		grocery = Grocery.find(params[:grocery_id])
 		items = Item.find(params[:items][:ids].split(","))
-		grocery.items << items
+		@grocery.items << items
 		render json: { success: true }
 	end
 
 	def remove
-		grocery = Grocery.find(params[:grocery_id])
-		item = Item.find(params[:id])
-
-		grocery.items.delete(item)
-
+		@grocery.items.delete(@item)
 		render json: { success: true }
 	end
 

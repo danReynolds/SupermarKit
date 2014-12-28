@@ -36,6 +36,9 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
+    canard (0.4.2.pre)
+      cancancan
+      role_model
     cancancan (1.9.2)
     chartkick (1.3.2)
     coderay (1.1.0)
@@ -93,6 +96,7 @@ GEM
     jwt (1.2.0)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.4.3)
     minitest (5.5.0)
     monetize (1.0.0)
@@ -115,6 +119,13 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (~> 1.2)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-stack_explorer (0.4.9.1)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -136,6 +147,7 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    role_model (0.8.1)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
     sass (3.2.19)
@@ -153,6 +165,7 @@ GEM
     simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
+    slop (3.6.0)
     sorcery (0.8.6)
       bcrypt (~> 3.1)
       oauth (~> 0.4, >= 0.4.4)
@@ -184,7 +197,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
-  cancancan (~> 1.9)
+  canard (= 0.4.2.pre)
   chartkick
   coffee-rails (~> 4.0.0)
   font-awesome-rails
@@ -198,6 +211,8 @@ DEPENDENCIES
   jquery-turbolinks
   money-rails
   mysql2
+  pry
+  pry-stack_explorer
   rails (= 4.1.8)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

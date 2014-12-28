@@ -21,9 +21,11 @@ gem 'groupdate'
 gem 'chartkick'
 gem 'happy_path'
 gem 'money-rails'
-gem 'cancancan', '~> 1.9'
+gem 'canard', '0.4.2.pre'
 
 group :development do
+  gem 'pry'
+  gem 'pry-stack_explorer'
 	gem 'spring'
 	gem 'better_errors'
 	gem 'binding_of_caller'

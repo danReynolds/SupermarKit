@@ -7,9 +7,10 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :email, uniqueness: true
 
-  has_many :groceries
-  has_many :items, through: :groceries
   has_and_belongs_to_many :user_groups
+  has_many :items, through: :user_groups
+
+  acts_as_user roles: :admin
 
   scope :with_name, ->(q) { where('users.name LIKE ?', "%#{q}%").distinct }
 end

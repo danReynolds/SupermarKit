@@ -1,13 +1,13 @@
 class GroceriesController < ApplicationController
   extend HappyPath
   follow_happy_paths
+  load_and_authorize_resource :user_group
+  load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
 	def index
-    user_group = UserGroup.find(params[:user_group_id])
-
     respond_to do |format|
       format.json do
-        groceries = user_group.groceries.map do |grocery|
+        groceries = @user_group.groceries.map do |grocery|
           [
             grocery.id,
             "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
@@ -22,18 +22,12 @@ class GroceriesController < ApplicationController
 	end
 	
 	def show
-		@grocery = Grocery.find(params[:id])
 	end
 
 	def new
-    @user_group = UserGroup.find(params[:user_group_id])
-    @grocery = Grocery.new
   end
 
   def create
-    params[:grocery].merge!(user_group_id: params[:user_group_id])
-    @grocery = Grocery.new(grocery_params)
-
     if @grocery.save
       redirect_to @grocery
     else
@@ -50,6 +44,6 @@ class GroceriesController < ApplicationController
 private
 
   def grocery_params
-    params.require(:grocery).permit(:name, :description, :user_group_id)
+    params.require(:grocery).permit(:name, :description)
   end
 end
