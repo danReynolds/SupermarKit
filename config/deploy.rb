@@ -4,7 +4,7 @@ lock '3.3.5'
 set :application, 'softgroceries'
 set :repo_url, 'git@github.com:danReynolds/softgroceries.git'
 set :deploy_to, '/home/deploy/softgroceries'
-
+set :linked_files, %w{config/database.yml config/secrets.yml .env}
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
