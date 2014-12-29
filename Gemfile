@@ -22,6 +22,8 @@ gem 'chartkick'
 gem 'happy_path'
 gem 'money-rails'
 gem 'canard', '0.4.2.pre'
+gem 'capistrano',  '~> 3.1'
+gem 'capistrano-rails', '~> 1.1'
 
 group :development do
   gem 'pry'
