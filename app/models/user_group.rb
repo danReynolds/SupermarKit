@@ -4,4 +4,8 @@ class UserGroup < ActiveRecord::Base
   has_many :groceries
 
   validates :name, presence: true, uniqueness: true
+
+  def active_groceries
+    groceries.where(finished: false)
+  end
 end

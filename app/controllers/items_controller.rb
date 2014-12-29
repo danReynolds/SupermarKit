@@ -23,7 +23,7 @@ class ItemsController < ApplicationController
 	end
 
 	def show
-		@kit = @item.groceries.first.user_group
+		@user_group = @item.groceries.first.user_group
 	end
 
 	def new
@@ -67,6 +67,8 @@ class ItemsController < ApplicationController
 	end
 
 	def remove
+		# the grocery is already loaded because grocery_id was passed with the request
+		# cancancan picks up on the grocery_id being passed when using load_resource
 		@grocery.items.delete(@item)
 		render json: { success: true }
 	end

@@ -1,0 +1,11 @@
+.groceries-table {
+  #groceries-table {
+    tr {
+      td:nth-child(4) {
+        text-align: center;
+        color: $gray;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

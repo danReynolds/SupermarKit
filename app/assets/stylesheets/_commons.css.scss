@@ -14,12 +14,22 @@ body {
     padding-top: 0.85rem;
     &.secondary {
       background: $gray;
-      &:hover { background: lighten($gray, 10%) } 
+      &:hover { background: darken($gray, 10%) } 
+    }
+    &.success {
+      background: $dark-green;
+      &:hover { background: darken($dark-green, 10%) } 
+    }
+    &.disabled {
+      background: $gray;
+      &:hover { background: $gray; }
+      opacity: 1;
     }
   }
   .button-group {
     li { margin: 0 0.4rem; }
   }
+
   table { width: 100% !important; }
 
   .widget {
@@ -28,13 +38,11 @@ body {
     margin: 0.8rem;
     margin-bottom: 2rem;
 
+    .main { padding: 1.5rem; }
     .header {
-      padding: 1rem;
+      @extend .main;
       background: $green;
       h3 { color: $white; }
-    }
-    .main {
-      padding: 1.5rem;
     }
     h3 {
       padding: 0;

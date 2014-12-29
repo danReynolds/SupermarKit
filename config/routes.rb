@@ -27,6 +27,9 @@ Rails.application.routes.draw do
             post :remove
           end
         end
+        member do
+          post :finish
+        end
       end
       member do
         get :metrics

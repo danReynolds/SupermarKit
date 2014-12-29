@@ -6,7 +6,8 @@
     .columns.large-12
       .widget
         .header
-          %h3 Groceries for #{@grocery.name}
+          %h3
+            Groceries for #{@grocery.name}
         .main
           .row
             .columns.large-12
@@ -31,3 +32,11 @@
                   = link_to 'Back to Kit', @grocery.user_group, class: 'button secondary'
                 %li
                   = link_to 'Add item', new_grocery_item_path(@grocery), class: :button
+                %li.right
+                  - if @grocery.finished
+                    = link_to '#', class: 'button disabled' do
+                      = fa_icon 'shopping-cart'
+                      Finished
+                  - else
+                    = simple_form_for :finish, url: finish_grocery_path(@grocery), method: :post do |f|
+                      = f.button :submit, 'Finish Shopping', class: 'button success'

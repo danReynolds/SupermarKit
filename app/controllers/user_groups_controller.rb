@@ -8,7 +8,7 @@ class UserGroupsController < ApplicationController
 
   def show
     @user = current_user
-    @active_grocery = @user_group.groceries.last
+    @active_grocery = @user_group.active_groceries.last
   end
 
   def new
