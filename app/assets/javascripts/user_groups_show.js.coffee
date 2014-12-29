@@ -49,6 +49,7 @@ $ ->
       responsive: true
       searching: false
       bLengthChange: false
+      iDisplayLength: 5,
       ajax: "/user_groups/" + user_group_id + "/groceries.json"
       "columnDefs": [
         { "class": "never", "targets": 0 }
@@ -58,7 +59,7 @@ $ ->
       responsive: true
       searching: false
       bLengthChange: false
-      iDisplayLength: 10,
+      iDisplayLength: 5,
       ajax: "/groceries/" + active_grocery_id + "/items.json"
       "columnDefs": [
         { "class": "never", "targets": 0 }
