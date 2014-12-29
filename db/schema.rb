@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228223401) do
+ActiveRecord::Schema.define(version: 20141229010724) do
 
   create_table "groceries", force: true do |t|
     t.string   "name"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20141228223401) do
     t.datetime "updated_at"
     t.integer  "owner_id"
     t.integer  "user_group_id"
-    t.boolean  "finished",      default: false
+    t.datetime "finished_at"
   end
 
   add_index "groceries", ["user_group_id"], name: "index_groceries_on_user_group_id", using: :btree

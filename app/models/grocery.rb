@@ -6,4 +6,8 @@ class Grocery < ActiveRecord::Base
   def total
     Money.new(items.sum(:price_cents)).format(symbol: false)
   end
+
+  def finished?
+    finished_at.present?
+  end
 end

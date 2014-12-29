@@ -13,7 +13,7 @@ class GroceriesController < ApplicationController
             "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
             grocery.description,
             grocery.items.count,
-            grocery.finished ? '<i class="fa fa-check"></i>'.html_safe : ''
+            grocery.finished? ? '<i class="fa fa-check"></i>'.html_safe : ''
           ]
         end
         render json: { data: groceries }
@@ -42,7 +42,7 @@ class GroceriesController < ApplicationController
 	end
 
   def finish
-    @grocery.finished = true
+    @grocery.finished_at = DateTime.now
     
     if @grocery.save
       redirect_to @grocery.user_group, notice: 'Grocery list finished, happy shopping.'

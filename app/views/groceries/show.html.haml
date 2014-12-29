@@ -33,7 +33,7 @@
                 %li
                   = link_to 'Add item', new_grocery_item_path(@grocery), class: :button
                 %li.right
-                  - if @grocery.finished
+                  - if @grocery.finished?
                     = link_to '#', class: 'button disabled' do
                       = fa_icon 'shopping-cart'
                       Finished

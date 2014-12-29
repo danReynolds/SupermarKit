@@ -6,6 +6,10 @@ class UserGroup < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def active_groceries
-    groceries.where(finished: false)
+    groceries.where(finished_at: nil)
+  end
+
+  def finished_groceries
+    groceries.where.not(finished_at: nil)
   end
 end

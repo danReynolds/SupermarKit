@@ -48,11 +48,11 @@ class UserGroupsController < ApplicationController
   end
 
   def metrics
-    groceries = @user_group.groceries
+    groceries = @user_group.finished_groceries
     @metrics = { 
-      grocery_spending: groceries.map{ |grocery| [grocery.created_at.to_date, grocery.total] },
-      grocery_cost: groceries.map{ |grocery| { name: grocery.name, data: { grocery.created_at.to_date => grocery.total } } },
-      grocery_items: groceries.map{ |grocery| { name: grocery.name, data: { grocery.created_at.to_date => grocery.items.count } } }
+      grocery_spending: groceries.map{ |grocery| [grocery.finished_at.to_date, grocery.total] },
+      grocery_cost: groceries.map{ |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.total } } },
+      grocery_items: groceries.map{ |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.items.count } } }
     }
   end
 
