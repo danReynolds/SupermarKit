@@ -24,6 +24,7 @@ gem 'money-rails'
 gem 'canard', '0.4.2.pre'
 gem 'capistrano',  '~> 3.1'
 gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano-rvm'
 
 group :development do
   gem 'pry'
