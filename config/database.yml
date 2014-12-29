@@ -50,5 +50,3 @@ test:
 production:
   <<: *default
   database: softgroceries_production
-  username: softgroceries
-  password: <%= ENV['SOFTGROCERIES_DATABASE_PASSWORD'] %>
