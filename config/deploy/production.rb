@@ -10,7 +10,7 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 set :stage, :production
-server '104.131.74.158', user: 'deploy', roles: %w{web app}
+server '104.131.74.158', user: 'deploy', roles: %w{web app db}
 
 # Custom SSH Options
 # ==================
