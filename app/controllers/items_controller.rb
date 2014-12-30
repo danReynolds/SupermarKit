@@ -42,6 +42,11 @@ class ItemsController < ApplicationController
 	end
 
 	def update
+		if @item.update_attributes(item_params)
+			redirect_to @item.groceries.first.user_group
+		else
+			render :edit
+		end
 	end
 
 	def auto_complete
@@ -75,6 +80,6 @@ class ItemsController < ApplicationController
 
 private
 	def item_params
-		params.require(:item).permit(:name, :description, :price)
+		params.require(:item).permit(:name, :description, :price, :price_cents)
 	end
 end

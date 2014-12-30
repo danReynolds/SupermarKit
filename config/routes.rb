@@ -28,7 +28,7 @@ Rails.application.routes.draw do
           end
         end
         member do
-          post :finish
+          post :toggle_finish
         end
       end
       member do

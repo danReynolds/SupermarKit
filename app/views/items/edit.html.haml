@@ -1,0 +1,18 @@
+.container.items-edit
+  .row
+    .columns.large-12
+      .widget
+        .header
+          %h3 Edit Item
+        .main
+          .row
+            = simple_form_for @item do |f|
+              .columns.large-6
+                = f.input :name
+                = f.input :description, as: :text
+                .row
+                  .columns.large-4
+                    = f.input :price
+                = f.button :submit, 'Update', class: 'button radius'
+              .columns.large-6.text-center
+                = image_tag 'groceries/cans256.png'

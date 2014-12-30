@@ -39,13 +39,13 @@ namespace :deploy do
 
   desc 'Restart application'
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
+    on roles(:app), in: :sequence, wait: 5 do # this executes if the user, defined in production.rb has the role app
       # Your restart mechanism here, for example:
       execute :touch, release_path.join('tmp/restart.txt')
     end
   end
 
-  after :publishing, :restart
+  after :publishing, :restart # it doesn't manually restart the app, so we add an event on the publishing hook
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do

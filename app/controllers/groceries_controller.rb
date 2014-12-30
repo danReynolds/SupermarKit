@@ -41,13 +41,13 @@ class GroceriesController < ApplicationController
 	def update
 	end
 
-  def finish
-    @grocery.finished_at = DateTime.now
+  def toggle_finish
+    @grocery.finished_at = @grocery.finished? ? nil : DateTime.now
     
     if @grocery.save
       redirect_to @grocery.user_group, notice: 'Grocery list finished, happy shopping.'
     else
-      render :show, notice: 'Could not finish grocery'
+      render :show, notice: 'Could not modify grocery.'
     end
   end
 

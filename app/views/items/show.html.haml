@@ -19,7 +19,16 @@
               %hr
               .row
                 .columns.large-12
-                  = link_to 'Back to Kit', @user_group, class: 'button secondary'
+                  %label Price
+                  %p= @item.price.format(symbol: true)
+              %hr
+              .row
+                .columns.large-12
+                  %ul.button-group
+                    %li
+                      = link_to 'Back to Kit', @user_group, class: 'button secondary'
+                    %li
+                      = link_to 'Edit Item', edit_item_path(@item), class: 'button'
 
             .columns.large-6.text-center
               = image_tag 'groceries/boxes256.png'

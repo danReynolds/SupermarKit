@@ -10,7 +10,8 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 set :stage, :production
-server '104.131.74.158', user: 'deploy', roles: %w{web app db}
+server '104.131.74.158', user: 'deploy', roles: %w{web app db} # the web, app, and db role hooks execute when it deploys
+# for rails, with my configuration this includes migrations, bundling, (b/c of capistrano/rails in capfile), grabbing the codes and restarting the app (because of app hook in deploy.rb).
 
 # Custom SSH Options
 # ==================

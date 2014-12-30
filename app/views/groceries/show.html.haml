@@ -33,10 +33,8 @@
                 %li
                   = link_to 'Add item', new_grocery_item_path(@grocery), class: :button
                 %li.right
-                  - if @grocery.finished?
-                    = link_to '#', class: 'button disabled' do
-                      = fa_icon 'shopping-cart'
-                      Finished
-                  - else
-                    = simple_form_for :finish, url: finish_grocery_path(@grocery), method: :post do |f|
+                  = simple_form_for :finish, url: toggle_finish_grocery_path(@grocery), method: :post do |f|
+                    - if @grocery.finished?
+                      = f.button :submit, 'Shop More', class: 'button secondary'
+                    - else
                       = f.button :submit, 'Finish Shopping', class: 'button success'
