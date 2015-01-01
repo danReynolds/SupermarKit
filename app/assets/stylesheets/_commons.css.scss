@@ -8,6 +8,7 @@ body {
     @media #{$medium-up} { padding-top: 4rem;}
     height: 100%;
     background-image: image-url('wallpaper/restaurant_icons.png');
+    overflow: auto;
   }
 
   .button {

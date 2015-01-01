@@ -13,8 +13,10 @@
                     = f.input :name
                     = f.input :description, as: :text
                 .row
-                  .columns.large-4
-                    = f.input :price, input_html: { class: 'large-2' }
+                  .columns.large-
+                    = label_tag :price
+                    = text_field_tag :price
+                    = f.input :price, as: :hidden, input_html: { value: 0 }
                 .row
                   .columns.large-12
                   = f.button :submit, 'Create', class: 'button radius'

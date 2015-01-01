@@ -30,7 +30,14 @@ gem 'newrelic_rpm'
 group :development do
   gem 'pry'
   gem 'pry-stack_explorer'
-	gem 'spring'
 	gem 'better_errors'
 	gem 'binding_of_caller'
+end
+
+group :development, :test do
+  gem 'capybara'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
+  gem 'spring-commands-rspec'
+  gem 'spring'
 end

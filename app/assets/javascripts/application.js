@@ -24,6 +24,7 @@
 //= require user_groups_edit
 //= require user_group_metrics
 //= require groceries
+//= require items
 
 // =============================
 
