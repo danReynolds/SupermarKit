@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
-  validates :password, length: { minimum: 3 }
-  validates :password, confirmation: true
+  validates :password, confirmation: true, length: { minimum: 3 }
   validates :password_confirmation, presence: true
 
   validates :name, presence: true
