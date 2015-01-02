@@ -22,7 +22,7 @@ RSpec.describe UserGroupsController, type: :controller do
       user2 = create(:user)
       group.update_attribute(:users, [user1, controller.current_user])
       patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}"}
-      expect(group.reload.users).to contain_exactly(controller.current_user, user1)
+      expect(group.reload.users).to contain_exactly(controller.current_user, user2)
     end
   end
 end

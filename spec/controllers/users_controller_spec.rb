@@ -1,11 +1,9 @@
 require 'rails_helper'
+require 'support/login_user'
 
 RSpec.describe UsersController, type: :controller do
-  before(:each) do
-    @user = create(:user, :full_user)
-    login_user
-  end
-
+  include_context 'login user'
+  
   describe 'GET auto_complete' do
     
     it 'returns successful match' do
