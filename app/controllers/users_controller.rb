@@ -19,6 +19,7 @@ class UsersController < ApplicationController
       auto_login(@user)
       redirect_to(user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first group of people you're shopping for.")
     else
+      flash[:notice] = 'Invalid confirmation token.'
       not_authenticated
     end
   end
