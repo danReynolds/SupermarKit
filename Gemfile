@@ -28,13 +28,13 @@ gem 'capistrano-rvm'
 gem 'newrelic_rpm'
 
 group :development do
-  gem 'pry'
-  gem 'pry-stack_explorer'
 	gem 'better_errors'
 	gem 'binding_of_caller'
 end
 
 group :development, :test do
+  gem 'pry'
+  gem 'pry-stack_explorer'
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'rspec-rails'

@@ -4,7 +4,7 @@ class Grocery < ActiveRecord::Base
   belongs_to :user_group
 
   def total
-    Money.new(items.sum(:price_cents)).format(symbol: false)
+    Money.new(items.sum(:price_cents)).format(symbol: false).to_f
   end
 
   def finished?

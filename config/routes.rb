@@ -21,14 +21,14 @@ Rails.application.routes.draw do
         resources :items do
           collection do
             get :auto_complete
-            post :add
+            patch :add
           end
           member do
-            post :remove
+            patch :remove
           end
         end
         member do
-          post :toggle_finish
+          patch :toggle_finish
         end
       end
       member do
