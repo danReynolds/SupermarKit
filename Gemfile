@@ -27,9 +27,9 @@ gem 'capistrano-rails', '~> 1.1'
 gem 'capistrano-rvm'
 gem 'newrelic_rpm'
 gem 'maildown'
+gem 'dotenv-deployment'
 
 group :development do
-  gem 'dotenv-deployment'
 	gem 'better_errors'
 	gem 'binding_of_caller'
 end
