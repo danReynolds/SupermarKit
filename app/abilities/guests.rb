@@ -1,3 +1,3 @@
 Canard::Abilities.for(:guest) do
-  can :create, User
+  can [:create, :activate], User
 end
