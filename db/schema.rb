@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141229010724) do
+ActiveRecord::Schema.define(version: 20150102155328) do
 
   create_table "groceries", force: true do |t|
     t.string   "name"
@@ -66,8 +66,12 @@ ActiveRecord::Schema.define(version: 20141229010724) do
     t.datetime "reset_password_email_sent_at"
     t.string   "name"
     t.integer  "roles_mask"
+    t.string   "activation_state"
+    t.string   "activation_token"
+    t.datetime "activation_token_expires_at"
   end
 
+  add_index "users", ["activation_token"], name: "index_users_on_activation_token", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["remember_me_token"], name: "index_users_on_remember_me_token", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", using: :btree

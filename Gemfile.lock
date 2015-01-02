@@ -73,6 +73,9 @@ GEM
     colorize (0.7.5)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
+    dotenv (1.0.2)
+    dotenv-deployment (0.2.0)
+      dotenv (~> 1.0)
     erubis (2.7.0)
     execjs (2.2.2)
     factory_girl (4.5.0)
@@ -122,8 +125,12 @@ GEM
       turbolinks
     json (1.8.1)
     jwt (1.2.0)
+    kramdown (1.5.0)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    maildown (1.0.2)
+      kramdown
+      rails (>= 4.0.0)
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.2)
@@ -263,6 +270,7 @@ DEPENDENCIES
   capybara
   chartkick
   coffee-rails (~> 4.0.0)
+  dotenv-deployment
   factory_girl_rails
   font-awesome-rails
   foundation-rails
@@ -273,6 +281,7 @@ DEPENDENCIES
   jquery-datatables-rails (~> 3.1.1)
   jquery-rails
   jquery-turbolinks
+  maildown
   money-rails
   mysql2
   newrelic_rpm
