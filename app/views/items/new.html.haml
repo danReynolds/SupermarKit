@@ -13,12 +13,12 @@
                     = f.input :name
                     = f.input :description, as: :text
                 .row
-                  .columns.large-
+                  .columns.large-4
                     = label_tag :price
                     = text_field_tag :price
                     = f.input :price, as: :hidden, input_html: { value: 0 }
                 .row
                   .columns.large-12
-                  = f.button :submit, 'Create', class: 'button radius'
+                    = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
                 = image_tag 'groceries/cans256.png'
