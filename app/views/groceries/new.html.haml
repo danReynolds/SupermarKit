@@ -12,4 +12,4 @@
                 = f.input :description
                 = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
-                = image_tag 'groceries/paperbag256.png'
+                = render partial: 'pages/svgs', locals: { image: :man }

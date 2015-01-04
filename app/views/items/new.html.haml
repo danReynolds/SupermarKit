@@ -21,4 +21,4 @@
                   .columns.large-12
                     = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
-                = image_tag 'groceries/cans256.png'
+                = render partial: 'pages/svgs', locals: { image: :measure }

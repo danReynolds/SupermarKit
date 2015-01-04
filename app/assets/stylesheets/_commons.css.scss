@@ -1,13 +1,15 @@
 body {
   background: $white !important;
-  h1, h2, h3, p { color: $black; }
+  h1, h2, h3, p { color: $gray; }
   a, a:hover { color: $dark-green; }
+
+  #meal, #man, #measure { fill: $gray; }
 
   .container {
     padding-top: 2rem;
     @media #{$medium-up} { padding-top: 4rem;}
     height: 100%;
-    background-image: image-url('wallpaper/restaurant_icons.png');
+    background: $white;
     overflow: auto;
   }
 
@@ -42,7 +44,7 @@ body {
     .main { padding: 1.5rem; }
     .header {
       @extend .main;
-      background: $green;
+      background: $black;
       h3 { color: $white; }
     }
     h3 {

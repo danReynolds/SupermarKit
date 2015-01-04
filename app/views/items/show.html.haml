@@ -31,4 +31,4 @@
                       = link_to 'Edit Item', edit_item_path(@item), class: 'button'
 
             .columns.large-6.text-center
-              = image_tag 'groceries/boxes256.png'
+              = render partial: 'pages/svgs', locals: { image: :meal }
