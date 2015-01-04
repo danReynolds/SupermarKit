@@ -1,7 +1,7 @@
 body {
   background: $white !important;
   h1, h2, h3, p { color: $gray; }
-  a, a:hover { color: $dark-green; }
+  a, a:hover { color: $light-green; }
 
   #meal, #man, #measure { fill: $gray; }
 
@@ -20,8 +20,8 @@ body {
       &:hover { background: darken($gray, 10%) } 
     }
     &.success {
-      background: $dark-green;
-      &:hover { background: darken($dark-green, 10%) } 
+      background: $light-green;
+      &:hover { background: darken($light-green, 10%) } 
     }
     &.disabled {
       background: $gray;
@@ -56,7 +56,7 @@ body {
   .select2-search-choice {
     height: 2rem;
     padding-top: 0.5rem !important;
-    border: 1px solid $dark-green !important;
+    border: 1px solid $light-green !important;
     background: $white;
   }
 

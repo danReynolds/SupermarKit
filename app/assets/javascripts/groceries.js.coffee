@@ -40,7 +40,7 @@ $ ->
       row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0]);
       item_id = $grocery_table.fnGetData(row)[0];
       $.ajax
-        method: "POST"
+        method: "PATCH"
         url: "/items/" + item_id + "/remove/?grocery_id=" + grocery_id
         success: ->
           $grocery_table.api().row(row).remove().draw()

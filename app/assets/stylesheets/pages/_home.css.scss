@@ -1,12 +1,12 @@
 .home {
   #hero {
-    background-image: linear-gradient($green, $light-green);
+    background-image: linear-gradient($green, $off-green);
     height: 100%;
     text-align: center;
     padding: 1rem 0 4rem 0;
 
     li { list-style-type: none; }
-    #apple { fill: $dark-green; }
+    #apple { fill: $light-green; }
     h1 {
       color: white;
       font-size: 3rem;
@@ -34,10 +34,10 @@
     #measure { fill: rgb(100, 100, 100); }
     background: $white;
     h2 { margin-top: 3rem; }
-    padding-top: 9rem;
-    padding-bottom: 7rem;
+    padding: 5rem 0;
     .columns {
       text-align: center;
+      padding: 2rem;
     }
   }
 }
