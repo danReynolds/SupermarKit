@@ -15,7 +15,11 @@ body {
 
   .button {
     padding-top: 0.85rem;
-    &.secondary {
+    &.misc {
+      background: $blue;
+      &:hover { background: darken($blue, 10%) } 
+    }
+    &.back {
       background: $gray;
       &:hover { background: darken($gray, 10%) } 
     }

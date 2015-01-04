@@ -7,9 +7,8 @@ $ ->
 
     itemsFormatResults = (item) ->
       markup = "<div class=\"row\">" +
-      "<div class=\"columns large-2\"><img src=\"/assets/groceries/plate7.png\"</img></div>" +
-      "<div class=\"columns large-10\"><div class=\"row\"><div>" + item.name + "</div></div>" +
-      "<div class=\"row\"><div>" + item.description + "</div></div></div>"
+      "<div class=\"columns large-2\"><img src=\"/assets/items/plate.png\"</img></div>" +
+      "<div class=\"columns large-10\"><div class=\"row\"><div>" + item.name + "</div></div></div>"
 
 
     itemsFormatSelection = (item) ->

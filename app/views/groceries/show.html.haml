@@ -29,12 +29,12 @@
             .columns.large-12
               %ul.button-group
                 %li
-                  = link_to 'Back to Kit', @grocery.user_group, class: 'button secondary'
+                  = link_to 'Back to Kit', @grocery.user_group, class: 'button back'
                 %li
                   = link_to 'Add item', new_grocery_item_path(@grocery), class: :button
                 %li.right
                   = simple_form_for :finish, url: toggle_finish_grocery_path(@grocery), method: :patch do |f|
                     - if @grocery.finished?
-                      = f.button :submit, 'Shop More', class: 'button secondary'
+                      = f.button :submit, 'Shop More', class: 'button misc'
                     - else
                       = f.button :submit, 'Finish Shopping', class: 'button success'

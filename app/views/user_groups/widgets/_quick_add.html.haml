@@ -7,6 +7,6 @@
         %p
           Add past items to your latest grocery list,
           %strong= @active_grocery.name
-        = simple_form_for :items, url: add_grocery_items_path(@active_grocery), method: :post, remote: true do |f|
+        = simple_form_for :items, url: add_grocery_items_path(@active_grocery), method: :patch, remote: true do |f|
           = f.input :ids, label: false
           = f.button :submit, 'Add', class: 'button'
