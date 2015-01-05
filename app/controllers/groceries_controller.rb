@@ -13,6 +13,7 @@ class GroceriesController < ApplicationController
             "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
             grocery.description,
             grocery.items.count,
+            grocery.total.to_money.format,
             grocery.finished? ? '<i class="fa fa-check"></i>'.html_safe : ''
           ]
         end
