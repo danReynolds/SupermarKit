@@ -12,6 +12,8 @@
                 %li
                   = link_to 'Kits', user_groups_path
                 %li
+                  = link_to 'Me', current_user
+                %li
                   = link_to 'Logout', logout_path, method: :post
               - else
                 %li

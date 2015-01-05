@@ -49,10 +49,11 @@ describe Canard::Abilities, 'for :user' do
 
     context 'should be able to' do
       it { can([:read, :auto_complete], any(:user)) }
+      it { can([:read, :destroy, :update, :auto_complete, :manage], user) }
     end
 
     context 'should not be able to' do
-      it { cant([:create, :update, :destroy, :activate, :manage], any(:user)) }
+      it { cant([:update, :create, :destroy, :activate, :manage], any(:user)) }
     end
   end
 end

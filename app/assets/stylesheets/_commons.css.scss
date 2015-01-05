@@ -34,7 +34,8 @@ body {
     }
   }
   .button-group {
-    li { margin: 0 0.4rem; }
+    li { margin: 0; }
+    li + li { margin: 0 0.4rem; }
   }
 
   table { width: 100% !important; }

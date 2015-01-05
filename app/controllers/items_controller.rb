@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
 	def index
 		respond_to do |format|
 			format.json do
-		    items = @grocery.items.map do |item|
+		    items = @items.map do |item|
 		      info = [
 		      	item.id,
 		        "<a href='/items/#{item.id}'>#{item.name}</a>".html_safe,

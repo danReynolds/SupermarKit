@@ -6,7 +6,7 @@
     .row
       .columns.large-12
         %ul.large-block-grid-4.small-block-grid-1
-          - current_user.user_groups.each do |group|
+          - @user_groups.each do |group|
             %li
               .group
                 = link_to group do

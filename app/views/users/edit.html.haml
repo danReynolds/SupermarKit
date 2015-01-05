@@ -1,0 +1,19 @@
+.container.users-edit
+  .row
+    .columns.large-8.large-centered
+      .widget
+        .header
+          %h1 Need a change?
+        .main
+          = simple_form_for @user do |f|
+            .row
+              .columns.large-6
+                = f.input :name
+                = f.input :email
+            .row
+              .columns.large-12
+                %ul.button-group
+                  %li
+                    = link_to 'back', @user, class: 'button back'
+                  %li
+                    = f.button :submit, 'Update'

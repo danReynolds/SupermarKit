@@ -32,4 +32,13 @@ RSpec.describe UsersController, type: :controller do
       expect(controller.current_user).to eq nil
     end
   end
+
+  describe 'PATCH update' do
+    include_context 'login user'
+
+    it 'should update the user when valid' do
+      patch :update, id: controller.current_user, user: { name: 'Updated User' }
+      expect(controller.current_user.reload.name).to eq 'Updated User'
+    end
+  end
 end

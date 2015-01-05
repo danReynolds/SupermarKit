@@ -13,6 +13,9 @@ class UsersController < ApplicationController
   def new
   end
 
+  def edit
+  end
+
   def activate
     if @user = User.load_from_activation_token(params[:id])
       @user.activate!
@@ -28,7 +31,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to(root_path, notice: 'Welcome to Supermarkit! We have sent you a confirmation email to get started.')
     else  
-      render :new
+      render :new, notice: 'Unable to create user.'
     end
   end
 
@@ -44,6 +47,14 @@ class UsersController < ApplicationController
       total_users: users.count,
       users: users
     }
+  end
+
+  def update
+    if @user.update_attributes(user_params)
+      redirect_to @user
+    else
+      render :edit, notice: 'Unable to update user.'
+    end
   end
 
 private
