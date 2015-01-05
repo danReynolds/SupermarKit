@@ -9,7 +9,7 @@ $ ->
       responsive: true
       ajax: "/groceries/" + grocery_id + "/items.json"
       "columnDefs": [
-        { "width": "5%", "targets": 6 },
+        { "width": "5%", "targets": 5 },
         { "class": "never", "targets": 0 }
       ]
 
