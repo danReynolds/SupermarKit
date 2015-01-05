@@ -154,6 +154,7 @@ GEM
     newrelic_rpm (3.5.5.38)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
+    nprogress-rails (0.1.6.5)
     oauth (0.4.7)
     oauth2 (0.9.4)
       faraday (>= 0.8, < 0.10)
@@ -285,6 +286,7 @@ DEPENDENCIES
   money-rails
   mysql2
   newrelic_rpm
+  nprogress-rails
   pry
   pry-stack_explorer
   rails (= 4.1.8)

@@ -14,6 +14,8 @@
 //= require turbolinks
 //= require highcharts.min
 //= require chartkick
+//= require nprogress
+//= require nprogress-turbolinks
 
 // =============================
 // Page Scripts

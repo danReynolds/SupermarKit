@@ -28,6 +28,7 @@ gem 'capistrano-rvm'
 gem 'newrelic_rpm'
 gem 'maildown'
 gem 'dotenv-deployment'
+gem 'nprogress-rails'
 
 group :development do
 	gem 'better_errors'
