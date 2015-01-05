@@ -3,7 +3,7 @@
     .columns.large-8.large-centered
       .widget
         .header
-          %h1 Here you are, #{@user.name}
+          %h1= @user.name
         .main
           .row
             .columns.large-6
@@ -21,7 +21,8 @@
                 .columns.large-12
                   %label Joined On
                   %p= @user.created_at.to_date
+            - if can? :update, @user
               %hr
-          .row
-            .columns.large-12
-              = link_to 'Edit User', edit_user_path(@user), class: 'button'
+              .row
+                .columns.large-12
+                  = link_to 'Edit User', edit_user_path(@user), class: 'button'
