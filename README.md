@@ -4,4 +4,4 @@
 # SupermarKit.
 We're a grocery app born out of the need for a better solution to get food from the store to our mouths. If you also struggle with this issue, or just want to see what we're all about, make an account and try us out.
 
-Want to get in touch? Email us [here](us@supermarkit.ca)
+Need a grocery app? Take a look at [SupermarKit](http://supermarkit.ca)
