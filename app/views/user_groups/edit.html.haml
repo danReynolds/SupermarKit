@@ -8,11 +8,17 @@
         .header
           %h3 Update Group
         .main
-          .row
-            = simple_form_for @user_group do |f|
+          = simple_form_for @user_group do |f|
+            .row
               .columns.large-6
                 = f.input :name
                 = f.input :description, as: :text
-                = f.button :submit, 'Update', class: 'button radius'
               .columns.large-6
                 = f.input :user_ids, label: 'Group Members'
+            .row
+              .columns.large-12
+                %ul.button-group
+                  %li
+                    = link_to 'Back to Kit', @user_group, class: 'button back'
+                  %li
+                    = f.button :submit, 'Update', class: 'button radius'

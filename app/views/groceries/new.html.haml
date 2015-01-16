@@ -10,6 +10,10 @@
               .columns.large-6
                 = f.input :name
                 = f.input :description
-                = f.button :submit, 'Create', class: 'button radius'
+                %ul.button-group
+                  %li
+                    = link_to 'Back to Kit', @user_group, class: 'button back'
+                  %li
+                    = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
                 = render partial: 'pages/svgs', locals: { image: :man }

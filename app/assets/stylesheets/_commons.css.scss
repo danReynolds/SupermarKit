@@ -41,8 +41,10 @@ body {
       li { margin: 0; }
       li + li { margin: 0 0.4rem; }
     }
-    .right {
-      float: left !important;
+    @media #{$small-only} {
+      .right {
+        float: left !important;
+      }
     }
   }
 
