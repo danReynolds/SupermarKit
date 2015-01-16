@@ -1,6 +1,9 @@
 body {
   background: $white !important;
-  h1, h2, h3, p { color: $gray; }
+  h1, h2, h3, p {
+    color: $gray;
+    word-wrap: break-word;
+  }
   a, a:hover { color: $light-green; }
 
   #meal, #man, #measure { fill: $gray; }
@@ -34,8 +37,13 @@ body {
     }
   }
   .button-group {
-    li { margin: 0; }
-    li + li { margin: 0 0.4rem; }
+    @media #{$medium-up} {
+      li { margin: 0; }
+      li + li { margin: 0 0.4rem; }
+    }
+    .right {
+      float: left !important;
+    }
   }
 
   table { width: 100% !important; }

@@ -17,17 +17,18 @@
                 = f.button :submit, 'Sign up', class: 'button radius' 
     .section#hook
       .row
-        .columns.large-4
-          = render partial: 'svgs', locals: { image: :man }
-          %h2 Track the foods.
-          %p Create custom and default grocery lists that will carry over each week.
-        .columns.large-4
-          = render partial: 'svgs', locals: { image: :meal }
-          %h2 Get the foods.
-          %p Notify the people on your list that you're getting groceries and learn who you're shopping for.
-        .columns.large-4
-          = render partial: 'svgs', locals: { image: :measure }
-          %h2 Check the foods.
-          %p Look at what you have been buying and analyze your eating habits.
+        .columns.large-12.small-10.small-centered
+          .columns.large-4
+            = render partial: 'svgs', locals: { image: :man }
+            %h2 Track the foods.
+            %p Create custom and default grocery lists that will carry over each week.
+          .columns.large-4
+            = render partial: 'svgs', locals: { image: :meal }
+            %h2 Get the foods.
+            %p Notify the people on your list that you're getting groceries and learn who you're shopping for.
+          .columns.large-4
+            = render partial: 'svgs', locals: { image: :measure }
+            %h2 Check the foods.
+            %p Look at what you have been buying and analyze your eating habits.
 
 

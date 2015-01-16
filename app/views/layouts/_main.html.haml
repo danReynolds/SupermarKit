@@ -39,8 +39,14 @@
             %li
               = link_to 'Kits', user_groups_path
             %li
+              = link_to 'Me', current_user
+            %li
+              = link_to 'About', about_path
+            %li
               = link_to 'Logout', logout_path, method: :post
           - else
+            %li
+              = link_to 'About', about_path
             %li
               = link_to 'Login', login_path
             %li
