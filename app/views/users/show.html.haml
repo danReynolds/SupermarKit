@@ -21,8 +21,8 @@
                 .columns.large-12
                   %label Joined On
                   %p= @user.created_at.to_date
-            - if can? :update, @user
-              %hr
-              .row
-                .columns.large-12
-                  = link_to 'Edit User', edit_user_path(@user), class: 'button'
+          - if can? :update, @user
+            %hr
+            .row
+              .columns.large-12
+                = link_to 'Edit User', edit_user_path(@user), class: 'button'
