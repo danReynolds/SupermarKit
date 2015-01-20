@@ -7,7 +7,7 @@ $ ->
 
     itemsFormatResults = (item) ->
       markup = "<div class=\"row\">" +
-      "<div class=\"columns large-2\"><img src=\"/assets/items/plate.png\"</img></div>" +
+      "<div class=\"columns large-2\"><i class=\"fa fa-shopping-cart\"></i></div>" +
       "<div class=\"columns large-10\"><div class=\"row\"><div>" + item.name + "</div></div></div>"
 
 
