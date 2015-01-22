@@ -29,6 +29,7 @@ gem 'newrelic_rpm'
 gem 'maildown'
 gem 'dotenv-deployment'
 gem 'nprogress-rails'
+gem 'coveralls', require: false
 
 group :development do
 	gem 'better_errors'
