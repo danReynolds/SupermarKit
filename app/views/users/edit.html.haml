@@ -7,11 +7,9 @@
         .main
           = simple_form_for @user do |f|
             .row
-              .columns.large-6
+              .columns.large-6.large-centered
                 = f.input :name
                 = f.input :email
-            .row
-              .columns.large-12
                 %ul.button-group
                   %li
                     = link_to 'back', @user, class: 'button back'

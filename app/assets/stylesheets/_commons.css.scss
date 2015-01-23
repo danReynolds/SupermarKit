@@ -68,7 +68,7 @@ body {
     .header {
       @extend .main;
       background: $mid-green;
-      h3 { color: $white; }
+      h1, h2, h3 { color: $white; }
     }
     h3 {
       padding: 0;

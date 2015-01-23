@@ -19,6 +19,10 @@
                     = f.input :price, as: :hidden, input_html: { value: 0 }
                 .row
                   .columns.large-12
-                    = f.button :submit, 'Create', class: 'button radius'
+                    %ul.button-group
+                      %li
+                        = link_to 'Back', @grocery, class: 'button back'
+                      %li
+                        = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
                 = render partial: 'pages/svgs', locals: { image: :measure }
