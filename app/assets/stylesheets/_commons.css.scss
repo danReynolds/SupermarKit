@@ -6,6 +6,7 @@ body {
     word-wrap: break-word;
   }
   a, a:hover { color: $light-green; }
+  input, textarea { border-radius: 3px !important; }
 
   #meal, #man, #measure { fill: $gray; }
 
@@ -49,7 +50,13 @@ body {
     }
   }
 
-  table { width: 100% !important; }
+  table {
+    width: 100% !important;
+    box-shadow: 0px 0px 1px rgb(179, 179, 179);
+    border: none;
+
+  }
+  tr td, tr th { color: $gray !important; }
 
   .widget {
     background: white;
@@ -60,7 +67,7 @@ body {
     .main { padding: 1.5rem; }
     .header {
       @extend .main;
-      background: $black;
+      background: $mid-green;
       h3 { color: $white; }
     }
     h3 {
@@ -79,6 +86,7 @@ body {
   .select2-container { width: 75% !important; }
   .select2-search-choice-close { top: 0.5rem !important; }
   .select2-result-label { margin-top: 0.8rem; }
+  .select2-choices { border-radius: 3px; }
 
   .off-canvas-wrap, .inner-wrap {
     height: 100%;

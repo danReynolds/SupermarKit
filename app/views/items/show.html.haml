@@ -1,12 +1,12 @@
 .container.items-show
   .row
-    .columns.large-12
+    .columns.large-8.large-centered
       .widget
         .header
           %h3 Item
         .main
           .row
-            .columns.large-6
+            .columns.large-7
               .row
                 .columns.large-12
                   %label Name
@@ -30,5 +30,5 @@
                     %li
                       = link_to 'Edit Item', edit_item_path(@item), class: 'button'
 
-            .columns.large-6.text-center
+            .columns.large-5.text-center
               = render partial: 'pages/svgs', locals: { image: :meal }

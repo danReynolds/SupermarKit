@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/dan/coding/personal/softgroceries/spec/abilities/admins_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/abilities/admins_spec.rb": [
         1,
         1,
         1,
@@ -26,7 +26,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/rails_helper.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/rails_helper.rb": [
         null,
         1,
         1,
@@ -91,7 +91,7 @@
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/environment.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/environment.rb": [
         null,
         1,
         null,
@@ -108,7 +108,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/application.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/application.rb": [
         1,
         null,
         1,
@@ -133,13 +133,13 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/boot.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/boot.rb": [
         null,
         1,
         null,
         1
       ],
-      "/home/dan/coding/personal/softgroceries/config/environments/test.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/environments/test.rb": [
         1,
         null,
         null,
@@ -180,17 +180,17 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/abilities/admin.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/abilities/admin.rb": [
         1,
         5,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/abilities/guests.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/abilities/guests.rb": [
         1,
         5,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/abilities/users.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/abilities/users.rb": [
         1,
         31,
         31,
@@ -205,7 +205,7 @@
         31,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/assets.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/assets.rb": [
         null,
         null,
         null,
@@ -215,7 +215,7 @@
         null,
         1
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/backtrace_silencers.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/backtrace_silencers.rb": [
         null,
         null,
         null,
@@ -224,18 +224,18 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/cookies_serializer.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/cookies_serializer.rb": [
         null,
         null,
         1
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/filter_parameter_logging.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/filter_parameter_logging.rb": [
         null,
         null,
         null,
         1
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/inflections.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/inflections.rb": [
         null,
         null,
         null,
@@ -253,13 +253,13 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/mime_types.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/mime_types.rb": [
         null,
         null,
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/money.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/money.rb": [
         null,
         null,
         1,
@@ -331,12 +331,12 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/session_store.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/session_store.rb": [
         null,
         null,
         1
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/simple_form.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/simple_form.rb": [
         null,
         1,
         null,
@@ -504,7 +504,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/simple_form_foundation.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/simple_form_foundation.rb": [
         null,
         1,
         null,
@@ -613,7 +613,7 @@
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/sorcery.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/sorcery.rb": [
         null,
         null,
         null,
@@ -1054,7 +1054,7 @@
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/initializers/wrap_parameters.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/initializers/wrap_parameters.rb": [
         null,
         null,
         null,
@@ -1070,7 +1070,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/factories/groceries.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/factories/groceries.rb": [
         1,
         1,
         41,
@@ -1083,7 +1083,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/factories/items.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/factories/items.rb": [
         1,
         1,
         1,
@@ -1091,7 +1091,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/factories/user_groups.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/factories/user_groups.rb": [
         1,
         1,
         25,
@@ -1104,7 +1104,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/factories/users.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/factories/users.rb": [
         1,
         1,
         46,
@@ -1127,7 +1127,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/config/routes.rb": [
+      "/home/vingilot/coding/personal/softgroceries/config/routes.rb": [
         1,
         1,
         1,
@@ -1171,23 +1171,104 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/helpers/application_helper.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/helpers/application_helper.rb": [
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/helpers/password_resets_helper.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/helpers/password_resets_helper.rb": [
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/helpers/user_sessions_helper.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/helpers/user_sessions_helper.rb": [
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/helpers/users_helper.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/helpers/users_helper.rb": [
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/support/abilities_helper.rb": [
+      "/home/vingilot/coding/personal/softgroceries/db/schema.rb": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null
+      ],
+      "/home/vingilot/coding/personal/softgroceries/spec/support/abilities_helper.rb": [
         1,
         null,
         1,
@@ -1208,7 +1289,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/abilities/guests_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/abilities/guests_spec.rb": [
         1,
         1,
         1,
@@ -1231,7 +1312,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/abilities/users_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/abilities/users_spec.rb": [
         1,
         1,
         1,
@@ -1292,7 +1373,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/controllers/groceries_controller_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/controllers/groceries_controller_spec.rb": [
         1,
         1,
         null,
@@ -1328,7 +1409,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/support/login_user.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/support/login_user.rb": [
         1,
         12,
         8,
@@ -1339,7 +1420,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/controllers/groceries_controller.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/controllers/groceries_controller.rb": [
         1,
         1,
         1,
@@ -1347,6 +1428,7 @@
         1,
         null,
         1,
+        2,
         2,
         2,
         2,
@@ -1400,7 +1482,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/controllers/application_controller.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/controllers/application_controller.rb": [
         1,
         1,
         1,
@@ -1413,7 +1495,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/controllers/items_controller_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/controllers/items_controller_spec.rb": [
         1,
         1,
         null,
@@ -1472,7 +1554,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/controllers/items_controller.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/controllers/items_controller.rb": [
         1,
         1,
         1,
@@ -1559,7 +1641,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/controllers/user_groups_controller_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/controllers/user_groups_controller_spec.rb": [
         1,
         1,
         null,
@@ -1589,7 +1671,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/controllers/user_groups_controller.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/controllers/user_groups_controller.rb": [
         1,
         1,
         1,
@@ -1654,7 +1736,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/controllers/user_sessions_controller_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/controllers/user_sessions_controller_spec.rb": [
         1,
         null,
         1,
@@ -1674,7 +1756,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/controllers/user_sessions_controller.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/controllers/user_sessions_controller.rb": [
         1,
         1,
         1,
@@ -1699,7 +1781,7 @@
         1,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/controllers/users_controller_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/controllers/users_controller_spec.rb": [
         1,
         1,
         null,
@@ -1745,7 +1827,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/controllers/users_controller.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/controllers/users_controller.rb": [
         1,
         1,
         1,
@@ -1812,10 +1894,10 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/features/sign_up_flow_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/features/sign_up_flow_spec.rb": [
 
       ],
-      "/home/dan/coding/personal/softgroceries/spec/mailers/user_mailer_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/mailers/user_mailer_spec.rb": [
         1,
         null,
         1,
@@ -1843,7 +1925,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/mailers/user_mailer.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/mailers/user_mailer.rb": [
         1,
         1,
         null,
@@ -1866,7 +1948,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/models/grocery_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/models/grocery_spec.rb": [
         1,
         null,
         1,
@@ -1879,7 +1961,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/models/grocery.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/models/grocery.rb": [
         1,
         1,
         1,
@@ -1894,7 +1976,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/models/item_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/models/item_spec.rb": [
         1,
         null,
         1,
@@ -1907,7 +1989,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/models/item.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/models/item.rb": [
         1,
         1,
         null,
@@ -1917,7 +1999,7 @@
         4,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/models/user_group_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/models/user_group_spec.rb": [
         1,
         null,
         1,
@@ -1941,7 +2023,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/models/user_group.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/models/user_group.rb": [
         1,
         1,
         22,
@@ -1958,7 +2040,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/spec/models/user_spec.rb": [
+      "/home/vingilot/coding/personal/softgroceries/spec/models/user_spec.rb": [
         1,
         null,
         1,
@@ -1972,7 +2054,7 @@
         null,
         null
       ],
-      "/home/dan/coding/personal/softgroceries/app/models/user.rb": [
+      "/home/vingilot/coding/personal/softgroceries/app/models/user.rb": [
         1,
         1,
         null,
@@ -1991,6 +2073,6 @@
         null
       ]
     },
-    "timestamp": 1421961907
+    "timestamp": 1422053170
   }
 }

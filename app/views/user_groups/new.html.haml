@@ -1,6 +1,6 @@
 .container.user-groups-new
   .row
-    .columns.large-12.large-centered
+    .columns.large-8.large-centered
       .widget
         .header
           %h3 Create a Shopping Group
@@ -9,7 +9,7 @@
             .row
               .columns.large-6
                 = f.input :name
-                = f.input :description
+                = f.input :description, as: :text
                 = f.input :user_ids, label: false, input_html: { value: "" }
                 = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center

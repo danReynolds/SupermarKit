@@ -1,19 +1,19 @@
 .container.groceries-new
   .row
-    .columns.large-12
+    .columns.large-8.large-centered
       .widget
         .header
           %h3 New Grocery List
         .main
           = simple_form_for [@user_group, @grocery] do |f|
             .row
-              .columns.large-6
+              .columns.large-7
                 = f.input :name
-                = f.input :description
+                = f.input :description, as: :text
                 %ul.button-group
                   %li
                     = link_to 'Back to Kit', @user_group, class: 'button back'
                   %li
                     = f.button :submit, 'Create', class: 'button radius'
-              .columns.large-6.text-center
+              .columns.large-5.text-center
                 = render partial: 'pages/svgs', locals: { image: :man }

@@ -7,6 +7,7 @@ class GroceriesController < ApplicationController
 	def index
     respond_to do |format|
       format.json do
+        huh = 2
         groceries = @groceries.map do |grocery|
           [
             grocery.id,
