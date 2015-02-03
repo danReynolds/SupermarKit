@@ -66,7 +66,10 @@ class ItemsController < ApplicationController
 	end
 
 	def add
-		items = Item.find(params[:items][:ids].split(","))
+		items = params[:items][:ids].split(",").map do |id|
+			Item.find_by_id(id) || Item.create(name: id, price_cents: 0)
+		end
+
 		@grocery.items << items
 		render json: { success: true }
 	end
