@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: 'us@supermarkit.ca'
+  default from: 'supermarkit@danreynolds.ca'
 
   def reset_password_email(user)
     @user = user
@@ -17,5 +17,11 @@ class UserMailer < ActionMailer::Base
     @user = user
     @url = activate_user_path(@user)
     mail(to: @user.email, subject: 'Shop with Supermarkit')
+  end
+
+  def send_grocery_list_email(user, grocery)
+    @user = user
+    @grocery = grocery
+    mail(to: @user.email, subject: "Groceries For #{@grocery.name}")
   end
 end

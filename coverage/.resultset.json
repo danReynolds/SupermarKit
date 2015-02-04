@@ -1162,6 +1162,7 @@
         null,
         1,
         1,
+        1,
         null,
         null,
         1,
@@ -1383,6 +1384,14 @@
         null,
         null,
         1,
+        null,
+        null,
+        1,
+        0,
+        0,
+        null,
+        null,
+        0,
         null,
         null,
         1,
@@ -1868,6 +1877,12 @@
         18,
         18,
         null,
+        null,
+        1,
+        0,
+        0,
+        0,
+        null,
         null
       ],
       "/home/dan/coding/personal/softgroceries/spec/models/grocery_spec.rb": [
@@ -1995,6 +2010,6 @@
         null
       ]
     },
-    "timestamp": 1422939896
+    "timestamp": 1423077238
   }
 }

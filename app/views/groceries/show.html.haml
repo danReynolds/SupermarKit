@@ -25,6 +25,16 @@
                     %th.text-right{colspan: 5}
                       Total:
                     %th
+          - unless @grocery.finished?
+            .row
+              .columns.large-12
+                %ul.inline-list
+                  %li
+                    %h3 Email Groceries
+                    %p
+                      Tell the team! At any point you can
+                      = link_to 'email your group', email_group_grocery_path(@grocery)
+                      your grocery list.
           .row
             .columns.large-12
               %ul.button-group

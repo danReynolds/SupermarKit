@@ -2,16 +2,15 @@
   .header
     %h3 Grocery Lists
   .main
-    - if @user_group.groceries.count.nonzero?
-      %table#groceries-table.display.responsive.no-wrap
-        %thead
-          %tr
-            %th ID
-            %th Name
-            %th Description
-            %th Items
-            %th Total Cost
-            %th Finished
+    %table#groceries-table.display.responsive.no-wrap
+      %thead
+        %tr
+          %th ID
+          %th Name
+          %th Description
+          %th Items
+          %th Total Cost
+          %th Finished
     .row
       .columns.large-12
         = link_to 'Create a new grocery list', new_user_group_grocery_path(@user_group), class: :button

@@ -1,0 +1,6 @@
+# Groceries for <%= @grocery.name %>
+
+<% @grocery.items.each do |item| %>
+  * <%= item.name %>
+<% end %>
+

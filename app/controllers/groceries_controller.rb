@@ -43,6 +43,14 @@ class GroceriesController < ApplicationController
 	def update
 	end
 
+  def email_group
+    @grocery.user_group.users.each do |user|
+      UserMailer.send_grocery_list_email(user, @grocery).deliver!
+    end
+
+    redirect_to @grocery.user_group, notice: 'All group members have been emailed the grocery list.'
+  end
+
   def toggle_finish
     @grocery.finished_at = @grocery.finished? ? nil : DateTime.now
     if @grocery.save
