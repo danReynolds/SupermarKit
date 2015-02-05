@@ -6,7 +6,9 @@ $ ->
     # ============================
 
     itemsFormatResults = (item) ->
-      if item.description.length > 0
+      if not item.description
+        item.description = ""
+      else if item.description.length > 0
         item.description = " - " + item.description
       if item.description.length > 20
         item.description = item.description.substr(0,20) + "..."
