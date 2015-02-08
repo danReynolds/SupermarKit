@@ -1,9 +1,10 @@
 .widget.active-grocery-table
   .header
-    %h3 Current Grocery List
+    %h3 Groceries for #{@active_grocery.name}
   .main
     .row
       .columns.large-12
+        %h3 You Only Eat Twice
         %table#active-grocery-table.display.responsive.nowrap
           %thead
             %tr
@@ -19,4 +20,4 @@
               %th
     .row
       .columns.large-12
-        = link_to "View #{@active_grocery.name}", @active_grocery, class: :button
+        = link_to "View current groceries", @active_grocery, class: :button
