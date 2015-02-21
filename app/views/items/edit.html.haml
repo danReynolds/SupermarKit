@@ -21,7 +21,7 @@
                       = g.input :quantity, input_html: { class: 'quantity-input', id: "grocery-item-#{g.object.id}" }
                 %ul.button-group
                   %li
-                    = link_to 'Back', :back, class: 'button back'
+                    = link_to 'Back', @user_group, class: 'button back'
                     = f.button :submit, 'Update', class: 'button radius'
               .columns.large-6.text-center
                 = render partial: 'pages/svgs', locals: { image: :meal }

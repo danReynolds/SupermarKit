@@ -43,6 +43,7 @@ class ItemsController < ApplicationController
 	end
 
 	def edit
+		@user_group = @item.groceries.first.user_group
 	end
 
 	def update
