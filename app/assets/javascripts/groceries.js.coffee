@@ -9,13 +9,13 @@ $ ->
       responsive: true
       ajax: "/groceries/" + grocery_id + "/items.json"
       "columnDefs": [
-        { "width": "5%", "targets": 5 },
+        { "width": "5%", "targets": 6 },
         { "class": "never", "targets": 0 }
       ]
 
       footerCallback: (row, data, start, end, display) ->
         api = @api()
-        
+
         # Remove the formatting to get integer data for summation
         intVal = (i) ->
           (if typeof i is "string" then i.replace(/[\$,]/g, "") * 1 else (if typeof i is "number" then i else 0))
@@ -25,11 +25,11 @@ $ ->
           total = api.column(3).data().reduce((a, b) ->
             intVal(a) + intVal(b)
           )
-          
+
           # Update footer
-          $(api.column(5).footer()).html "$" + intVal(total) + " total"
+          $(api.column(6).footer()).html "$" + intVal(total) + " total"
         else
-          $(api.column(5).footer()).html "$0 total"
+          $(api.column(6).footer()).html "$0 total"
 
     # ============================
     # Row Removal
