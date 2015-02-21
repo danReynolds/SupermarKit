@@ -33,6 +33,7 @@ class ItemsController < ApplicationController
 
 	def create
 		@item = Item.new(item_params)
+		@item.name.capitalize!
 
 		if @item.save
 			redirect_to @grocery
