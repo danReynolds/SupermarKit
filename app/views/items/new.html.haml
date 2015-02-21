@@ -17,11 +17,15 @@
                     = label_tag :price
                     = text_field_tag :price
                     = f.input :price, as: :hidden, input_html: { value: 0 }
+                  .columns.large-4.end
+                    = f.simple_fields_for :groceries_items, @groceries_items do |g|
+                      = g.input :quantity, input_html: { value: 1 }
+                      = g.input :grocery_id, as: :hidden, input_html: { value: @grocery.id }
                 .row
                   .columns.large-12
                     %ul.button-group
                       %li
-                        = link_to 'Back', @grocery, class: 'button back'
+                        = link_to 'Back', @user_group, class: 'button back'
                       %li
                         = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center

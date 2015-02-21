@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150102155328) do
+ActiveRecord::Schema.define(version: 20150221035430) do
 
   create_table "groceries", force: true do |t|
     t.string   "name"
@@ -25,9 +25,10 @@ ActiveRecord::Schema.define(version: 20150102155328) do
 
   add_index "groceries", ["user_group_id"], name: "index_groceries_on_user_group_id", using: :btree
 
-  create_table "groceries_items", id: false, force: true do |t|
-    t.integer "item_id",    null: false
-    t.integer "grocery_id", null: false
+  create_table "groceries_items", force: true do |t|
+    t.integer "item_id",                null: false
+    t.integer "grocery_id",             null: false
+    t.integer "quantity",   default: 1
   end
 
   create_table "items", force: true do |t|

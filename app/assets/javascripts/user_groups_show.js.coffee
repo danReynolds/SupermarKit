@@ -12,7 +12,7 @@ $ ->
         item.description = " - " + item.description
       if item.description.length > 20
         item.description = item.description.substr(0,20) + "..."
-        
+
       markup = "<div class=\"row\">" +
       "<div class=\"columns large-2\"><i class=\"fa fa-shopping-cart\"></i></div>" +
       "<div class=\"columns large-10\"><div class=\"row\"><div>" + item.name + item.description + "</div></div></div>"
@@ -66,6 +66,7 @@ $ ->
       bLengthChange: false
       iDisplayLength: 5,
       ajax: "/user_groups/" + user_group_id + "/groceries.json"
+      "order": [[ 5, "asc" ]]
       "columnDefs": [
         { "class": "never", "targets": 0 }
       ]
@@ -81,7 +82,7 @@ $ ->
       ]
       footerCallback: (row, data, start, end, display) ->
         api = @api()
-        
+
         # Remove the formatting to get integer data for summation
         intVal = (i) ->
           (if typeof i is "string" then i.replace(/[\$,]/g, "") * 1 else (if typeof i is "number" then i else 0))
@@ -91,8 +92,8 @@ $ ->
           total = api.column(3).data().reduce((a, b) ->
             intVal(a) + intVal(b)
           )
-          
+
           # Update footer
-          $(api.column(4).footer()).html "$" + intVal(total) + " total"
+          $(api.column(5).footer()).html "$" + intVal(total) + " total"
         else
-          $(api.column(4).footer()).html "$0 total"
+          $(api.column(5).footer()).html "$0 total"

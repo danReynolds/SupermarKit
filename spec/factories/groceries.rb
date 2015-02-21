@@ -4,7 +4,8 @@ FactoryGirl.define do
 
     trait(:with_items) do
       after(:create) do |instance|
-        create_list :item, 3, groceries: [instance]
+        items = create_list :item, 3
+        instance.items << items
       end
     end
   end

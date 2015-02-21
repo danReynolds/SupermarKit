@@ -12,7 +12,8 @@ class ItemsController < ApplicationController
 		      	item.id,
 		        "<a href='/items/#{item.id}'>#{item.name}</a>".html_safe,
 		        item.description,
-		        item.price.format,
+						(item.quantity(@grocery) * item.price).format,
+		        item.quantity(@grocery),
 		        item.updated_at.to_date,
 		        "<a class='remove' href='#'><i class='fa fa-remove'></i></a>".html_safe
 		      ]
@@ -27,11 +28,13 @@ class ItemsController < ApplicationController
 	end
 
 	def new
+		@groceries_items = @item.groceries_items.build
 	end
 
 	def create
+		@item = Item.new(item_params)
+
 		if @item.save
-			@item.groceries << @grocery
 			redirect_to @grocery
 		else
 			render action: :new
@@ -83,6 +86,6 @@ class ItemsController < ApplicationController
 
 private
 	def item_params
-		params.require(:item).permit(:name, :description, :price, :price_cents)
+		params.require(:item).permit(:name, :description, :price, :price_cents, groceries_items_attributes: [:id, :quantity, :grocery_id])
 	end
 end

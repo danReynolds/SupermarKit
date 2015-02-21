@@ -17,12 +17,13 @@
                     %th ID
                     %th Name
                     %th Description
-                    %th Price
+                    %th Total Price
+                    %th Quantity
                     %th Last Updated
                     %th Remove
                 %tfoot
                   %tr
-                    %th.text-right{colspan: 5}
+                    %th.text-right{colspan: 6}
                       Total:
                     %th
           - unless @grocery.finished?

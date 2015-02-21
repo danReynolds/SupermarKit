@@ -12,7 +12,16 @@
                 = f.input :description, as: :text
                 .row
                   .columns.large-4
-                    = f.input :price
-                = f.button :submit, 'Update', class: 'button radius'
+                    = f.input :price, label: 'Price per item'
+                .row
+                  .columns.large-4
+                    = f.input :groceries_items, label: "Grocery", collection: @item.groceries_items, selected: 1, label_method: ->(g) { Grocery.find(g.grocery_id).name }
+                  .columns.large-4.end
+                    = f.simple_fields_for :groceries_items do |g|
+                      = g.input :quantity, input_html: { class: 'quantity-input', id: "grocery-item-#{g.object.id}" }
+                %ul.button-group
+                  %li
+                    = link_to 'Back', :back, class: 'button back'
+                    = f.button :submit, 'Update', class: 'button radius'
               .columns.large-6.text-center
                 = render partial: 'pages/svgs', locals: { image: :meal }

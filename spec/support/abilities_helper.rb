@@ -14,6 +14,10 @@ module AbilitiesHelper
   shared_context 'own objects' do
     let(:own_user_group) { create(:user_group, users: [user]) }
     let(:own_grocery) { create(:grocery, user_group: own_user_group) }
-    let(:own_item) { create(:item, groceries: [own_grocery]) }
+    let(:own_item) { create(:item) }
+
+    before :each do
+      own_item.groceries << own_grocery
+    end
   end
 end
