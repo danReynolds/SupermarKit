@@ -12,9 +12,8 @@ class ItemsController < ApplicationController
 		      	item.id,
 		        "<a href='/items/#{item.id}'>#{item.name}</a>".html_safe,
 		        item.description,
-						(item.quantity(@grocery) * item.price).format,
 		        item.quantity(@grocery),
-		        item.updated_at.to_date,
+						(item.quantity(@grocery) * item.price).format,
 		        "<a class='remove' href='#'><i class='fa fa-remove'></i></a>".html_safe
 		      ]
 		    end

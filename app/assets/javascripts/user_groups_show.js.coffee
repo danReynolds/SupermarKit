@@ -87,13 +87,13 @@ $ ->
         intVal = (i) ->
           (if typeof i is "string" then i.replace(/[\$,]/g, "") * 1 else (if typeof i is "number" then i else 0))
 
-        if (api.column(3).data().length > 0)
+        if (api.column(4).data().length > 0)
         # Total over all pages
-          total = api.column(3).data().reduce((a, b) ->
+          total = api.column(4).data().reduce((a, b) ->
             intVal(a) + intVal(b)
           )
 
           # Update footer
-          $(api.column(5).footer()).html "$" + intVal(total) + " total"
+          $(api.column(4).footer()).html "$" + intVal(total) + " total"
         else
-          $(api.column(5).footer()).html "$0 total"
+          $(api.column(4).footer()).html "$0 total"
