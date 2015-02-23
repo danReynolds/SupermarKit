@@ -79,14 +79,20 @@ body {
   .select2-search-choice {
     height: 2rem;
     padding-top: 0.5rem !important;
-    border: 1px solid $light-green !important;
-    background: $white;
+    border: 1px solid #DBDBDB !important;
+    background-color: #FAFAFA !important;
+    background-image: none !important;
   }
 
   .select2-container { width: 75% !important; }
   .select2-search-choice-close { top: 0.5rem !important; }
   .select2-result-label { margin-top: 0.8rem; }
-  .select2-choices { border-radius: 3px; }
+  .select2-drop-active { border: none !important; }
+  
+  .select2-choices {
+    border-radius: 3px;
+    background-image: none !important;
+  }
 
   .off-canvas-wrap, .inner-wrap {
     height: 100%;
