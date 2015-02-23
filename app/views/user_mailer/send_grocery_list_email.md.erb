@@ -1,6 +1,6 @@
 # Groceries for <%= @grocery.name %>
 
-<% @grocery.items.each do |item| %>
-  * <%= item.name %>
+<% @grocery.items.sort_by(&:name).each do |item| %>
+  * <%= "#{item.quantity(@grocery)} #{item.name}" %>
 <% end %>
 
