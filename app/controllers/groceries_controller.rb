@@ -5,6 +5,11 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
 	def index
+    if params['hide_active']
+      @active_grocery = @user_group.active_groceries.first
+      @groceries = @groceries - [@active_grocery]
+    end
+
     respond_to do |format|
       format.json do
         groceries = @groceries.sort_by(&:created_at).map do |grocery|

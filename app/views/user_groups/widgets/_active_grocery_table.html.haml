@@ -1,6 +1,8 @@
 .widget.active-grocery-table
   .header
-    %h3 Groceries for #{@active_grocery.name}
+    %h3
+      Current Groceries for
+      %strong= @active_grocery.name
   .main
     .row
       .columns.large-12
