@@ -44,7 +44,6 @@ body {
   }
   .button-group {
     @media #{$medium-up} {
-      li { margin: 0; }
       li + li { margin: 0 0.4rem; }
     }
     @media #{$small-only} {
@@ -52,6 +51,7 @@ body {
         float: left !important;
       }
     }
+    li { margin-left: 0.3rem; }
   }
 
   table {
