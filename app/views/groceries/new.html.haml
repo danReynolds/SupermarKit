@@ -7,7 +7,7 @@
         .main
           = simple_form_for [@user_group, @grocery] do |f|
             .row
-              .columns.large-7
+              .columns.large-5
                 = f.input :name
                 = f.input :description, as: :text
                 %ul.button-group
@@ -15,5 +15,5 @@
                     = link_to 'Back to Kit', @user_group, class: 'button back'
                   %li
                     = f.button :submit, 'Create', class: 'button radius'
-              .columns.large-5.text-center
+              .columns.large-7.text-center
                 = render partial: 'pages/svgs', locals: { image: :man }

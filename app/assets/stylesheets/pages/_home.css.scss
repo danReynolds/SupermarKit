@@ -1,12 +1,12 @@
 .home {
   #hero {
-    background-image: linear-gradient($green, $off-green);
+    background-image: linear-gradient($header-green, $off-green);
     height: 100%;
     text-align: center;
     padding: 1rem 0 4rem 0;
 
     li { list-style-type: none; }
-    #apple { fill: $light-green; }
+    #apple { fill: $new-bright-green; }
     h1 {
       color: white;
       font-size: 3rem;
@@ -29,10 +29,10 @@
   }
 
   #hook {
-    #meal { fill: rgb(255, 248, 117); }
-    #man { fill: rgb(65, 205, 143); }
+    #meal { fill: $white; }
+    #man { fill: rgb(255, 248, 117); }
     #measure { fill: rgb(100, 100, 100); }
-    background: $white;
+    background: $black;
     h2 { margin-top: 3rem; }
     padding: 5rem 0;
     .columns {

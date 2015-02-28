@@ -1,12 +1,15 @@
 body {
   background: $white !important;
   
-  h1, h2, h3, p {
-    color: $gray;
+  h1 { color: white; }
+  input, textarea { border-radius: 5px !important; }
+  h2, h3, p {
+    color: $light-gray;
     word-wrap: break-word;
   }
-  a, a:hover { color: $light-green; }
-  input, textarea { border-radius: 3px !important; }
+  a { color: $light-gray; }
+  a.highlight { color: $new-bright-green; }
+  a:hover { color: $new-bright-green; }
 
   #meal, #man, #measure { fill: $gray; }
 
@@ -14,23 +17,24 @@ body {
     padding-top: 2rem;
     @media #{$medium-up} { padding: 4rem 0;}
     height: 100%;
-    background: $white;
+    background: $green;
     overflow: auto;
   }
 
   .button {
-    padding-top: 0.85rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 0.4rem !important;
     &.misc {
       background: $blue;
       &:hover { background: darken($blue, 10%) } 
     }
     &.back {
-      background: $gray;
-      &:hover { background: darken($gray, 10%) } 
+      background: $light-gray;
+      &:hover { background: darken($light-gray, 10%) } 
     }
     &.success {
-      background: $light-green;
-      &:hover { background: darken($light-green, 10%) } 
+      background: $new-bright-green;
+      &:hover { background: darken($new-bright-green, 10%) } 
     }
     &.disabled {
       background: $gray;
@@ -52,23 +56,28 @@ body {
 
   table {
     width: 100% !important;
-    box-shadow: 0px 0px 1px rgb(179, 179, 179);
-    border: none;
+    border: 1px solid lighten($light-gray, 25%);
+    box-shadow: none;
 
+    thead, tfoot, tr { background: white !important; }
+    tr td, tr th { color: $light-gray !important; }
   }
-  tr td, tr th { color: $gray !important; }
 
   .widget {
     background: white;
-    box-shadow: 0px 1px 1px lighten($black, 50%);
+    box-shadow: 0px 0px 1px lighten($black, 50%);
     margin: 0.8rem;
     margin-bottom: 2rem;
+    border-radius: 0.75rem;
 
-    .main { padding: 1.5rem; }
+    .main { padding: 1.4rem; }
     .header {
       @extend .main;
-      background: $mid-green;
-      h1, h2, h3 { color: $white; }
+      padding-bottom: 0;
+      h1, h2, h3 {
+        color: $light-gray;
+        font-size: 1.4rem;
+      }
     }
     h3 {
       padding: 0;
@@ -79,9 +88,25 @@ body {
   .select2-search-choice {
     height: 2rem;
     padding-top: 0.5rem !important;
-    border: 1px solid #DBDBDB !important;
+    border: 1px solid lighten($light-gray, 10%) !important;
     background-color: #FAFAFA !important;
     background-image: none !important;
+    color: $light-gray !important;
+  }
+
+  .select2-result-selectable {
+    color: $light-gray !important;
+
+    &.select2-highlighted {
+      background: $new-bright-green;
+      color: white !important;
+    }
+  }
+
+  .select2-no-results {
+    color: $light-gray !important;
+    border-top: 1px solid rgb(247, 247, 247);
+    background-color: white !important;
   }
 
   .select2-container { width: 75% !important; }
@@ -92,10 +117,15 @@ body {
   .select2-choices {
     border-radius: 3px;
     background-image: none !important;
+    border: 1px solid lighten($light-gray, 25%) !important;
   }
 
   .off-canvas-wrap, .inner-wrap {
     height: 100%;
     &.off-canvas-wrap { overflow: auto; }
+  }
+
+  .dataTables_filter {
+    input { margin-left: 0.5rem; }
   }
 }

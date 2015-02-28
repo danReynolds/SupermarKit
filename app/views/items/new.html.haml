@@ -7,7 +7,7 @@
         .main
           = simple_form_for [@grocery, @item] do |f|
             .row
-              .columns.large-6
+              .columns.large-5
                 .row
                   .columns.large-12
                     = f.input :name
@@ -28,5 +28,5 @@
                         = link_to 'Back', @grocery, class: 'button back'
                       %li
                         = f.button :submit, 'Create', class: 'button radius'
-              .columns.large-6.text-center
+              .columns.large-6.large-offset-1.text-center
                 = render partial: 'pages/svgs', locals: { image: :measure }

@@ -1,37 +1,42 @@
 .container
-  .row
-    .columns.large-6
-      %h1 Group Facts
-      %p
-        You have
-        = pluralize @user_group.items.count, 'item'
-        in your group and
-        = pluralize @user_group.finished_groceries.count, 'grocery'
-        finished.
-      %p Your group's favourite food is #{@user_group.items.sort_by { |i| i.grocery_ids.count }.last.name }.
-      = link_to 'Back to Kit', @user_group, class: 'button back'
-    .columns.large-6
-      .widget.metrics
-        .header
-          %h3 #{@user_group.name} Shopping History
-        .main
-          .row
-            .columns.large-12
-              = line_chart @metrics[:grocery_spending]
-  .row
-    .columns.large-6
-      .widget.metrics
-        .header
-          %h3 #{@user_group.name} Grocery vs Cost
-        .main
-          .row
-            .columns.large-12
-              = column_chart @metrics[:grocery_cost]
-    .columns.large-6
-      .widget.metrics
-        .header
-          %h3 #{@user_group.name} Grocery vs Items
-        .main
-          .row
-            .columns.large-12
-              = column_chart @metrics[:grocery_items]
+  .metrics
+    .row
+      .columns.large-6
+        .widget.facts
+          .header
+            %h1 Group Facts
+          .main
+            %p
+              You have
+              = pluralize @user_group.items.count, 'item'
+              in your group and
+              = pluralize @user_group.finished_groceries.count, 'grocery'
+              finished.
+              %br
+              Your group's favourite food is #{@user_group.items.sort_by { |i| i.grocery_ids.count }.last.name }.
+            = link_to 'Back to Kit', @user_group, class: 'button back'
+      .columns.large-6
+        .widget.metrics
+          .header
+            %h3 #{@user_group.name} Shopping History
+          .main
+            .row
+              .columns.large-12
+                = line_chart @metrics[:grocery_spending]
+    .row
+      .columns.large-6
+        .widget.metrics
+          .header
+            %h3 #{@user_group.name} Grocery vs Cost
+          .main
+            .row
+              .columns.large-12
+                = column_chart @metrics[:grocery_cost]
+      .columns.large-6
+        .widget.metrics
+          .header
+            %h3 #{@user_group.name} Grocery vs Items
+          .main
+            .row
+              .columns.large-12
+                = column_chart @metrics[:grocery_items]
