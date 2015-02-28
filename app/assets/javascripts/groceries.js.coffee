@@ -7,12 +7,13 @@ $ ->
 
     $grocery_table = $('#grocery-table').dataTable
       responsive: true
-      "bLengthChange": false
-      "oLanguage": {
-        "sSearch": "Filter:"
+      LengthChange: false
+      iDisplayLength: 5
+      oLanguage: {
+        sSearch: "Filter:"
       }
       ajax: "/groceries/" + grocery_id + "/items.json"
-      "columnDefs": [
+      columnDefs: [
         { "width": "5%", "targets": 5 },
         { "class": "never", "targets": 0 }
       ]
