@@ -9,6 +9,7 @@ $ ->
       responsive: true
       LengthChange: false
       iDisplayLength: 5
+      bLengthChange: false
       oLanguage: {
         sSearch: "Filter:"
       }
