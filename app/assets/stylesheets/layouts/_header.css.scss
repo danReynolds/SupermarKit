@@ -1,6 +1,4 @@
 .header {
-  &.top-bar {
-    background: $header-green !important;
-  }
+  &.top-bar { background: $header-green !important; }
   li, a { background: $header-green !important; }
 }

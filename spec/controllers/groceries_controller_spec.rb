@@ -18,7 +18,8 @@ RSpec.describe GroceriesController, type: :controller do
       it 'should return all group groceries' do
         subject
         data = JSON.parse(response.body)['data']
-        expect(data.map(&:first)).to eq user_group.grocery_ids
+        binding.pry
+        expect(data.map(&:first)).to eq user_group.grocery_ids - [user_group.active_groceries.first.id]
       end
     end
   end
