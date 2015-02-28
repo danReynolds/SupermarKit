@@ -32,7 +32,7 @@ $ ->
           )
 
           # Update footer
-          $(api.column(5).footer()).html "$" + intVal(total) + " total"
+          $(api.column(5).footer()).html "$" + intVal(total).toFixed(2) + " total"
         else
           $(api.column(5).footer()).html "$0 total"
 
