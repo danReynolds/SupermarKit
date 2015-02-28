@@ -65,7 +65,7 @@ $ ->
       searching: false
       bLengthChange: false
       iDisplayLength: 5,
-      ajax: "/user_groups/" + user_group_id + "/groceries.json/?hide_active=true"
+      ajax: "/user_groups/" + user_group_id + "/groceries.json"
       "order": [[ 5, "asc" ]]
       "columnDefs": [
         { "class": "never", "targets": 0 }
