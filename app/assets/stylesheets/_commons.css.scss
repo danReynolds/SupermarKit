@@ -4,10 +4,10 @@ body {
   h1 { color: white; }
   input, textarea { border-radius: 5px !important; }
   h2, h3, p {
-    color: $light-gray;
+    color: $gray;
     word-wrap: break-word;
   }
-  a { color: $light-gray; }
+  a { color: $gray; }
   a.highlight { color: $new-bright-green; }
   a:hover { color: $new-bright-green; }
 
@@ -51,7 +51,6 @@ body {
         float: left !important;
       }
     }
-    li { margin-left: 0.3rem; }
   }
 
   table {
@@ -75,7 +74,7 @@ body {
       @extend .main;
       padding-bottom: 0;
       h1, h2, h3 {
-        color: $light-gray;
+        color: $gray;
         font-size: 1.4rem;
       }
     }
@@ -91,11 +90,11 @@ body {
     border: 1px solid lighten($light-gray, 10%) !important;
     background-color: #FAFAFA !important;
     background-image: none !important;
-    color: $light-gray !important;
+    color: $gray !important;
   }
 
   .select2-result-selectable {
-    color: $light-gray !important;
+    color: $gray !important;
 
     &.select2-highlighted {
       background: $new-bright-green;
@@ -104,7 +103,7 @@ body {
   }
 
   .select2-no-results {
-    color: $light-gray !important;
+    color: $gray !important;
     border-top: 1px solid rgb(247, 247, 247);
     background-color: white !important;
   }
