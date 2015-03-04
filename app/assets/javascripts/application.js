@@ -16,6 +16,7 @@
 //= require chartkick
 //= require nprogress
 //= require nprogress-turbolinks
+//= require waypoint.min
 
 // =============================
 // Page Scripts
@@ -27,6 +28,7 @@
 //= require user_group_metrics
 //= require groceries
 //= require items
+//= require home
 //= require items_edit
 
 // =============================

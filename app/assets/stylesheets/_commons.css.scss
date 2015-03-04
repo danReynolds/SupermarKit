@@ -2,6 +2,13 @@ body {
   background: $white !important;
   font-weight: 100;
 
+  .off-canvas-wrap {
+    overflow: initial !important;
+  }
+
+  .top-bar {
+    overflow: hidden !important;
+  }
 
   @media #{$small-only} {
     &.f-topbar-fixed { padding-top: 0 !important; }
