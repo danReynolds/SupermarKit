@@ -2,24 +2,24 @@ body {
   background: $white !important;
   font-weight: 100;
 
-  .off-canvas-wrap {
-    overflow: initial !important;
-  }
-
-  .top-bar {
-    overflow: hidden !important;
-  }
+  .off-canvas-wrap { overflow: initial !important; }
+  .top-bar { overflow: hidden !important; }
 
   @media #{$small-only} {
     &.f-topbar-fixed { padding-top: 0 !important; }
   }
   
   h1 { color: white; }
-  input, textarea { border-radius: 5px !important; }
+  input, textarea {
+    border-radius: 5px !important;
+    color: $gray !important;
+  }
+
   h2, h3, p {
     color: $gray;
     word-wrap: break-word;
   }
+
   a { color: $gray; }
   a.highlight { color: $new-bright-green; }
   a:hover { color: $new-bright-green; }
@@ -28,6 +28,7 @@ body {
 
   .container {
     @media #{$medium-up} { padding: 7rem 0; }
+    @media #{$small-only} { padding: 3rem 0; }
     height: 100%;
     background: $green;
     overflow: auto;
@@ -36,6 +37,7 @@ body {
   .button {
     padding: 0.7rem 1.2rem;
     border-radius: 0.4rem !important;
+    color: white !important;
     &.misc {
       background: $blue;
       &:hover { background: darken($blue, 10%) } 

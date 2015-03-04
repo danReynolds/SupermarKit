@@ -1,41 +1,20 @@
 .user-groups-index {
   
-  /* Reveal */
-  .hvr-reveal {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -moz-osx-font-smoothing: grayscale;
-    position: relative;
-    overflow: hidden;
+  .hvr-grow {
+      display: inline-block;
+      vertical-align: middle;
+      transform: translateZ(0);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+      backface-visibility: hidden;
+      -moz-osx-font-smoothing: grayscale;
+      transition-duration: 0.3s;
+      transition-property: transform;
   }
 
-  .hvr-reveal:before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border-color: lighten($light-gray, 10%);
-    border-style: solid;
-    border-width: 0;
-    -webkit-transition-property: border-width;
-    transition-property: border-width;
-    -webkit-transition-duration: 0.1s;
-    transition-duration: 0.1s;
-    -webkit-transition-timing-function: ease-out;
-    transition-timing-function: ease-out;
-  }
-  .hvr-reveal:hover:before, .hvr-reveal:focus:before, .hvr-reveal:active:before {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    border-width: 4px;
+  .hvr-grow:hover,
+  .hvr-grow:focus,
+  .hvr-grow:active {
+      transform: scale(1.02);
   }
 
   .title { padding-bottom: 3rem; }
@@ -49,7 +28,7 @@
       margin: 0 auto;
       background: white;
       height: 17rem;
-      border-radius: 0.2rem;
+      border-radius: 0.4rem;
 
       p {
         margin: 0;

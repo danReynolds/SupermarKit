@@ -10,7 +10,9 @@
               .columns.large-6
                 = f.input :name, input_html: { value: params[:user].try(:[], :name) }
                 = f.input :email, input_html: { value: params[:user].try(:[], :email) }
-                = f.button :submit, 'Create'
               .columns.large-6
                 = f.input :password
                 = f.input :password_confirmation
+            .row
+              .columns.large-12
+                = f.button :submit, 'Create'
