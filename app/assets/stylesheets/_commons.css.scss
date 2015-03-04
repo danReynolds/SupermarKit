@@ -74,6 +74,12 @@ body {
 
     thead, tfoot, tr { background: white !important; }
     tr td, tr th { color: $light-gray !important; }
+
+    td:before {
+      background-color: #5AF2AC !important;
+      border: 2px solid white !important;
+      box-shadow: none !important;
+    }
   }
 
   .widget {

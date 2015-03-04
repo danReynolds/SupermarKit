@@ -69,6 +69,9 @@ $ ->
       "order": [[ 5, "asc" ]]
       "columnDefs": [
         { "class": "never", "targets": 0 }
+        { "class": "min-tablet-l", "targets": 2 }
+        { "class": "min-tablet-l", "targets": 3 }
+        { "class": "min-tablet-p", "targets": 4 }
       ]
 
     $active_grocery_table = $('#active-grocery-table').DataTable
@@ -78,8 +81,11 @@ $ ->
       iDisplayLength: 5,
       ajax: "/groceries/" + active_grocery_id + "/items.json"
       "columnDefs": [
-        { "class": "never", "targets": 0 }
+        { "class": "never", "targets": 0 },
+        { "class": "min-tablet-l", "targets": 2 }
+        { "class": "min-tablet-p", "targets": 3 }
       ]
+
       footerCallback: (row, data, start, end, display) ->
         api = @api()
 

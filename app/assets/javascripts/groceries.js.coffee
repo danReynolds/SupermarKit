@@ -17,6 +17,9 @@ $ ->
       columnDefs: [
         { "width": "5%", "targets": 5 },
         { "class": "never", "targets": 0 }
+        { "class": "min-tablet-p", "targets": 2 }
+        { "class": "min-tablet-p", "targets": 3 }
+        { "class": "min-tablet-l", "targets": 5 }
       ]
 
       footerCallback: (row, data, start, end, display) ->
