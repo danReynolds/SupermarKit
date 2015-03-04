@@ -27,8 +27,7 @@ body {
   #meal, #man, #measure { fill: $gray; }
 
   .container {
-    padding-top: 2rem;
-    @media #{$medium-up} { padding: 4rem 0;}
+    @media #{$medium-up} { padding: 7rem 0; }
     height: 100%;
     background: $green;
     overflow: auto;

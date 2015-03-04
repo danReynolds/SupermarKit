@@ -17,18 +17,31 @@
                 = f.button :submit, 'Sign up', class: 'button radius' 
     .section#hook
       .row
-        .columns.large-12.small-10.small-centered
+        .columns.large-12
           .columns.large-4.animate.slide-left
-            = render partial: 'svgs', locals: { image: :man }
-            %h2 Track the foods.
-            %p Create custom and default grocery lists that will carry over each week.
-          .columns.large-4.animate.slide-down
-            = render partial: 'svgs', locals: { image: :meal }
-            %h2 Get the foods.
-            %p Notify the people on your list that you're getting groceries and learn who you're shopping for.
+            = link_to new_user_path do
+              .widget
+                = render partial: 'svgs', locals: { image: :man }
+                %h2 Track the foods.
+                %p Create custom and default grocery lists that will carry over each week.
+      .row
+        .columns.large-12
+          .columns.large-4.large-offset-8.animate.slide-down
+            = link_to new_user_path do
+              .widget
+                = render partial: 'svgs', locals: { image: :meal }
+                %h2 Get the foods.
+                %p Notify the people on your list that you're getting groceries and learn who you're shopping for.
+      .row
+        .columns.large-12
           .columns.large-4.animate.slide-right
-            = render partial: 'svgs', locals: { image: :measure }
-            %h2 Check the foods.
-            %p Look at what you have been buying and analyze your eating habits.
+            = link_to new_user_path do
+              .widget
+                = render partial: 'svgs', locals: { image: :measure }
+                %h2 Check the foods.
+                %p Look at what you have been buying and analyze your eating habits.
+
+  :coffeescript
+    @page = "home"
 
 
