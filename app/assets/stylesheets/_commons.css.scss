@@ -98,6 +98,23 @@ body {
     }
   }
 
+  .alert-box {
+    z-index: 10000;
+    position: absolute;
+    height: 50px;
+    background: rgb(242, 138, 134);
+    width: 95%;
+    margin: 0 auto;
+    display: block;
+    left: 0;
+    right: 0;
+    top: 50px;
+    border: none;
+
+    &.notice { background: #5AF2AC !important; }
+    &.alert { background: #E55C5C !important; }
+  }
+
   .select2-search-choice {
     height: 2rem;
     padding-top: 0.5rem !important;
@@ -122,7 +139,7 @@ body {
     background-color: white !important;
   }
 
-  .select2-container { width: 75% !important; }
+  .select2-container { width: 75%; }
   .select2-search-choice-close { top: 0.5rem !important; }
   .select2-result-label { margin-top: 0.8rem; }
   .select2-drop-active { border: none !important; }
