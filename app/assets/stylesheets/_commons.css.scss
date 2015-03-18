@@ -164,4 +164,56 @@ body {
   .dataTables_filter {
     input { margin-left: 0.5rem; }
   }
+
+  a.editable-click, a.editable-click:hover {
+    border-bottom: none;
+  }
+
+  .editable-container {
+    background: rgb(171, 171, 171);
+    padding: 17px;
+    border-radius: 7px;
+
+    button, input {
+      padding: 0.7rem 1.2rem;
+      border-radius: 0.4rem !important;
+      margin-bottom: 0;
+    }
+
+    input { height: 2.6rem; }
+  }
+
+  .editable-container {
+    margin-top: 0.5rem;
+    position: relative;
+    background: #FFFFFF;
+    border: 2px solid #5AF2AC;
+  }
+  .editable-container:after, .editable-container:before {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .editable-container:after {
+    border-color: rgba(136, 183, 213, 0);
+    border-bottom-color: white;
+    border-width: 10px;
+    margin-left: -10px;
+  }
+  .editable-container:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-bottom-color: $new-bright-green;
+    border-width: 13px;
+    margin-left: -13px;
+  }
+
+  .editable-empty, .editable-empty:hover {
+    color: $green;
+  }
 }

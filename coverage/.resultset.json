@@ -1515,7 +1515,8 @@
         null,
         null,
         null,
-        6,
+        null,
+        null,
         null,
         null,
         null,
@@ -1550,8 +1551,21 @@
         1,
         0,
         0,
+        0,
+        0,
         null,
         0,
+        null,
+        null,
+        null,
+        0,
+        0,
+        0,
+        0,
+        null,
+        0,
+        null,
+        null,
         null,
         null,
         null,
@@ -1985,6 +1999,10 @@
         1,
         21,
         null,
+        null,
+        1,
+        6,
+        null,
         null
       ],
       "/home/dan/coding/personal/softgroceries/spec/models/user_group_spec.rb": [
@@ -2061,6 +2079,6 @@
         null
       ]
     },
-    "timestamp": 1425871959
+    "timestamp": 1426709228
   }
 }

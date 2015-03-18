@@ -17,6 +17,8 @@
 //= require nprogress
 //= require nprogress-turbolinks
 //= require waypoint.min
+//= require jquery-editable-poshytip.min
+//= require jquery.poshytip.min
 
 // =============================
 // Page Scripts

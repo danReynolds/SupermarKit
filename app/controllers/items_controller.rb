@@ -10,10 +10,11 @@ class ItemsController < ApplicationController
 		    items = @items.map do |item|
 		      info = [
 		      	item.id,
-		        "<a href='/items/#{item.id}'>#{item.name}</a>".html_safe,
-		        item.description,
-		        item.quantity(@grocery),
-						(item.quantity(@grocery) * item.price).format,
+		        "<a href='#' id='well' class='editable' name='name' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.name}</a>".html_safe,
+		        "<a href='#' class='editable' name='description' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.description}</a>".html_safe,
+		        "<a href='#' class='editable' name='groceries_items_attributes' data-type='text' data-pk='{ item_id: #{item.id}, groceries_items_id: #{item.groceries_items.find_by_grocery_id(@grocery.id).id} }' data-url='#{item_path(item.id)}'>#{item.quantity(@grocery)}</a>".html_safe,
+		        "<a href='#' class='editable' name='price' data-value='#{item.price}' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.price.format}</a>".html_safe,
+		        item.total_price(@grocery).format,
 		        "<a class='remove' href='#'><i class='fa fa-remove'></i></a>".html_safe
 		      ]
 		    end
@@ -46,10 +47,23 @@ class ItemsController < ApplicationController
 	end
 
 	def update
-		if @item.update_attributes(item_params)
-			redirect_to @item.groceries.first.user_group
-		else
-			render :edit
+		respond_to do |format|
+			format.json do
+				if @item.update_attributes(item_params)
+					render json: { status: :ok }
+				else
+					render json: { status: :internal_server_error }
+				end
+			end
+
+			format.html do
+				raise
+				if @item.update_attributes(item_params)
+					redirect_to @item.groceries.first.user_group
+				else
+					render :edit
+				end
+			end
 		end
 	end
 

@@ -14,4 +14,8 @@ class Item < ActiveRecord::Base
 	def quantity(grocery)
 		groceries_items.find_by_grocery_id(grocery.id).quantity
 	end
+
+  def total_price(grocery)
+    quantity(grocery) * price
+  end
 end
