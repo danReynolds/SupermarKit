@@ -1,6 +1,6 @@
 .home {
   #hero {
-    background-image: linear-gradient($header-green, $off-green);
+    background-image: linear-gradient(rgba(30, 144, 101, 1), rgba(43, 145, 99, 0.8)), image-url('home-banner-background.jpg');
     height: 100%;
     text-align: center;
     padding: 1rem 0 4rem 0;
@@ -39,12 +39,13 @@
     .widget {
       @media #{$small-only} { margin: 1rem; }
       padding: 1rem;
+      border-radius: 0.25rem;
     }
 
-    #measure { fill: rgb(100, 100, 100); }
     .animate { visibility: hidden; }
-    #meal { fill: $black; }
-    #man { fill: rgb(255, 248, 117); }
+    #measure { fill: $new-red; }
+    #meal { fill: $new-blue; }
+    #man { fill: $new-bright-green; }
     h2 { margin-top: 3rem; }
     padding: 3rem 0;
     .columns {
