@@ -11,6 +11,7 @@
                 = f.input :name
                 = f.input :description, as: :text
                 = f.input :user_ids, label: false, as: :text, input_html: { value: "" }
+                = link_to 'Back to Kits', user_groups_path, class: 'button back'
                 = f.button :submit, 'Create', class: 'button radius'
               .columns.large-6.text-center
                 = render partial: 'pages/svgs', locals: { image: :man }

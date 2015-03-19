@@ -24,14 +24,13 @@ body {
   a.highlight { color: $new-bright-green; }
   a:hover { color: $new-bright-green; }
 
-  #meal, #man, #measure { fill: $gray; }
+  #meal, #man, #measure { fill: $new-blue; }
 
   .container {
+    min-height: 100%;
+    background: $green;
     @media #{$medium-up} { padding: 7rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
-    height: 100%;
-    background: $green;
-    overflow: auto;
   }
 
   .button {
@@ -43,8 +42,8 @@ body {
       &:hover { background: darken($blue, 10%) } 
     }
     &.back {
-      background: $light-gray;
-      &:hover { background: darken($light-gray, 10%) } 
+      background: $new-red;
+      &:hover { background: darken($new-red, 10%) } 
     }
     &.success {
       background: $new-bright-green;
@@ -180,6 +179,7 @@ body {
       margin-bottom: 0;
     }
 
+    .editable-cancel { background: $new-red; }
     input { height: 2.6rem; }
   }
 
