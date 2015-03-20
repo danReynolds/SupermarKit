@@ -192,17 +192,17 @@
       ],
       "/home/dan/coding/personal/softgroceries/app/abilities/users.rb": [
         1,
-        30,
-        30,
+        31,
+        31,
         null,
-        30,
-        30,
+        31,
+        31,
         null,
-        30,
-        30,
+        31,
+        31,
         null,
-        30,
-        30,
+        31,
+        31,
         null
       ],
       "/home/dan/coding/personal/softgroceries/config/initializers/assets.rb": [
@@ -1340,7 +1340,7 @@
         null,
         1,
         1,
-        0,
+        1,
         null,
         null,
         null
@@ -1451,10 +1451,10 @@
         null,
         null,
         1,
-        0,
+        1,
         null,
-        0,
-        0,
+        1,
+        1,
         null,
         0,
         null,
@@ -1997,7 +1997,7 @@
         null,
         null,
         1,
-        2,
+        3,
         null,
         null
       ],
@@ -2072,7 +2072,7 @@
       "/home/dan/coding/personal/softgroceries/app/models/user_group.rb": [
         1,
         1,
-        30,
+        31,
         1,
         null,
         1,
@@ -2119,6 +2119,6 @@
         null
       ]
     },
-    "timestamp": 1426881224
+    "timestamp": 1426883049
   }
 }

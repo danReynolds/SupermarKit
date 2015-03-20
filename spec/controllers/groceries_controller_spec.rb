@@ -23,12 +23,12 @@ RSpec.describe GroceriesController, type: :controller do
     end
   end
 
-  describe 'PATCH toggle_finish' do
-    subject { post :toggle_finish, id: grocery }
+  describe 'PATCH reopen' do
+    subject { post :reopen, id: grocery }
 
-    it 'should flip grocery status' do
+    it 'should make grocery list unfinished' do
       subject
-      expect(grocery.finished?).to eq !grocery.reload.finished?
+      expect(grocery.finished?).to eq false
     end
   end
 end
