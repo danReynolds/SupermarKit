@@ -45,6 +45,44 @@ class GroceriesController < ApplicationController
 	def update
 	end
 
+  def finish_and_remove
+    item_ids = params[:grocery][:item_ids].split(",").map(&:to_i)
+    @grocery.item_ids -= item_ids
+    @grocery.finished_at = DateTime.now
+
+    if @grocery.save
+      redirect_to @grocery.user_group
+    else
+      render action: :show
+    end
+  end
+
+  def finish
+    item_ids = params[:finish_grocery][:item_ids].split(",").map(&:to_i)
+    @grocery.item_ids -= item_ids if item_ids
+    @grocery.finished_at = DateTime.now
+    if @grocery.save
+      if params[:finish_grocery][:carry].present?
+        new_grocery = Grocery.new(
+          name: params[:finish_grocery][:name],
+          description: params[:finish_grocery][:description]
+        )
+        new_grocery.user_group = @grocery.user_group
+        new_grocery.item_ids = item_ids
+
+        if new_grocery.save
+          redirect_to new_grocery, notice: "Your new list has been created with the items you wanted carried over."
+        else
+          render action: :show
+        end
+      else
+        redirect_to @grocery, notice: 'Great! Your list is now all finished.'
+      end
+    else
+      render action: :show
+    end
+  end
+
   def email_group
     @grocery.user_group.users.each do |user|
       UserMailer.send_grocery_list_email(user, @grocery).deliver!
@@ -53,10 +91,11 @@ class GroceriesController < ApplicationController
     redirect_to @grocery.user_group, notice: 'All group members have been emailed the grocery list.'
   end
 
-  def toggle_finish
-    @grocery.finished_at = @grocery.finished? ? nil : DateTime.now
+  def reopen
+    @grocery.finished_at = @grocery.finished_at = nil
+
     if @grocery.save
-      redirect_to @grocery.user_group, notice: 'Grocery list updated, happy shopping.'
+      redirect_to @grocery, notice: 'Your grocery list has been re-opened.'
     else
       render :show, notice: 'Could not modify grocery.'
     end

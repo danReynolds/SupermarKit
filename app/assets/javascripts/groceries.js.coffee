@@ -108,9 +108,10 @@ $ ->
     # ============================
     # Finish Table Setup
     # ============================
-    carryOver = []
+    carry_over = []
+    $item_ids = $('#new-list-modal').find('#finish_grocery_item_ids')
 
-    $finish_table = $('#finish-table').dataTable
+    $carry_over_table = $('#carry-over-table').dataTable
       scrollY: "200px"
       paging: false
       ajax: "/groceries/" + grocery_id + "/items.json"
@@ -118,13 +119,21 @@ $ ->
         { "class": "never", "targets": 0 }
       ]
 
-    $('#finish-table').on 'click', 'tr', ->
-      item_id = $finish_table.fnGetData($(@))[0];
+    $('#carry-over-table').on 'click', 'tr', ->
+      item_id = $carry_over_table.fnGetData($(@))[0];
 
       if $(@).hasClass 'selected'
-        carryOver = carryOver.filter (id) -> id isnt item_id
+        carry_over = carry_over.filter (id) -> id isnt item_id
+        $item_ids.val(carry_over)
         $(@).removeClass('selected')
       else
         $(@).addClass('selected')
-        carryOver.push item_id
+        carry_over.push item_id
+        $item_ids.val(carry_over)
 
+    $('.no-carry').click ->
+      $('#new-list-modal').find('#finish_grocery_carry').val(undefined)
+      $('form.finish_grocery').submit()
+
+    $('#carry').click ->
+      $('#new-list-modal').find('#finish_grocery_carry').val(true)

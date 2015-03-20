@@ -31,7 +31,8 @@ Rails.application.routes.draw do
           end
         end
         member do
-          patch :toggle_finish
+          patch :finish
+          patch :reopen
           get :email_group
         end
       end

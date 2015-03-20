@@ -7,7 +7,8 @@
       .widget
         .header
           %h3
-            Groceries for #{@grocery.name}
+            Groceries for
+            %strong=@grocery.name
         .main
           .row
             .columns.large-12
@@ -26,56 +27,75 @@
                     %th.text-right{colspan: 6}
                       Total:
                     %th
-          - unless @grocery.finished?
-            .row
-              .columns.large-12
-                %ul.inline-list
-                  %li
-                    %h3 Email Groceries
-                    %p
-                      Tell the team! At any point you can
-                      = link_to 'email your group', email_group_grocery_path(@grocery), class: 'highlight'
-                      your grocery list.
+          .row
+            .columns.large-12
+              - if @grocery.finished?
+                %h3 All Finished!
+                %p Groceries for this list have already been purchased. You can re-open the list at any time.
+              - else
+                %h3 Been through checkout?
+                %p Once you have purchased your groceries, go ahead and finish your list.
           .row
             .columns.large-12
               %ul.button-group
                 %li
                   = link_to 'Back to Kit', @grocery.user_group, class: 'button back'
                 %li
-                  = link_to 'Add item', new_grocery_item_path(@grocery), class: :button
-                %li.right
-                  = simple_form_for :finish, url: toggle_finish_grocery_path(@grocery), method: :patch do |f|
-                    - if @grocery.finished?
-                      = f.button :submit, 'Shop More', class: 'button misc'
-                    - else
-                      = f.button :submit, 'Groceries purchased', class: 'button success'
-    .columns.large-4
-      .widget
-        .header
-          %h3 Been through checkout?
-        .main
-          %p Put away your list once you're all done.
-          = link_to '#', data: { 'reveal-id' => 'finish-modal' } do
-            %i.fa.fa-archive
-          #finish-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
-            .row
-              .columns.large-12
-                %h2.modalTitle Congrats.
-                %p You've bought your groceries! Before we put this list away, highlight any items you didn't end up buying.
-                %table#finish-table.display.responsive.nowrap
-                  %thead
-                    %tr
-                      %th ID
-                      %th Name
-            .row
-              .columns.large-12
-                %p What would you to do with the items you didn't purchase?
-                = link_to 'Carry them over to a new list', '#', data: { 'reveal-id' => 'second-modal' }, class: 'button'  
-                = link_to 'I never wanted them anyway', '#', class: 'button back'
-          :plain
-            <div id="second-modal" class="reveal-modal" data-reveal aria-labelledby="secondModalTitle" aria-hidden="true" role="dialog">
-              <h2 id="secondModalTitle">This is a second modal.</h2>
-              <p>See? It just slides into place after the other first modal. Very handy when you need subsequent dialogs, or when a modal option impacts or requires another decision.</p>
-              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-            </div>
+                  - if @grocery.finished?
+                    = simple_form_for :finish, url: reopen_grocery_path(@grocery), method: :patch do |f|
+                      = f.button :submit, 'Re-open List', class: 'button'
+                  - else
+                    = link_to '#', data: { 'reveal-id' => 'checkout-modal' }, class: 'button success inline' do
+                      Finish List
+                      %i.fa.fa-check
 
+
+    - unless @grocery.finished?
+      .columns.large-4
+        .widget
+          .header
+            %h3 Email Groceries
+          .main
+            %p
+              Tell the team! At any point you can email your group the grocery list.
+            = link_to 'Send to group', email_group_grocery_path(@grocery), class: 'button'
+ 
+  -# Modals
+
+  #checkout-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
+    .row
+      .columns.large-12
+        %h2.modalTitle Congrats.
+        %p You've bought your groceries! Before we put this list away, are there any items on it that you did not buy?
+        = link_to 'Yes', '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button'  
+        = link_to 'No', '#', class: 'no-carry button back'
+
+  #carry-over-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
+    .row
+      .columns.large-12
+        %h2.modalTitle Remove Items
+        %p Highlight the items on your list that you did not end up purchasing.
+        %table#carry-over-table.display.responsive.nowrap
+          %thead
+            %tr
+              %th ID
+              %th Name
+    .row
+      .columns.large-12
+        %p What would you to do with these items?
+        = link_to 'Carry them over to a new list', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
+        = link_to 'Just get rid of them', '#', class: 'no-carry button back'
+  
+  #new-list-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
+    .row
+      .columns.large-12
+        %h2.modalTitle New Grocery List.
+        %p We'll move over those items for you. All we need are some details about your new list.
+        = simple_form_for :finish_grocery, url: finish_grocery_path(@grocery), method: :patch do |f|
+          .row
+            .columns.large-4
+              = f.input :name
+              = f.input :description, as: :text
+              = f.button :submit, 'Create', class: 'button radius'
+              = f.input :item_ids, as: :hidden
+              = f.input :carry, as: :hidden
