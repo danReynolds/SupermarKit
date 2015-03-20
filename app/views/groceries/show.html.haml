@@ -52,13 +52,25 @@
 
     - unless @grocery.finished?
       .columns.large-4
-        .widget
-          .header
-            %h3 Email Groceries
-          .main
-            %p
-              Tell the team! At any point you can email your group the grocery list.
-            = link_to 'Send to group', email_group_grocery_path(@grocery), class: 'button'
+        .row
+          .columns.large-12
+            .widget.email
+              .header
+                %h3 Email Groceries
+              .main
+                %p
+                  Tell the team! At any point you can email your group the grocery list.
+                = link_to 'Send to group', email_group_grocery_path(@grocery), class: 'button'
+        .row
+          .columns.large-12
+            .widget.add-items
+              .header
+                %h3 Add Items
+              .main
+                %p Add Items to this list
+                = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
+                  = f.input :ids, label: false
+                  = f.button :submit, 'Add'
  
   -# Modals
 

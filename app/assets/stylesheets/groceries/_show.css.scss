@@ -22,6 +22,9 @@
     text-align: center;
   }
 
+  .add-items {
+    .button { margin-top: 1rem; }
+  }
 
   #grocery-table tr {
     td:nth-child(6) {

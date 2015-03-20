@@ -108,6 +108,7 @@ $ ->
     # ============================
     # Finish Table Setup
     # ============================
+
     carry_over = []
     $item_ids = $('#new-list-modal').find('#finish_grocery_item_ids')
 
@@ -137,3 +138,9 @@ $ ->
 
     $('#carry').click ->
       $('#new-list-modal').find('#finish_grocery_carry').val(true)
+
+    # ============================
+    # Typeahead setup
+    # ============================
+
+    setup_typeahead($('.groceries-show #items_ids'), $grocery_table, $("form.items"), grocery_id)

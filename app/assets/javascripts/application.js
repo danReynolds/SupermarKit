@@ -24,6 +24,7 @@
 // Page Scripts
 // =============================
 
+//= require typeahead
 //= require user_groups_show
 //= require user_groups_new
 //= require user_groups_edit
