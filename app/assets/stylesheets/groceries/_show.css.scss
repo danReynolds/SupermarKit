@@ -1,5 +1,29 @@
+#finish-modal {
+  #finish-table {
+    max-height: 200px;
+    
+    tr {
+      cursor: pointer;
+
+      &:nth-of-type(even) {
+        background: #f9f9f9 !important;
+      }
+      &.selected{ background: $new-red !important; }
+    }
+  }
+}
+
+
 .groceries-show {
-  tr {
+  .fa-archive {
+    font-size: 5rem;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+
+  #grocery-table tr {
     td:nth-child(6) {
       text-align: center;
       font-size: 1.2rem;

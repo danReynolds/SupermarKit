@@ -3,7 +3,7 @@
 
 .container.groceries-show
   .row
-    .columns.large-8.large-centered
+    .columns.large-8
       .widget
         .header
           %h3
@@ -49,3 +49,33 @@
                       = f.button :submit, 'Shop More', class: 'button misc'
                     - else
                       = f.button :submit, 'Groceries purchased', class: 'button success'
+    .columns.large-4
+      .widget
+        .header
+          %h3 Been through checkout?
+        .main
+          %p Put away your list once you're all done.
+          = link_to '#', data: { 'reveal-id' => 'finish-modal' } do
+            %i.fa.fa-archive
+          #finish-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
+            .row
+              .columns.large-12
+                %h2.modalTitle Congrats.
+                %p You've bought your groceries! Before we put this list away, highlight any items you didn't end up buying.
+                %table#finish-table.display.responsive.nowrap
+                  %thead
+                    %tr
+                      %th ID
+                      %th Name
+            .row
+              .columns.large-12
+                %p What would you to do with the items you didn't purchase?
+                = link_to 'Carry them over to a new list', '#', data: { 'reveal-id' => 'second-modal' }, class: 'button'  
+                = link_to 'I never wanted them anyway', '#', class: 'button back'
+          :plain
+            <div id="second-modal" class="reveal-modal" data-reveal aria-labelledby="secondModalTitle" aria-hidden="true" role="dialog">
+              <h2 id="secondModalTitle">This is a second modal.</h2>
+              <p>See? It just slides into place after the other first modal. Very handy when you need subsequent dialogs, or when a modal option impacts or requires another decision.</p>
+              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+            </div>
+

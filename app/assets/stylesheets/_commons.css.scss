@@ -29,7 +29,7 @@ body {
   .container {
     min-height: 100%;
     background: $green;
-    @media #{$medium-up} { padding: 7rem 0; }
+    @media #{$medium-up} { padding: 7rem 0 3rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
   }
 

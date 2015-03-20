@@ -2,7 +2,7 @@ $ ->
   if grocery_id?
 
     # ============================
-    # Table Setup
+    # Grocery Table Setup
     # ============================
 
     $grocery_table = $('#grocery-table').dataTable
@@ -104,3 +104,27 @@ $ ->
         url: "/items/" + item_id + "/remove/?grocery_id=" + grocery_id
         success: ->
           $grocery_table.api().row(row).remove().draw()
+
+    # ============================
+    # Finish Table Setup
+    # ============================
+    carryOver = []
+
+    $finish_table = $('#finish-table').dataTable
+      scrollY: "200px"
+      paging: false
+      ajax: "/groceries/" + grocery_id + "/items.json"
+      columnDefs: [
+        { "class": "never", "targets": 0 }
+      ]
+
+    $('#finish-table').on 'click', 'tr', ->
+      item_id = $finish_table.fnGetData($(@))[0];
+
+      if $(@).hasClass 'selected'
+        carryOver = carryOver.filter (id) -> id isnt item_id
+        $(@).removeClass('selected')
+      else
+        $(@).addClass('selected')
+        carryOver.push item_id
+
