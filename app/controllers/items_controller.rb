@@ -57,7 +57,6 @@ class ItemsController < ApplicationController
 			end
 
 			format.html do
-				raise
 				if @item.update_attributes(item_params)
 					redirect_to @item.groceries.first.user_group
 				else
