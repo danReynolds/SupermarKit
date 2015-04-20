@@ -17,8 +17,4 @@
                 = f.input :user_ids, label: 'Group Members'
             .row
               .columns.large-12
-                %ul.button-group
-                  %li
-                    = link_to 'Back to Kit', @user_group, class: 'button back'
-                  %li
-                    = f.button :submit, 'Update', class: 'button radius'
+                = f.button :submit, 'Update', class: 'button radius'

@@ -3,15 +3,15 @@
     .columns.large-8.large-centered
       .widget
         .header
-          %h3 Create a Shopping Group
+          %h3 Create a Grocery Kit
         .main
+          .row
+            .columns.large-12
+              %p Your Kit will include all the users and grocery lists that you will be making on SupermarKit. Fill out some detail about your new Kit and let's get started!
           = simple_form_for @user_group do |f|
             .row
-              .columns.large-6
+              .columns.large-6.large-centered
                 = f.input :name
                 = f.input :description, as: :text
                 = f.input :user_ids, label: false, as: :text, input_html: { value: "" }
-                = link_to 'Back to Kits', user_groups_path, class: 'button back'
                 = f.button :submit, 'Create', class: 'button radius'
-              .columns.large-6.text-center
-                = render partial: 'pages/svgs', locals: { image: :man }
