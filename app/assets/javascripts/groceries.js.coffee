@@ -15,12 +15,13 @@ $ ->
       }
       ajax: "/groceries/" + grocery_id + "/items.json"
       columnDefs: [
-        { "width": "5%", "targets": 5 },
         { "class": "never", "targets": 0 }
-        { "class": "min-tablet-p", "targets": 2 }
+        { "class": "min-tablet-l", "targets": 2 }
         { "class": "min-tablet-p", "targets": 3 }
         { "class": "min-tablet-l", "targets": 5 }
       ]
+      fnDrawCallback: ->
+        $(document).foundation('dropdown', 'reflow')
 
       footerCallback: (row, data, start, end, display) ->
         api = @api()

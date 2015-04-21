@@ -2,6 +2,14 @@
   @grocery_id = #{@grocery.id}
 
 .container.groceries-show
+  .row.add-items
+    .columns.large-12
+      = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
+        .row.collapse.postfix-round
+          .columns.large-12
+            = f.input :ids, label: false, class: 'add-input'
+            = f.button :submit, 'Add', class: 'add-button postfix'
+
   .row
     .columns.large-8
       .widget
@@ -21,7 +29,7 @@
                     %th Quantity
                     %th Price per Item
                     %th Total Price
-                    %th Remove
+                    %th Actions
                 %tfoot
                   %tr
                     %th.text-right{colspan: 6}
@@ -34,20 +42,16 @@
                 %p Groceries for this list have already been purchased. You can re-open the list at any time.
               - else
                 %h3 Been through checkout?
-                %p Once you have purchased your groceries, go ahead and finish your list.
+                %p Once you have purchased your groceries you can finish your list and we'll start a new one for you.
           .row
             .columns.large-12
-              %ul.button-group
-                %li
-                  = link_to 'Back to Kit', @grocery.user_group, class: 'button back'
-                %li
-                  - if @grocery.finished?
-                    = simple_form_for :finish, url: reopen_grocery_path(@grocery), method: :patch do |f|
-                      = f.button :submit, 'Re-open List', class: 'button'
-                  - else
-                    = link_to '#', data: { 'reveal-id' => 'checkout-modal' }, class: 'button success inline' do
-                      Finish List
-                      %i.fa.fa-check
+              - if @grocery.finished?
+                = simple_form_for :finish, url: reopen_grocery_path(@grocery), method: :patch do |f|
+                  = f.button :submit, 'Re-open List', class: 'button'
+              - else
+                = link_to '#', data: { 'reveal-id' => 'checkout-modal' }, class: 'button success inline' do
+                  Finish List
+                  %i.fa.fa-check
 
 
     - unless @grocery.finished?
@@ -59,18 +63,8 @@
                 %h3 Email Groceries
               .main
                 %p
-                  Tell the team! At any point you can email your group the grocery list.
+                  Tell the team! At any point you can email everyone in your Kit the grocery list.
                 = link_to 'Send to group', email_group_grocery_path(@grocery), class: 'button'
-        .row
-          .columns.large-12
-            .widget.add-items
-              .header
-                %h3 Add Items
-              .main
-                %p Add Items to this list
-                = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
-                  = f.input :ids, label: false
-                  = f.button :submit, 'Add'
  
   -# Modals
 

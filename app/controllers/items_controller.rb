@@ -10,12 +10,12 @@ class ItemsController < ApplicationController
 		    items = @items.map do |item|
 		      info = [
 		      	item.id,
-		        "<a href='#' id='well' class='editable' name='name' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.name}</a>".html_safe,
-		        "<a href='#' class='editable' name='description' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.description}</a>".html_safe,
-		        "<a href='#' class='editable' name='groceries_items_attributes' data-type='text' data-pk='{ item_id: #{item.id}, groceries_items_id: #{item.groceries_items.find_by_grocery_id(@grocery.id).id} }' data-url='#{item_path(item.id)}'>#{item.quantity(@grocery)}</a>".html_safe,
-		        "<a href='#' class='editable' name='price' data-value='#{item.price}' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.price.format}</a>".html_safe,
+		        "<a href='#' id='well' class='editable' name='name' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.name}</a>",
+		        "<a href='#' class='editable' name='description' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.description}</a>",
+		        "<a href='#' class='editable' name='groceries_items_attributes' data-type='text' data-pk='{ item_id: #{item.id}, groceries_items_id: #{item.groceries_items.find_by_grocery_id(@grocery.id).id} }' data-url='#{item_path(item.id)}'>#{item.quantity(@grocery)}</a>",
+		        "<a href='#' class='editable' name='price' data-value='#{item.price}' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.price.format}</a>",
 		        item.total_price(@grocery).format,
-		        "<a class='remove' href='#'><i class='fa fa-remove'></i></a>".html_safe
+		        "<a href='#' data-dropdown='#{item.name}-dropdown' aria-controls='#{item.name}-dropdown' aria-expanded='false' class='dropdown'><i class='fa fa-pencil-square-o'></i></a><br> <ul id='#{item.name}-dropdown' data-dropdown-content class='f-dropdown' aria-hidden='true'> <li><a href='/items/#{item.id}'>View</a></li> <li><a href='/items/#{item.id}/edit'>Edit</a></li> <li><a class='remove' href='#'>Remove</a></li> </ul>"
 		      ]
 		    end
     		render json: { data: items }
@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
 	end
 
 	def new
-		@groceries_items = @item.groceries_items.build
+		@groceries_items = @item.groceries_items.new
 	end
 
 	def create

@@ -23,7 +23,38 @@
   }
 
   .add-items {
-    .button { margin-top: 1rem; }
+    text-align: center;
+    padding: 0 15px;
+
+    .items_ids {
+      display: inline-block;
+      width: 93.5%;
+
+      @media #{$small-only} { width: 75%; }
+      @media #{$medium-only} { width: 85%; }
+    }
+
+    .select2-choices {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      padding: 1px;
+    }
+
+    .select2-search-field input {
+      margin: 0;
+    }
+
+    .button.add-button {
+      border-radius: 0 !important;
+      height: 41px;
+      width: 60px;
+      border-bottom-right-radius: 1000px !important;
+      border-top-right-radius: 1000px !important;
+      display: inline-block;
+      margin-left: -4px;
+      height: 41px;
+      line-height: 0;
+    }
   }
 
   #grocery-table tr {
@@ -32,8 +63,22 @@
       font-size: 1.2rem;
     }
 
-    a.remove {
-      i { color: $new-red; }
+    .dropdown {
+      i {
+        background: $new-bright-green;
+        padding: 6px 4px 4px 6px;
+        border-radius: 20px;
+        color: white;
+
+        &:hover {
+          background: darken($new-bright-green, 10%);
+        }
+      }
+    }
+
+    .f-dropdown {
+      width: inherit;
+      padding: 2px;
     }
   }
 
