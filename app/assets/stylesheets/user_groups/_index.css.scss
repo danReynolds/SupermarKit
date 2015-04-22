@@ -9,24 +9,53 @@
       position: relative;
       box-shadow: 0px 0px 1px #B7CDBF;
       text-align: center;
-      padding: 2rem 0 0 0 !important;
+      padding: 3rem 0 0 0 !important;
       width: 80%;
       margin: 0 auto;
       background: white;
       height: 17rem;
       border-radius: 0.4rem;
 
-      &:hover { background: rgb(236, 236, 236); }
+      &:hover {
+        i.fa-group {
+          color: $new-green;
+        }
+      }
 
       .default-group {
         position: absolute;
         top: 0;
         right: 0;
         padding: 3px;
-        border-top-right-radius: 2px;
+        border-top-right-radius: 0.4rem;
+        border-top-left-radius: 0.4rem;
+        background: #E7E7E7;
+        box-shadow: 0px 0px 1px rgb(216, 216, 216);
+        cursor: pointer;
+        height: 1.25rem;
+        width: 100%;
+
+        .fa-check {
+          position: absolute;
+          top: 3px;
+          right: 6px;
+          color: $new-bright-green;
+          display: none;
+        }
+
+        &:hover {
+          .fa-check {
+            display: block;
+          }
+        }
 
         &.selected {
           background: $new-bright-green;
+
+          .fa-check {
+            display: block;
+            color: white;
+          }
         }
       }
 
@@ -35,7 +64,7 @@
         padding: 1rem;
       }
 
-      i {
+      i.fa-group, i.fa-plus-square-o {
         font-size: 10rem;
         color: $new-bright-green;
       }

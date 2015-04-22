@@ -5,8 +5,11 @@
         %nav.header.top-bar
           %section.top-bar-section
             %ul.left
-              %li
-                = link_to 'SupermarKit', root_path
+              %li.primary-action
+                - if current_user && current_user.default_group.active_groceries.first
+                  = link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
+                - else
+                  = link_to 'SupermarKit', root_path
             %ul.right
               - if current_user
                 %li

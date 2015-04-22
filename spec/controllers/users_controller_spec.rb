@@ -33,6 +33,16 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe 'PATCH default_group' do
+    include_context 'login user'
+    let(:user_group) { create(:user_group) }
+
+    it 'should update the user group' do
+      patch :default_group, id: controller.current_user, default_group_id: user_group.id
+      expect(controller.current_user.reload.default_group).to eq user_group
+    end
+  end
+
   describe 'PATCH update' do
     include_context 'login user'
 

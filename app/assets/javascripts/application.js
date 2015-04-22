@@ -25,14 +25,15 @@
 // =============================
 
 //= require typeahead
-//= require user_groups_show
-//= require user_groups_new
-//= require user_groups_edit
-//= require user_group_metrics
-//= require groceries
-//= require items
+//= require user_groups/user_groups_show
+//= require user_groups/user_groups_new
+//= require user_groups/user_groups_edit
+//= require user_groups/user_groups_index
+//= require user_groups/user_group_metrics
+//= require groceries/groceries
+//= require items/items
+//= require items/items_edit
 //= require home
-//= require items_edit
 
 // =============================
 

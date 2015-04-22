@@ -16,6 +16,15 @@ class UsersController < ApplicationController
   def edit
   end
 
+  def default_group
+    new_group = UserGroup.find(params[:default_group_id])
+    user = User.find(params[:id])
+
+    user.default_group = new_group
+
+    render json: { success: true, name: new_group.name, href: user_group_path(user.default_group) } 
+  end
+
   def activate
     if @user = User.load_from_activation_token(params[:id])
       @user.activate!

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get :activate
+      patch :default_group
     end
     collection do
       get :auto_complete
