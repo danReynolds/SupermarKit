@@ -15,7 +15,7 @@ class ItemsController < ApplicationController
 		        "<a href='#' class='editable' name='groceries_items_attributes' data-type='text' data-pk='{ item_id: #{item.id}, groceries_items_id: #{item.groceries_items.find_by_grocery_id(@grocery.id).id} }' data-url='#{item_path(item.id)}'>#{item.quantity(@grocery)}</a>",
 		        "<a href='#' class='editable' name='price' data-value='#{item.price}' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.price.format}</a>",
 		        item.total_price(@grocery).format,
-		        "<a href='#' data-dropdown='#{item.name}-dropdown' aria-controls='#{item.name}-dropdown' aria-expanded='false' class='dropdown'><i class='fa fa-pencil-square-o'></i></a><br> <ul id='#{item.name}-dropdown' data-dropdown-content class='f-dropdown' aria-hidden='true'> <li><a href='/items/#{item.id}'>View</a></li> <li><a href='/items/#{item.id}/edit'>Edit</a></li> <li><a class='remove' href='#'>Remove</a></li> </ul>"
+		        "<a href='#' data-dropdown='dropdown-#{item.id}' aria-controls='dropdown-#{item.id}' aria-expanded='false' class='dropdown'><i class='fa fa-pencil-square-o'></i></a><br> <ul id='dropdown-#{item.id}' data-dropdown-content class='f-dropdown' aria-hidden='true'> <li><a href='/items/#{item.id}'>View</a></li> <li><a href='/items/#{item.id}/edit'>Edit</a></li> <li><a class='remove' href='#'>Remove</a></li> </ul>"
 		      ]
 		    end
     		render json: { data: items }

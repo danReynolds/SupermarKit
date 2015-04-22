@@ -9,12 +9,15 @@
           - @user_groups.each do |group|
             %li
               .group
-                = link_to group do
-                  .wrapper
+                .wrapper
+                  .default-group
+                    - if current_user.default_group == group
+                      = fa_icon 'check'
+                  = link_to group do
                     = fa_icon 'group'
                     %p #{group.name}
           %li.group
             = link_to new_user_group_path do
-              .wrapper.hvr-grow
+              .wrapper
                 = fa_icon 'plus-square-o'
                 %p Create Grocery Kit

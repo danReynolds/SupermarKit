@@ -13,7 +13,7 @@ class GroceriesController < ApplicationController
         groceries = @groceries.sort_by(&:created_at).map do |grocery|
           [
             grocery.id,
-            "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>".html_safe,
+            "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>",
             grocery.description,
             grocery.items.count,
             grocery.total.to_money.format,
