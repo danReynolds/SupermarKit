@@ -22,7 +22,13 @@ class UsersController < ApplicationController
 
     user.default_group = new_group
 
-    render json: { success: true, name: new_group.name, href: user_group_path(user.default_group) } 
+    if user.default_group.active_groceries.first
+      link = grocery_path(user.default_group.active_groceries.first)
+    else
+      link = new_user_group_grocery_path(user.default_group)
+    end
+
+    render json: { success: true, name: new_group.name, href: link } 
   end
 
   def activate

@@ -6,8 +6,11 @@
           %section.top-bar-section
             %ul.left
               %li.primary-action
-                - if current_user && current_user.default_group.active_groceries.first
-                  = link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
+                - if current_user
+                  - if current_user.default_group.active_groceries.first
+                    = link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
+                  - else
+                    = link_to "#{current_user.default_group.name} Kit", new_user_group_grocery_path(current_user.default_group)
                 - else
                   = link_to 'SupermarKit', root_path
             %ul.right

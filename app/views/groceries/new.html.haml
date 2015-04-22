@@ -5,6 +5,7 @@
         .header
           %h3 New Grocery List
         .main
+          %p Your Kit doesn't have any active grocery lists at the moment. Go ahead and start a new list.
           = simple_form_for [@user_group, @grocery] do |f|
             .row
               .columns.large-6.large-centered
