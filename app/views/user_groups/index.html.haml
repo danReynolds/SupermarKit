@@ -16,9 +16,14 @@
                   .default-group{ class: current_user.default_group == group ? 'selected' : '', data: { value: group.id } }
                     = fa_icon 'check'
 
-                  = link_to group do
-                    = fa_icon 'group'
-                    %p #{group.name}
+                  - if active_grocery = group.active_groceries.first
+                    = link_to active_grocery do
+                      = fa_icon 'group'
+                      %p #{group.name}
+                  - else
+                    = link_to new_user_group_grocery_path(group) do
+                      = fa_icon 'group'
+                      %p #{group.name}
           %li.group
             = link_to new_user_group_path do
               .wrapper

@@ -19,7 +19,7 @@ class UserGroupsController < ApplicationController
 
     if @user_group.save
       @user_group.users << users
-      redirect_to @user_group
+      redirect_to new_user_group_grocery_path(@user_group)
     else
       render action: :new
     end

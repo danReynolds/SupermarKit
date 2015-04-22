@@ -8,12 +8,8 @@
       %h1 #{@user_group.name} Kit
       .row
         .columns.large-6
-          - if @active_grocery
-            = render partial: 'user_groups/widgets/active_grocery_table'
           = render partial: 'user_groups/widgets/user_groups_table'
         .columns.large-6
-          - if @active_grocery
-            = render partial: 'user_groups/widgets/quick_add'
           = render partial: 'user_groups/widgets/groceries_table'
           - if @user_group.finished_groceries.count.nonzero?
             = render partial: 'user_groups/widgets/metrics_link'

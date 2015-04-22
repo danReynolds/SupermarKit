@@ -65,6 +65,15 @@
                 %p
                   Tell the team! At any point you can email everyone in your Kit the grocery list.
                 = link_to 'Send to group', email_group_grocery_path(@grocery), class: 'button'
+      .columns.large-4
+        .row
+          .columns.large-12
+            .widget.management
+              .header
+                %h3 Kit Management
+              .main
+                %p View Kit statistics, manage users and view past lists all in one place.
+                = link_to 'Manage Kit', @grocery.user_group, class: 'button'
  
   -# Modals
 
