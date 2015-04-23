@@ -25,6 +25,7 @@
 // =============================
 
 //= require typeahead
+//= require tableFormatter
 //= require user_groups/user_groups_show
 //= require user_groups/user_groups_new
 //= require user_groups/user_groups_edit

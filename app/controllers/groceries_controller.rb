@@ -11,14 +11,13 @@ class GroceriesController < ApplicationController
     respond_to do |format|
       format.json do
         groceries = @groceries.sort_by(&:created_at).map do |grocery|
-          [
-            grocery.id,
-            "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>",
-            grocery.description,
-            grocery.items.count,
-            grocery.total.to_money.format,
-            grocery.finished? ? '<i class="fa fa-check"></i>'.html_safe : ''
-          ]
+          {
+            id: grocery.id,
+            name: grocery.name,
+            description: grocery.description,
+            count: grocery.items.count,
+            cost: grocery.total.to_money.format,
+          }
         end
         render json: { data: groceries }
       end

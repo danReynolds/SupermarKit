@@ -13,7 +13,11 @@ $ ->
       oLanguage: {
         sSearch: "Filter:"
       }
-      ajax: "/groceries/" + grocery_id + "/items.json"
+      ajax:
+        url: "/groceries/" + grocery_id + "/items.json"
+        dataSrc: (json) ->
+          json = formatItems(json)
+
       columnDefs: [
         { "class": "never", "targets": 0 }
         { "class": "min-tablet-l", "targets": 2 }
@@ -107,38 +111,64 @@ $ ->
           $grocery_table.api().row(row).remove().draw()
 
     # ============================
-    # Finish Table Setup
+    # Carry Over Table Setup
     # ============================
+    dragula = require('dragula');
 
-    carry_over = []
-    $item_ids = $('#new-list-modal').find('#finish_grocery_item_ids')
+    dragula([$('.left-drag')[0], $('.right-drag')[0]],
+      moves: (el, container, handle) ->
+        true
+        # elements are always draggable by default
+      accepts: (el, target, source, sibling) ->
+        true
+        # elements can be dropped in any of the `containers` by default
+      direction: 'vertical'
+      copy: false
+      revertOnSpill: false
+      removeOnSpill: false
+    ).on('drag', (el) ->
+      el.classList.add("selected")
+    ).on('dragend', (el) ->
+      el.classList.remove("selected")
+    )
 
-    $carry_over_table = $('#carry-over-table').dataTable
-      scrollY: "200px"
-      paging: false
-      ajax: "/groceries/" + grocery_id + "/items.json"
-      columnDefs: [
-        { "class": "never", "targets": 0 }
-      ]
+    $('a[data-reveal-id="carry-over-modal"]').click ->
+      modal = $(@).attr("data-reveal-id")
 
-    $('#carry-over-table').on 'click', 'tr', ->
-      item_id = $carry_over_table.fnGetData($(@))[0];
+      $.get "/groceries/" + grocery_id + "/items.json", (data) ->
+        items = formatCarryOver(data)
+        $.each items, (i, item) ->
+          $(".left-drag").append(item)
 
-      if $(@).hasClass 'selected'
-        carry_over = carry_over.filter (id) -> id isnt item_id
-        $item_ids.val(carry_over)
-        $(@).removeClass('selected')
-      else
-        $(@).addClass('selected')
-        carry_over.push item_id
-        $item_ids.val(carry_over)
+    # carry_over = []
+    # $item_ids = $('#new-list-modal').find('#finish_grocery_item_ids')
 
-    $('.no-carry').click ->
-      $('#new-list-modal').find('#finish_grocery_carry').val(undefined)
-      $('form.finish_grocery').submit()
+    # $carry_over_table = $('#carry-over-table').dataTable
+    #   scrollY: "200px"
+    #   paging: false
+    #   ajax: "/groceries/" + grocery_id + "/items.json"
+    #   columnDefs: [
+    #     { "class": "never", "targets": 0 }
+    #   ]
 
-    $('#carry').click ->
-      $('#new-list-modal').find('#finish_grocery_carry').val(true)
+    # $('#carry-over-table').on 'click', 'tr', ->
+    #   item_id = $carry_over_table.fnGetData($(@))[0];
+
+    #   if $(@).hasClass 'selected'
+    #     carry_over = carry_over.filter (id) -> id isnt item_id
+    #     $item_ids.val(carry_over)
+    #     $(@).removeClass('selected')
+    #   else
+    #     $(@).addClass('selected')
+    #     carry_over.push item_id
+    #     $item_ids.val(carry_over)
+
+    # $('.no-carry').click ->
+    #   $('#new-list-modal').find('#finish_grocery_carry').val(undefined)
+    #   $('form.finish_grocery').submit()
+
+    # $('#carry').click ->
+    #   $('#new-list-modal').find('#finish_grocery_carry').val(true)
 
     # ============================
     # Typeahead setup

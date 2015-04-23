@@ -49,7 +49,7 @@
                 = simple_form_for :finish, url: reopen_grocery_path(@grocery), method: :patch do |f|
                   = f.button :submit, 'Re-open List', class: 'button'
               - else
-                = link_to '#', data: { 'reveal-id' => 'checkout-modal' }, class: 'button success inline' do
+                = link_to '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button success inline' do
                   Finish List
                   %i.fa.fa-check
 
@@ -85,27 +85,43 @@
         = link_to 'Yes', '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button'  
         = link_to 'No', '#', class: 'no-carry button back'
 
-  #carry-over-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
+  #carry-over-modal.xlarge.reveal-modal{"aria-hidden" => "true", "data-reveal" => "", "data-reveal-id" => "carry-over-modal", role: "dialog"}
     .row
       .columns.large-12
-        %h2.modalTitle Remove Items
-        %p Highlight the items on your list that you did not end up purchasing.
-        %table#carry-over-table.display.responsive.nowrap
-          %thead
-            %tr
-              %th ID
-              %th Name
-    .row
+        %h2.modalTitle Congrats.
+        %p You've bought your groceries! We'll now finish your current list and set up a new one. Drag over any items that you would like to get next time and remove all the items that you no longer want.
+    .row.drag-items
+      .columns.large-6
+        %h3 Current list
+        .left-drag
+      .columns.large-6
+        %h3 Next list
+        .right-drag
+    .row.done
       .columns.large-12
-        %p What would you to do with these items?
-        = link_to 'Carry them over to a new list', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
-        = link_to 'Just get rid of them', '#', class: 'no-carry button back'
+        = link_to 'Done', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
+
+
+    -# .row
+    -#   .columns.large-12
+    -#     %h2.modalTitle Remove Items
+    -#     %p Highlight the items on your list that you did not end up purchasing.
+    -#     %table#carry-over-table.display.responsive.nowrap
+    -#       %thead
+    -#         %tr
+    -#           %th ID
+    -#           %th Name
+    -# .row
+    -#   .columns.large-12
+    -#     %p What would you to do with these items?
+    -#     = link_to 'Carry them over to a new list', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
+    -#     = link_to 'Just get rid of them', '#', class: 'no-carry button back'
   
   #new-list-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
     .row
       .columns.large-12
         %h2.modalTitle New Grocery List.
-        %p We'll move over those items for you. All we need are some details about your new list.
+        %p We're almost done, now just specify any details for your next list.
         = simple_form_for :finish_grocery, url: finish_grocery_path(@grocery), method: :patch do |f|
           .row
             .columns.large-4

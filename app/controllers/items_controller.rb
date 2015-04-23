@@ -8,15 +8,17 @@ class ItemsController < ApplicationController
 		respond_to do |format|
 			format.json do
 		    items = @items.map do |item|
-		      info = [
-		      	item.id,
-		        "<a href='#' id='well' class='editable' name='name' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.name}</a>",
-		        "<a href='#' class='editable' name='description' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.description}</a>",
-		        "<a href='#' class='editable' name='groceries_items_attributes' data-type='text' data-pk='{ item_id: #{item.id}, groceries_items_id: #{item.groceries_items.find_by_grocery_id(@grocery.id).id} }' data-url='#{item_path(item.id)}'>#{item.quantity(@grocery)}</a>",
-		        "<a href='#' class='editable' name='price' data-value='#{item.price}' data-type='text' data-pk='{ item_id: #{item.id} }' data-url='#{item_path(item.id)}'>#{item.price.format}</a>",
-		        item.total_price(@grocery).format,
-		        "<a href='#' data-dropdown='dropdown-#{item.id}' aria-controls='dropdown-#{item.id}' aria-expanded='false' class='dropdown'><i class='fa fa-pencil-square-o'></i></a><br> <ul id='dropdown-#{item.id}' data-dropdown-content class='f-dropdown' aria-hidden='true'> <li><a href='/items/#{item.id}'>View</a></li> <li><a href='/items/#{item.id}/edit'>Edit</a></li> <li><a class='remove' href='#'>Remove</a></li> </ul>"
-		      ]
+		      {
+		      	id: item.id,
+		      	name: item.name,
+		      	description: item.description.to_s,
+		      	quantity_id: item.groceries_items.find_by_grocery_id(@grocery.id).id,
+		      	quantity: item.quantity(@grocery),
+		      	price: item.price.dollars.to_s,
+		      	price_formatted: item.price.format,
+		      	total_price_formatted: item.total_price(@grocery).format,
+		      	path: item_path(item.id)
+		      }
 		    end
     		render json: { data: items }
 		  end
