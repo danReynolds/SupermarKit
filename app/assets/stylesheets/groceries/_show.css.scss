@@ -1,17 +1,47 @@
 #carry-over-modal {
-  #carry-over-table {
-    max-height: 200px;
-    
-    tr {
-      cursor: pointer;
+  .drag-items {
 
-      &:nth-of-type(even) {
-        background: #f9f9f9 !important;
+    .left-drag, .right-drag {
+      width: 100%;
+      background: rgb(240, 240, 240);
+      border-radius: 5px;
+      padding: 10px;
+      height: 15.5rem;
+      max-height: 15.5rem;
+      overflow-y: auto;
+
+      .item {
+        box-shadow: 1px 1px 2px rgb(200, 200, 200);
+        border-radius: 2px;
+        margin: 10px;
+        padding: 10px;
+        background-color: white;
+        color: $gray;
+        transition: all 0.4s ease-in-out;
+        cursor: pointer;
+
+        &.selected { background: $new-bright-green; }
+
+        i {
+          float: right;
+          margin-top: 4px;
+          color: $new-red;
+          
+          &:hover { color: darken($new-red, 10%) }
+        }
       }
-      &.selected{ background: $new-red !important; }
     }
   }
+
+  .done {
+    margin-top: 1rem;
+  }
 }
+
+body.gu-unselectable {
+  overflow-y: hidden;
+}
+
 
 
 .groceries-show {

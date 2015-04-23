@@ -16,7 +16,7 @@ gem 'foundation-rails'
 gem 'sorcery'
 gem 'select2-rails'
 gem 'jquery-datatables-rails', '~> 3.1.1'
-gem 'font-awesome-rails'
+gem 'font-awesome-rails', "~> 4.3.0"
 gem 'groupdate'
 gem 'chartkick'
 gem 'happy_path'
@@ -29,6 +29,7 @@ gem 'newrelic_rpm'
 gem 'maildown'
 gem 'dotenv-deployment'
 gem 'nprogress-rails'
+gem "browserify-rails", "~> 0.7"
 gem 'coveralls', require: false
 
 group :development do
