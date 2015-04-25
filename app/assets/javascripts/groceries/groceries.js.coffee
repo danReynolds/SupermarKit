@@ -111,11 +111,12 @@ $ ->
           $grocery_table.api().row(row).remove().draw()
 
     # ============================
-    # Carry Over Table Setup
+    # Finish List Functionality
     # ============================
+
     dragula = require('dragula');
 
-    dragula([$('.left-drag')[0], $('.right-drag')[0]],
+    dragula([$('.drag.left')[0], $('.drag.right')[0]],
       moves: (el, container, handle) ->
         true
         # elements are always draggable by default
@@ -137,8 +138,27 @@ $ ->
 
       $.get "/groceries/" + grocery_id + "/items.json", (data) ->
         items = formatCarryOver(data)
+        $(".drag.left").html("")
+        $(".drag.right").html("")
         $.each items, (i, item) ->
-          $(".left-drag").append(item)
+          $(".drag.left").append(item)
+
+    $('.drag-items').on 'click', '.item .remove', ->
+      $(@).parents('.item').remove()
+
+    $('.finish').submit ->
+      ids = []
+      for item in $('.drag.left .item')
+        ids.push($(item).attr('value'))
+      $('#finish_current_ids').val(ids)
+
+      ids = []
+      for item in $('.drag.right .item')
+        ids.push($(item).attr('value'))
+      $('#finish_next_ids').val(ids)
+
+      $(@).submit()
+
 
     # carry_over = []
     # $item_ids = $('#new-list-modal').find('#finish_grocery_item_ids')
