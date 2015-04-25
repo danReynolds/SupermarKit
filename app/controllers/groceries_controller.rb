@@ -32,6 +32,7 @@ class GroceriesController < ApplicationController
 
   def create
     if @grocery.save
+      current_user.default_group = @user_group unless current_user.default_group
       redirect_to @grocery
     else
       render action: :new
