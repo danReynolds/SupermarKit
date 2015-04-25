@@ -47,7 +47,7 @@ $ ->
 
       createdRow: (row, data, index) ->
         $.fn.editable.defaults.mode = 'popup'
-        $.fn.editable.defaults.ajaxOptions = { type: "PATCH" };
+        $.fn.editable.defaults.ajaxOptions = { type: "PATCH" }
 
         $(row).find('.editable').editable
           placement: 'bottom'
@@ -70,7 +70,7 @@ $ ->
               else
                 params.item[this.name] = params.value
 
-              return params;
+              return params
 
     $grocery_table.on 'click', 'tr td:first-child:not(.child)', ->
       $(this).parents('tbody').find('.child a').editable
@@ -94,7 +94,7 @@ $ ->
               else
                 params.item[this.name] = params.value
 
-              return params;
+              return params
 
     # ============================
     # Row Removal
@@ -102,8 +102,8 @@ $ ->
 
     $('.main').on 'click', '.remove', ->
       row = $(@).parents('tr')
-      row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0]);
-      item_id = $grocery_table.fnGetData(row)[0];
+      row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0])
+      item_id = $grocery_table.fnGetData(row)[0]
       $.ajax
         method: "PATCH"
         url: "/items/" + item_id + "/remove/?grocery_id=" + grocery_id
@@ -114,7 +114,7 @@ $ ->
     # Finish List Functionality
     # ============================
 
-    dragula = require('dragula');
+    dragula = require('dragula')
 
     dragula([$('.drag.left')[0], $('.drag.right')[0]],
       moves: (el, container, handle) ->
