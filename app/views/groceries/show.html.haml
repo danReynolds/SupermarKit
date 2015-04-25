@@ -2,16 +2,17 @@
   @grocery_id = #{@grocery.id}
 
 .container.groceries-show
-  .row.add-items
-    .columns.large-12
-      = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
-        .row.collapse.postfix-round
-          .columns.large-12
-            = f.input :ids, label: false, class: 'add-input'
-            = f.button :submit, 'Add', class: 'add-button postfix'
+  - unless @grocery.finished?
+    .row.add-items
+      .columns.large-12
+        = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
+          .row.collapse.postfix-round
+            .columns.large-12
+              = f.input :ids, label: false, class: 'add-input'
+              = f.button :submit, 'Add', class: 'add-button postfix'
 
   .row
-    .columns.large-8
+    .columns.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
       .widget
         .header
           %h3
@@ -52,6 +53,7 @@
                 = link_to '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button success inline' do
                   Finish List
                   %i.fa.fa-check
+    }
 
 
     - unless @grocery.finished?
@@ -77,15 +79,7 @@
  
   -# Modals
 
-  #checkout-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
-    .row
-      .columns.large-12
-        %h2.modalTitle Congrats.
-        %p You've bought your groceries! Before we put this list away, are there any items on it that you did not buy?
-        = link_to 'Yes', '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button'  
-        = link_to 'No', '#', class: 'no-carry button back'
-
-  #carry-over-modal.xlarge.reveal-modal{"aria-hidden" => "true", "data-reveal" => "", "data-reveal-id" => "carry-over-modal", role: "dialog"}
+  #carry-over-modal.reveal-modal{ "data-reveal" => "", role: "dialog" }
     .row
       .columns.large-12
         %h2.modalTitle Congrats.
@@ -93,40 +87,28 @@
     .row.drag-items
       .columns.large-6
         %h3 Current list
-        .left-drag
+        .drag.left
       .columns.large-6
         %h3 Next list
-        .right-drag
+        .drag.right
     .row.done
       .columns.large-12
-        = link_to 'Done', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
-
-
-    -# .row
-    -#   .columns.large-12
-    -#     %h2.modalTitle Remove Items
-    -#     %p Highlight the items on your list that you did not end up purchasing.
-    -#     %table#carry-over-table.display.responsive.nowrap
-    -#       %thead
-    -#         %tr
-    -#           %th ID
-    -#           %th Name
-    -# .row
-    -#   .columns.large-12
-    -#     %p What would you to do with these items?
-    -#     = link_to 'Carry them over to a new list', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
-    -#     = link_to 'Just get rid of them', '#', class: 'no-carry button back'
+        = link_to 'Continue', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
+    = link_to '#', class: 'close-reveal-modal' do
+      = fa_icon 'remove'
   
-  #new-list-modal.reveal-modal{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", "data-reveal" => "", role: "dialog"}
+  #new-list-modal.reveal-modal.tiny{ "data-reveal" => "", role: "dialog" }
     .row
       .columns.large-12
         %h2.modalTitle New Grocery List.
         %p We're almost done, now just specify any details for your next list.
-        = simple_form_for :finish_grocery, url: finish_grocery_path(@grocery), method: :patch do |f|
+        = simple_form_for :finish, url: finish_grocery_path(@grocery), method: :patch do |f|
           .row
-            .columns.large-4
-              = f.input :name
+            .columns.large-10.large-centered
+              = f.input :name, input_html: { value: "#{Date.today.strftime('%A')}'s List - #{Date.today}" }
               = f.input :description, as: :text
               = f.button :submit, 'Create', class: 'button radius'
-              = f.input :item_ids, as: :hidden
-              = f.input :carry, as: :hidden
+              = f.input :current_ids, as: :hidden
+              = f.input :next_ids, as: :hidden
+    = link_to '#', class: 'close-reveal-modal' do
+      = fa_icon 'remove'

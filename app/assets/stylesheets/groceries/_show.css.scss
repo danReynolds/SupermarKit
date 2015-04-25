@@ -1,7 +1,7 @@
 #carry-over-modal {
   .drag-items {
 
-    .left-drag, .right-drag {
+    .drag {
       width: 100%;
       background: rgb(240, 240, 240);
       border-radius: 5px;
@@ -18,7 +18,7 @@
         background-color: white;
         color: $gray;
         transition: all 0.4s ease-in-out;
-        cursor: pointer;
+        cursor: move;
 
         &.selected { background: $new-bright-green; }
 
@@ -38,11 +38,13 @@
   }
 }
 
-body.gu-unselectable {
-  overflow-y: hidden;
+@media #{$small-only} {
+  #new-list-modal { top: 0 !important; }
 }
 
-
+body.gu-unselectable {
+  overflow-y: auto;
+}
 
 .groceries-show {
   .fa-archive {

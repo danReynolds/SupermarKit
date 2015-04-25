@@ -58,28 +58,23 @@ class GroceriesController < ApplicationController
   end
 
   def finish
-    item_ids = params[:finish_grocery][:item_ids].split(",").map(&:to_i)
-    @grocery.item_ids -= item_ids if item_ids
-    @grocery.finished_at = DateTime.now
-    if @grocery.save
-      if params[:finish_grocery][:carry].present?
-        new_grocery = Grocery.new(
-          name: params[:finish_grocery][:name],
-          description: params[:finish_grocery][:description]
-        )
-        new_grocery.user_group = @grocery.user_group
-        new_grocery.item_ids = item_ids
+    current_items = params[:finish][:current_ids].split(",").map{ |id| Item.find(id) }
+    next_items = params[:finish][:next_ids].split(",").map{ |id| Item.find(id) }
 
-        if new_grocery.save
-          redirect_to new_grocery, notice: "Your new list has been created with the items you wanted carried over."
-        else
-          render action: :show
-        end
-      else
-        redirect_to @grocery, notice: 'Great! Your list is now all finished.'
-      end
+    @grocery.items = current_items
+    @grocery.finished_at = DateTime.now
+
+    new_grocery = Grocery.new(
+      name: params[:finish][:name],
+      description: params[:finish][:description]
+    )
+    new_grocery.items = next_items
+    new_grocery.user_group = @grocery.user_group
+
+    if @grocery.save && new_grocery.save
+      redirect_to new_grocery, notice: "Your new grocery list is setup and ready to use."
     else
-      render action: :show
+      render @grocery, notice: "There was a problem creating your new grocery list."
     end
   end
 
