@@ -13,7 +13,11 @@ $ ->
       oLanguage: {
         sSearch: "Filter:"
       }
-      ajax: "/groceries/" + grocery_id + "/items.json"
+      ajax:
+        url: "/groceries/" + grocery_id + "/items.json"
+        dataSrc: (json) ->
+          json = formatItems(json)
+
       columnDefs: [
         { "class": "never", "targets": 0 }
         { "class": "min-tablet-l", "targets": 2 }
@@ -43,7 +47,7 @@ $ ->
 
       createdRow: (row, data, index) ->
         $.fn.editable.defaults.mode = 'popup'
-        $.fn.editable.defaults.ajaxOptions = { type: "PATCH" };
+        $.fn.editable.defaults.ajaxOptions = { type: "PATCH" }
 
         $(row).find('.editable').editable
           placement: 'bottom'
@@ -66,7 +70,7 @@ $ ->
               else
                 params.item[this.name] = params.value
 
-              return params;
+              return params
 
     $grocery_table.on 'click', 'tr td:first-child:not(.child)', ->
       $(this).parents('tbody').find('.child a').editable
@@ -90,7 +94,7 @@ $ ->
               else
                 params.item[this.name] = params.value
 
-              return params;
+              return params
 
     # ============================
     # Row Removal
@@ -98,8 +102,8 @@ $ ->
 
     $('.main').on 'click', '.remove', ->
       row = $(@).parents('tr')
-      row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0]);
-      item_id = $grocery_table.fnGetData(row)[0];
+      row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0])
+      item_id = $grocery_table.fnGetData(row)[0]
       $.ajax
         method: "PATCH"
         url: "/items/" + item_id + "/remove/?grocery_id=" + grocery_id
@@ -107,38 +111,53 @@ $ ->
           $grocery_table.api().row(row).remove().draw()
 
     # ============================
-    # Finish Table Setup
+    # Finish List Functionality
     # ============================
 
-    carry_over = []
-    $item_ids = $('#new-list-modal').find('#finish_grocery_item_ids')
+    dragula = require('dragula')
 
-    $carry_over_table = $('#carry-over-table').dataTable
-      scrollY: "200px"
-      paging: false
-      ajax: "/groceries/" + grocery_id + "/items.json"
-      columnDefs: [
-        { "class": "never", "targets": 0 }
-      ]
+    dragula([$('.drag.left')[0], $('.drag.right')[0]],
+      moves: (el, container, handle) ->
+        true
+        # elements are always draggable by default
+      accepts: (el, target, source, sibling) ->
+        true
+        # elements can be dropped in any of the `containers` by default
+      direction: 'vertical'
+      copy: false
+      revertOnSpill: false
+      removeOnSpill: false
+    ).on('drag', (el) ->
+      el.classList.add("selected")
+    ).on('dragend', (el) ->
+      el.classList.remove("selected")
+    )
 
-    $('#carry-over-table').on 'click', 'tr', ->
-      item_id = $carry_over_table.fnGetData($(@))[0];
+    $('a[data-reveal-id="carry-over-modal"]').click ->
+      modal = $(@).attr("data-reveal-id")
 
-      if $(@).hasClass 'selected'
-        carry_over = carry_over.filter (id) -> id isnt item_id
-        $item_ids.val(carry_over)
-        $(@).removeClass('selected')
-      else
-        $(@).addClass('selected')
-        carry_over.push item_id
-        $item_ids.val(carry_over)
+      $.get "/groceries/" + grocery_id + "/items.json", (data) ->
+        items = formatCarryOver(data)
+        $(".drag.left").html("")
+        $(".drag.right").html("")
+        $.each items, (i, item) ->
+          $(".drag.left").append(item)
 
-    $('.no-carry').click ->
-      $('#new-list-modal').find('#finish_grocery_carry').val(undefined)
-      $('form.finish_grocery').submit()
+    $('.drag-items').on 'click', '.item .remove', ->
+      $(@).parents('.item').remove()
 
-    $('#carry').click ->
-      $('#new-list-modal').find('#finish_grocery_carry').val(true)
+    $('.finish').submit ->
+      ids = []
+      for item in $('.drag.left .item')
+        ids.push($(item).attr('value'))
+      $('#finish_current_ids').val(ids)
+
+      ids = []
+      for item in $('.drag.right .item')
+        ids.push($(item).attr('value'))
+      $('#finish_next_ids').val(ids)
+
+      $(@).submit()
 
     # ============================
     # Typeahead setup

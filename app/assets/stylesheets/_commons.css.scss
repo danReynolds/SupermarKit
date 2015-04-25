@@ -1,10 +1,14 @@
 body {
   background: $white !important;
   font-weight: 100;
+  color: $gray;
 
-  .off-canvas-wrap { overflow: initial !important; }
   .top-bar { overflow: hidden !important; }
 
+  @media #{$medium-up} {
+    .off-canvas-wrap { overflow: initial !important; }
+  }
+  
   @media #{$small-only} {
     &.f-topbar-fixed { padding-top: 0 !important; }
   }
@@ -15,7 +19,7 @@ body {
     color: $gray !important;
   }
 
-  h2, h3, p {
+  h2, h3, p, li {
     color: $gray;
     word-wrap: break-word;
   }
