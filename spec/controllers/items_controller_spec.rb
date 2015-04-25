@@ -16,7 +16,20 @@ RSpec.describe ItemsController, type: :controller do
     it 'should return all grocery items' do
       subject
       data = JSON.parse(response.body)['data']
-      expect(data.map(&:first)).to eq grocery.item_ids
+
+      expect(data.length).to eq grocery.items.length
+
+      grocery.items.each_with_index do |item, i|
+        expect(item.id).to eq data[i]['id']
+        expect(item.name).to eq data[i]['name']
+        expect(item.description.to_s).to eq data[i]['description']
+        expect(item.groceries_items.find_by_grocery_id(grocery.id).id).to eq data[i]['quantity_id']
+        expect(item.quantity(grocery)).to eq data[i]['quantity']
+        expect(item.price.dollars.to_s).to eq data[i]['price']
+        expect(item.price.format).to eq data[i]['price_formatted']
+        expect(item.total_price(grocery).format).to eq data[i]['total_price_formatted']
+        expect(item_path(item.id)).to eq data[i]['path']
+      end
     end
   end
 

@@ -38,6 +38,8 @@ GEM
     browserify-rails (0.9.1)
       sprockets (~> 2.2)
     builder (3.2.2)
+    byebug (4.0.5)
+      columnize (= 0.9.0)
     canard (0.4.2.pre)
       cancancan
       role_model
@@ -73,6 +75,7 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     colorize (0.7.5)
+    columnize (0.9.0)
     coveralls (0.7.3)
       multi_json (~> 1.10)
       rest-client (~> 1.7)
@@ -176,6 +179,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.1.0)
+      byebug (~> 4.0)
+      pry (~> 0.10)
     pry-stack_explorer (0.4.9.1)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
@@ -311,6 +317,7 @@ DEPENDENCIES
   newrelic_rpm
   nprogress-rails
   pry
+  pry-byebug
   pry-stack_explorer
   rails (= 4.1.8)
   rspec-rails
