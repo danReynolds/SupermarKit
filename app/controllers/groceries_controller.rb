@@ -45,21 +45,9 @@ class GroceriesController < ApplicationController
 	def update
 	end
 
-  def finish_and_remove
-    item_ids = params[:grocery][:item_ids].split(",").map(&:to_i)
-    @grocery.item_ids -= item_ids
-    @grocery.finished_at = DateTime.now
-
-    if @grocery.save
-      redirect_to @grocery.user_group
-    else
-      render action: :show
-    end
-  end
-
   def finish
-    current_items = params[:finish][:current_ids].split(",").map{ |id| Item.find(id) }
-    next_items = params[:finish][:next_ids].split(",").map{ |id| Item.find(id) }
+    current_items = params[:finish][:current_ids].split(",").flat_map{ |id| Item.find(id) }
+    next_items = params[:finish][:next_ids].split(",").flat_map{ |id| Item.find(id) }
 
     @grocery.items = current_items
     @grocery.finished_at = DateTime.now

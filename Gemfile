@@ -40,6 +40,7 @@ end
 group :development, :test do
   gem 'pry'
   gem 'pry-stack_explorer'
+  gem 'pry-byebug'
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
