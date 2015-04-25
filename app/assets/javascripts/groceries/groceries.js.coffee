@@ -159,37 +159,6 @@ $ ->
 
       $(@).submit()
 
-
-    # carry_over = []
-    # $item_ids = $('#new-list-modal').find('#finish_grocery_item_ids')
-
-    # $carry_over_table = $('#carry-over-table').dataTable
-    #   scrollY: "200px"
-    #   paging: false
-    #   ajax: "/groceries/" + grocery_id + "/items.json"
-    #   columnDefs: [
-    #     { "class": "never", "targets": 0 }
-    #   ]
-
-    # $('#carry-over-table').on 'click', 'tr', ->
-    #   item_id = $carry_over_table.fnGetData($(@))[0];
-
-    #   if $(@).hasClass 'selected'
-    #     carry_over = carry_over.filter (id) -> id isnt item_id
-    #     $item_ids.val(carry_over)
-    #     $(@).removeClass('selected')
-    #   else
-    #     $(@).addClass('selected')
-    #     carry_over.push item_id
-    #     $item_ids.val(carry_over)
-
-    # $('.no-carry').click ->
-    #   $('#new-list-modal').find('#finish_grocery_carry').val(undefined)
-    #   $('form.finish_grocery').submit()
-
-    # $('#carry').click ->
-    #   $('#new-list-modal').find('#finish_grocery_carry').val(true)
-
     # ============================
     # Typeahead setup
     # ============================
