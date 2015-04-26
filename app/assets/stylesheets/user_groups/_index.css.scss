@@ -17,9 +17,7 @@
       border-radius: 0.4rem;
 
       &:hover {
-        i.fa-group {
-          color: $new-green;
-        }
+        i.fa { color: $new-green; }
       }
 
       .default-group {

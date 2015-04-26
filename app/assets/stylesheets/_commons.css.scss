@@ -32,7 +32,7 @@ body {
 
   .container {
     min-height: 100%;
-    background: $green;
+    background: linear-gradient($green, $new-cross-blue);
     @media #{$medium-up} { padding: 7rem 0 3rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
   }
