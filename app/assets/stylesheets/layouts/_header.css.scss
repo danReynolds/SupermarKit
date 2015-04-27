@@ -1,4 +1,22 @@
-.header {
-  &.top-bar { background: $header-green !important; }
+.magellan.header {
+  background: $header-green !important;
+
+  ul, li { margin: 0; }
   li, a { background: $header-green !important; }
+
+  a {
+    color: white !important;
+    &:hover { color: $bright-green; }
+  }
+
+  dd.active {
+    background: white !important;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 1px rgb(129, 129, 129);
+
+    a {
+      color: $bright-green !important;
+      background: none !important;
+    }
+  }
 }
