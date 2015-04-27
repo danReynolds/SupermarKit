@@ -20,14 +20,14 @@
         transition: all 0.4s ease-in-out;
         cursor: move;
 
-        &.selected { background: $new-bright-green; }
+        &.selected { background: $bright-green; }
 
         i {
           float: right;
           margin-top: 4px;
-          color: $new-red;
+          color: $red;
           cursor: pointer;
-          &:hover { color: darken($new-red, 10%) }
+          &:hover { color: darken($red, 10%) }
         }
       }
     }
@@ -40,10 +40,6 @@
 
 @media #{$small-only} {
   #new-list-modal { top: 0 !important; }
-}
-
-body.gu-unselectable {
-  overflow-y: auto;
 }
 
 .groceries-show {
@@ -97,13 +93,13 @@ body.gu-unselectable {
 
     .dropdown {
       i {
-        background: $new-bright-green;
+        background: $bright-green;
         padding: 6px 4px 4px 6px;
         border-radius: 20px;
         color: white;
 
         &:hover {
-          background: darken($new-bright-green, 10%);
+          background: darken($bright-green, 10%);
         }
       }
     }

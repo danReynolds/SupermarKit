@@ -6,7 +6,7 @@
     padding: 1rem 0 4rem 0;
 
     li { list-style-type: none; }
-    #apple { fill: $new-bright-green; }
+    #apple { fill: $bright-green; }
     h1 {
       color: white;
       font-size: 3rem;
@@ -43,9 +43,9 @@
     }
 
     .animate { visibility: hidden; }
-    #measure { fill: $new-red; }
-    #meal { fill: $new-blue; }
-    #man { fill: $new-bright-green; }
+    #measure { fill: $red; }
+    #meal { fill: $blue; }
+    #man { fill: $bright-green; }
     h2 { margin-top: 3rem; }
     padding: 3rem 0;
     .columns {
