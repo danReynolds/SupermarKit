@@ -1,5 +1,5 @@
 body {
-  background: $white !important;
+  background: white !important;
   font-weight: 100;
   color: $gray;
 
@@ -25,14 +25,14 @@ body {
   }
 
   a { color: $gray; }
-  a.highlight { color: $new-bright-green; }
-  a:hover { color: $new-bright-green; }
+  a.highlight { color: $bright-green; }
+  a:hover { color: $bright-green; }
 
-  #meal, #man, #measure { fill: $new-blue; }
+  #meal, #man, #measure { fill: $blue; }
 
   .container {
     min-height: 100%;
-    background: linear-gradient($green, $new-cross-blue);
+    background: linear-gradient($green, $blue);
     @media #{$medium-up} { padding: 7rem 0 3rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
   }
@@ -41,17 +41,14 @@ body {
     padding: 0.7rem 1.2rem;
     border-radius: 0.4rem !important;
     color: white !important;
-    &.misc {
-      background: $blue;
-      &:hover { background: darken($blue, 10%) } 
-    }
+
     &.back {
-      background: $new-red;
-      &:hover { background: darken($new-red, 10%) } 
+      background: $red;
+      &:hover { background: darken($red, 10%) } 
     }
     &.success {
-      background: $new-bright-green;
-      &:hover { background: darken($new-bright-green, 10%) } 
+      background: $bright-green;
+      &:hover { background: darken($bright-green, 10%) } 
     }
     &.disabled {
       background: $gray;
@@ -138,7 +135,7 @@ body {
     color: $gray !important;
 
     &.select2-highlighted {
-      background: $new-bright-green;
+      background: $bright-green;
       color: white !important;
     }
   }
@@ -184,7 +181,7 @@ body {
       margin-bottom: 0;
     }
 
-    .editable-cancel { background: $new-red; }
+    .editable-cancel { background: $red; }
     input { height: 2.6rem; }
   }
 
@@ -213,7 +210,7 @@ body {
   }
   .editable-container:before {
     border-color: rgba(194, 225, 245, 0);
-    border-bottom-color: $new-bright-green;
+    border-bottom-color: $bright-green;
     border-width: 13px;
     margin-left: -13px;
   }
@@ -223,5 +220,5 @@ body {
   }
 
   .tab-bar .menu-icon { text-indent: 0.6rem; }
-  #squiggle { fill: $new-bright-green; }
+  #squiggle { fill: $bright-green; }
 }
