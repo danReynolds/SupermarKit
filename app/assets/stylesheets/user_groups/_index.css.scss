@@ -17,7 +17,7 @@
       border-radius: 0.4rem;
 
       &:hover {
-        i.fa { color: $new-green; }
+        i.fa { color: $green; }
       }
 
       .default-group {
@@ -37,7 +37,7 @@
           position: absolute;
           top: 3px;
           right: 6px;
-          color: $new-bright-green;
+          color: $bright-green;
           display: none;
         }
 
@@ -48,7 +48,7 @@
         }
 
         &.selected {
-          background: $new-bright-green;
+          background: $bright-green;
 
           .fa-check {
             display: block;
@@ -64,7 +64,7 @@
 
       i.fa-group, i.fa-plus-square-o {
         font-size: 10rem;
-        color: $new-bright-green;
+        color: $bright-green;
       }
     }
   }
