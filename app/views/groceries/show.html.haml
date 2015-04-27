@@ -93,7 +93,7 @@
       .columns.large-12
         = link_to 'Continue', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
     = link_to '#', class: 'close-reveal-modal' do
-      = fa_icon 'remove'
+      &#215
   
   #new-list-modal.reveal-modal.tiny{ "data-reveal" => "", role: "dialog" }
     .row
@@ -109,4 +109,4 @@
               = f.input :current_ids, as: :hidden
               = f.input :next_ids, as: :hidden
     = link_to '#', class: 'close-reveal-modal' do
-      = fa_icon 'remove'
+      &#215
