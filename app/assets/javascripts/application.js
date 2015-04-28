@@ -18,6 +18,7 @@
 //= require nprogress-turbolinks
 //= require jquery-editable-poshytip.min
 //= require jquery.poshytip.min
+//= require elevator.min
 
 // =============================
 // Page Scripts

@@ -1,5 +1,4 @@
 - if current_user
-
   .off-canvas-wrap{"data-offcanvas" => ""}
     .inner-wrap
       .show-for-medium-up
@@ -8,7 +7,7 @@
             %section.top-bar-section
               %ul.left
                 %li.primary-action
-                  - if current_user && current_user.default_group
+                  - if current_user.default_group
                     - if current_user.default_group.active_groceries.first
                       = link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
                     - else
@@ -16,22 +15,14 @@
                   - else
                     = link_to 'SupermarKit', root_path
               %ul.right
-                - if current_user
-                  %li
-                    = link_to 'Kits', user_groups_path
-                  %li
-                    = link_to 'Me', current_user
-                  %li
-                    = link_to 'About', about_path
-                  %li
-                    = link_to 'Logout', logout_path, method: :post
-                - else
-                  %li
-                    = link_to 'About', about_path
-                  %li
-                    = link_to 'Login', login_path
-                  %li
-                    = link_to 'Sign up', new_user_path
+                %li
+                  = link_to 'Kits', user_groups_path
+                %li
+                  = link_to 'Me', current_user
+                %li
+                  = link_to 'About', about_path
+                %li
+                  = link_to 'Logout', logout_path, method: :post
       .hide-for-medium-up
         %nav.header.tab-bar
           %section.left-small
@@ -63,34 +54,34 @@
               %label SupermarKit
             %li
               = link_to 'Home', root_path
-            - if current_user
-              %li
-                = link_to 'Kits', user_groups_path
-              %li
-                = link_to 'Me', current_user
-              %li
-                = link_to 'About', about_path
-              %li
-                = link_to 'Logout', logout_path, method: :post
-            - else
-              %li
-                = link_to 'About', about_path
-              %li
-                = link_to 'Login', login_path
-              %li
-                = link_to 'Sign up', new_user_path
+            %li
+              = link_to 'Kits', user_groups_path
+            %li
+              = link_to 'Me', current_user
+            %li
+              = link_to 'About', about_path
+            %li
+              = link_to 'Logout', logout_path, method: :post
         %a.exit-off-canvas
       = render partial: 'layouts/flash_messages'
       = yield
 
 - else
   .magellan.header{"data-magellan-expedition" => "fixed"}
-    %dl.sub-nav
-      %dd{"data-magellan-arrival" => "signup"}
-        = link_to "Sign up", '#signup'
-      %dd{"data-magellan-arrival" => "groceries"}
-        = link_to "Grocery lists", '#groceries'
-      %dd{"data-magellan-arrival" => "kits"}
-        = link_to "Kits", "#kits"
+    %dl.sub-nav{ "data-magellan-destination" => "signup" }
+      - if current_page? root_path
+        %dd{"data-magellan-arrival" => "signup"}
+          = link_to "Sign up", '#signup'
+        %dd{"data-magellan-arrival" => "groceries"}
+          = link_to "Grocery lists", '#groceries'
+        %dd{"data-magellan-arrival" => "kits"}
+          = link_to "Kits", "#kits"
+        %dd{"data-magellan-arrival" => "finish"}
+          = link_to "Buy groceries", "#finish"
+      - else
+        %dd.left
+          = link_to 'Supermarkit', root_path
+      %dd.right
+        = link_to "Login", login_path
   = render partial: 'layouts/flash_messages'
   = yield
