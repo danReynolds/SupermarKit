@@ -1,5 +1,6 @@
 .contain-to-grid.scroll
-  .home#signup{ "data-magellan-destination" => "signup" }
+  .home
+    #signup{ "data-magellan-destination" => "signup" }
       .row
         .columns.large-12.small-12.medium-12
           %h1 SupermarKit
@@ -22,6 +23,16 @@
           %p Cross-list items are drawn from all public lists across SupermarKit, eliminating the need for manual data-entry through the use of highly-integrated autocomplete.
         .columns.large-7
           = image_tag 'homepage/lists.png'
+
+    .section#kits{ "data-magellan-destination" => "kits" }
+      .row
+        .columns.large-5
+          %h1 Kits.
+          %p They're the reason why we're all here and they're at the very core of SupermarKit. Your lists remember what items you have used in the past in order to make adding recurring items quick and painless.
+          %p Cross-list items are drawn from all public lists across SupermarKit, eliminating the need for manual data-entry through the use of highly-integrated autocomplete.
+        .columns.large-7
+          = image_tag 'homepage/lists.png'
+
   :coffeescript
     @page = "home"
 
