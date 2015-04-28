@@ -1,3 +1,8 @@
+nav.header {
+  background: $header-green !important;
+  li, a { background: $header-green !important; }
+}
+
 .magellan.header {
   background: $header-green !important;
 
@@ -7,6 +12,7 @@
   a {
     color: white !important;
     &:hover { color: $bright-green; }
+    padding: 0;
   }
 
   dd.active {
