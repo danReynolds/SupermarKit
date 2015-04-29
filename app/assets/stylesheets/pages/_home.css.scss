@@ -37,12 +37,9 @@
       box-shadow: 0 0 1px $gray;
     }
 
-    h1 {
-      color: $gray;
-    }
+    h1 { color: $gray; }
 
-    &#groceries {
-      padding-top: 10rem;
-    }
+    &#groceries { padding-top: 10rem; }
+    &#elevator { padding-bottom: 10rem; }
   }
 }

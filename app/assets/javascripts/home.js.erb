@@ -3,7 +3,8 @@ window.onload = function() {
   var elevator = new Elevator({
     element: document.querySelector('.elevator-button'),
     endAudio: sound,
-    duration: 1500
+    mainAudio: false,
+    duration: 2000
   });
 
   $('.elevator-button').click(function() {
