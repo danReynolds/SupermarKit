@@ -1,9 +1,9 @@
 .home {
-  #hero {
+  #signup {
     background-image: linear-gradient(rgba(30, 144, 101, 1), rgba(43, 145, 99, 0.8)), image-url('home-banner-background.jpg');
     height: 100%;
     text-align: center;
-    padding: 1rem 0 4rem 0;
+    padding: 1rem 0 5rem 0;
 
     li { list-style-type: none; }
     #apple { fill: $bright-green; }
@@ -28,29 +28,18 @@
     }
   }
 
-  #hook {
-    background: image-url('home-background.jpg') no-repeat center center;
-    background-size: cover;
+  .section {
+    padding: 5rem 0;
+    background: white;
 
-    svg {
-      margin: 1rem 0;
+    img {
+      border-radius: 4px;
+      box-shadow: 0 0 1px $gray;
     }
 
-    .widget {
-      @media #{$small-only} { margin: 1rem; }
-      padding: 1rem;
-      border-radius: 0.25rem;
-    }
+    h1 { color: $gray; }
 
-    .animate { visibility: hidden; }
-    #measure { fill: $red; }
-    #meal { fill: $blue; }
-    #man { fill: $bright-green; }
-    h2 { margin-top: 3rem; }
-    padding: 3rem 0;
-    .columns {
-      text-align: center;
-      padding: 2rem 0;
-    }
+    &#groceries { padding-top: 10rem; }
+    &#elevator { padding-bottom: 10rem; }
   }
 }
