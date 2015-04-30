@@ -164,3 +164,18 @@ $ ->
     # ============================
 
     setup_typeahead($('.groceries-show #items_ids'), $grocery_table, $("form.items"), grocery_id)
+
+    # ============================
+    # Recipe Functionality
+    # ============================
+
+    $.get "/groceries/" + grocery_id + "/items.json", (items) ->
+      ingredients = $.map items.data, (item, i) ->
+        item.name
+      ingredients = ingredients.join(",")
+      $.ajax 
+        url: "http://food2fork.com/api/search?key=3e9166ad629eca6587a5e501e4e30961&q=#{ingredients}"
+        crossDomain: true
+        dataType: 'json'
+        success: (data) ->
+          console.log(data)
