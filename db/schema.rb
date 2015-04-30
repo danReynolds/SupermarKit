@@ -58,9 +58,10 @@ ActiveRecord::Schema.define(version: 20150430013216) do
     t.integer  "user_group_default_id"
   end
 
-  create_table "user_groups_users", id: false, force: true do |t|
-    t.integer "user_group_id", null: false
-    t.integer "user_id",       null: false
+  create_table "user_groups_users", force: true do |t|
+    t.integer "user_group_id",                     null: false
+    t.integer "user_id",                           null: false
+    t.string  "state",         default: "invited"
   end
 
   create_table "users", force: true do |t|

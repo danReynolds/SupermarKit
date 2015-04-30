@@ -8,7 +8,10 @@ $ ->
     "<div class=\"columns large-12\"><div>" + user.name + "</div></div></div>"
 
   usersFormatSelection = (user) ->
-    user.name
+    if user.state == "invited"
+      "#{user.name} - #{user.state}"
+    else
+      user.name
 
   $('.user-groups-edit #user_group_user_ids').select2
     placeholder: "Add other users to the group."
