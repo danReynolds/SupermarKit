@@ -27,11 +27,11 @@ class UserGroupsController < ApplicationController
 
   def edit
     @user_group = UserGroup.find(params[:id])
-
-    @users = @user_group.users.map do |user|
+    @users = @user_group.user_groups_users.map do |user_group_user|
       {
-        id: user.id,
-        name: user.name
+        id: user_group_user.user.id,
+        name: user_group_user.user.name,
+        state: user_group_user.state
       }
     end
   end
