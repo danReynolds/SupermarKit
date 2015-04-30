@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 20150430013216) do
     t.string   "uid",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
 
   create_table "groceries", force: true do |t|
     t.string   "name"
