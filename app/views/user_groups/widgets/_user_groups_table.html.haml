@@ -10,10 +10,15 @@
               %th Name
               %th Email
           %tbody
-            - @user_group.users.each do |user|
+            - @user_group.user_groups_users.each do |user_group_user|
               %tr
-                %td= truncate user.name, length: 25
-                %td= truncate user.email, length: 25
+                - if user_group_user.state == UserGroupsUsers::ACCEPTED
+                  %td= truncate user_group_user.user.name, length: 25
+                  %td= truncate user_group_user.user.email, length: 25
+                - else
+                  %td #{truncate user_group_user.user.name, length: 25} - #{user_group_user.state}
+                  %td N/A
+
     .row
       .columns.large-12
         = link_to "Edit your group", edit_user_group_path(@user_group), class: :button
