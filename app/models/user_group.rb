@@ -13,4 +13,8 @@ class UserGroup < ActiveRecord::Base
   def finished_groceries
     groceries.where.not(finished_at: nil)
   end
+
+  def accepted_users
+    user_groups_users.where(state: UserGroupsUsers::ACCEPTED).map(&:user)
+  end
 end
