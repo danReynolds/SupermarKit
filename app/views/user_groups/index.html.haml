@@ -13,19 +13,24 @@
             %li
               .group
                 .wrapper
-                  .default-group{ class: current_user.default_group == group ? 'selected' : '', data: { value: group.id } }
-                    = fa_icon 'check'
-
-                  - if active_grocery = group.active_groceries.first
-                    = link_to active_grocery do
-                      = fa_icon 'group'
-                      %p #{group.name}
+                  - if group.user_state(current_user) == UserGroupsUsers::ACCEPTED
+                    .default-group{ class: current_user.default_group == group ? 'selected' : '', data: { value: group.id } }
+                      = fa_icon 'check'
                   - else
-                    = link_to new_user_group_grocery_path(group) do
-                      = fa_icon 'group'
-                      %p #{group.name}
+                    .group-invite
+                      Accept invitation
+                  .group-body
+                    - if active_grocery = group.active_groceries.first
+                      = link_to active_grocery do
+                        = fa_icon 'group'
+                        %p #{group.name}
+                    - else
+                      = link_to new_user_group_grocery_path(group) do
+                        = fa_icon 'group'
+                        %p #{group.name}
           %li.group
             = link_to new_user_group_path do
               .wrapper
-                = fa_icon 'plus-square-o'
-                %p Create Grocery Kit
+                .group-body
+                  = fa_icon 'plus-square-o'
+                  %p Create Grocery Kit

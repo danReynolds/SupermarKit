@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def auto_complete
-    users = User.with_name(params[:q]).each do |user|
+    users = User.with_name(params[:q]).map do |user|
       {
         id: user.id,
         name: user.name

@@ -17,4 +17,8 @@ class UserGroup < ActiveRecord::Base
   def accepted_users
     user_groups_users.where(state: UserGroupsUsers::ACCEPTED).map(&:user)
   end
+
+  def user_state(user)
+    user_groups_users.find_by_user_id(user.id).state
+  end
 end
