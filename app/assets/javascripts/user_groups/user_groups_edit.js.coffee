@@ -4,12 +4,11 @@ $ ->
   # ============================
 
   usersFormatResults = (user) ->
-    markup = "<div class=\"row\">" +
-    "<div class=\"columns large-12\"><div>" + user.name + "</div></div></div>"
+    markup = "<div class=\"row\"><div class=\"columns large-12\"><div>#{user.name}</div></div></div>"
 
   usersFormatSelection = (user) ->
-    if user.state == "invited"
-      "#{user.name} - #{user.state}"
+    if user.state == "invited" || user.state == undefined
+      "#{user.name} - invited"
     else
       user.name
 
@@ -18,7 +17,7 @@ $ ->
     minimumInputLength: 1
     multiple: true
     ajax:
-      url: "/users/auto_complete"
+      url: "/users/auto_complete/?"
       dataType: "json"
       quietMillis: 250
       data: (term, page) ->

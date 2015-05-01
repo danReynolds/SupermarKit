@@ -19,6 +19,7 @@ class UserGroupsController < ApplicationController
 
     if @user_group.save
       @user_group.users << users
+      @user_group.user_groups_users.find_by_user_id(current_user.id).update_attribute(:state, UserGroupsUsers::ACCEPTED)
       redirect_to new_user_group_grocery_path(@user_group)
     else
       render action: :new
