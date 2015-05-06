@@ -14,11 +14,12 @@
                 = f.input :password
                 = f.input :password_confirmation
                 = f.button :submit, 'Create'
-              .columns.large-6
+              .columns.large-6.social-icons
                 %p Or if you prefer, create an account using one of our friends below:
-                = link_to auth_at_provider_path(provider: :facebook) do
-                  = fa_icon 'facebook'
-                = link_to auth_at_provider_path(provider: :google) do
-                  = fa_icon 'google'
-                = link_to auth_at_provider_path(provider: :github) do
-                  = fa_icon 'github'
+                .text-center
+                  = link_to auth_at_provider_path(provider: :facebook) do
+                    = fa_icon 'facebook'
+                  = link_to auth_at_provider_path(provider: :google) do
+                    = fa_icon 'google'
+                  = link_to auth_at_provider_path(provider: :github) do
+                    = fa_icon 'github'
