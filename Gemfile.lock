@@ -55,6 +55,8 @@ GEM
     capistrano-rails (1.1.2)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-rails-console (0.5.2)
+      capistrano (>= 3.0.0, < 4.0.0)
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
@@ -295,6 +297,7 @@ DEPENDENCIES
   canard (= 0.4.2.pre)
   capistrano (~> 3.1)
   capistrano-rails (~> 1.1)
+  capistrano-rails-console
   capistrano-rvm
   capybara
   chartkick
