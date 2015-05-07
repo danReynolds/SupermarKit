@@ -12,7 +12,7 @@
                 = f.input :email
                 = f.input :password
                 = f.button :submit, 'Login'
-              .columns.large-6.text-center
+              .columns.large-6.text-center.social-icons
                 = link_to auth_at_provider_path(provider: :facebook) do
                   = fa_icon 'facebook'
                 = link_to auth_at_provider_path(provider: :google) do
