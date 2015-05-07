@@ -30,6 +30,7 @@ gem 'maildown'
 gem 'dotenv-deployment'
 gem 'nprogress-rails'
 gem "browserify-rails", "~> 0.7"
+gem 'capistrano-rails-console'
 gem 'coveralls', require: false
 
 group :development do
