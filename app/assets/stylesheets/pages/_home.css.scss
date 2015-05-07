@@ -24,6 +24,11 @@
       input {
         border-radius: 2px;
         height: 3rem;
+        
+        &.button {
+          margin: 0 0 1rem;
+          display: block;
+        }
       }
     }
   }

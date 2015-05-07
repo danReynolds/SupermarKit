@@ -7,10 +7,15 @@
         .main
           .row
           = simple_form_for :session, url: user_sessions_path do |f|
-            .row
-              .columns.large-6.large-centered
+            .row.social-icons
+              .columns.large-6
                 = f.input :email
-            .row
-              .columns.large-6.large-centered
                 = f.input :password
                 = f.button :submit, 'Login'
+              .columns.large-6.text-center.social-icons
+                = link_to auth_at_provider_path(provider: :facebook) do
+                  = fa_icon 'facebook'
+                = link_to auth_at_provider_path(provider: :google) do
+                  = fa_icon 'google'
+                = link_to auth_at_provider_path(provider: :github) do
+                  = fa_icon 'github'
