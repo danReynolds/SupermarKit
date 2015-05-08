@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   load_and_authorize_resource
   skip_load_and_authorize_resource only: :activate
   skip_authorization_check only: :activate
-	
+
 	def index
 	end
 
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       link = new_user_group_grocery_path(user.default_group)
     end
 
-    render json: { success: true, name: new_group.name, href: link } 
+    render json: { success: true, name: new_group.name, href: link }
   end
 
   def activate
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   def create
     if @user.save
       redirect_to(root_path, notice: 'Welcome to Supermarkit! We have sent you a confirmation email to get started.')
-    else  
+    else
       render :new, notice: 'Unable to create user.'
     end
   end
@@ -73,8 +73,8 @@ class UsersController < ApplicationController
   end
 
 private
-	
+
 	def user_params
 		params.require(:user).permit(:name, :email, :password, :password_confirmation)
-	end 
+	end
 end

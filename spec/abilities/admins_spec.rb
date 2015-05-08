@@ -15,9 +15,10 @@ describe Canard::Abilities, 'for :admin' do
     # You then need to check every object
     # The above line is checking if (can :manage, :all) is present,
     # But it could be followed by a (cannot :manage, User) for example, so all must be checked
-    it { can([:metrics, :read, :create, :destroy, :update, :manage], any(:user_group)) }
-    it { can([:toggle_finish, :read, :create, :destroy, :update, :manage], any(:grocery)) }
+    it { can([:read, :create, :destroy, :update, :manage], any(:authentication)) }
+    it { can([:accept_invitation, :metrics, :read, :create, :destroy, :update, :manage], any(:user_group)) }
+    it { can([:finish, :reopen, :email_group, :read, :create, :destroy, :update, :manage], any(:grocery)) }
     it { can([:auto_complete, :add, :remove, :read, :create, :destroy, :update, :manage], any(:item)) }
-    it { can([:auto_complte, :activate, :read, :create, :destroy, :update, :manage], any(:user)) }
+    it { can([:auto_complete, :activate, :read, :create, :destroy, :update, :manage], any(:user)) }
   end
 end
