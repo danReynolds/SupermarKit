@@ -1,0 +1,8 @@
+#flash-messages
+  - if params[:errors].present?
+    #flash
+      - params[:errors].each do |msg|
+        .alert-box.radius{data: { alert: true }}
+          = h(msg)
+          = link_to '#', class: 'close' do
+            &times

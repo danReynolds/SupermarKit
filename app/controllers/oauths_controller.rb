@@ -20,7 +20,8 @@ class OauthsController < ApplicationController
         auto_login(@user)
         redirect_to user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first group of people you're shopping for."
       rescue
-        redirect_to :back, alert: "We were unable to log you in."
+        @user.valid?
+        redirect_to new_user_path(errors: @user.errors.full_messages)
       end
     end
   end
