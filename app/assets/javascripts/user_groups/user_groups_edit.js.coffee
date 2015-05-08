@@ -4,18 +4,20 @@ $ ->
   # ============================
 
   usersFormatResults = (user) ->
-    markup = "<div class=\"row\">" +
-    "<div class=\"columns large-12\"><div>" + user.name + "</div></div></div>"
+    markup = "<div class=\"row\"><div class=\"columns large-12\"><div>#{user.name}</div></div></div>"
 
   usersFormatSelection = (user) ->
-    user.name
+    if user.state == "invited" || user.state == undefined
+      "#{user.name} - invited"
+    else
+      user.name
 
   $('.user-groups-edit #user_group_user_ids').select2
     placeholder: "Add other users to the group."
     minimumInputLength: 1
     multiple: true
     ajax:
-      url: "/users/auto_complete"
+      url: "/users/auto_complete/?"
       dataType: "json"
       quietMillis: 250
       data: (term, page) ->
