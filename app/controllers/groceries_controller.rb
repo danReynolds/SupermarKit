@@ -23,7 +23,7 @@ class GroceriesController < ApplicationController
       end
     end
 	end
-	
+
 	def show
 	end
 
