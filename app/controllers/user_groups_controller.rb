@@ -50,11 +50,22 @@ class UserGroupsController < ApplicationController
 
   def metrics
     groceries = @user_group.finished_groceries
-    @metrics = { 
+    @metrics = {
       grocery_spending: groceries.map{ |grocery| [grocery.finished_at.to_date, grocery.total] },
       grocery_cost: groceries.last(5).map{ |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.total } } },
       grocery_items: groceries.last(5).map{ |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.items.count } } }
     }
+  end
+
+  def accept_invitation
+    @user_group_user = @user_group.user_groups_users.find_by_user_id(current_user.id)
+    @user_group_user.state = UserGroupsUsers::ACCEPTED
+
+    if @user_group_user.save
+      render nothing: true, status: :ok
+    else
+      render nothing: true, status: :internal_server_error
+    end
   end
 
 private

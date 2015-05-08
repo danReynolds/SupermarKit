@@ -17,8 +17,8 @@
                     .default-group{ class: current_user.default_group == group ? 'selected' : '', data: { value: group.id } }
                       = fa_icon 'check'
                   - else
-                    .group-invite
-                      Accept invitation
+                    .group-invite{ data: { value: group.id } }
+                      Join
                   .group-body
                     - if active_grocery = group.active_groceries.first
                       = link_to active_grocery do

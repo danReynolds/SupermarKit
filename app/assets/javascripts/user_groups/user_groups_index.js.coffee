@@ -3,7 +3,7 @@ $ ->
     _this = this
     $.ajax
       method: "PATCH"
-      url: "/users/" + current_user_id + "/default_group/?default_group_id=" + $(this).data('value')
+      url: "/users/" + current_user_id + "/default_group/?default_group_id= #{$(this).data('value')}"
       success: (data) ->
         if ($('.default-group.selected').length > 0)
           $('.default-group.selected')[0].classList.remove('selected')
@@ -14,3 +14,14 @@ $ ->
         $('li.primary-action a')[0].href = data.href
         _this.classList.add('selected')
   )
+
+  $('.user-groups-index').on 'click', '.group-invite', ->
+    $self = $(@);
+
+    $.ajax({
+        method: "PATCH"
+        url: "/user_groups/#{$(@).data('value')}/accept_invitation"
+      })
+      .then ->
+        $self.removeClass("group-invite").addClass("default-group");
+        $self.html("")

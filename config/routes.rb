@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   post 'logout' => 'user_sessions#destroy', as: :logout
   get 'about' => 'pages#about', as: :about
   root to: 'pages#home'
-  
+
   resources :password_resets
   resources :user_sessions
 
@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       end
       member do
         get :metrics
+        patch :accept_invitation
       end
     end
   end
