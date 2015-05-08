@@ -53,7 +53,13 @@
             %li
               %label SupermarKit
             %li
-              = link_to 'Home', root_path
+              - if current_user.default_group
+                - if current_user.default_group.active_groceries.first
+                  = link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
+                - else
+                  = link_to "#{current_user.default_group.name} Kit", new_user_group_grocery_path(current_user.default_group)
+              - else
+                = link_to 'Home', root_path
             %li
               = link_to 'Kits', user_groups_path
             %li
@@ -64,6 +70,7 @@
               = link_to 'Logout', logout_path, method: :post
         %a.exit-off-canvas
       = render partial: 'layouts/flash_messages'
+      = render partial: 'layouts/error_messages'
       = yield
 
 - else
@@ -84,4 +91,5 @@
       %dd.right
         = link_to "Login", login_path
   = render partial: 'layouts/flash_messages'
+  = render partial: 'layouts/error_messages'
   = yield

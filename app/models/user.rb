@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   validates :password_confirmation, length: { minimum: 3 }, if: :new_record?
   validates :password_confirmation, presence: true, if: :new_record?
   validates :name, presence: true, uniqueness: true
-  validates :email, uniqueness: true
+  validates :email, uniqueness: true, presence: true
 
   has_many :user_groups_users, class_name: UserGroupsUsers
   has_many :user_groups, through: :user_groups_users
