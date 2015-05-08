@@ -1,5 +1,6 @@
 class UserGroup < ActiveRecord::Base
-  has_and_belongs_to_many :users
+  has_many :user_groups_users, class_name: UserGroupsUsers
+  has_many :users, through: :user_groups_users
   has_many :items, -> { uniq }, through: :groceries
   has_many :groceries
 
@@ -11,5 +12,13 @@ class UserGroup < ActiveRecord::Base
 
   def finished_groceries
     groceries.where.not(finished_at: nil)
+  end
+
+  def accepted_users
+    user_groups_users.where(state: UserGroupsUsers::ACCEPTED).map(&:user)
+  end
+
+  def user_state(user)
+    user_groups_users.find_by_user_id(user.id).state
   end
 end
