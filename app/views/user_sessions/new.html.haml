@@ -12,10 +12,12 @@
                 = f.input :email
                 = f.input :password
                 = f.button :submit, 'Login'
-              .columns.large-6.text-center.social-icons
-                = link_to auth_at_provider_path(provider: :facebook) do
-                  = fa_icon 'facebook'
-                = link_to auth_at_provider_path(provider: :google) do
-                  = fa_icon 'google'
-                = link_to auth_at_provider_path(provider: :github) do
-                  = fa_icon 'github'
+              .columns.large-6.social-icons
+                %p Or if you prefer, login with one of our friends below:
+                .text-center
+                  = link_to auth_at_provider_path(provider: :facebook) do
+                    = fa_icon 'facebook'
+                  = link_to auth_at_provider_path(provider: :google) do
+                    = fa_icon 'google'
+                  = link_to auth_at_provider_path(provider: :github) do
+                    = fa_icon 'github'
