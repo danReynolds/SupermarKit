@@ -15,6 +15,7 @@ module AbilitiesHelper
     let(:own_user_group) { create(:user_group, users: [user]) }
     let(:own_grocery) { create(:grocery, user_group: own_user_group) }
     let(:own_item) { create(:item) }
+    let(:own_authentication) { create(:authentication, user_id: user.id) }
 
     before :each do
       own_item.groceries << own_grocery
