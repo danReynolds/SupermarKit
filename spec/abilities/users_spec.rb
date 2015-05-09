@@ -24,12 +24,12 @@ describe Canard::Abilities, 'for :user' do
   describe 'grocery' do
 
     context 'should be able to' do
-      it { can([:finish, :email_group, :reopen, :read, :update, :create, :destroy, :toggle_finish, :manage], own_grocery) }
+      it { can([:finish, :email_group, :read, :update, :create, :destroy, :toggle_finish, :manage], own_grocery) }
       it { can([:create], any(:grocery)) }
     end
 
     context 'should not be able to' do
-      it { cant([:finish, :email_group, :reopen, :read, :update, :destroy, :toggle_finish, :manage], any(:grocery)) }
+      it { cant([:finish, :email_group, :read, :update, :destroy, :toggle_finish, :manage], any(:grocery)) }
     end
   end
 

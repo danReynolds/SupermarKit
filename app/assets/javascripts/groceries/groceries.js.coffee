@@ -62,7 +62,7 @@ $ ->
 
               if (this.name == "groceries_items_attributes")
                 params.item.groceries_items_attributes = {
-                  "0": { 
+                  "0": {
                     "quantity": params.value,
                     id: params.pk.groceries_items_id
                   }
@@ -86,7 +86,7 @@ $ ->
 
               if (this.name == "groceries_items_attributes")
                 params.item.groceries_items_attributes = {
-                  "0": { 
+                  "0": {
                     "quantity": params.value,
                     id: params.pk.groceries_items_id
                   }

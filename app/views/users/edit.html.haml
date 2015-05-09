@@ -10,8 +10,4 @@
               .columns.large-6.large-centered
                 = f.input :name
                 = f.input :email
-                %ul.button-group
-                  %li
-                    = link_to 'back', @user, class: 'button back'
-                  %li
-                    = f.button :submit, 'Update'
+                = f.button :submit, 'Update'
