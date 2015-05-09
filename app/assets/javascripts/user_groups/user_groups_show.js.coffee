@@ -15,10 +15,11 @@ $ ->
         dataSrc: (json) ->
           json = formatGroceries(json)
 
-      "order": [[ 0, "asc" ]]
+      "order": [[ 5, "asc" ]]
       "columnDefs": [
         { "class": "never", "targets": 0 }
         { "class": "min-tablet-l", "targets": 2 }
         { "class": "min-tablet-l", "targets": 3 }
         { "class": "min-tablet-p", "targets": 4 }
       ]
+      console.log("here")

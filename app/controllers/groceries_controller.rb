@@ -5,9 +5,6 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
   def index
-    @active_grocery = @user_group.active_groceries.first
-    @groceries = @groceries - [@active_grocery]
-
     respond_to do |format|
       format.json do
         groceries = @groceries.sort_by(&:created_at).map do |grocery|
@@ -17,6 +14,7 @@ class GroceriesController < ApplicationController
             description: grocery.description,
             count: grocery.items.count,
             cost: grocery.total.to_money.format,
+            finished: grocery.finished?
           }
         end
         render json: { data: groceries }
@@ -72,16 +70,6 @@ class GroceriesController < ApplicationController
     end
 
     redirect_to @grocery.user_group, notice: 'All group members have been emailed the grocery list.'
-  end
-
-  def reopen
-    @grocery.finished_at = @grocery.finished_at = nil
-
-    if @grocery.save
-      redirect_to @grocery, notice: 'Your grocery list has been re-opened.'
-    else
-      render :show, notice: 'Could not modify grocery.'
-    end
   end
 
 private

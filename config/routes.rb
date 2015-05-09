@@ -39,7 +39,6 @@ Rails.application.routes.draw do
         end
         member do
           patch :finish
-          patch :reopen
           get :email_group
         end
       end

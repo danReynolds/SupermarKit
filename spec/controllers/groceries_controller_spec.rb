@@ -16,7 +16,7 @@ RSpec.describe GroceriesController, type: :controller do
     it 'should return all group groceries' do
       subject
       data = JSON.parse(response.body)['data']
-      groceries = user_group.groceries - [user_group.active_groceries.first]
+      groceries = user_group.groceries
 
       expect(data.length).to eq groceries.length
 
@@ -26,16 +26,8 @@ RSpec.describe GroceriesController, type: :controller do
         expect(g.description).to eq data[i]['description']
         expect(g.items.count).to eq data[i]['count']
         expect(g.total.to_money.format).to eq data[i]['cost']
+        expect(g.finished?).to eq data[i]['finished']
       end
-    end
-  end
-
-  describe 'PATCH reopen' do
-    subject { post :reopen, id: grocery }
-
-    it 'should make grocery list unfinished' do
-      subject
-      expect(grocery.finished?).to eq false
     end
   end
 

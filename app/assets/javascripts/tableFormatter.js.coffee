@@ -19,12 +19,16 @@
   dataRows = []
 
   $.each json.data, (i, grocery) ->
+    finishedData = ""
+    finishedData = '<i class="fa fa-check"</i>' if grocery.finished
+
     dataRow = [
       grocery.id,
       "<a href='/groceries/#{grocery.id}'>#{grocery.name}</a>",
       grocery.description,
       grocery.count,
-      grocery.cost
+      grocery.cost,
+      finishedData
     ]
     dataRows.push(dataRow)
 

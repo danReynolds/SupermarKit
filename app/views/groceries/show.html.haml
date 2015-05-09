@@ -40,16 +40,13 @@
             .columns.large-12
               - if @grocery.finished?
                 %h3 All Finished!
-                %p Groceries for this list have already been purchased. You can re-open the list at any time.
+                %p Groceries for this list have already been purchased. You can still modify this list if you need to make any corrections.
               - else
                 %h3 Been through checkout?
                 %p Once you have purchased your groceries you can finish your list and we'll start a new one for you.
           .row
             .columns.large-12
-              - if @grocery.finished?
-                = simple_form_for :finish, url: reopen_grocery_path(@grocery), method: :patch do |f|
-                  = f.button :submit, 'Re-open List', class: 'button'
-              - else
+              - unless @grocery.finished?
                 = link_to '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button success inline' do
                   Finish List
                   %i.fa.fa-check
@@ -74,7 +71,7 @@
               .main
                 %p View Kit statistics, manage users and view past lists all in one place.
                 = link_to 'Manage Kit', @grocery.user_group, class: 'button'
- 
+
   -# Modals
 
   #carry-over-modal.reveal-modal{ "data-reveal" => "", role: "dialog" }
@@ -94,7 +91,7 @@
         = link_to 'Continue', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
     = link_to '#', class: 'close-reveal-modal' do
       &#215
-  
+
   #new-list-modal.reveal-modal.tiny{ "data-reveal" => "", role: "dialog" }
     .row
       .columns.large-12
