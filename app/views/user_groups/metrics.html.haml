@@ -4,16 +4,16 @@
       .columns.large-6
         .widget.facts
           .header
-            %h1 Group Facts
+            %h1 Kit Metrics
           .main
             %p
               You have
               = pluralize @user_group.items.count, 'item'
-              in your group and
+              in your Kit and
               = pluralize @user_group.finished_groceries.count, 'grocery'
               finished.
               %br
-              Your group's favourite food is #{@user_group.items.sort_by { |i| i.grocery_ids.count }.last.name }.
+              You really like #{@user_group.items.sort_by { |i| i.grocery_ids.count }.last.name }.
             = link_to 'Back to Kit', @user_group, class: 'button back'
       .columns.large-6
         .widget.metrics
