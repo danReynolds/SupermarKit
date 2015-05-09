@@ -24,7 +24,7 @@
       input {
         border-radius: 2px;
         height: 3rem;
-        
+
         &.button {
           margin: 0 0 1rem;
           display: block;
@@ -34,7 +34,7 @@
   }
 
   .section {
-    padding: 5rem 0;
+    padding: 10rem 0;
     background: white;
 
     img {
@@ -44,7 +44,22 @@
 
     h1 { color: $gray; }
 
-    &#groceries { padding-top: 10rem; }
-    &#elevator { padding-bottom: 10rem; }
+    &#grocery-section {
+      background: rgb(250, 250, 250);
+    }
+
+    &#kit-section {
+      background: $green;
+      h1, p { color: white; }
+    }
+
+    &#finish-section {
+      background: white;
+    }
+
+    &#elevator-section {
+      padding-bottom: 10rem;
+      background: $dark-gray;
+    }
   }
 }
