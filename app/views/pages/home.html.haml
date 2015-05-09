@@ -14,8 +14,8 @@
               %li
                 = f.input :email, label: false, input_html: { placeholder: 'Email', class: 'round' }
               %li
-                = f.button :submit, 'Sign up', class: 'button radius' 
-    .section
+                = f.button :submit, 'Sign up', class: 'button radius'
+    .section#grocery-section
       .row
         .columns.large-5
           %h1#groceries{ "data-magellan-destination" => "groceries" } Grocery lists.
@@ -24,7 +24,7 @@
         .columns.large-7
           = image_tag 'homepage/lists.png'
 
-    .section
+    .section#kit-section
       .row
         .columns.large-4.small-6.small-only-centered
           = image_tag 'homepage/kit.png'
@@ -40,10 +40,10 @@
             or
             %strong private
             grocery items. Public items allow people to add and comment on items that others have used to their own lists so that if one person has found your favourite brand, you don't have to enter that information yourself.
-  
+
           %p While public items are shareable, no-one can see who created that item or the lists that contain it.
 
-    .section
+    .section#finish-section
       .row
         .columns.large-12
           %h1#finish{ "data-magellan-destination" => "finish" } You've gone shopping.
@@ -56,7 +56,7 @@
           %br
           %p Once you have bought your groceries, it is important to make sure that what you purchased reflects what you put on your list. When you finish your list we make it easy for you to remove any items that you forgot to or decided not to buy. You can then move those items over to your next list which we will make automatically for you.
 
-    .section#elevator
+    .section#elevator-section
       .row
         .columns.large-12.text-center
           %h1 That's us.
