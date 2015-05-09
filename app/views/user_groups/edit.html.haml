@@ -6,7 +6,7 @@
     .columns.large-10.large-centered
       .widget
         .header
-          %h3 Update Group
+          %h3 Update Kit
         .main
           = simple_form_for @user_group do |f|
             .row
@@ -14,7 +14,7 @@
                 = f.input :name
                 = f.input :description, as: :text
               .columns.large-6
-                = f.input :user_ids, label: 'Group Members'
+                = f.input :user_ids, label: 'Kit Members'
             .row
               .columns.large-12
                 = f.button :submit, 'Update', class: 'button radius'
