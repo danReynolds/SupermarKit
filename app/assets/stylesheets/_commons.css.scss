@@ -8,11 +8,11 @@ body {
   @media #{$medium-up} {
     .off-canvas-wrap { overflow: initial !important; }
   }
-  
+
   @media #{$small-only} {
     &.f-topbar-fixed { padding-top: 0 !important; }
   }
-  
+
   h1 { color: white; }
   input, textarea {
     border-radius: 5px !important;
@@ -44,11 +44,11 @@ body {
 
     &.back {
       background: $red;
-      &:hover { background: darken($red, 10%) } 
+      &:hover { background: darken($red, 10%) }
     }
     &.success {
       background: $bright-green;
-      &:hover { background: darken($bright-green, 10%) } 
+      &:hover { background: darken($bright-green, 10%) }
     }
     &.disabled {
       background: $gray;
@@ -87,7 +87,7 @@ body {
     box-shadow: 0px 0px 1px lighten($black, 50%);
     margin: 0.8rem;
     margin-bottom: 2rem;
-    border-radius: 0.75rem;
+    border-radius: 0.375rem;
 
     .main { padding: 1.4rem; }
     .header {
@@ -150,7 +150,7 @@ body {
   .select2-search-choice-close { top: 0.5rem !important; }
   .select2-result-label { margin-top: 0.8rem; }
   .select2-drop-active { border: none !important; }
-  
+
   .select2-choices {
     border-radius: 3px;
     background-image: none !important;
