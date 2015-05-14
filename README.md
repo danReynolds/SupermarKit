@@ -5,4 +5,4 @@
 # SupermarKit.
 We're a free grocery-tracking application born out of the need for a better solution to get food from the store to our mouths. If you also struggle with this issue, or just want to see what we're all about, make an account and try us out.
 
-Need a groceries? We have plenty of details about how we can help at [SupermarKit](http://supermarkit.ca).
+Need groceries? We have plenty of details about how we can help at [SupermarKit](http://supermarkit.ca).
