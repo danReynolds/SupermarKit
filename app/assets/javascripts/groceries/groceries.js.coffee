@@ -24,6 +24,11 @@ $ ->
         { "class": "min-tablet-p", "targets": 3 }
         { "class": "min-tablet-l", "targets": 5 }
       ]
+
+      fnInitComplete: ->
+        $('.grocery-spinner').hide()
+        $('.grocery-content').show()
+
       fnDrawCallback: ->
         $(document).foundation('dropdown', 'reflow')
 
@@ -173,9 +178,19 @@ $ ->
       ingredients = $.map items.data, (item, i) ->
         item.name
       ingredients = ingredients.join(",")
-      $.ajax 
-        url: "http://food2fork.com/api/search?key=3e9166ad629eca6587a5e501e4e30961&q=#{ingredients}"
-        crossDomain: true
+      $.ajax
+        url: "http://food2fork.com/api/search?key=#{foodKey}&q=#{ingredients}"
         dataType: 'json'
         success: (data) ->
-          console.log(data)
+          $('.recipe-spinner').hide()
+          $('.recipe-content').show()
+          recipes = data.recipes
+          _.each(_.first(recipes, 8), (recipe) ->
+            $('#recipes').append(
+              "<li><img src=#{recipe.image_url}>
+               </img><div class=orbit-caption><div>#{recipe.title}</div>
+               <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
+            )
+          )
+          $('#recipes').attr('data-orbit', "")
+          $(document).foundation('orbit', 'reflow')

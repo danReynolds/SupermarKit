@@ -1,6 +1,5 @@
 #carry-over-modal {
   .drag-items {
-
     .drag {
       width: 100%;
       background: rgb(240, 240, 240);
@@ -112,4 +111,27 @@
   }
 
   .select2-container { width: 100%; }
+
+  .orbit-container {
+    height: 25rem;
+
+    #recipes {
+      width: 100%;
+      position: relative;
+
+      li {
+        background: asset-url("groceries/recipeBackground.png");
+        img {
+          margin: 0 auto;
+          height: 25rem;
+        }
+      }
+    }
+
+    .orbit-caption {
+      a {
+        margin: 5px 0;
+      }
+    }
+  }
 }

@@ -1,5 +1,6 @@
 :coffee
   @grocery_id = #{@grocery.id}
+  @foodKey = "#{ENV["FOOD2FORK_KEY"]}"
 
 .container.groceries-show
   - unless @grocery.finished?
@@ -21,22 +22,25 @@
         .main
           .row
             .columns.large-12
-              %table#grocery-table.display.responsive.nowrap
-                %thead
-                  %tr
-                    %th ID
-                    %th Name
-                    %th Description
-                    %th Quantity
-                    %th Price per Item
-                    %th Total Price
-                    %th Actions
-                %tfoot
-                  %tr
-                    %th.text-right{colspan: 6}
-                      Total:
-                    %th
-          .row
+              = render partial: 'loaders/spinner'
+
+              .grocery-content.hide
+                %table#grocery-table.display.responsive.nowrap
+                  %thead
+                    %tr
+                      %th ID
+                      %th Name
+                      %th Description
+                      %th Quantity
+                      %th Price per Item
+                      %th Total Price
+                      %th Actions
+                  %tfoot
+                    %tr
+                      %th.text-right{colspan: 6}
+                        Total:
+                      %th
+          .row.grocery-content.hide
             .columns.large-12
               - if @grocery.finished?
                 %h3 All Finished!
@@ -50,6 +54,18 @@
                 = link_to '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button success inline' do
                   Finish List
                   %i.fa.fa-check
+      .row
+        .columns.large-12
+          .widget
+            .header
+              %h3 Recipes
+            .main
+              .recipe-spinner
+                = render partial: 'loaders/spinner'
+              .grocery-content.hide
+                %p We have some great ideas for what you could make based on your current grocery list.
+                %ul#recipes
+
 
     - unless @grocery.finished?
       .columns.large-4
