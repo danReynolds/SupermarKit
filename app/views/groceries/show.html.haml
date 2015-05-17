@@ -1,6 +1,5 @@
 :coffee
   @grocery_id = #{@grocery.id}
-  @foodKey = "#{ENV["FOOD2FORK_KEY"]}"
 
 .container.groceries-show
   - unless @grocery.finished?

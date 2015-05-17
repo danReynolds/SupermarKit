@@ -174,13 +174,12 @@ $ ->
     # Recipe Functionality
     # ============================
 
-    $.get "/groceries/" + grocery_id + "/items.json", (items) ->
+    $.get "/groceries/#{grocery_id}/items.json", (items) ->
       ingredients = $.map items.data, (item, i) ->
         item.name
       ingredients = ingredients.join(",")
       $.ajax
-        url: "http://food2fork.com/api/search?key=#{foodKey}&q=#{ingredients}"
-        dataType: 'json'
+        url: "/groceries/#{grocery_id}/recipes.json"
         success: (data) ->
           $('.recipe-spinner').hide()
           $('.recipe-content').show()
