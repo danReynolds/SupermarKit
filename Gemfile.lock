@@ -318,6 +318,7 @@ DEPENDENCIES
   money-rails
   mysql2
   newrelic_rpm
+  nokogiri
   nprogress-rails
   pry
   pry-byebug

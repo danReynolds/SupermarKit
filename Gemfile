@@ -27,6 +27,7 @@ gem 'capistrano-rails', '~> 1.1'
 gem 'capistrano-rvm'
 gem 'newrelic_rpm'
 gem 'maildown'
+gem 'nokogiri'
 gem 'dotenv-deployment'
 gem 'nprogress-rails'
 gem "browserify-rails", "~> 0.7"
