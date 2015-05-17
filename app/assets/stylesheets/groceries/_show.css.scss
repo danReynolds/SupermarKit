@@ -111,24 +111,34 @@
   }
 
   .select2-container { width: 100%; }
+  .reload {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .recipe-no-content {
+    font-size: 6rem;
+    text-align: center;
+  }
+
+  #recipes {
+    width: 100%;
+    position: relative;
+    margin-left: 0;
+
+    li {
+      background: asset-url("groceries/recipeBackground.png");
+      img {
+        margin: 0 auto;
+        height: 25rem;
+      }
+    }
+  }
 
   .orbit-container {
     height: 25rem;
-
-    #recipes {
-      width: 100%;
-      position: relative;
-
-      li {
-        background: asset-url("groceries/recipeBackground.png");
-        img {
-          margin: 0 auto;
-          height: 25rem;
-        }
-      }
-    }
-
     .orbit-caption {
+      text-align: left;
       a {
         margin: 5px 0;
       }

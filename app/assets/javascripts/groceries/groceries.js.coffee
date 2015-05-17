@@ -4,6 +4,7 @@ $ ->
     # ============================
     # Grocery Table Setup
     # ============================
+    table_initialized = false
 
     $grocery_table = $('#grocery-table').dataTable
       responsive: true
@@ -28,8 +29,13 @@ $ ->
       fnInitComplete: ->
         $('.grocery-spinner').hide()
         $('.grocery-content').show()
+        table_initialized = true
 
       fnDrawCallback: ->
+        if table_initialized
+          $('.reload').show()
+          $('.recipe-content').hide()
+          $('.recipe-no-content').hide()
         $(document).foundation('dropdown', 'reflow')
 
       footerCallback: (row, data, start, end, display) ->
@@ -173,23 +179,46 @@ $ ->
     # ============================
     # Recipe Functionality
     # ============================
+    recipe_initialized = false
+    recipes = []
 
-    $.get "/groceries/#{grocery_id}/items.json", (items) ->
-      ingredients = $.map items.data, (item, i) ->
-        item.name
-      ingredients = ingredients.join(",")
-      $.ajax
-        url: "/groceries/#{grocery_id}/recipes.json"
-        success: (data) ->
-          $('.recipe-spinner').hide()
-          $('.recipe-content').show()
-          recipes = data.recipes
-          _.each(_.first(recipes, 8), (recipe) ->
-            $('#recipes').append(
-              "<li><img src=#{recipe.image_url}>
-               </img><div class=orbit-caption><div>#{recipe.title}</div>
-               <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
-            )
-          )
-          $('#recipes').attr('data-orbit', "")
-          $(document).foundation('orbit', 'reflow')
+    reloadRecipes = ->
+      $('.recipe-spinner').show()
+      $('.recipe-content').hide()
+      $('.recipe-no-content').hide()
+      $.get "/groceries/#{grocery_id}/items.json", (items) ->
+        ingredients = $.map items.data, (item, i) ->
+          item.name
+        ingredients = ingredients.join(",")
+        $.ajax
+          url: "/groceries/#{grocery_id}/recipes.json"
+          success: (data) ->
+            $('.recipe-spinner').hide()
+            $('.recipe-content').show()
+            recipes = data.recipes
+
+            if recipes.length > 0
+              _.each(_.first(recipes, 8), (recipe) ->
+                console.log "Here"
+                $('#recipes').append(
+                  "<li><img src=#{recipe.image_url}>
+                   </img><div class=orbit-caption><div>#{recipe.title}</div>
+                   <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
+                )
+              )
+            else
+              $('.recipe-content').hide()
+              $(".recipe-no-content").show()
+
+            if !recipe_initialized
+              $('#recipes').attr('data-orbit', "")
+              $(document).foundation('orbit', 'reflow')
+              recipe_initialized = true
+
+    # Call on inital page load
+    reloadRecipes()
+
+    $('.reload').on 'click', 'a', ->
+      $('.reload').hide()
+      $('#recipes').html("")
+      reloadRecipes()
