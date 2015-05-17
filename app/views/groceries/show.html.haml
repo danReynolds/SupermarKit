@@ -21,8 +21,7 @@
         .main
           .row
             .columns.large-12
-              = render partial: 'loaders/spinner'
-
+              = render partial: 'loaders/spinner', locals: { className: 'grocery-spinner' }
               .grocery-content.hide
                 %table#grocery-table.display.responsive.nowrap
                   %thead
@@ -59,11 +58,16 @@
             .header
               %h3 Recipes
             .main
-              .recipe-spinner
-                = render partial: 'loaders/spinner'
-              .grocery-content.hide
+              = render partial: 'loaders/spinner', locals: { className: 'recipe-spinner' }
+              .recipe-content.hide
                 %p We have some great ideas for what you could make based on your current grocery list.
                 %ul#recipes
+              .recipe-no-content.hide
+                = fa_icon 'folder-open-o'
+                %p It looks like no recipes match your grocery list, but don't let that stop you from making something awesome.
+              .reload.hide
+                %p Your grocery list has changed.
+                = link_to 'Reload recipes', '#', class: 'button'
 
 
     - unless @grocery.finished?
