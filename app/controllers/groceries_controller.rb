@@ -72,6 +72,10 @@ class GroceriesController < ApplicationController
     redirect_to @grocery.user_group, notice: 'All group members have been emailed the grocery list.'
   end
 
+  def recipes
+    render json: JSON.parse(Nokogiri::HTML(open("http://food2fork.com/api/search?key=#{ENV["FOOD2FORK_KEY"]}&q=#{@grocery.items.map(&:name).join(",")}")))
+  end
+
 private
 
   def grocery_params
