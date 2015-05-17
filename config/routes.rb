@@ -40,6 +40,7 @@ Rails.application.routes.draw do
         member do
           patch :finish
           get :email_group
+          get :recipes
         end
       end
       member do
