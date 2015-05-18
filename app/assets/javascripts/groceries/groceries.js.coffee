@@ -227,3 +227,10 @@ $ ->
       $('.reload').hide()
       $('#recipes').html("")
       reloadRecipes()
+
+    # ============================
+    # Email Functionality
+    # ============================
+    $('.email a').click ->
+      $('.email-spinner').show()
+      $('.email-content').hide()

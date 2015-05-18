@@ -69,7 +69,7 @@ class GroceriesController < ApplicationController
       UserMailer.send_grocery_list_email(user, @grocery).deliver!
     end
 
-    redirect_to @grocery.user_group, notice: 'All group members have been emailed the grocery list.'
+    redirect_to @grocery, notice: 'All kit members have been emailed the grocery list.'
   end
 
   def recipes
