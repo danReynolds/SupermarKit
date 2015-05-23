@@ -4,7 +4,16 @@
       .row
         .columns.large-12.small-12.medium-12
           %h1 SupermarKit
-          = render partial: 'svgs', locals: { image: :apple }
+      .row.svg-images
+        .columns.large-12.small-12.medium-12
+          = inline_svg "shop.svg", id: 'shop-svg'
+          %span +
+          = inline_svg "groceries.svg", id: 'groceries-svg'
+          %span =
+          = inline_svg "serve.svg", id: 'serve-svg'
+          %h3 The formula for grocery shopping should be simple.
+
+
       = simple_form_for :user, url: new_user_path, method: :get do |f|
         .row.signup
           .columns.large-12.small-8.small-centered
@@ -14,53 +23,50 @@
               %li
                 = f.input :email, label: false, input_html: { placeholder: 'Email', class: 'round' }
               %li
-                = f.button :submit, 'Sign up', class: 'button radius'
+                = f.button :submit, 'Sign up', class: 'radius'
     .section#grocery-section
       .row
-        .columns.large-5
-          %h1#groceries{ "data-magellan-destination" => "groceries" } Grocery lists.
-          %p They're the reason why we're all here and they're at the very core of SupermarKit. Your lists remember what items you have used in the past in order to make adding recurring items quick and painless.
-          %p Cross-list items are drawn from all public lists across SupermarKit, eliminating the need for manual data-entry through the use of highly-integrated autocomplete.
-        .columns.large-7
+        .columns.large-6.small-10.small-centered.large-uncentered
+          %h1#groceries{ "data-magellan-destination" => "groceries" } We start with lists.
+          %p You've been making them for years and we can help with that. SupermarKit grocery lists remember what you have wanted before and makes it easy to add those grocery items again.
+          %p Items are being shared from many grocery lists across SupermarKit, so if there is something that want to add to your list, it's likely someone else has already given it a review and a price.
+        .columns.large-6
           = image_tag 'homepage/lists.png'
 
     .section#kit-section
       .row
-        .columns.large-4.small-6.small-only-centered
+        .columns.large-4.small-text-center
           = image_tag 'homepage/kit.png'
-        .columns.large-8
-          %h1#kits{ "data-magellan-destination" => "kits" } Kits.
-          %p Kits contain all of the grocery lists for a group of people on SupermarKit.
+        .columns.large-8.small-text-center
+          %h1#kits{ "data-magellan-destination" => "kits" } Add some Kits.
+          %p A Kit is a box that holds all of the grocery lists for a group of people on SupermarKit.
 
-          %p SupermarKit allows you to have as many kits as you need, so that you can have one kit for your family and a separate one for your roommates or any events that you need to shop for.
+          %p You can have as many kits as you need, making it easy to maintain separate lists for your family and your roommates or for any events that you want to keep track of on their own.
 
           %p
-            When a kit is created it can be setup to use
-            %strong public
-            or
-            %strong private
-            grocery items. Public items allow people to add and comment on items that others have used to their own lists so that if one person has found your favourite brand, you don't have to enter that information yourself.
+            With separate lists for different groups of people, you don't have to worry about confusing who you're buying for.
 
-          %p While public items are shareable, no-one can see who created that item or the lists that contain it.
 
     .section#finish-section
       .row
-        .columns.large-12
-          %h1#finish{ "data-magellan-destination" => "finish" } You've gone shopping.
+        .columns.large-12.small-text-center
+          %h1#finish{ "data-magellan-destination" => "finish" } Put it all together.
+      .row
+        .columns.large-12.small-text-center
+          %br
+          %p Once you have put everything together and gone through checkout, it is important to make sure that what you purchased reflects what you put on your list.
+
+          %p When you finish your list we make it easy for you to remove any items that you forgot to or decided not to buy. You can then move those items over to your next list which we will make automatically for you.
       .row
         .columns.large-10
           %br
           = image_tag 'homepage/finish.png'
-      .row
-        .columns.large-12
-          %br
-          %p Once you have bought your groceries, it is important to make sure that what you purchased reflects what you put on your list. When you finish your list we make it easy for you to remove any items that you forgot to or decided not to buy. You can then move those items over to your next list which we will make automatically for you.
 
     .section#elevator-section
       .row
         .columns.large-12.text-center
-          %h1 That's us.
-          %p If you are looking for a grocery tracker then I encourage you to give SupermarKit a try.
+          %h1 And made something awesome.
+          %p Give SupermarKit a try and see if it can make your grocery shopping easier.
           %div{class: 'button elevator-button' } Go to sign up
 
   :coffeescript
