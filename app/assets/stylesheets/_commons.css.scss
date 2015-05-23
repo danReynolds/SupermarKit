@@ -25,14 +25,12 @@ body {
   }
 
   a { color: $gray; }
-  a.highlight { color: $bright-green; }
-  a:hover { color: $bright-green; }
-
-  #meal, #man, #measure { fill: $blue; }
+  a.highlight { color: $red; }
+  a:hover { color: $red; }
 
   .container {
     min-height: 100%;
-    background: linear-gradient($green, $blue);
+    background: linear-gradient(rgba(55, 55, 55, 1), rgba(16, 16, 16, 0.86)), url(/assets/home-banner-background.jpg);
     @media #{$medium-up} { padding: 7rem 0 3rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
   }
@@ -41,20 +39,10 @@ body {
     padding: 0.7rem 1.2rem;
     border-radius: 0.4rem !important;
     color: white !important;
+    background: $red;
+    border-bottom: 2px solid $dark-red;
 
-    &.back {
-      background: $red;
-      &:hover { background: darken($red, 10%) }
-    }
-    &.success {
-      background: $bright-green;
-      &:hover { background: darken($bright-green, 10%) }
-    }
-    &.disabled {
-      background: $gray;
-      &:hover { background: $gray; }
-      opacity: 1;
-    }
+    &:hover { background: darken($red, 10%) }
   }
   .button-group {
     @media #{$medium-up} {
@@ -87,7 +75,6 @@ body {
     box-shadow: 0px 0px 1px lighten($black, 50%);
     margin: 0.8rem;
     margin-bottom: 2rem;
-    border-radius: 0.5rem;
 
     .main { padding: 1.4rem; }
     .header {
@@ -135,7 +122,7 @@ body {
     color: $gray !important;
 
     &.select2-highlighted {
-      background: $bright-green;
+      background: $red;
       color: white !important;
     }
   }
@@ -174,6 +161,10 @@ body {
     background: rgb(171, 171, 171);
     padding: 17px;
     border-radius: 7px;
+    margin-top: 0.5rem;
+    position: relative;
+    background: white;
+    border: 2px solid #DDDDDD;
 
     button, input {
       padding: 0.7rem 1.2rem;
@@ -181,16 +172,16 @@ body {
       margin-bottom: 0;
     }
 
-    .editable-cancel { background: $red; }
+    .editable-cancel {
+      background: $gray;
+
+      &:hover {
+        background: darken($gray, 10%);
+      }
+    }
     input { height: 2.6rem; }
   }
 
-  .editable-container {
-    margin-top: 0.5rem;
-    position: relative;
-    background: #FFFFFF;
-    border: 2px solid #5AF2AC;
-  }
   .editable-container:after, .editable-container:before {
     bottom: 100%;
     left: 50%;
@@ -210,24 +201,24 @@ body {
   }
   .editable-container:before {
     border-color: rgba(194, 225, 245, 0);
-    border-bottom-color: $bright-green;
+    border-bottom-color: $red;
     border-width: 13px;
     margin-left: -13px;
   }
 
   .editable-empty, .editable-empty:hover {
-    color: $green;
+    color: $red;
   }
 
   .tab-bar .menu-icon { text-indent: 0.6rem; }
-  #squiggle { fill: $bright-green; }
+  #squiggle { fill: $red; }
 }
 
 .social-icons {
   a + a { margin-left: 1rem; }
 
   i {
-    background: $bright-green;
+    background: $gray;
     border-radius: 35px;
     color: white;
     font-size: 3rem;
