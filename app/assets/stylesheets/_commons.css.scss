@@ -25,13 +25,13 @@ body {
   }
 
   a { color: $gray; }
-  a.highlight { color: $red; }
-  a:hover { color: $red; }
+  a.highlight { color: $green; }
+  a:hover { color: $green; }
 
   .container {
     min-height: 100%;
-    background: linear-gradient(rgba(55, 55, 55, 1), rgba(16, 16, 16, 0.86)), url(/assets/home-banner-background.jpg);
-    @media #{$medium-up} { padding: 7rem 0 3rem 0; }
+    background: linear-gradient($darkness, $midnight);
+    @media #{$medium-up} { padding: 6rem 0 3rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
   }
 
@@ -39,10 +39,10 @@ body {
     padding: 0.7rem 1.2rem;
     border-radius: 0.4rem !important;
     color: white !important;
-    background: $red;
-    border-bottom: 2px solid $dark-red;
+    background: $green;
+    border-bottom: 2px solid $off-green;
 
-    &:hover { background: darken($red, 10%) }
+    &:hover { background: darken($green, 10%) }
   }
   .button-group {
     @media #{$medium-up} {
@@ -105,8 +105,8 @@ body {
     margin-top: 5px;
     border: none;
 
-    &.notice { background: #5AF2AC !important; }
-    &.alert { background: #E55C5C !important; }
+    &.notice { background: $green !important; }
+    &.alert { background: $red !important; }
   }
 
   .select2-search-choice {
@@ -122,7 +122,7 @@ body {
     color: $gray !important;
 
     &.select2-highlighted {
-      background: $red;
+      background: $green;
       color: white !important;
     }
   }
@@ -201,17 +201,17 @@ body {
   }
   .editable-container:before {
     border-color: rgba(194, 225, 245, 0);
-    border-bottom-color: $red;
+    border-bottom-color: $green;
     border-width: 13px;
     margin-left: -13px;
   }
 
   .editable-empty, .editable-empty:hover {
-    color: $red;
+    color: $green;
   }
 
   .tab-bar .menu-icon { text-indent: 0.6rem; }
-  #squiggle { fill: $red; }
+  #squiggle { fill: $green; }
 }
 
 .social-icons {

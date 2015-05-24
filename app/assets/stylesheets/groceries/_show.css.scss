@@ -19,14 +19,14 @@
         transition: all 0.4s ease-in-out;
         cursor: move;
 
-        &.selected { background: $red; }
+        &.selected { background: $green; }
 
         i {
           float: right;
           margin-top: 4px;
-          color: $red;
+          color: $green;
           cursor: pointer;
-          &:hover { color: darken($red, 10%) }
+          &:hover { color: darken($green, 5%) }
         }
       }
     }
@@ -42,7 +42,7 @@
 }
 
 .container.groceries-show {
-  background-image: image-url("groceries-background.jpg");
+  background-image: url("/assets/groceries/show-background.jpg");
   background-size: cover;
 
   .fa-archive {
@@ -55,7 +55,12 @@
   .add-items {
     margin-bottom: 2rem;
     text-align: center;
-    padding: 0 15px;
+    padding: 0 1rem;
+
+    @media #{$small-only} {
+      padding-left: 0;
+      padding-right: 0;
+    }
 
     .items_ids {
       display: inline-block;
@@ -97,13 +102,13 @@
 
     .dropdown {
       i {
-        background: $red;
+        background: $green;
         padding: 6px 4px 4px 6px;
         border-radius: 20px;
         color: white;
 
         &:hover {
-          background: darken($red, 10%);
+          background: darken($green, 5%);
         }
       }
     }
