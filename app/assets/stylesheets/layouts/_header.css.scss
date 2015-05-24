@@ -11,12 +11,12 @@ nav.header {
 
   a {
     color: white !important;
-    &:hover { background: $red; }
+    &:hover { background: $green; }
     padding: 0;
   }
 
   dd.active {
-    background: $red !important;
+    background: $green !important;
     border-radius: 1rem;
     box-shadow: 0px 0px 1px rgb(129, 129, 129);
 
