@@ -24,7 +24,7 @@
         i {
           float: right;
           margin-top: 4px;
-          color: $green;
+          color: $red;
           cursor: pointer;
           &:hover { color: darken($green, 5%) }
         }
@@ -74,6 +74,7 @@
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
       padding: 1px;
+      max-height: 41px;
     }
 
     .select2-search-field input {

@@ -65,7 +65,7 @@ $ ->
         $(row).find('.editable').editable
           placement: 'bottom'
           emptytext: 'Add...'
-          highlight: '#5AF2AC'
+          highlight: '#2CDF79'
 
           success: ->
             $grocery_table.api().ajax.reload(null, false)
@@ -89,7 +89,7 @@ $ ->
       $(this).parents('tbody').find('.child a').editable
         placement: 'bottom'
         emptytext: 'Add...'
-        highlight: '#5AF2AC'
+        highlight: '#2CDF79'
 
         success: ->
             $grocery_table.api().ajax.reload(null, false)
