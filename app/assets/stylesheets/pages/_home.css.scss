@@ -54,9 +54,10 @@
         height: 3rem;
 
         &.button {
-          // margin: 0 0 1rem;
+          margin: 0 0 1rem;
           display: block;
-          margin: 0 auto;
+
+          @media #{$small-only} { margin: 0 auto; }
         }
       }
     }
