@@ -12,8 +12,10 @@ $ ->
       iDisplayLength: 5
       bLengthChange: false
       oLanguage: {
-        sSearch: "Filter:"
+        sSearch: "Filter:",
+        sEmptyTable: "Your grocery list is empty."
       }
+
       ajax:
         url: "/groceries/" + grocery_id + "/items.json"
         dataSrc: (json) ->
