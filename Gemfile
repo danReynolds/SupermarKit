@@ -19,6 +19,7 @@ gem 'jquery-datatables-rails', '~> 3.1.1'
 gem 'font-awesome-rails', "~> 4.3.0"
 gem 'groupdate'
 gem 'chartkick'
+gem 'inline_svg'
 gem 'happy_path'
 gem 'money-rails'
 gem 'canard', '0.4.2.pre'
