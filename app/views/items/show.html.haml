@@ -6,7 +6,7 @@
           %h3 Item
         .main
           .row
-            .columns.large-7
+            .columns.large-12
               .row
                 .columns.large-12
                   %label Name
@@ -24,11 +24,4 @@
               %hr
               .row
                 .columns.large-12
-                  %ul.button-group
-                    %li
-                      = link_to 'Back to Kit', @user_group, class: 'button back'
-                    %li
-                      = link_to 'Edit Item', edit_item_path(@item), class: 'button'
-
-            .columns.large-5.text-center
-              = render partial: 'pages/svgs', locals: { image: :meal }
+                  = link_to 'Edit Item', edit_item_path(@item), class: 'button'
