@@ -25,15 +25,13 @@ body {
   }
 
   a { color: $gray; }
-  a.highlight { color: $bright-green; }
-  a:hover { color: $bright-green; }
-
-  #meal, #man, #measure { fill: $blue; }
+  a.highlight { color: $green; }
+  a:hover { color: $green; }
 
   .container {
     min-height: 100%;
-    background: linear-gradient($green, $blue);
-    @media #{$medium-up} { padding: 7rem 0 3rem 0; }
+    background: linear-gradient($darkness, $midnight);
+    @media #{$medium-up} { padding: 6rem 0 3rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
   }
 
@@ -41,20 +39,10 @@ body {
     padding: 0.7rem 1.2rem;
     border-radius: 0.4rem !important;
     color: white !important;
+    background: $green;
+    border-bottom: 2px solid $off-green;
 
-    &.back {
-      background: $red;
-      &:hover { background: darken($red, 10%) }
-    }
-    &.success {
-      background: $bright-green;
-      &:hover { background: darken($bright-green, 10%) }
-    }
-    &.disabled {
-      background: $gray;
-      &:hover { background: $gray; }
-      opacity: 1;
-    }
+    &:hover { background: darken($green, 10%) }
   }
   .button-group {
     @media #{$medium-up} {
@@ -76,7 +64,7 @@ body {
     tr td, tr th { color: $light-gray !important; }
 
     td:before {
-      background-color: #5AF2AC !important;
+      background-color: #2CDF79 !important;
       border: 2px solid white !important;
       box-shadow: none !important;
     }
@@ -87,7 +75,6 @@ body {
     box-shadow: 0px 0px 1px lighten($black, 50%);
     margin: 0.8rem;
     margin-bottom: 2rem;
-    border-radius: 0.5rem;
 
     .main { padding: 1.4rem; }
     .header {
@@ -118,8 +105,8 @@ body {
     margin-top: 5px;
     border: none;
 
-    &.notice { background: #5AF2AC !important; }
-    &.alert { background: #E55C5C !important; }
+    &.notice { background: $green !important; }
+    &.alert { background: $red !important; }
   }
 
   .select2-search-choice {
@@ -135,7 +122,7 @@ body {
     color: $gray !important;
 
     &.select2-highlighted {
-      background: $bright-green;
+      background: $green;
       color: white !important;
     }
   }
@@ -159,7 +146,7 @@ body {
 
   .off-canvas-wrap, .inner-wrap {
     height: 100%;
-    &.off-canvas-wrap { overflow: auto; }
+    &.off-canvas-wrap { overflow: initial; }
   }
 
   .dataTables_filter {
@@ -174,6 +161,13 @@ body {
     background: rgb(171, 171, 171);
     padding: 17px;
     border-radius: 7px;
+    margin-top: 0.5rem;
+    position: relative;
+    background: white;
+    border: 2px solid #DDDDDD;
+    padding: 0.75rem;
+
+    @media #{$small-only} { padding: 0.5rem; }
 
     button, input {
       padding: 0.7rem 1.2rem;
@@ -181,16 +175,16 @@ body {
       margin-bottom: 0;
     }
 
-    .editable-cancel { background: $red; }
+    .editable-cancel {
+      background: $gray;
+
+      &:hover {
+        background: darken($gray, 10%);
+      }
+    }
     input { height: 2.6rem; }
   }
 
-  .editable-container {
-    margin-top: 0.5rem;
-    position: relative;
-    background: #FFFFFF;
-    border: 2px solid #5AF2AC;
-  }
   .editable-container:after, .editable-container:before {
     bottom: 100%;
     left: 50%;
@@ -210,7 +204,7 @@ body {
   }
   .editable-container:before {
     border-color: rgba(194, 225, 245, 0);
-    border-bottom-color: $bright-green;
+    border-bottom-color: $green;
     border-width: 13px;
     margin-left: -13px;
   }
@@ -220,14 +214,14 @@ body {
   }
 
   .tab-bar .menu-icon { text-indent: 0.6rem; }
-  #squiggle { fill: $bright-green; }
+  #squiggle { fill: $green; }
 }
 
 .social-icons {
   a + a { margin-left: 1rem; }
 
   i {
-    background: $bright-green;
+    background: $gray;
     border-radius: 35px;
     color: white;
     font-size: 3rem;

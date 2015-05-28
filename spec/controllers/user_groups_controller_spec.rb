@@ -16,6 +16,10 @@ RSpec.describe UserGroupsController, type: :controller do
       expect(@new_group.users).to contain_exactly(@group_member, controller.current_user)
     end
 
+    it 'sets an emblem' do
+      expect(@new_group.emblem).not_to be_nil
+    end
+
     it 'makes only the current user accepted into the group' do
       current_group_user = @new_group.user_groups_users.find_by_user_id(controller.current_user.id)
       remaining_user_group_users = @new_group.user_groups_users - [current_group_user]

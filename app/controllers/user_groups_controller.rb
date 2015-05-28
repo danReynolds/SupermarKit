@@ -16,6 +16,7 @@ class UserGroupsController < ApplicationController
 
   def create
     users = User.find(params[:user_group][:user_ids].split(",")) << current_user
+    @user_group.emblem = UserGroup::EMBLEMS.sample
 
     if @user_group.save
       @user_group.users << users
