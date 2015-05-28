@@ -42,7 +42,7 @@
 }
 
 .container.groceries-show {
-  background-image: url("/assets/groceries/show-background.jpg");
+  background-image: image-url("groceries/show-background.jpg");
   background-size: cover;
 
   .fa-archive {
