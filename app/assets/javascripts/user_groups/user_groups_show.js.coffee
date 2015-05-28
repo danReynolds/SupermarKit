@@ -22,4 +22,3 @@ $ ->
         { "class": "min-tablet-l", "targets": 3 }
         { "class": "min-tablet-p", "targets": 4 }
       ]
-      console.log("here")

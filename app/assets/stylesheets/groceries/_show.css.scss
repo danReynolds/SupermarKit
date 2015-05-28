@@ -19,14 +19,14 @@
         transition: all 0.4s ease-in-out;
         cursor: move;
 
-        &.selected { background: $bright-green; }
+        &.selected { background: $green; }
 
         i {
           float: right;
           margin-top: 4px;
           color: $red;
           cursor: pointer;
-          &:hover { color: darken($red, 10%) }
+          &:hover { color: darken($green, 5%) }
         }
       }
     }
@@ -41,7 +41,10 @@
   #new-list-modal { top: 0 !important; }
 }
 
-.groceries-show {
+.container.groceries-show {
+  background-image: url("/assets/groceries/show-background.jpg");
+  background-size: cover;
+
   .fa-archive {
     font-size: 5rem;
     display: block;
@@ -50,12 +53,18 @@
   }
 
   .add-items {
+    margin-bottom: 2rem;
     text-align: center;
-    padding: 0 15px;
+    padding: 0 1rem;
+
+    @media #{$small-only} {
+      padding-left: 0;
+      padding-right: 0;
+    }
 
     .items_ids {
       display: inline-block;
-      width: 93.5%;
+      width: 92.5%;
 
       @media #{$small-only} { width: 75%; }
       @media #{$medium-only} { width: 85%; }
@@ -74,14 +83,14 @@
 
     .button.add-button {
       border-radius: 0 !important;
-      height: 41px;
       width: 60px;
       border-bottom-right-radius: 1000px !important;
       border-top-right-radius: 1000px !important;
       display: inline-block;
       margin-left: -4px;
       height: 41px;
-      line-height: 0;
+      margin-bottom: 0;
+      vertical-align: middle;
     }
   }
 
@@ -93,14 +102,12 @@
 
     .dropdown {
       i {
-        background: $bright-green;
+        background: $green;
         padding: 6px 4px 4px 6px;
         border-radius: 20px;
         color: white;
 
-        &:hover {
-          background: darken($bright-green, 10%);
-        }
+        &:hover { background: darken($green, 5%); }
       }
     }
 
@@ -127,16 +134,19 @@
     margin-left: 0;
 
     li {
-      background: asset-url("groceries/recipeBackground.png");
+      background: $dark-gray;
       img {
         margin: 0 auto;
         height: 25rem;
+
+        @media #{$small-only} { height: 18rem; }
       }
     }
   }
 
   .orbit-container {
     height: 25rem;
+    @media #{$small-only} { height: 18rem; }
     .orbit-caption {
       text-align: left;
       a {

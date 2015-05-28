@@ -12,8 +12,10 @@ $ ->
       iDisplayLength: 5
       bLengthChange: false
       oLanguage: {
-        sSearch: "Filter:"
+        sSearch: "Filter:",
+        sEmptyTable: "Your grocery list is empty."
       }
+
       ajax:
         url: "/groceries/" + grocery_id + "/items.json"
         dataSrc: (json) ->
@@ -63,7 +65,7 @@ $ ->
         $(row).find('.editable').editable
           placement: 'bottom'
           emptytext: 'Add...'
-          highlight: '#5AF2AC'
+          highlight: '#2CDF79'
 
           success: ->
             $grocery_table.api().ajax.reload(null, false)
@@ -87,7 +89,7 @@ $ ->
       $(this).parents('tbody').find('.child a').editable
         placement: 'bottom'
         emptytext: 'Add...'
-        highlight: '#5AF2AC'
+        highlight: '#2CDF79'
 
         success: ->
             $grocery_table.api().ajax.reload(null, false)
