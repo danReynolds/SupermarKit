@@ -4,6 +4,7 @@ lock '3.3.5'
 set :application, 'softgroceries'
 set :repo_url, 'git@github.com:danReynolds/softgroceries.git'
 set :deploy_to, '/home/deploy/softgroceries'
+set :user, "deploy"
 set :linked_files, %w{config/database.yml config/secrets.yml .env}
 set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 # Default branch is :master
