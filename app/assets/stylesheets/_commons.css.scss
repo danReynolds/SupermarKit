@@ -209,9 +209,7 @@ body {
     margin-left: -13px;
   }
 
-  .editable-empty, .editable-empty:hover {
-    color: $green;
-  }
+  .editable-empty, .editable-empty:hover { color: $green; }
 
   .tab-bar .menu-icon { text-indent: 0.6rem; }
   #squiggle { fill: $green; }
