@@ -6,7 +6,7 @@ class UserGroup < ActiveRecord::Base
 
   validates :name, presence: true
 
-  EMBLEMS = ['fridge', 'groceries', 'shop', 'serve'].freeze
+  EMBLEMS = ['apple', 'banana', 'cheese', 'fish', 'meal', 'veggie', 'watermelon'].freeze
 
   def active_groceries
     groceries.where(finished_at: nil)
