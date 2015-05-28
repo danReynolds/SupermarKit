@@ -107,9 +107,7 @@
         border-radius: 20px;
         color: white;
 
-        &:hover {
-          background: darken($green, 5%);
-        }
+        &:hover { background: darken($green, 5%); }
       }
     }
 
