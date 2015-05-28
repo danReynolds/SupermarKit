@@ -2,31 +2,27 @@
   .row
     .columns.large-8.large-centered
       .widget
-        .header
-          %h3 New item
-        .main
-          = simple_form_for [@grocery, @item] do |f|
-            .row
-              .columns.large-5
+        .row
+          .columns.large-8.large-centered
+            .header
+              %h3 New item
+            .main
+              = simple_form_for [@grocery, @item] do |f|
                 .row
                   .columns.large-12
-                    = f.input :name
-                    = f.input :description, as: :text
-                .row
-                  .columns.large-4
-                    = label_tag :price
-                    = text_field_tag :price
-                    = f.input :price, as: :hidden, input_html: { value: 0 }
-                  .columns.large-4.end
-                    = f.simple_fields_for :groceries_items, @groceries_items do |g|
-                      = g.input :quantity, input_html: { value: 1 }
-                      = g.input :grocery_id, as: :hidden, input_html: { value: @grocery.id }
-                .row
-                  .columns.large-12
-                    %ul.button-group
-                      %li
-                        = link_to 'Back', @grocery, class: 'button back'
-                      %li
+                    .row
+                      .columns.large-12
+                        = f.input :name
+                        = f.input :description, as: :text
+                    .row
+                      .columns.large-4
+                        = label_tag :price
+                        = text_field_tag :price
+                        = f.input :price, as: :hidden, input_html: { value: 0 }
+                      .columns.large-4.end
+                        = f.simple_fields_for :groceries_items, @groceries_items do |g|
+                          = g.input :quantity, input_html: { value: 1 }
+                          = g.input :grocery_id, as: :hidden, input_html: { value: @grocery.id }
+                    .row
+                      .columns.large-12
                         = f.button :submit, 'Create', class: 'button radius'
-              .columns.large-6.large-offset-1.text-center
-                = render partial: 'pages/svgs', locals: { image: :measure }

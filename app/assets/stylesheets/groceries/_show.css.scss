@@ -42,8 +42,8 @@
 }
 
 .container.groceries-show {
-  background-image: image-url("groceries/show-background.jpg");
-  background-size: cover;
+  background: image-url("groceries/show-background.jpg");
+  width: 100%;
 
   .fa-archive {
     font-size: 5rem;
