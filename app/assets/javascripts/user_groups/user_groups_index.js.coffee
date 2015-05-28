@@ -17,11 +17,14 @@ $ ->
 
   $('.user-groups-index').on 'click', '.group-invite', ->
     $self = $(@)
+    $default_group = $self.parents('.wrapper').find('.default-group')
 
     $.ajax({
         method: "PATCH"
-        url: "/user_groups/#{$(@).data('value')}/accept_invitation"
+        url: "/user_groups/#{$default_group.data('value')}/accept_invitation"
     })
     .then ->
       $self.removeClass("group-invite").addClass("default-group")
-      $self.html("")
+      $self.parents('.wrapper').removeClass("invited")
+      $default_group.css('display', 'table-caption')
+      $self.remove()

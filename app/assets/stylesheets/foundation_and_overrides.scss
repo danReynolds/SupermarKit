@@ -95,7 +95,7 @@ $font-family-serif: Georgia, "Open Sans", serif;
 // $font-weight-bold: bold !default;
 
 // We use these as default colors throughout
-$primary-color: $bright-green;
+$primary-color: $green;
 // $secondary-color: #e7e7e7;
 // $alert-color: #f04124;
 // $success-color: #43AC6A;
@@ -447,8 +447,8 @@ $button-font-color-alt: $white;
 // We use these to control button border and hover styles.
 // $button-border-width: 0px;
 // $button-border-style: solid;
-$button-bg-color: $bright-green;
-$button-bg-hover: darken($bright-green, 10%);
+$button-bg-color: $green;
+$button-bg-hover: darken($green, 10%);
 // $button-border-color: $button-bg-hover;
 // $secondary-button-bg-hover: scale-color($secondary-color, $lightness: $button-function-factor);
 // $secondary-button-border-color: $secondary-button-bg-hover;
@@ -802,7 +802,7 @@ $input-bg-color: white;
 
 // $include-html-off-canvas-classes: $include-html-classes;
 
-$tabbar-bg: $header-green;
+$tabbar-bg: $green;
 // $tabbar-height: rem-calc(45);
 // $tabbar-icon-width: $tabbar-height;
 // $tabbar-line-height: $tabbar-height;

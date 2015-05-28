@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508024642) do
+ActiveRecord::Schema.define(version: 20150527184223) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20150508024642) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_group_default_id"
+    t.string   "emblem"
   end
 
   create_table "user_groups_users", force: true do |t|
