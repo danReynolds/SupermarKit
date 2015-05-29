@@ -6,7 +6,14 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require vendor/modernizr
-//= require foundation
+//= require foundation/foundation
+//= require foundation/foundation.alert
+//= require foundation/foundation.dropdown
+//= require foundation/foundation.magellan
+//= require foundation/foundation.orbit
+//= require foundation/foundation.topbar
+//= require foundation/foundation.reveal
+//= require foundation/foundation.offcanvas
 //= require select2
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.foundation
