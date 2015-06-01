@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/danReynolds/softgroceries.svg?branch=master)](https://travis-ci.org/danReynolds/softgroceries)
+[![Build Status](https://travis-ci.org/danReynolds/SupermarKit.svg?branch=master)](https://travis-ci.org/danReynolds/SupermarKit)
 [![Code Climate](https://codeclimate.com/github/danReynolds/softgroceries/badges/gpa.svg)](https://codeclimate.com/github/danReynolds/softgroceries)
 [![Stories in Ready](https://badge.waffle.io/danReynolds/SupermarKit.svg?label=ready&title=Ready)](http://waffle.io/danReynolds/SupermarKit)
 [![Coverage Status](https://coveralls.io/repos/danReynolds/softgroceries/badge.svg)](https://coveralls.io/r/danReynolds/softgroceries)
