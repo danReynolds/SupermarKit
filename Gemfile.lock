@@ -27,6 +27,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    airbrake (4.2.0)
+      builder
+      multi_json
     arel (5.0.1.20140414130214)
     bcrypt (3.1.9)
     better_errors (2.0.0)
@@ -300,6 +303,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   better_errors
   binding_of_caller
   browserify-rails (~> 0.7)
@@ -346,3 +350,6 @@ DEPENDENCIES
   spring-commands-rspec
   turbolinks
   uglifier (>= 1.3.0)
+
+BUNDLED WITH
+   1.10.2
