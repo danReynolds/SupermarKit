@@ -58,3 +58,6 @@ namespace :deploy do
   end
 
 end
+
+require 'airbrake/capistrano3'
+after "deploy:finished", "airbrake:deploy"
