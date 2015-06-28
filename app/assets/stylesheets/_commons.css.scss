@@ -29,10 +29,10 @@ body {
   a:hover { color: $green; }
 
   .container {
-    background-image: linear-gradient($header-green, rgba($dark-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
+    background-image: linear-gradient($dark-green, rgba($dark-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
     min-height: 100%;
     @media #{$medium-up} { padding: 6rem 0 3rem 0; }
-    @media #{$small-only} { padding: 3rem 0; }
+    @media #{$small-only} { padding: 1rem 0; }
   }
 
   .button {
@@ -40,7 +40,7 @@ body {
     border-radius: 0.4rem !important;
     color: white !important;
     background: $green;
-    border-bottom: 2px solid $off-green;
+    border-bottom: 2px solid $light-green;
 
     &:hover { background: darken($green, 10%) }
   }
@@ -70,11 +70,18 @@ body {
     }
   }
 
+  .wide {
+    padding: 0;
+  }
+
   .widget {
     background: white;
     box-shadow: 0px 0px 1px lighten($black, 50%);
     margin: 0.8rem;
-    margin-bottom: 2rem;
+
+    @media #{$small-only} {
+      margin: 0.5rem;
+    }
 
     .main { padding: 1.4rem; }
     .header {
@@ -219,7 +226,7 @@ body {
   a + a { margin-left: 1rem; }
 
   i {
-    background: $top-green;
+    background: $light-green;
     border-radius: 35px;
     color: white;
     font-size: 3rem;

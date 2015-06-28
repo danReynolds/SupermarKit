@@ -1,6 +1,6 @@
 .home {
   #signup {
-    background-image: linear-gradient(rgba($top-green, 0.9), rgba($blue-green, 0.75)), image-url("homepage/elevator-background.jpg");
+    background-image: linear-gradient(rgba($light-green, 0.9), rgba($blue-green, 0.75)), image-url("homepage/elevator-background.jpg");
     height: 100%;
     text-align: center;
     padding: 1rem 0 5rem 0;
@@ -73,6 +73,10 @@
       border-radius: 4px;
       box-shadow: 0 0 1px $gray;
       margin-top: 1rem;
+
+      @media #{$small-only} {
+        margin: 0 0 1rem 0;
+      }
     }
 
     h1 { color: $gray; }
@@ -85,13 +89,13 @@
     }
 
     &#finish-section {
-      height: 52rem;
       overflow: hidden;
+      @media #{$medium-up} { height: 52rem; }
       img { width: 80%; }
     }
 
     &#elevator-section {
-      background: linear-gradient($mid-blue-green, $header-green);
+      background: linear-gradient($mid-blue-green, $dark-green);
       padding: 8rem 0;
       h1, p { color: white; }
     }
