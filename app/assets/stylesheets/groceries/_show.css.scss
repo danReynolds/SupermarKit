@@ -128,17 +128,36 @@
   }
 
   #recipes {
-    width: 100%;
-    position: relative;
-    margin-left: 0;
+    .header {
+      padding-bottom: 1.4rem;
+    }
 
-    li {
-      background: $dark-gray;
-      img {
-        margin: 0 auto;
-        height: 25rem;
+    .main {
+      padding: 0;
 
-        @media #{$small-only} { height: 18rem; }
+      .banner {
+        background: #59B8FB;
+        padding: 1rem 1.4rem;
+
+        color: white;
+        margin-bottom: 0;
+      }
+
+      ul {
+        width: 100%;
+        position: relative;
+        margin-left: 0;
+
+        li {
+          background: $dark-gray;
+          img {
+            margin: 0;
+            width: 100%;
+            height: 25rem;
+
+            @media #{$small-only} { height: 18rem; }
+          }
+        }
       }
     }
   }
