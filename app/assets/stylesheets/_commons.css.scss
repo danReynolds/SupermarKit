@@ -29,8 +29,8 @@ body {
   a:hover { color: $green; }
 
   .container {
+    background-image: linear-gradient($header-green, rgba($dark-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
     min-height: 100%;
-    background: linear-gradient($darkness, $midnight);
     @media #{$medium-up} { padding: 6rem 0 3rem 0; }
     @media #{$small-only} { padding: 3rem 0; }
   }
@@ -197,13 +197,13 @@ body {
   }
 
   .editable-container:after {
-    border-color: rgba(136, 183, 213, 0);
+    border-color: transparent;
     border-bottom-color: white;
     border-width: 10px;
     margin-left: -10px;
   }
   .editable-container:before {
-    border-color: rgba(194, 225, 245, 0);
+    border-color: transparent;
     border-bottom-color: $green;
     border-width: 13px;
     margin-left: -13px;
@@ -219,7 +219,7 @@ body {
   a + a { margin-left: 1rem; }
 
   i {
-    background: $gray;
+    background: $top-green;
     border-radius: 35px;
     color: white;
     font-size: 3rem;

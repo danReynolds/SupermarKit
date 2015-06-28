@@ -1,8 +1,6 @@
 .home {
   #signup {
-    background-image: linear-gradient(rgba(65, 65, 65, 0.94), rgba(32, 32, 32, 0.93)), image-url("homepage/banner-background.jpg");
-
-    background-size: cover;
+    background-image: linear-gradient(rgba($top-green, 0.9), rgba($blue-green, 0.75)), image-url("homepage/elevator-background.jpg");
     height: 100%;
     text-align: center;
     padding: 1rem 0 5rem 0;
@@ -64,7 +62,7 @@
   }
 
   .section {
-    padding: 10rem 0;
+    padding: 8rem 0;
     background: white;
 
     @media #{$small-only} {
@@ -74,22 +72,28 @@
     img {
       border-radius: 4px;
       box-shadow: 0 0 1px $gray;
-      margin-bottom: 2rem;
+      margin-top: 1rem;
     }
 
     h1 { color: $gray; }
 
-    &#grocery-section, &#finish-section { background: #FCFCFC; }
+    &#grocery-section { background: #FCFCFC; }
 
     &#kit-section {
-      background-image: linear-gradient(rgba(0, 0, 0, 0.32), rgba(173, 173, 173, 0.66)), image-url("homepage/kit-background.jpg");
-      background-size: cover;
+      background-image: linear-gradient(rgba($dark-blue-green, 0.9), rgba($mid-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
       h1, p { color: white; }
     }
 
+    &#finish-section {
+      height: 52rem;
+      overflow: hidden;
+      img { width: 80%; }
+    }
+
     &#elevator-section {
-      background: linear-gradient(rgba(50, 49, 49, 0.92), rgba(16, 16, 16, 0.79)), image-url("homepage/elevator-background.jpg");
-      padding: 6rem 0;
+      background: linear-gradient($mid-blue-green, $header-green);
+      padding: 8rem 0;
+      h1, p { color: white; }
     }
   }
 }
