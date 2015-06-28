@@ -1,13 +1,13 @@
 nav.header {
-  background: $dark-gray !important;
-  li, a { background: $dark-gray !important; }
+  background: $header-green !important;
+  li, a { background: $header-green !important; }
 }
 
 .magellan.header {
-  background: $dark-gray !important;
+  background: $header-green !important;
 
   ul, li { margin: 0; }
-  li, a { background: $dark-gray !important; }
+  li, a { background: $header-green !important; }
 
   a {
     color: white !important;

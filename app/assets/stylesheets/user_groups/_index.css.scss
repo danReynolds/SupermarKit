@@ -14,7 +14,6 @@
       display: table;
 
       &.new-kit { height: 14.6rem; }
-      &:hover { background: rgb(244, 244, 244); }
 
       .group-body {
         vertical-align: middle;
@@ -22,6 +21,7 @@
       }
 
       .default-group {
+        transition: background 0.4s ease;
         background: #E7E7E7;
         cursor: pointer;
         height: 0.6rem;
@@ -31,23 +31,14 @@
         &.hide { display: none; }
 
         &:hover {
+          transition: background 0.4s ease;
           background: $green;
           color: white;
-
-          .fa-check {
-            display: block;
-            color: white;
-          }
         }
 
         &.selected {
           background: $green;
           color: white;
-
-          .fa-check {
-            display: block;
-            color: white;
-          }
         }
       }
 
@@ -68,7 +59,9 @@
       svg {
         width: 7.5rem;
         height: 7.5rem;
-        path { fill: $green !important; }
+        path {
+          fill: $green !important;
+        }
       }
 
       &.invited {
