@@ -12,11 +12,10 @@
               = f.button :submit, 'Add', class: 'add-button postfix'
 
   .row
-    .columns.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
+    .columns.wide.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
       .widget
         .header
           %h3
-            Groceries for
             %strong=@grocery.name
         .main
           .row
@@ -56,17 +55,17 @@
       - unless @grocery.finished?
         .row
           .columns.large-12
-            .widget
+            .widget#recipes
               .header
                 %h3 Recipes
               .main
                 = render partial: 'loaders/spinner', locals: { className: 'recipe-spinner' }
                 .recipe-content.hide
-                  %p We have some great ideas for what you could make based on your current grocery list.
-                  %ul#recipes
+                  %p.banner We have some great ideas for what to make based on your current groceries.
+                  %ul
                 .recipe-no-content.hide
                   = fa_icon 'folder-open-o'
-                  %p It looks like no recipes match your grocery list, but don't let that stop you from making something awesome.
+                  %p.banner It looks like no recipes match your grocery list, but don't let that stop you from making something awesome.
                 .reload.hide
                   %p Your grocery list has changed.
                   = link_to 'Reload recipes', '#', class: 'button'
@@ -74,7 +73,7 @@
     - unless @grocery.finished?
       .columns.large-4
         .row
-          .columns.large-12
+          .columns.large-12.wide
             .widget.email
               .header
                 %h3 Email Groceries
@@ -85,7 +84,7 @@
                   %p
                     Tell the team! At any point you can email everyone in your Kit the grocery list.
                   = link_to 'Send to team', email_group_grocery_path(@grocery), class: 'button'
-      .columns.large-4
+      .columns.large-4.wide
         .row
           .columns.large-12
             .widget.management
