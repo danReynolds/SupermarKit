@@ -13,7 +13,6 @@
           = inline_svg "svgs/serve.svg", id: 'serve-svg'
           %h3 The formula for grocery shopping should be simple.
 
-
       = simple_form_for :user, url: new_user_path, method: :get do |f|
         .row.signup
           .columns.large-12.small-8.small-centered
@@ -30,32 +29,27 @@
           %h1#groceries{ "data-magellan-destination" => "groceries" } It starts with lists.
           %p You've been making them for years and we can help with that. SupermarKit grocery lists remember what you have bought in the past and make it easy to add those grocery items again.
           %p Items are being shared from many grocery lists across SupermarKit, so if there is an item that you want to add to your list, it should already have reviews and an estimated price.
-        .columns.large-6
+        .columns.large-6.text-center
           = image_tag 'homepage/lists.png'
 
     .section#kit-section
       .row
-        .columns.large-4.small-only-text-center
+        .columns.large-4.text-center.large-text-left
           = image_tag 'homepage/kit.png'
-        .columns.large-8.small-only-text-center.large-text-uncenter
+        .columns.large-8.text-center.large-text-left
           %h1#kits{ "data-magellan-destination" => "kits" } Add some Kits.
           %p A Kit is a box that holds all of the grocery lists for a group of people on SupermarKit.
-
           %p You can have as many kits as you need, making it easy to maintain separate lists for your family and your roommates or for any events that you want to keep track of on their own.
-
-          %p
-            With separate lists for different groups of people, you don't have to worry about confusing who you're buying for.
-
+          %p With separate lists for different groups of people, you don't have to worry about confusing who you're buying for.
 
     .section#finish-section
       .row
-        .columns.large-12.small-only-text-center
+        .columns.large-12.text-center
           %h1#finish{ "data-magellan-destination" => "finish" } Put it all together.
       .row
-        .columns.large-12.small-only-text-center
+        .columns.large-12.text-center
           %br
           %p Once you have put your shopping cart together and gone through checkout, it is important to make sure that what you purchased accurately reflects what you put on your list.
-
           %p When you finish your list we make it easy for you to remove any items that you forgot to or decided not to buy. You can then move those items over to your next shopping trip's list which we will make automatically for you.
       .row
         .columns.large-12.text-center
@@ -65,7 +59,7 @@
     .section#elevator-section
       .row
         .columns.large-12.text-center
-          %h1 And make something awesome.
+          %h1 And make something useful.
           %p Give SupermarKit a try and see if it can make your grocery shopping easier.
           %div{class: 'button elevator-button' } Go to sign up
 
