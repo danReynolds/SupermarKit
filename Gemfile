@@ -51,5 +51,4 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'spring'
-  gem 'rack-mini-profiler'
 end

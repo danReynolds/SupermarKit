@@ -204,7 +204,7 @@ $ ->
 
               if recipes.length > 0
                 _.each(_.first(recipes, 8), (recipe) ->
-                  $('#recipes').append(
+                  $('#recipes ul').append(
                     "<li><img src=#{recipe.image_url}>
                      </img><div class=orbit-caption><div>#{recipe.title}</div>
                      <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
@@ -215,7 +215,7 @@ $ ->
                 $(".recipe-no-content").show()
 
               if !recipe_initialized
-                $('#recipes').attr('data-orbit', "")
+                $('#recipes ul').attr('data-orbit', "")
                 $(document).foundation('orbit', 'reflow')
                 recipe_initialized = true
         else
@@ -227,7 +227,7 @@ $ ->
 
     $('.reload').on 'click', 'a', ->
       $('.reload').hide()
-      $('#recipes').html("")
+      $('#recipes ul').html("")
       reloadRecipes()
 
     # ============================

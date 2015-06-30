@@ -42,7 +42,6 @@
 }
 
 .container.groceries-show {
-  background: image-url("groceries/show-background.jpg");
   width: 100%;
 
   .fa-archive {
@@ -129,17 +128,38 @@
   }
 
   #recipes {
-    width: 100%;
-    position: relative;
-    margin-left: 0;
+    .header {
+      padding-bottom: 1.4rem;
+    }
 
-    li {
-      background: $dark-gray;
-      img {
-        margin: 0 auto;
-        height: 25rem;
+    .recipe-spinner { padding-bottom: 2rem; }
 
-        @media #{$small-only} { height: 18rem; }
+    .main {
+      padding: 0;
+
+      .banner {
+        background: #59B8FB;
+        padding: 1rem 1.4rem;
+
+        color: white;
+        margin-bottom: 0;
+      }
+
+      ul {
+        width: 100%;
+        position: relative;
+        margin-left: 0;
+
+        li {
+          background: $dark-gray;
+          img {
+            margin: 0;
+            width: 100%;
+            height: 25rem;
+
+            @media #{$small-only} { height: 18rem; }
+          }
+        }
       }
     }
   }
