@@ -15,3 +15,6 @@ after_failure:
   - "cat ./config/database.yml"
   - "echo $RAILS_ENV"
   - "bundle exec rake --version"
+addons:
+  code_climate:
+      repo_token: fb32f6a5189310ea5f5431e236aac6ea20e1128b1ff4c764ff3d0bc6dd4a683d

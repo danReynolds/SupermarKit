@@ -36,6 +36,7 @@ gem "browserify-rails", "~> 0.7"
 gem 'capistrano-rails-console'
 gem 'airbrake'
 gem 'coveralls', require: false
+gem "codeclimate-test-reporter", group: :test
 
 group :development do
 	gem 'better_errors'
