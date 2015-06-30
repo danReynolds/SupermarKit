@@ -72,11 +72,9 @@
     img {
       border-radius: 4px;
       box-shadow: 0 0 1px $gray;
-      margin-top: 1rem;
+      margin: 1rem 0 2rem 0;
 
-      @media #{$small-only} {
-        margin: 0 0 1rem 0;
-      }
+      @media #{$large-up} { margin: 1rem 0 0 0; }
     }
 
     h1 { color: $gray; }
@@ -86,6 +84,7 @@
     &#kit-section {
       background-image: linear-gradient(rgba($dark-blue-green, 0.9), rgba($mid-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
       h1, p { color: white; }
+
     }
 
     &#finish-section {
