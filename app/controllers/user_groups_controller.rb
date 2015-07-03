@@ -71,6 +71,6 @@ class UserGroupsController < ApplicationController
 
 private
   def user_group_params
-    params.require(:user_group).permit(:name, :description)
+    params.require(:user_group).permit(:name, :description, :privacy)
   end
 end

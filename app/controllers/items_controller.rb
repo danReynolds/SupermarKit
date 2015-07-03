@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-	extend HappyPath
+  extend HappyPath
   follow_happy_paths
   load_and_authorize_resource :grocery
   load_and_authorize_resource :item, through: :grocery, shallow: true
@@ -69,8 +69,8 @@ class ItemsController < ApplicationController
 	end
 
 	def auto_complete
-		items = @grocery.user_group.items.with_name(params[:q]) - @grocery.items
-		items.map do |item|
+		items = @grocery.user_group.privacy_items.with_name(params[:q]) - @grocery.items
+		items = items.first(5).map do |item|
 		  {
 				id: item.id,
 			 	name: item.name,
