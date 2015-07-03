@@ -1,6 +1,6 @@
 .container.user-groups-new
   .row
-    .columns.large-8.large-centered
+    .columns.large-10.large-centered
       .widget
         .header
           %h3 Create a Grocery Kit
@@ -10,8 +10,20 @@
               %p A Kit maintains the list of people and groceries that are included in that Kit. Once you fill out some quick details we'll get started!
           = simple_form_for @user_group do |f|
             .row
-              .columns.large-6.large-centered
+              .columns.large-6
                 = f.input :name
                 = f.input :description, as: :text
                 = f.input :user_ids, label: false, as: :text, input_html: { value: "" }
+              .columns.large-6
+                = f.input :privacy, as: :radio_buttons, collection: UserGroup::PRIVACY, boolean_style: :inline, checked: UserGroup::PUBLIC
+                %p.public
+                  Items you add to lists in
+                  %strong Public
+                  kits will be accessible by other public kits, so like word of mouth, users are able to share pricing info and reviews for these items.
+                %p.private.hide
+                  A
+                  %strong Private
+                  kit is like starting from fresh. There won't be access to any of the items already available on SupermarKit, but any items that are created will only be visible to members of your kit.
+            .row
+              .columns.large-12
                 = f.button :submit, 'Create', class: 'button radius'

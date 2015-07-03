@@ -6,7 +6,26 @@ class UserGroup < ActiveRecord::Base
 
   validates :name, presence: true
 
+  PUBLIC = 'public'.freeze
+  PRIVATE = 'private'.freeze
+  PRIVACY = [PUBLIC, PRIVATE]
   EMBLEMS = ['apple', 'banana', 'cheese', 'fish', 'meal', 'veggie', 'watermelon'].freeze
+
+  def self.public
+    UserGroup.where(privacy: PUBLIC)
+  end
+
+  def self.private
+    UserGroup.where(privacy: PRIVATE)
+  end
+
+  def privacy_items
+    if privacy == PUBLIC
+      Item.where(id: UserGroup.public.flat_map(&:item_ids))
+    else
+      items
+    end
+  end
 
   def active_groceries
     groceries.where(finished_at: nil)
