@@ -31,8 +31,8 @@ RSpec.describe UserGroup, :type => :model do
       end
 
       it 'should return all public items for a public group' do
-        items = @public_group.items.merge(@public_group2.items)
-        expect(@public_group.privacy_items).to eq items
+        items = @public_group.items.union(@public_group2.items)
+        expect(@public_group.privacy_items.map(&:id)).to eq items.map(&:id)
       end
     end
 
