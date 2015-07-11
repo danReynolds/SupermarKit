@@ -37,6 +37,7 @@ gem 'capistrano-rails-console'
 gem 'airbrake'
 gem 'coveralls', require: false
 gem "codeclimate-test-reporter", group: :test
+gem 'active_record_union'
 
 group :development do
 	gem 'better_errors'

@@ -14,7 +14,10 @@
                 = f.input :name
                 = f.input :description, as: :text
               .columns.large-6
-                = f.input :user_ids, label: 'Kit Members'
+                = f.input :user_ids, label: 'Kit Members', as: :text, input_html: { value: "" }
+                %p
+                  Privacy:
+                  %strong=@user_group.privacy.humanize
             .row
               .columns.large-12
                 = f.button :submit, 'Update', class: 'button radius'
