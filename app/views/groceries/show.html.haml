@@ -15,8 +15,7 @@
     .columns.wide.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
       .widget
         .header
-          %h3
-            %strong=@grocery.name
+          %h3= @grocery.name
         .main
           .row
             .columns.large-12

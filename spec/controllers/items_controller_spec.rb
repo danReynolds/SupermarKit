@@ -34,24 +34,65 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'GET auto_complete' do
+    describe 'Scope by presence' do
+      it 'returns an item not present in current grocery list' do
+        items = user_group.items - grocery.items
+        get :auto_complete, grocery_id: grocery, q: items.first.name
+        resp = JSON.parse(response.body)['total_items']
+        expect(resp).to eq 1
+      end
 
-    it 'returns an item not in current grocery list' do
-      items = user_group.items - grocery.items
-      get :auto_complete, grocery_id: grocery, q: items.first.name
-      resp = JSON.parse(response.body)['total_items']
-      expect(resp).to eq 1
+      it 'does not return an item present in the current grocery list' do
+        item = grocery.items.first
+        get :auto_complete, grocery_id: grocery, q: item.name
+        resp = JSON.parse(response.body)['total_items']
+        expect(resp).to eq 0
+      end
     end
 
-    it 'does not return an item in the current grocery list' do
-      item = grocery.items.first
-      get :auto_complete, grocery_id: grocery, q: item.name
-      resp = JSON.parse(response.body)['total_items']
-      expect(resp).to eq 0
+    describe 'Scope by privacy' do
+      context 'public kit' do
+        it 'returns other public group items' do
+          group = create(:user_group, :with_groceries)
+          item = group.items.first
+          get :auto_complete, grocery_id: grocery, q: item.name
+          resp = JSON.parse(response.body)['total_items']
+          expect(resp).to eq 1
+        end
+
+        it 'does not return other private group items' do
+          group = create(:user_group, :with_groceries, privacy: UserGroup::PRIVATE)
+          item = group.items.first
+          get :auto_complete, grocery_id: grocery, q: item.name
+          resp = JSON.parse(response.body)['total_items']
+          expect(resp).to eq 0
+        end
+      end
+
+      context 'private kit' do
+        it 'does not return other public group items' do
+          user_group.update_attributes(privacy: UserGroup::PRIVATE)
+          other_group = create(:user_group, :with_groceries)
+          item = other_group.items.first
+
+          get :auto_complete, grocery_id: grocery, q: item.name
+          resp = JSON.parse(response.body)['total_items']
+          expect(resp).to eq 0
+        end
+
+        it 'returns own private group items' do
+          user_group.update_attributes(privacy: UserGroup::PRIVATE)
+          items = user_group.items - grocery.items
+
+          get :auto_complete, grocery_id: grocery, q: items.first.name
+          resp = JSON.parse(response.body)['total_items']
+          expect(resp).to eq 1
+        end
+      end
     end
   end
 
   describe 'PATCH add' do
-
     it 'adds items to grocery' do
       new_item = create(:item)
       patch :add, grocery_id: grocery, items: { ids: [new_item.id] }
@@ -60,7 +101,6 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'PATCH remove' do
-
     it 'removes the item from grocery' do
       item = grocery.items.last
       patch :remove, grocery_id: grocery, id: item
