@@ -41,7 +41,7 @@ RSpec.describe UserGroup, :type => :model do
         expect(UserGroup.private.length).to eq 1
       end
 
-      it 'should return all public items for a private group' do
+      it 'should return only group items for a private group' do
         expect(@private_group.privacy_items).to eq @private_group.items
       end
     end
