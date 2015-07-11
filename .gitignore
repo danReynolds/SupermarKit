@@ -18,5 +18,5 @@ config/secrets.yml
 .env
 .tags
 .tags_sorted_by_file
-coverage
-node_modules
+/coverage
+/node_modules
