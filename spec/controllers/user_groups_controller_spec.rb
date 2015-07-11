@@ -6,7 +6,7 @@ RSpec.describe UserGroupsController, type: :controller do
 
   describe 'POST create' do
 
-    before(:each) do
+    before :each do
       @group_member = create(:user)
       post :create, user_group: attributes_for(:user_group).merge!(user_ids: "#{@group_member.id}")
       @new_group = UserGroup.last
