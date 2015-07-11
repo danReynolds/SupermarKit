@@ -95,7 +95,7 @@ class ItemsController < ApplicationController
 
 	def remove
 		# the grocery is already loaded because grocery_id was passed with the request
-		# cancancan picks up on the grocery_id being passed when using load_resource
+		# canard picks up on the grocery_id being passed when using load_resource
 		@grocery.items.delete(@item)
 		render json: { success: true }
 	end

@@ -93,7 +93,6 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'PATCH add' do
-
     it 'adds items to grocery' do
       new_item = create(:item)
       patch :add, grocery_id: grocery, items: { ids: [new_item.id] }
@@ -102,7 +101,6 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'PATCH remove' do
-
     it 'removes the item from grocery' do
       item = grocery.items.last
       patch :remove, grocery_id: grocery, id: item
