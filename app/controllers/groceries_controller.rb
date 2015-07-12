@@ -33,7 +33,7 @@ class GroceriesController < ApplicationController
       current_user.default_group = @user_group unless current_user.default_group
       redirect_to @grocery
     else
-      render action: :new
+      render :new
     end
 	end
 
@@ -44,8 +44,8 @@ class GroceriesController < ApplicationController
 	end
 
   def finish
-    current_items = params[:finish][:current_ids].split(",").flat_map{ |id| Item.find(id) }
-    next_items = params[:finish][:next_ids].split(",").flat_map{ |id| Item.find(id) }
+    current_items = params[:finish][:current_ids].split(',').flat_map{ |id| Item.find(id) }
+    next_items = params[:finish][:next_ids].split(',').flat_map{ |id| Item.find(id) }
 
     @grocery.items = current_items
     @grocery.finished_at = DateTime.now
@@ -57,10 +57,13 @@ class GroceriesController < ApplicationController
     new_grocery.items = next_items
     new_grocery.user_group = @grocery.user_group
 
-    if @grocery.save && new_grocery.save
-      redirect_to new_grocery, notice: "Your new grocery list is setup and ready to use."
-    else
-      render @grocery, notice: "There was a problem creating your new grocery list."
+    begin
+      Grocery.transaction do
+        @grocery.save! && new_grocery.save!
+        redirect_to new_grocery, notice: 'Your new grocery list is setup and ready to use.'
+      end
+    rescue ActiveRecord::RecordInvalid
+      redirect_to @grocery, alert: 'There was a problem finishing your list.'
     end
   end
 
