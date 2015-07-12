@@ -39,7 +39,7 @@ Rails.application.routes.draw do
         end
         member do
           patch :finish
-          get :email_group
+          post :email_group
           get :recipes
         end
       end

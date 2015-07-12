@@ -53,4 +53,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'spring'
+	gem 'webmock', '~> 1.21.0'
 end

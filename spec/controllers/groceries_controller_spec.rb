@@ -124,4 +124,28 @@ describe GroceriesController, type: :controller do
       end
     end
   end
+
+  describe 'POST email_group' do
+    subject { post :email_group, id: grocery.id }
+
+    it 'should deliver an email to each group member' do
+      users = grocery.user_group.users
+      expect { subject }.to change { ActionMailer::Base.deliveries.count }.by users.count
+    end
+
+    it 'should redirect to the grocery page' do
+      expect(subject).to redirect_to grocery
+    end
+  end
+
+  describe 'GET recipes' do
+    it 'should be successful' do
+      stub_request(:get, /food2fork.com/).
+        with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        to_return(status: 200, body: '{}', headers: {})
+
+      get :recipes, id: grocery.id, format: :json
+      expect(response).to be_ok
+    end
+  end
 end
