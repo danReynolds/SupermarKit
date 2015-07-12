@@ -6,7 +6,6 @@ RSpec.describe User, type: :model do
     softie2 = create(:user, name: 'John Reynolds')
 
     search = User.with_name('Dan')
-
     expect(search).to eq [softie1]
   end
 end
