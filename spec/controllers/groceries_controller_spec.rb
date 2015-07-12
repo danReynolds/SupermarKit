@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/login_user'
 
-RSpec.describe GroceriesController, type: :controller do
+GroceriesController, type: :controller do
   include_context 'login user'
 
   describe 'GET index' do
