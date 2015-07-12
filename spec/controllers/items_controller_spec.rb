@@ -33,6 +33,110 @@ RSpec.describe ItemsController, type: :controller do
     end
   end
 
+  describe 'POST create' do
+    context 'when valid item' do
+      subject { post :create, item: attributes_for(:item), grocery_id: grocery.id }
+
+      it 'should create a new item' do
+        expect { subject }.to change(Item, :count).by 1
+      end
+
+      it 'should capitalize the item name' do
+        subject
+        name = Item.last.name
+        expect(name).to eq name.capitalize
+      end
+
+      it 'should redirect to the new grocery page' do
+        expect(subject).to redirect_to grocery
+      end
+    end
+
+    context 'when invalid item' do
+      subject { post :create, item: { name: '' }, grocery_id: grocery.id }
+
+      it 'should not create a new item' do
+        expect { subject }.to_not change(Item, :count)
+      end
+
+      it 'should render the new template' do
+        expect(subject).to render_template :new
+      end
+    end
+  end
+
+  describe 'PATCH update' do
+    let(:item) { grocery.items.last }
+    let(:params) {
+      {
+        name: "#{item.name} updated"
+      }
+    }
+
+    context 'when HTML' do
+      subject { patch :update, id: item.id, item: params }
+
+      context 'when valid' do
+        it 'should update the item' do
+          subject
+          expect(item.reload.name).to eq params[:name]
+        end
+
+        it 'should redirect to the user group' do
+          expect(subject).to redirect_to user_group
+        end
+      end
+
+      context 'when invalid' do
+        before :each do
+          params[:name] = ''
+        end
+
+        it 'should not update the item' do
+          name = item.name
+          subject
+          expect(item.reload.name).to eq name
+        end
+
+        it 'should render the edit template' do
+          expect(subject).to render_template :edit
+        end
+      end
+    end
+
+    context 'when JSON' do
+      subject { patch :update, id: item.id, item: params, format: :json }
+
+      context 'when valid' do
+        it 'should update the item' do
+          subject
+          expect(item.reload.name).to eq params[:name]
+        end
+
+        it 'should return a valid response' do
+          expect(subject).to be_ok
+        end
+      end
+
+      context 'when invalid' do
+        before :each do
+          params[:name] = ''
+        end
+
+        it 'should not update the item' do
+          name = item.name
+          subject
+          expect(item.reload.name).to eq name
+        end
+
+        it 'should return an internal server error' do
+          subject
+          expect(response).to have_http_status :internal_server_error
+        end
+      end
+    end
+  end
+
   describe 'GET auto_complete' do
     describe 'Scope by presence' do
       it 'returns an item not present in current grocery list' do
@@ -93,18 +197,30 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'PATCH add' do
+      let(:new_item) { create(:item) }
+      subject { patch :add, grocery_id: grocery, items: { ids: [new_item.id] } }
+
     it 'adds items to grocery' do
-      new_item = create(:item)
-      patch :add, grocery_id: grocery, items: { ids: [new_item.id] }
+      subject
       expect(grocery.reload.items).to include(new_item)
+    end
+
+    it 'successfully returns' do
+      expect(subject).to be_ok
     end
   end
 
   describe 'PATCH remove' do
+    let(:item) { grocery.items.last }
+    subject { patch :remove, grocery_id: grocery, id: item }
+
     it 'removes the item from grocery' do
-      item = grocery.items.last
-      patch :remove, grocery_id: grocery, id: item
+      subject
       expect(grocery.reload.items).not_to include(item)
+    end
+
+    it 'successfully returns' do
+      expect(subject).to be_ok
     end
   end
 end

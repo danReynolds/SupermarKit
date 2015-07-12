@@ -40,7 +40,7 @@ class ItemsController < ApplicationController
 		if @item.save
 			redirect_to @grocery
 		else
-			render action: :new
+			render action: :new, alert: 'Unable to create new item.'
 		end
 	end
 
@@ -52,9 +52,9 @@ class ItemsController < ApplicationController
 		respond_to do |format|
 			format.json do
 				if @item.update_attributes(item_params)
-					render json: { status: :ok }
+					render nothing: true, status: :ok
 				else
-					render json: { status: :internal_server_error }
+					render nothing: true, status: :internal_server_error
 				end
 			end
 
@@ -90,14 +90,14 @@ class ItemsController < ApplicationController
 		end
 
 		@grocery.items << items
-		render json: { success: true }
+		render nothing: true, status: :ok
 	end
 
 	def remove
 		# the grocery is already loaded because grocery_id was passed with the request
 		# canard picks up on the grocery_id being passed when using load_resource
 		@grocery.items.delete(@item)
-		render json: { success: true }
+		render nothing: true, status: :ok
 	end
 
 private
