@@ -1,8 +1,17 @@
 require 'rails_helper'
 require 'support/login_user'
+require 'support/routes'
 
 describe UserGroupsController, type: :controller do
   include_context 'login user'
+
+  let(:id) { user_group }
+  it_should_behave_like 'routes', {
+    metrics: { id: true },
+    edit: { id: true },
+    show: { id: true },
+    new: {}
+  }
 
   describe 'POST create' do
     before :each do
@@ -28,11 +37,6 @@ describe UserGroupsController, type: :controller do
         expect(user_group_user.state).to eq(UserGroupsUsers::INVITED)
       end
     end
-  end
-
-  describe 'GET metrics' do
-    get :metrics, user_group_id: user_group.id
-    expect(response).to be_ok
   end
 
   describe 'PATCH update' do
