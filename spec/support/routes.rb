@@ -1,24 +1,34 @@
 require 'support/login_user'
 
 shared_examples 'routes' do |routes|
-  describe 'check routes' do
+  describe 'check route' do
     routes.each do |k, v|
-      it "#{k} should be successful" do
+      it "#{k} should return success" do
         args = {}
 
-        if v[:login]
-          @user = create(:user)
-          @user.activate!
-          login_user
-          id = controller.current_user.id
-        end
+        method = :get
+        status = :ok
 
-        if v[:id]
-          args[:id] = id
+        v.each do |k2, v2|
+          if k2 == :login
+            if v2
+              user.activate!
+              login_user(user)
+            else
+              logout_user
+            end
+          elsif k2 == :id && v2
+            args[k2] = self.id
+          elsif k2 == :method
+            method = v2
+          elsif k2 == :status
+            status = v2
+          elsif v2
+            args[k2] = self.send(k2)
+          else
+            raise 'unexpected argument to routes helper'
+          end
         end
-
-        method = v[:method] || :get
-        status = v[:status] || :ok
 
         self.send(method, k, args)
         expect(response).to have_http_status(status)

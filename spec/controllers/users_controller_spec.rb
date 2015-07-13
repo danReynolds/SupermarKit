@@ -3,6 +3,9 @@ require 'support/login_user'
 require 'support/routes'
 
 describe UsersController, type: :controller do
+
+  let(:user) { create(:user) }
+  let(:id) { user.id }
   it_should_behave_like 'routes', {
     new: {},
     show: { id: true, login: true },
@@ -11,7 +14,6 @@ describe UsersController, type: :controller do
 
   describe 'GET auto_complete' do
     include_context 'login user'
-
     it 'returns successful match' do
       get :auto_complete, q: controller.current_user.name
       count = JSON.parse(response.body)['total_users']

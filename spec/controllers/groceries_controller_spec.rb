@@ -1,8 +1,17 @@
 require 'rails_helper'
 require 'support/login_user'
+require 'support/routes'
 
 describe GroceriesController, type: :controller do
   include_context 'login user'
+
+  let(:id) { grocery.id }
+  let(:user_group_id) { user_group.id }
+  it_should_behave_like 'routes', {
+    new: { user_group_id: true },
+    show: { id: true },
+    edit: { id: true }
+  }
 
   describe 'GET index' do
     subject { get :index, user_group_id: user_group, format: :json }
@@ -34,8 +43,8 @@ describe GroceriesController, type: :controller do
   describe 'POST create' do
     let(:grocery_params) {
        {
-         name: "Test",
-         description: "Test"
+         name: 'Test',
+         description: 'Test'
        }
     }
     subject { post :create, grocery: grocery_params, user_group_id: user_group }
