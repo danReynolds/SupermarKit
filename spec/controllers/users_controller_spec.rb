@@ -3,7 +3,6 @@ require 'support/login_user'
 require 'support/routes'
 
 describe UsersController, type: :controller do
-
   let(:user) { create(:user) }
   let(:id) { user.id }
   it_should_behave_like 'routes', {
