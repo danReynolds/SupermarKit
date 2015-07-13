@@ -1,18 +1,32 @@
 require 'rails_helper'
+require 'support/routes'
 
-RSpec.describe UserSessionsController, type: :controller do
+describe UserSessionsController, type: :controller do
   before(:each) do
     @user = create(:user, password: 'valid')
     @user.activate!
   end
 
-  it 'logs user in when valid' do
-    post :create, session: { email: @user.email, password: 'valid' }
-    expect(controller.current_user).to eq @user.reload
+  it_should_behave_like 'routes', {
+    new: {}
+  }
+
+  describe 'POST create' do
+    it 'logs user in when valid' do
+      post :create, session: { email: @user.email, password: 'valid' }
+      expect(controller.current_user).to eq @user.reload
+    end
+
+    it 'renders new when invalid' do
+      post :create, session: { email: @user.email, password: 'invalid' }
+      expect(response).to render_template :new
+    end
   end
 
-  it 'renders new when invalid' do
-    post :create, session: { email: @user.email, password: 'invalid' }
-    expect(response).to render_template :new
+  describe 'DELETE destroy' do
+    it 'should log the user out' do
+      delete :destroy
+      expect(controller.current_user).to be_nil
+    end
   end
 end

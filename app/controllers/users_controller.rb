@@ -19,7 +19,6 @@ class UsersController < ApplicationController
   def default_group
     new_group = UserGroup.find(params[:default_group_id])
     user = User.find(params[:id])
-
     user.default_group = new_group
 
     if user.default_group.active_groceries.first

@@ -4,15 +4,11 @@ Rails.application.routes.draw do
   get "oauth/callback" => "oauths#callback" # for use with Github, Facebook
   get "oauth/:provider" => "oauths#oauth", :as => :auth_at_provider
 
-  get 'password_resets/create'
-  get 'password_resets/edit'
-  get 'password_resets/update'
   get 'login' => 'user_sessions#new', as: :login
   post 'logout' => 'user_sessions#destroy', as: :logout
   get 'about' => 'pages#about', as: :about
   root to: 'pages#home'
 
-  resources :password_resets
   resources :user_sessions
 
   resources :users do
@@ -39,7 +35,7 @@ Rails.application.routes.draw do
         end
         member do
           patch :finish
-          get :email_group
+          post :email_group
           get :recipes
         end
       end

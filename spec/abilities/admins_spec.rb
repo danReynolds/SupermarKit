@@ -19,6 +19,6 @@ describe Canard::Abilities, 'for :admin' do
     it { can([:accept_invitation, :metrics, :read, :create, :destroy, :update, :manage], any(:user_group)) }
     it { can([:recipes, :finish, :email_group, :read, :create, :destroy, :update, :manage], any(:grocery)) }
     it { can([:auto_complete, :add, :remove, :read, :create, :destroy, :update, :manage], any(:item)) }
-    it { can([:auto_complete, :activate, :read, :create, :destroy, :update, :manage], any(:user)) }
+    it { can([:default_group, :auto_complete, :activate, :read, :create, :destroy, :update, :manage], any(:user)) }
   end
 end

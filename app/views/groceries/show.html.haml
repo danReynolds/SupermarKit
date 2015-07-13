@@ -82,7 +82,7 @@
                 .email-content
                   %p
                     Tell the team! At any point you can email everyone in your Kit the grocery list.
-                  = link_to 'Send to team', email_group_grocery_path(@grocery), class: 'button'
+                  = link_to 'Send to team', email_group_grocery_path(@grocery), method: :post, class: 'button'
       .columns.large-4.wide
         .row
           .columns.large-12

@@ -17,4 +17,4 @@ after_failure:
   - "bundle exec rake --version"
 addons:
   code_climate:
-      repo_token: fb32f6a5189310ea5f5431e236aac6ea20e1128b1ff4c764ff3d0bc6dd4a683d
+    repo_token: e2dd5be2916b2138574a18f616efe63f80d8428f0b0d96019f0aa9b3da6a57ae bundle exec rake
