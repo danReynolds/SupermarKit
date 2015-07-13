@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
@@ -13,8 +13,8 @@ describe ApplicationController, type: :controller do
     end
   end
 
-  describe "handle access denied" do
-    it "redirects to user groups page" do
+  describe 'handle access denied' do
+    it 'redirects to user groups page' do
       get :index
       expect(response).to redirect_to user_groups_path
     end
