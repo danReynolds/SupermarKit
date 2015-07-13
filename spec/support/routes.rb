@@ -18,19 +18,19 @@ shared_examples 'routes' do |routes|
               logout_user
             end
           elsif k2 == :id && v2
-            args[k2] = self.id
+            args[k2] = id
           elsif k2 == :method
             method = v2
           elsif k2 == :status
             status = v2
           elsif v2
-            args[k2] = self.send(k2)
+            args[k2] = send(k2)
           else
             raise 'unexpected argument to routes helper'
           end
         end
 
-        self.send(method, k, args)
+        send(method, k, args)
         expect(response).to have_http_status(status)
       end
     end
