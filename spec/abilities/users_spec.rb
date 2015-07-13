@@ -10,7 +10,6 @@ describe Canard::Abilities, 'for :user' do
   subject { Ability.new(user) }
 
   describe 'user group' do
-
     context 'should be able to' do
       it { can([:accept_invitation, :metrics, :read, :update, :create, :destroy, :manage], own_user_group) }
       it { can([:create], any(:user_group)) }
@@ -22,7 +21,6 @@ describe Canard::Abilities, 'for :user' do
   end
 
   describe 'grocery' do
-
     context 'should be able to' do
       it { can([:recipes, :finish, :email_group, :read, :update, :create, :destroy, :toggle_finish, :manage], own_grocery) }
       it { can([:create], any(:grocery)) }
@@ -34,7 +32,6 @@ describe Canard::Abilities, 'for :user' do
   end
 
   describe 'item' do
-
     context 'should be able to' do
       it { can([:auto_complete, :add, :remove, :read, :create, :update, :destroy, :manage], own_item) }
       it { can([:create], any(:item)) }
@@ -46,19 +43,17 @@ describe Canard::Abilities, 'for :user' do
   end
 
   describe 'user' do
-
     context 'should be able to' do
       it { can([:read, :auto_complete], any(:user)) }
-      it { can([:read, :destroy, :update, :activate, :auto_complete, :manage], user) }
+      it { can([:read, :destroy, :update, :activate, :auto_complete, :default_group, :manage], user) }
     end
 
     context 'should not be able to' do
-      it { cant([:update, :create, :destroy, :activate, :manage], any(:user)) }
+      it { cant([:update, :create, :destroy, :activate, :default_group, :manage], any(:user)) }
     end
   end
 
   describe 'authentication' do
-
     context 'should be able to' do
       it { can([:create], any(:authentication)) }
       it { can([:read, :destroy, :update, :manage], own_authentication) }
