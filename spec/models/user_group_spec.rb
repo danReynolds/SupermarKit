@@ -1,25 +1,28 @@
 require 'rails_helper'
 
-RSpec.describe UserGroup, :type => :model do
-  describe 'group groceries' do
-    context 'with groceries' do
+describe UserGroup, type: :model do
+  describe 'grocery scoping' do
+    context 'when returning groceries' do
       let(:user_group) { create(:user_group, :with_groceries) }
+
+      before :each do
+        user_group.groceries.first.update_attributes(finished_at: DateTime.now)
+      end
 
       it 'scopes by unfinished' do
         result = user_group.active_groceries
-        expect(result).to eq user_group.groceries
+        expect(result).to eq user_group.groceries[1..-1]
       end
 
       it 'scopes by finished' do
-        user_group.groceries.update_all(finished_at: DateTime.now)
         result = user_group.finished_groceries
-        expect(result).to eq user_group.groceries
+        expect(result).to eq user_group.groceries.first(1)
       end
     end
   end
 
   describe 'privacy scoping' do
-    before(:each) do
+    before :each do
       @public_group = create(:user_group, :with_groceries, privacy: UserGroup::PUBLIC)
       @public_group2 = create(:user_group, :with_groceries, privacy: UserGroup::PUBLIC)
       @private_group = create(:user_group, :with_groceries, privacy: UserGroup::PRIVATE)

@@ -1,12 +1,20 @@
 require 'rails_helper'
 require 'support/login_user'
+require 'support/routes'
 
-RSpec.describe UserGroupsController, type: :controller do
+describe UserGroupsController, type: :controller do
   include_context 'login user'
 
-  describe 'POST create' do
+  let(:id) { user_group }
+  it_should_behave_like 'routes', {
+    metrics: { id: true },
+    edit: { id: true },
+    show: { id: true },
+    new: {}
+  }
 
-    before(:each) do
+  describe 'POST create' do
+    before :each do
       @group_member = create(:user)
       post :create, user_group: attributes_for(:user_group).merge!(user_ids: "#{@group_member.id}")
       @new_group = UserGroup.last
@@ -32,7 +40,6 @@ RSpec.describe UserGroupsController, type: :controller do
   end
 
   describe 'PATCH update' do
-
     it 'replaces users with new ones' do
       group = create(:user_group)
       user1 = create(:user)
@@ -44,7 +51,6 @@ RSpec.describe UserGroupsController, type: :controller do
   end
 
   describe 'PATCH accept_invitation' do
-
     it 'should accept the invitation and change UserGroupUser state' do
       user = create(:user)
       user2 = controller.current_user
