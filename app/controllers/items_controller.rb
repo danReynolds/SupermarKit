@@ -40,7 +40,7 @@ class ItemsController < ApplicationController
 		if @item.save
 			redirect_to @grocery
 		else
-			render action: :new, alert: 'Unable to create new item.'
+      render action: :new, alert: 'Unable to create new item.'
 		end
 	end
 

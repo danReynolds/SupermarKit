@@ -44,8 +44,8 @@ class GroceriesController < ApplicationController
 	end
 
   def finish
-    current_items = params[:finish][:current_ids].split(',').flat_map{ |id| Item.find(id) }
-    next_items = params[:finish][:next_ids].split(',').flat_map{ |id| Item.find(id) }
+    current_items = params[:finish][:current_ids].split(',').flat_map { |id| Item.find(id) }
+    next_items = params[:finish][:next_ids].split(',').flat_map { |id| Item.find(id) }
 
     @grocery.items = current_items
     @grocery.finished_at = DateTime.now
