@@ -3,7 +3,6 @@ rvm:
   - 2.1.0
 env:
   - RAILS_ENV=test
-  - CODECLIMATE_REPO_TOKEN=e2dd5be2916b2138574a18f616efe63f80d8428f0b0d96019f0aa9b3da6a57ae bundle exec rake
 before_script:
   - "mysql -e 'create database my_app_test;'"
   - "cp ./.travis.database.yml ./config/database.yml"
@@ -16,3 +15,6 @@ after_failure:
   - "cat ./config/database.yml"
   - "echo $RAILS_ENV"
   - "bundle exec rake --version"
+addons:
+  code_climate:
+    repo_token: e2dd5be2916b2138574a18f616efe63f80d8428f0b0d96019f0aa9b3da6a57ae bundle exec rake
