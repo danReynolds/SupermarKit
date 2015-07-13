@@ -206,8 +206,8 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'PATCH add' do
-      let(:new_item) { create(:item) }
-      subject { patch :add, grocery_id: grocery, items: { ids: [new_item.id] } }
+    let(:new_item) { create(:item) }
+    subject { patch :add, grocery_id: grocery, items: { ids: [new_item.id] } }
 
     it 'adds items to grocery' do
       subject

@@ -42,10 +42,10 @@ describe GroceriesController, type: :controller do
 
   describe 'POST create' do
     let(:grocery_params) {
-       {
-         name: 'Test',
-         description: 'Test'
-       }
+      {
+        name: 'Test',
+        description: 'Test'
+      }
     }
     subject { post :create, grocery: grocery_params, user_group_id: user_group }
 
@@ -150,7 +150,7 @@ describe GroceriesController, type: :controller do
   describe 'GET recipes' do
     it 'should be successful' do
       stub_request(:get, /food2fork.com/).
-        with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+        with(headers: { 'Accept' => '*/*', 'User-Agent' => 'Ruby' }).
         to_return(status: 200, body: '{}', headers: {})
 
       get :recipes, id: grocery.id, format: :json

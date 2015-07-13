@@ -90,14 +90,14 @@ class ItemsController < ApplicationController
 		end
 
 		@grocery.items << items
-		render nothing: true, status: :ok
+    render nothing: true, status: :ok
 	end
 
 	def remove
 		# the grocery is already loaded because grocery_id was passed with the request
 		# canard picks up on the grocery_id being passed when using load_resource
 		@grocery.items.delete(@item)
-		render nothing: true, status: :ok
+    render nothing: true, status: :ok
 	end
 
 private
