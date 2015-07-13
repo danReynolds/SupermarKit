@@ -1,8 +1,17 @@
 require 'rails_helper'
 require 'support/login_user'
+require 'support/routes'
 
 RSpec.describe ItemsController, type: :controller do
   include_context 'login user'
+
+  let(:id) { grocery.items.first.id }
+  let(:grocery_id) { grocery.id }
+  it_should_behave_like 'routes', {
+    new: { grocery_id: true },
+    show: { id: true },
+    edit: { id: true }
+  }
 
   describe 'GET index' do
     subject { get :index, grocery_id: grocery, format: :json }
