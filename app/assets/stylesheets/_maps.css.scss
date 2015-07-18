@@ -4,9 +4,8 @@
 }
 
 .controls {
-  -moz-box-sizing: border-box;
-  border-radius: 2px 0 0 2px;
   border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   height: 32px;
@@ -28,7 +27,7 @@
 
 #type-selector {
   background-color: #4d90fe;
-  color: #fff;
+  color: $white;
   padding: 5px 11px 0px 11px;
 
   label { font-size: 13px; }
