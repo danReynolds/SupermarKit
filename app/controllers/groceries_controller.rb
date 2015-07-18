@@ -23,6 +23,7 @@ class GroceriesController < ApplicationController
 	end
 
 	def show
+    @grocery_store = @grocery.grocery_store
 	end
 
 	def new
@@ -81,9 +82,27 @@ class GroceriesController < ApplicationController
     render json: JSON.parse(res)
   end
 
+  def set_store
+    @grocery_store = GroceryStore
+      .create_with(grocery_store_params)
+      .find_or_create_by(place_id: params[:grocery_store][:place_id])
+
+    @grocery.grocery_store = @grocery_store
+
+    if @grocery_store.valid? && @grocery.save
+      render nothing: true, status: :ok
+    else
+      render nothing: true, status: :internal_server_error
+    end
+  end
+
 private
 
   def grocery_params
     params.require(:grocery).permit(:name, :description)
+  end
+
+  def grocery_store_params
+    params.require(:grocery_store).permit(:name, :lat, :lng, :place_id)
   end
 end
