@@ -147,6 +147,50 @@ describe GroceriesController, type: :controller do
     end
   end
 
+  describe 'POST set_store' do
+    let(:subject) { post :set_store, id: grocery.id, grocery_store: params }
+    let(:params) { attributes_for(:grocery_store, :with_place_id) }
+
+    context 'when valid params' do
+      it 'should finish successfully' do
+        expect(subject).to be_ok
+      end
+
+      context 'with an existing store' do
+        let(:store) { create(:grocery_store, :with_place_id) }
+        before(:each) { params[:place_id] = store.place_id }
+
+        it 'should assign the store to the grocery list' do
+          subject
+          expect(grocery.reload.grocery_store).to eq store
+        end
+
+        it 'should not create a new store' do
+          expect {subject}.to_not change(GroceryStore, :count)
+        end
+      end
+
+      context 'with a new store' do
+        it 'should create the new store' do
+          expect {subject}.to change(GroceryStore, :count).by(1)
+        end
+
+        it 'should assign the new store to the grocery list' do
+          subject
+          grocery_store = GroceryStore.find_by_place_id(params[:place_id])
+          expect(grocery.reload.grocery_store).to eq grocery_store
+        end
+      end
+    end
+
+    context 'when invalid params' do
+      it 'should render an error' do
+        params[:place_id] = nil
+        expect(subject).to have_http_status(:internal_server_error)
+      end
+    end
+  end
+
   describe 'GET recipes' do
     it 'should be successful' do
       stub_request(:get, /food2fork.com/).
