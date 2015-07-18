@@ -1,8 +1,8 @@
 class Grocery < ActiveRecord::Base
-
   has_many :groceries_items, class_name: GroceriesItems
   has_many :items, through: :groceries_items
   belongs_to :user_group
+  belongs_to :grocery_store
 
   validates :name, presence: true
 

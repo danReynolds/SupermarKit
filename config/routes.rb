@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  post "oauth/callback" => "oauths#callback"
-  get "oauth/callback" => "oauths#callback" # for use with Github, Facebook
-  get "oauth/:provider" => "oauths#oauth", :as => :auth_at_provider
+  post 'oauth/callback' => 'oauths#callback'
+  get 'oauth/callback' => 'oauths#callback' # for use with Github, Facebook
+  get 'oauth/:provider' => 'oauths#oauth', :as => :auth_at_provider
 
   get 'login' => 'user_sessions#new', as: :login
   post 'logout' => 'user_sessions#destroy', as: :logout
@@ -21,7 +21,8 @@ Rails.application.routes.draw do
     end
   end
 
-  shallow do # Only the collection routes of the children get member routes of the parent
+  # Only the collection routes of the children get member routes of the parent
+  shallow do
     resources :user_groups do
       resources :groceries do
         resources :items do
@@ -34,9 +35,10 @@ Rails.application.routes.draw do
           end
         end
         member do
+          get :recipes
           patch :finish
           post :email_group
-          get :recipes
+          post :set_store
         end
       end
       member do

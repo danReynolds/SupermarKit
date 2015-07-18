@@ -1,5 +1,8 @@
+= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?libraries=places'
+
 :coffee
-  @grocery_id = #{@grocery.id}
+  @grocery_id = "#{@grocery.id}"
+  @place_id = "#{@grocery_store.try(:place_id)}"
 
 .container.groceries-show
   - unless @grocery.finished?
@@ -92,6 +95,15 @@
               .main
                 %p View Kit statistics, manage users and view past lists all in one place.
                 = link_to 'Manage Kit', @grocery.user_group, class: 'button'
+      .columns.large-4.wide
+        .row
+          .columns.large-12
+            .widget#location
+              .header
+                %h3 Grocery Store
+              .main
+                %input{id: "pac-input", class: "controls", placeholder: "Search Box"}
+                #map-canvas
 
   -# Modals
 
@@ -115,16 +127,17 @@
 
   #new-list-modal.reveal-modal.tiny{ "data-reveal" => "", role: "dialog" }
     .row
-      .columns.large-12
+      .columns.large-8.large-centered
         %h2.modalTitle New Grocery List.
         %p We're almost done, now just specify any details for your next list.
         = simple_form_for :finish, url: finish_grocery_path(@grocery), method: :patch do |f|
           .row
-            .columns.large-10.large-centered
+            .columns.large-12
               = f.input :name, input_html: { value: "#{Date.today.strftime('%A')}'s List - #{Date.today}" }
               = f.input :description, as: :text
               = f.button :submit, 'Create', class: 'button radius'
               = f.input :current_ids, as: :hidden
               = f.input :next_ids, as: :hidden
+
     = link_to '#', class: 'close-reveal-modal' do
       &#215

@@ -43,6 +43,7 @@
 //= require items/items
 //= require items/items_edit
 //= require home
+//= require groceries/maps
 
 // =============================
 

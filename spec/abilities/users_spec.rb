@@ -22,7 +22,7 @@ describe Canard::Abilities, 'for :user' do
 
   describe 'grocery' do
     context 'should be able to' do
-      it { can([:recipes, :finish, :email_group, :read, :update, :create, :destroy, :toggle_finish, :manage], own_grocery) }
+      it { can([:set_store, :recipes, :finish, :email_group, :read, :update, :create, :destroy, :toggle_finish, :manage], own_grocery) }
       it { can([:create], any(:grocery)) }
     end
 
