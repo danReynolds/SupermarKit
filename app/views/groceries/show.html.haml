@@ -1,3 +1,5 @@
+= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?libraries=places'
+
 :coffee
   @grocery_id = #{@grocery.id}
 
@@ -92,6 +94,15 @@
               .main
                 %p View Kit statistics, manage users and view past lists all in one place.
                 = link_to 'Manage Kit', @grocery.user_group, class: 'button'
+      .columns.large-4.wide
+        .row
+          .columns.large-12
+            .widget#location
+              .header
+                %h3 Grocery Store
+              .main
+                %input{id: "pac-input", class: "controls", placeholder: "Search Box"}
+                #map-canvas
 
   -# Modals
 
@@ -126,5 +137,6 @@
               = f.button :submit, 'Create', class: 'button radius'
               = f.input :current_ids, as: :hidden
               = f.input :next_ids, as: :hidden
+
     = link_to '#', class: 'close-reveal-modal' do
       &#215
