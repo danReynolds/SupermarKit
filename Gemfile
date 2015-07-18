@@ -38,6 +38,7 @@ gem 'airbrake'
 gem 'coveralls', require: false
 gem "codeclimate-test-reporter", group: :test, require: nil
 gem 'active_record_union'
+gem 'geokit-rails'
 
 group :development do
 	gem 'better_errors'
