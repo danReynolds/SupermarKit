@@ -166,13 +166,13 @@ describe GroceriesController, type: :controller do
         end
 
         it 'should not create a new store' do
-          expect {subject}.to_not change(GroceryStore, :count)
+          expect { subject }.to_not change(GroceryStore, :count)
         end
       end
 
       context 'with a new store' do
         it 'should create the new store' do
-          expect {subject}.to change(GroceryStore, :count).by(1)
+          expect { subject }.to change(GroceryStore, :count).by(1)
         end
 
         it 'should assign the new store to the grocery list' do
