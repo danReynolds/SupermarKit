@@ -9,7 +9,7 @@
     = csrf_meta_tags
     = favicon_link_tag 'favicon.ico'
     %link{ href: "http://fonts.googleapis.com/css?family=Oxygen:400,300", rel: "stylesheet", type: "text/css"}
-  %body
+  %body{class: "#{controller_name} #{action_name}"}
     :coffeescript
       @page = "app"
     = render partial: 'layouts/main'
