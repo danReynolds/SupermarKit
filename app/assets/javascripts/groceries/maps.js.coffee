@@ -1,4 +1,4 @@
-$(window).load ->
+$(document).on 'ready page:load', ->
   markers = []
   $input = $('#pac-input')
 
