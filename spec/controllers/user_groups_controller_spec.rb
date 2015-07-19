@@ -3,7 +3,6 @@ require 'support/login_user'
 require 'support/routes'
 
 describe UserGroupsController, type: :controller do
-  render_views
   include_context 'login user'
 
   let(:id) { user_group }
