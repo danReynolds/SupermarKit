@@ -85,7 +85,7 @@ class ItemsController < ApplicationController
 	end
 
 	def add
-    # Id is either an id of a known item or a name for a new oe
+    # Id is either an id of a known item or a name for a new one
 		params[:items][:ids].split(",").each do |id|
 			item = Item.find_by_id(id) || Item.create(name: id)
 
