@@ -8,5 +8,12 @@ FactoryGirl.define do
         instance.items << items
       end
     end
+
+    trait(:with_store) do
+      after(:create) do |instance|
+        store = create(:grocery_store)
+        instance.update_attribute(:grocery_store, store)
+      end
+    end
   end
 end
