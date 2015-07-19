@@ -67,6 +67,8 @@ $ ->
 
           success: ->
             $grocery_table.api().ajax.reload(null, false)
+          error: (e) ->
+            console.log("e");
 
           params: (params) ->
             params.item = id: params.pk.item_id
@@ -82,7 +84,6 @@ $ ->
                 '0':
                   'price': params.value
                   id: params.pk.groceries_items_id
-
             else
               params.item[this.name] = params.value
 
@@ -96,26 +97,26 @@ $ ->
 
         success: ->
           $grocery_table.api().ajax.reload(null, false)
+          
+        params: (params) ->
+          params.item = id: params.pk.item_id
 
-          params: (params) ->
-            params.item = id: params.pk.item_id
+          if this.name == 'groceries_items_quantity'
+            params.item.groceries_items_attributes =
+              '0':
+                'quantity': params.value
+                id: params.pk.groceries_items_id
 
-            if this.name == 'groceries_items_quantity'
-              params.item.groceries_items_attributes =
-                '0':
-                  'quantity': params.value
-                  id: params.pk.groceries_items_id
+          else if this.name == 'groceries_items_price'
+            params.item.groceries_items_attributes =
+              '0':
+                'price': params.value
+                id: params.pk.groceries_items_id
 
-            else if this.name == 'groceries_items_price'
-              params.item.groceries_items_attributes =
-                '0':
-                  'price': params.value
-                  id: params.pk.groceries_items_id
+          else
+            params.item[this.name] = params.value
 
-            else
-              params.item[this.name] = params.value
-
-            return params
+          return params
 
     # ============================
     # Row Removal

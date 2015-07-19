@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150718161441) do
+ActiveRecord::Schema.define(version: 20150718164821) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20150718161441) do
     t.integer "item_id",                 null: false
     t.integer "grocery_id",              null: false
     t.integer "quantity",    default: 1
-    t.integer "price_cents"
+    t.integer "price_cents", default: 0
   end
 
   create_table "grocery_stores", force: true do |t|
