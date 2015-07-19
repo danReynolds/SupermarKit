@@ -14,7 +14,7 @@
                 = f.input :name
                 = f.input :description, as: :text
               .columns.large-6
-                = f.input :user_ids, label: 'Kit Members', as: :text, input_html: { value: "" }
+                = f.input :user_ids, label: 'Kit Members', as: :text, input_html: { value: @users }
                 %p
                   Privacy:
                   %strong=@user_group.privacy.humanize
