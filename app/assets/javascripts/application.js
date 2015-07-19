@@ -3,7 +3,6 @@
 // =============================
 
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
 //= require vendor/modernizr
 //= require foundation/foundation
@@ -18,11 +17,8 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.foundation
 //= require dataTables/extras/dataTables.responsive
-//= require turbolinks
 //= require highcharts.min
 //= require chartkick
-//= require nprogress
-//= require nprogress-turbolinks
 //= require jquery-editable-poshytip.min
 //= require jquery.poshytip.min
 //= require elevator.min
