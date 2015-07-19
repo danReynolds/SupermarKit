@@ -1,4 +1,6 @@
 $ ->
+  onPage 'user_groups new', ->
+
     # ============================
     # select2 multiselect
     # ============================
@@ -16,17 +18,17 @@ $ ->
           dataType: "json"
           quietMillis: 250
           data: (term, page) ->
-              q: term
-              cache: true
+            q: term
+            cache: true
 
-              results: (data, page) ->
-                  results: data.users
+          results: (data, page) ->
+            results: data.users
 
-              formatResult: usersFormatResults
-              formatSelection: (user) ->
-                  user.name
-              escapeMarkup: (m) ->
-                  m
+        formatResult: usersFormatResults
+        formatSelection: (user) ->
+          user.name
+        escapeMarkup: (m) ->
+          m
 
     # ============================
     # Public / Private Kit switching

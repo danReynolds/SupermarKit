@@ -1,6 +1,6 @@
 $ ->
-  if grocery_id?
-
+  onPage 'groceries show', ->
+    
     # ============================
     # Grocery Table Setup
     # ============================
@@ -97,7 +97,7 @@ $ ->
 
         success: ->
           $grocery_table.api().ajax.reload(null, false)
-          
+
         params: (params) ->
           params.item = id: params.pk.item_id
 

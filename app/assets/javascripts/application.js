@@ -32,18 +32,11 @@
 // Page Scripts
 // =============================
 
-//= require typeahead
-//= require tableFormatter
-//= require user_groups/user_groups_show
-//= require user_groups/user_groups_new
-//= require user_groups/user_groups_edit
-//= require user_groups/user_groups_index
-//= require user_groups/user_group_metrics
-//= require groceries/groceries
-//= require items/items
-//= require items/items_edit
-//= require home
-//= require groceries/maps
+//= require_tree ./helpers
+//= require_tree ./pages
+//= require_tree ./user_groups
+//= require_tree ./groceries
+//= require_tree ./items
 
 // =============================
 
