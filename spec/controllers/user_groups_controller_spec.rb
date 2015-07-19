@@ -3,6 +3,7 @@ require 'support/login_user'
 require 'support/routes'
 
 describe UserGroupsController, type: :controller do
+  render_views
   include_context 'login user'
 
   let(:id) { user_group }
@@ -14,29 +15,41 @@ describe UserGroupsController, type: :controller do
   }
 
   describe 'POST create' do
-    before :each do
-      @group_member = create(:user)
-      post :create, user_group: attributes_for(:user_group).merge!(user_ids: "#{@group_member.id}")
-      @new_group = UserGroup.last
-    end
+    let(:user_group_params) { attributes_for(:user_group) }
+    let(:subject) { post :create, user_group: user_group_params.merge!(user_ids: "#{group_member.id}") }
+    let(:group_member) { create(:user) }
+    let(:new_group) { UserGroup.last }
 
-    it 'adds specified and current user to group' do
-      expect(@new_group.users).to contain_exactly(@group_member, controller.current_user)
-    end
+    context 'with valid params' do
+      it 'adds specified and current user to group' do
+        subject
+        expect(new_group.users).to contain_exactly(group_member, controller.current_user)
+      end
 
-    it 'sets an emblem' do
-      expect(@new_group.emblem).not_to be_nil
-    end
+      it 'sets an emblem' do
+        subject
+        expect(new_group.emblem).not_to be_nil
+      end
 
-    it 'makes only the current user accepted into the group' do
-      current_group_user = @new_group.user_groups_users.find_by_user_id(controller.current_user.id)
-      remaining_user_group_users = @new_group.user_groups_users - [current_group_user]
-      expect(current_group_user.state).to eq(UserGroupsUsers::ACCEPTED)
+      it 'makes only the current user accepted into the group' do
+        subject
+        current_group_user = new_group.user_groups_users.find_by_user_id(controller.current_user.id)
+        remaining_user_group_users = new_group.user_groups_users - [current_group_user]
+        expect(current_group_user.state).to eq(UserGroupsUsers::ACCEPTED)
 
-      remaining_user_group_users.each do |user_group_user|
-        expect(user_group_user.state).to eq(UserGroupsUsers::INVITED)
+        remaining_user_group_users.each do |user_group_user|
+          expect(user_group_user.state).to eq(UserGroupsUsers::INVITED)
+        end
       end
     end
+
+    context 'with invalid params' do
+      it 'should render the new template' do
+        user_group_params[:name] = nil
+        expect(subject).to render_template :new
+      end
+    end
+
   end
 
   describe 'PATCH update' do
