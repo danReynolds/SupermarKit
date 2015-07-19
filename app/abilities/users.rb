@@ -9,7 +9,7 @@ Canard::Abilities.for(:user) do
   can :manage,                                   UserGroup,                       id: @user.user_group_ids
 
   can :create,                                   Item
-  can :manage,                                   Item,                            id: @user.user_groups.flat_map(&:privacy_items).uniq.map(&:id)
+  can :manage,                                   Item,                            id: UserGroup.public.union(@user.user_groups).flat_map(&:item_ids)
 
   can :create,                                   Authentication
   can :manage,                                   Authentication,                  user_id: @user.id

@@ -34,6 +34,10 @@ class GroceriesItems < ActiveRecord::Base
     price
   end
 
+  def total_price
+    quantity * price
+  end
+
 private
 
   def most_common_price(prices)

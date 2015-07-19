@@ -7,7 +7,7 @@ class GroceriesController < ApplicationController
   def index
     respond_to do |format|
       format.json do
-        groceries = @groceries.sort_by(&:created_at).map do |grocery|
+        groceries = @groceries.order('created_at DESC').map do |grocery|
           {
             id: grocery.id,
             name: grocery.name,
@@ -77,7 +77,7 @@ class GroceriesController < ApplicationController
   end
 
   def recipes
-    ingredients = URI.escape(@grocery.items.map(&:name).join(","))
+    ingredients = URI.escape(@grocery.items.pluck(:name).join(','))
     res = Nokogiri::HTML(open("http://food2fork.com/api/search?key=#{ENV["FOOD2FORK_KEY"]}&q=#{ingredients}"))
     render json: JSON.parse(res)
   end

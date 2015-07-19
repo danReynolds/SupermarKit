@@ -8,15 +8,16 @@ class ItemsController < ApplicationController
     respond_to do |format|
       format.json do
         items = @items.map do |item|
+          grocery_item = item.grocery_item(@grocery)
           {
             id: item.id,
             name: item.name,
             description: item.description.to_s,
-            grocery_item_id: item.grocery_item(@grocery).id,
-            quantity: item.quantity(@grocery),
-            price: item.price(@grocery).dollars.to_s,
-            price_formatted: item.price(@grocery).format,
-            total_price_formatted: item.total_price(@grocery).format,
+            grocery_item_id: grocery_item.id,
+            quantity: grocery_item.quantity,
+            price: grocery_item.price.dollars.to_s,
+            price_formatted: grocery_item.price.format,
+            total_price_formatted: grocery_item.total_price.format,
             path: item_path(item.id)
           }
         end
@@ -69,17 +70,19 @@ class ItemsController < ApplicationController
   end
 
   def auto_complete
-    items = @grocery.user_group.privacy_items.with_name(params[:q]) - @grocery.items
-    items = items.first(5).map do |item|
+    items = @grocery.user_group.privacy_items.select(:id, :description, :name)
+                    .with_name(params[:q])
+                    .where.not(id: @grocery.item_ids).limit(5)
+    items.map do |item|
       {
         id: item.id,
-         name: item.name,
+        name: item.name,
         description: item.description
       }
     end
 
     render json: {
-      total_items: items.count,
+      total_items: items.length,
       items: items
     }
   end
@@ -91,8 +94,7 @@ class ItemsController < ApplicationController
 
       @grocery.items << item
       groceries_item = item.grocery_item(@grocery)
-      groceries_item.price_cents = groceries_item.localized_price
-      groceries_item.save!
+      groceries_item.update_attributes(price_cents: groceries_item.localized_price)
     end
 
     render nothing: true, status: :ok
@@ -111,7 +113,12 @@ private
       :name,
       :description,
       groceries_items_attributes:
-        [:price, :price_cents, :id, :quantity, :grocery_id]
+        [
+          :price,
+          :price_cents,
+          :id, :quantity,
+          :grocery_id
+        ]
     )
   end
 end
