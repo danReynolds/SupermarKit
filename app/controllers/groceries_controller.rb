@@ -70,7 +70,7 @@ class GroceriesController < ApplicationController
 
   def email_group
     @grocery.user_group.users.each do |user|
-      UserMailer.send_grocery_list_email(user, @grocery).deliver!
+      UserMailer.send_grocery_list_email(user, @grocery).deliver_now
     end
 
     redirect_to @grocery, notice: 'All kit members have been emailed the grocery list.'

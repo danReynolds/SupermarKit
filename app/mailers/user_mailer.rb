@@ -3,13 +3,13 @@ class UserMailer < ActionMailer::Base
 
   def activation_needed_email(user)
     @user = user
-    @url = activate_user_path(@user)
+    @url = activate_user_url(@user)
     mail(to: @user.email, subject: 'Join Supermarkit')
   end
 
   def activation_success_email(user)
     @user = user
-    @url = activate_user_path(@user)
+    @url = activate_user_url(@user)
     mail(to: @user.email, subject: 'Shop with Supermarkit')
   end
 
