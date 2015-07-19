@@ -4,19 +4,22 @@ RSpec.describe Grocery, type: :model do
   describe 'calculating grocery cost' do
     it 'totals items' do
       grocery = create(:grocery)
-      item1 = create(:item, price_cents: 500)
-      item2 = create(:item, price_cents: 724)
+      item1 = create(:item)
+      item2 = create(:item)
       grocery.items << [item1, item2]
+      item1.grocery_item(grocery).update_attribute(:price_cents, 500)
+      item2.grocery_item(grocery).update_attribute(:price_cents, 724)
 
       expect(grocery.total).to eq 12.24
     end
 
     it 'factors in quantity' do
-      item = create(:item, price_cents: 500)
+      item = create(:item)
       grocery = create(:grocery)
 
       grocery.items << item
-      item.groceries_items.find_by_grocery_id(grocery.id).update_attribute(:quantity, 2)
+      item.grocery_item(grocery).update_attribute(:price_cents, 500)
+      item.grocery_item(grocery).update_attribute(:quantity, 2)
       expect(grocery.total).to eq 10.00
     end
   end
