@@ -4,7 +4,7 @@
     "browserify": "~6.3",
     "browserify-incremental": "~1.4.0",
     "coffeeify": "~0.6",
-    "dragula": "~1.5.1"
+    "dragula": "~2.0.0"
   },
   "license": "MIT",
   "engines": {
