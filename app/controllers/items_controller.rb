@@ -85,11 +85,16 @@ class ItemsController < ApplicationController
 	end
 
 	def add
-		items = params[:items][:ids].split(",").map do |id|
-			Item.find_by_id(id) || Item.create(name: id, price_cents: 0)
+    # Id is either an id of a known item or a name for a new oe
+		params[:items][:ids].split(",").each do |id|
+			item = Item.find_by_id(id) || Item.create(name: id)
+
+      @grocery.items << item
+      groceries_item = item.grocery_item(@grocery)
+      groceries_item.price_cents = groceries_item.localized_price
+      groceries_item.save!
 		end
 
-		@grocery.items << items
     render nothing: true, status: :ok
 	end
 
@@ -102,6 +107,11 @@ class ItemsController < ApplicationController
 
 private
 	def item_params
-		params.require(:item).permit(:name, :description, groceries_items_attributes: [:price, :price_cents, :id, :quantity, :grocery_id])
+		params.require(:item).permit(
+      :name,
+      :description,
+      groceries_items_attributes:
+        [:price, :price_cents, :id, :quantity, :grocery_id]
+    )
 	end
 end
