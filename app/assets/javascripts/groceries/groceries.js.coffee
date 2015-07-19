@@ -1,6 +1,6 @@
 $ ->
   onPage 'groceries show', ->
-    
+
     # ============================
     # Grocery Table Setup
     # ============================

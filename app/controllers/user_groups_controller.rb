@@ -20,7 +20,9 @@ class UserGroupsController < ApplicationController
 
     if @user_group.save
       @user_group.users << users
-      @user_group.user_groups_users.find_by_user_id(current_user.id).update_attribute(:state, UserGroupsUsers::ACCEPTED)
+      @user_group.user_groups_users
+                 .find_by_user_id(current_user.id)
+                 .update_attributes(state: UserGroupsUsers::ACCEPTED)
       redirect_to new_user_group_grocery_path(@user_group)
     else
       render :new
@@ -52,9 +54,9 @@ class UserGroupsController < ApplicationController
   def metrics
     groceries = @user_group.finished_groceries
     @metrics = {
-      grocery_spending: groceries.map{ |grocery| [grocery.finished_at.to_date, grocery.total] },
-      grocery_cost: groceries.last(5).map{ |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.total } } },
-      grocery_items: groceries.last(5).map{ |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.items.count } } }
+      grocery_spending: groceries.map { |grocery| [grocery.finished_at.to_date, grocery.total] },
+      grocery_cost: groceries.last(5).map { |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.total } } },
+      grocery_items: groceries.last(5).map { |grocery| { name: grocery.name, data: { grocery.finished_at.to_date => grocery.items.count } } }
     }
   end
 

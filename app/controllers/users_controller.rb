@@ -21,8 +21,8 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.default_group = new_group
 
-    if user.default_group.active_groceries.first
-      link = grocery_path(user.default_group.active_groceries.first)
+    if grocery = user.default_group.active_groceries.first
+      link = grocery_path(grocery)
     else
       link = new_user_group_grocery_path(user.default_group)
     end
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   end
 
   def auto_complete
-    users = User.with_name(params[:q]).map do |user|
+    users = User.with_name(params[:q]).select(:id, :name).map do |user|
       {
         id: user.id,
         name: user.name

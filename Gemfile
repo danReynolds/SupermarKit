@@ -44,6 +44,7 @@ group :development do
 end
 
 group :development, :test do
+	gem 'rack-mini-profiler'
   gem 'pry'
   gem 'pry-stack_explorer'
   gem 'pry-byebug'

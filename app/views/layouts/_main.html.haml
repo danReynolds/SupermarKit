@@ -7,11 +7,11 @@
             %section.top-bar-section
               %ul.left
                 %li.primary-action
-                  - if current_user.default_group
-                    - if current_user.default_group.active_groceries.first
-                      = link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
+                  - if group = current_user.default_group
+                    - if grocery = group.active_groceries.first
+                      = link_to "#{group.name} Kit", group
                     - else
-                      = link_to "#{current_user.default_group.name} Kit", new_user_group_grocery_path(current_user.default_group)
+                      = link_to "#{group.name} Kit", new_user_group_grocery_path(group)
                   - else
                     = link_to 'SupermarKit', root_path
               %ul.right
@@ -34,13 +34,13 @@
             %li
               %label SupermarKit
             %li
-              - if current_user.default_group
-                - if current_user.default_group.active_groceries.first
-                  = link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
+              - if group = current_user.default_group
+                - if grocery = group.active_groceries.first
+                  = link_to "#{group.name} Kit", group
                 - else
-                  = link_to "#{current_user.default_group.name} Kit", new_user_group_grocery_path(current_user.default_group)
+                  = link_to "#{group.name} Kit", new_user_group_grocery_path(group)
               - else
-                = link_to 'Home', root_path
+                = link_to 'SupermarKit', root_path
             %li
               = link_to 'Kits', user_groups_path
             %li

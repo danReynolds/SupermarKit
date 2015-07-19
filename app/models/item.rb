@@ -24,6 +24,6 @@ class Item < ActiveRecord::Base
   end
 
   def total_price(grocery)
-    quantity(grocery) * price(grocery)
+    grocery_item(grocery).total_price
   end
 end

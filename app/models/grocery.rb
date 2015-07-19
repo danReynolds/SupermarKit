@@ -8,7 +8,7 @@ class Grocery < ActiveRecord::Base
 
   def total
     total = items.inject(0) do |acc, i|
-      acc += i.quantity(self) * i.price(self)
+      acc += i.total_price(self)
     end
     Money.new(total).format(symbol: false).to_f
   end
