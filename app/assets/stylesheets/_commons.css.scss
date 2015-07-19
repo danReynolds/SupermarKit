@@ -13,6 +13,16 @@ body {
     &.f-topbar-fixed { padding-top: 0 !important; }
   }
 
+  .off-canvas-wrap {
+    overflow-y: auto;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .inner-wrap {
+    height: 100%;
+  }
+
   h1 { color: white; }
   input, textarea {
     border-radius: 5px !important;
@@ -149,11 +159,6 @@ body {
     border-radius: 3px;
     background-image: none !important;
     border: 1px solid lighten($light-gray, 25%) !important;
-  }
-
-  .off-canvas-wrap, .inner-wrap {
-    height: 100%;
-    &.off-canvas-wrap { overflow: initial; }
   }
 
   .dataTables_filter {

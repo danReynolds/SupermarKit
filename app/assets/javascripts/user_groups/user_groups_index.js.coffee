@@ -7,7 +7,7 @@ $ ->
       success: (data) ->
         if ($('.default-group.selected').length > 0)
           $('.default-group.selected')[0].classList.remove('selected')
-        $('li.primary-action a').fadeToggle(400, "swing", ->
+        $('li.primary-action a').fadeToggle(200, "swing", ->
           $('li.primary-action a').text(data.name + " Kit")
           $('li.primary-action a').fadeIn("slow")
         )
