@@ -7,7 +7,10 @@ class Grocery < ActiveRecord::Base
   validates :name, presence: true
 
   def total
-    Money.new(items.map{ |i| i.quantity(self) * i.price }.reduce(&:+)).format(symbol: false).to_f
+    total = items.inject(0) do |acc, i|
+      acc += i.quantity(self) * i.price(self)
+    end
+    Money.new(total).format(symbol: false).to_f
   end
 
   def finished?

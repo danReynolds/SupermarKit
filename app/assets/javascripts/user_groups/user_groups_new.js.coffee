@@ -12,21 +12,21 @@ $ ->
         minimumInputLength: 1
         multiple: true
         ajax:
-            url: "/users/auto_complete"
-            dataType: "json"
-            quietMillis: 250
-            data: (term, page) ->
-                q: term
-                cache: true
+          url: "/users/auto_complete"
+          dataType: "json"
+          quietMillis: 250
+          data: (term, page) ->
+              q: term
+              cache: true
 
-                results: (data, page) ->
-                    results: data.users
+              results: (data, page) ->
+                  results: data.users
 
-                formatResult: usersFormatResults
-                formatSelection: (user) ->
-                    user.name
-                escapeMarkup: (m) ->
-                    m
+              formatResult: usersFormatResults
+              formatSelection: (user) ->
+                  user.name
+              escapeMarkup: (m) ->
+                  m
 
     # ============================
     # Public / Private Kit switching

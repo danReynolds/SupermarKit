@@ -11,21 +11,20 @@ $ ->
       LengthChange: false
       iDisplayLength: 5
       bLengthChange: false
-      oLanguage: {
-        sSearch: "Filter:",
-        sEmptyTable: "Your grocery list is empty."
-      }
+      oLanguage:
+        sSearch: 'Filter:'
+        sEmptyTable: 'Your grocery list is empty.'
 
       ajax:
-        url: "/groceries/" + grocery_id + "/items.json"
+        url: "/groceries/#{grocery_id}/items.json"
         dataSrc: (json) ->
           json = formatItems(json)
 
       columnDefs: [
-        { "class": "never", "targets": 0 }
-        { "class": "min-tablet-l", "targets": 2 }
-        { "class": "min-tablet-p", "targets": 3 }
-        { "class": "min-tablet-l", "targets": 5 }
+        { 'class': 'never', 'targets': 0 }
+        { 'class': 'min-tablet-l', 'targets': 2 }
+        { 'class': 'min-tablet-p', 'targets': 3 }
+        { 'class': 'min-tablet-l', 'targets': 5 }
       ]
 
       fnInitComplete: ->
@@ -45,22 +44,21 @@ $ ->
 
         # Remove the formatting to get integer data for summation
         intVal = (i) ->
-          (if typeof i is "string" then i.replace(/[\$,]/g, "") * 1 else (if typeof i is "number" then i else 0))
+          (if typeof i is 'string' then i.replace(/[\$,]/g, '') * 1 else (if typeof i is 'number' then i else 0))
 
         if (api.column(5).data().length > 0)
         # Total over all pages
-          total = api.column(5).data().reduce((a, b) ->
+          total = api.column(5).data().reduce (a, b) ->
             intVal(a) + intVal(b)
-          )
 
           # Update footer
-          $(api.column(6).footer()).html "$" + intVal(total).toFixed(2) + " total"
+          $(api.column(6).footer()).html "$#{intVal(total).toFixed(2)} total"
         else
-          $(api.column(6).footer()).html "$0 total"
+          $(api.column(6).footer()).html '$0 total'
 
       createdRow: (row, data, index) ->
         $.fn.editable.defaults.mode = 'popup'
-        $.fn.editable.defaults.ajaxOptions = { type: "PATCH" }
+        $.fn.editable.defaults.ajaxOptions = type: 'PATCH'
 
         $(row).find('.editable').editable
           placement: 'bottom'
@@ -69,21 +67,27 @@ $ ->
 
           success: ->
             $grocery_table.api().ajax.reload(null, false)
+          error: (e) ->
+            console.log("e");
 
           params: (params) ->
-              params.item = { id: params.pk.item_id, }
+            params.item = id: params.pk.item_id
 
-              if (this.name == "groceries_items_attributes")
-                params.item.groceries_items_attributes = {
-                  "0": {
-                    "quantity": params.value,
-                    id: params.pk.groceries_items_id
-                  }
-                }
-              else
-                params.item[this.name] = params.value
+            if this.name == 'groceries_items_quantity'
+              params.item.groceries_items_attributes =
+                '0':
+                  'quantity': params.value
+                  id: params.pk.groceries_items_id
 
-              return params
+            else if (this.name == 'groceries_items_price')
+              params.item.groceries_items_attributes =
+                '0':
+                  'price': params.value
+                  id: params.pk.groceries_items_id
+            else
+              params.item[this.name] = params.value
+
+            return params
 
     $grocery_table.on 'click', 'tr td:first-child:not(.child)', ->
       $(this).parents('tbody').find('.child a').editable
@@ -92,22 +96,27 @@ $ ->
         highlight: '#2CDF79'
 
         success: ->
-            $grocery_table.api().ajax.reload(null, false)
+          $grocery_table.api().ajax.reload(null, false)
+          
+        params: (params) ->
+          params.item = id: params.pk.item_id
 
-          params: (params) ->
-              params.item = { id: params.pk.item_id, }
+          if this.name == 'groceries_items_quantity'
+            params.item.groceries_items_attributes =
+              '0':
+                'quantity': params.value
+                id: params.pk.groceries_items_id
 
-              if (this.name == "groceries_items_attributes")
-                params.item.groceries_items_attributes = {
-                  "0": {
-                    "quantity": params.value,
-                    id: params.pk.groceries_items_id
-                  }
-                }
-              else
-                params.item[this.name] = params.value
+          else if this.name == 'groceries_items_price'
+            params.item.groceries_items_attributes =
+              '0':
+                'price': params.value
+                id: params.pk.groceries_items_id
 
-              return params
+          else
+            params.item[this.name] = params.value
+
+          return params
 
     # ============================
     # Row Removal
@@ -118,8 +127,8 @@ $ ->
       row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0])
       item_id = $grocery_table.fnGetData(row)[0]
       $.ajax
-        method: "PATCH"
-        url: "/items/" + item_id + "/remove/?grocery_id=" + grocery_id
+        method: 'PATCH'
+        url: "/items/#{item_id}/remove/?grocery_id=#{grocery_id}"
         success: ->
           $grocery_table.api().row(row).remove().draw()
 
@@ -141,20 +150,20 @@ $ ->
       revertOnSpill: false
       removeOnSpill: false
     ).on('drag', (el) ->
-      el.classList.add("selected")
+      el.classList.add('selected')
     ).on('dragend', (el) ->
-      el.classList.remove("selected")
+      el.classList.remove('selected')
     )
 
     $('a[data-reveal-id="carry-over-modal"]').click ->
-      modal = $(@).attr("data-reveal-id")
+      modal = $(@).attr('data-reveal-id')
 
-      $.get "/groceries/" + grocery_id + "/items.json", (data) ->
+      $.get "/groceries/#{grocery_id}/items.json", (data) ->
         items = formatCarryOver(data)
-        $(".drag.left").html("")
-        $(".drag.right").html("")
+        $('.drag.left').html('')
+        $('.drag.right').html('')
         $.each items, (i, item) ->
-          $(".drag.left").append(item)
+          $('.drag.left').append(item)
 
     $('.drag-items').on 'click', '.item .remove', ->
       $(@).parents('.item').remove()
@@ -176,7 +185,7 @@ $ ->
     # Typeahead setup
     # ============================
 
-    setup_typeahead($('.groceries-show #items_ids'), $grocery_table, $("form.items"), grocery_id)
+    setup_typeahead($('.groceries-show #items_ids'), $grocery_table, $('form.items'), grocery_id)
 
     # ============================
     # Recipe Functionality
@@ -188,12 +197,13 @@ $ ->
       $('.recipe-spinner').show()
       $('.recipe-content').hide()
       $('.recipe-no-content').hide()
+
       $.get "/groceries/#{grocery_id}/items.json", (items) ->
         ingredients = $.map items.data, (item, i) ->
           item.name
 
         if ingredients.length > 0
-          ingredients = ingredients.join(",")
+          ingredients = ingredients.join(',')
 
           $.ajax
             url: "/groceries/#{grocery_id}/recipes.json"
@@ -203,31 +213,30 @@ $ ->
               recipes = data.recipes
 
               if recipes.length > 0
-                _.each(_.first(recipes, 8), (recipe) ->
+                _.each _.first(recipes, 8), (recipe) ->
                   $('#recipes ul').append(
                     "<li><img src=#{recipe.image_url}>
-                     </img><div class=orbit-caption><div>#{recipe.title}</div>
-                     <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
+                    </img><div class=orbit-caption><div>#{recipe.title}</div>
+                    <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
                   )
-                )
               else
                 $('.recipe-content').hide()
-                $(".recipe-no-content").show()
+                $('.recipe-no-content').show()
 
               if !recipe_initialized
-                $('#recipes ul').attr('data-orbit', "")
+                $('#recipes ul').attr('data-orbit', '')
                 $(document).foundation('orbit', 'reflow')
                 recipe_initialized = true
         else
           $('.recipe-spinner').hide()
-          $(".recipe-no-content").show()
+          $('.recipe-no-content').show()
 
     # Call on inital page load
     reloadRecipes()
 
     $('.reload').on 'click', 'a', ->
       $('.reload').hide()
-      $('#recipes ul').html("")
+      $('#recipes ul').html('')
       reloadRecipes()
 
     # ============================
