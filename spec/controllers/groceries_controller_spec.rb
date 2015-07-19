@@ -149,7 +149,7 @@ describe GroceriesController, type: :controller do
 
   describe 'POST set_store' do
     let(:subject) { post :set_store, id: grocery.id, grocery_store: params }
-    let(:params) { attributes_for(:grocery_store, :with_place_id) }
+    let(:params) { attributes_for(:grocery_store) }
 
     context 'when valid params' do
       it 'should finish successfully' do
@@ -157,7 +157,7 @@ describe GroceriesController, type: :controller do
       end
 
       context 'with an existing store' do
-        let(:store) { create(:grocery_store, :with_place_id) }
+        let(:store) { create(:grocery_store) }
         before(:each) { params[:place_id] = store.place_id }
 
         it 'should assign the store to the grocery list' do
