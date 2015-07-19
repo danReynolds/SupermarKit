@@ -1,4 +1,4 @@
-$(document).on 'ready page:load', ->
+$ ->
   onPage 'groceries show', ->
     markers = []
     $input = $('#pac-input')
