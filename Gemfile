@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.3'
 gem 'mysql2'
 gem 'haml-rails'
 gem 'sass-rails', '~> 4.0.3'
@@ -38,8 +38,8 @@ gem 'airbrake'
 gem 'coveralls', require: false
 gem "codeclimate-test-reporter", group: :test, require: nil
 gem 'active_record_union'
-gem 'geokit-rails'
 
+gem 'geokit-rails'
 group :development do
 	gem 'better_errors'
 	gem 'binding_of_caller'
