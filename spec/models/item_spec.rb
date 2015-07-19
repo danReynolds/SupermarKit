@@ -16,10 +16,11 @@ describe Item, type: :model do
 
   describe 'calculating item cost' do
     before :each do
-      @item = create(:item, price_cents: 100)
+      @item = create(:item)
       @grocery = create(:grocery)
       @grocery.items << @item
-      @item.groceries_items.find_by_grocery_id(@grocery.id).update_attribute(:quantity, 2)
+      @item.grocery_item(@grocery).update_attribute(:price_cents, 100)
+      @item.grocery_item(@grocery).update_attribute(:quantity, 2)
     end
 
     it 'returns the proper quantity' do

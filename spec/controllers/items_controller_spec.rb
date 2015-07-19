@@ -32,10 +32,10 @@ RSpec.describe ItemsController, type: :controller do
         expect(item.id).to eq data[i]['id']
         expect(item.name).to eq data[i]['name']
         expect(item.description.to_s).to eq data[i]['description']
-        expect(item.groceries_items.find_by_grocery_id(grocery.id).id).to eq data[i]['quantity_id']
+        expect(item.grocery_item(grocery).id).to eq data[i]['grocery_item_id']
         expect(item.quantity(grocery)).to eq data[i]['quantity']
-        expect(item.price.dollars.to_s).to eq data[i]['price']
-        expect(item.price.format).to eq data[i]['price_formatted']
+        expect(item.price(grocery).dollars.to_s).to eq data[i]['price']
+        expect(item.price(grocery).format).to eq data[i]['price_formatted']
         expect(item.total_price(grocery).format).to eq data[i]['total_price_formatted']
         expect(item_path(item.id)).to eq data[i]['path']
       end
@@ -223,10 +223,6 @@ RSpec.describe ItemsController, type: :controller do
 
     context 'existing item' do
       subject { patch :add, grocery_id: grocery, items: { ids: [item.id] } }
-
-      it 'should not create a new record' do
-        expect { subject }.to_not change(Item, :count)
-      end
 
       context 'without a store' do
         before(:each) do
