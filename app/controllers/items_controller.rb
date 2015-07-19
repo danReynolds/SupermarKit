@@ -12,10 +12,10 @@ class ItemsController < ApplicationController
 		      	id: item.id,
 		      	name: item.name,
 		      	description: item.description.to_s,
-		      	quantity_id: item.groceries_items.find_by_grocery_id(@grocery.id).id,
+		      	grocery_item_id: item.grocery_item(@grocery).id,
 		      	quantity: item.quantity(@grocery),
-		      	price: item.price.dollars.to_s,
-		      	price_formatted: item.price.format,
+		      	price: item.price(@grocery).dollars.to_s,
+		      	price_formatted: item.price(@grocery).format,
 		      	total_price_formatted: item.total_price(@grocery).format,
 		      	path: item_path(item.id)
 		      }
@@ -52,7 +52,7 @@ class ItemsController < ApplicationController
 		respond_to do |format|
 			format.json do
 				if @item.update_attributes(item_params)
-					render nothing: true, status: :ok
+					render json: {}, status: :ok
 				else
 					render nothing: true, status: :internal_server_error
 				end
@@ -102,6 +102,6 @@ class ItemsController < ApplicationController
 
 private
 	def item_params
-		params.require(:item).permit(:name, :description, :price, :price_cents, groceries_items_attributes: [:id, :quantity, :grocery_id])
+		params.require(:item).permit(:name, :description, groceries_items_attributes: [:price, :price_cents, :id, :quantity, :grocery_id])
 	end
 end
