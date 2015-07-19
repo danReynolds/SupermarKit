@@ -1,9 +1,9 @@
 {
   "name": "softgroceries",
   "dependencies": {
-    "browserify": "~> 6.3",
-    "browserify-incremental": "^1.4.0",
-    "coffeeify": "~> 0.6",
+    "browserify": "~6.3",
+    "browserify-incremental": "~1.4.0",
+    "coffeeify": "~0.6",
     "dragula": "~1.5.1"
   },
   "license": "MIT",
