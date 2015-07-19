@@ -206,16 +206,72 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   describe 'PATCH add' do
-    let(:new_item) { create(:item) }
-    subject { patch :add, grocery_id: grocery, items: { ids: [new_item.id] } }
+    let(:new_item_name) { 'Schnitzel' }
+    let(:item) { create(:item) }
 
-    it 'adds items to grocery' do
-      subject
-      expect(grocery.reload.items).to include(new_item)
+    context 'new item' do
+      subject { patch :add, grocery_id: grocery, items: { ids: [new_item_name] } }
+      it 'should create the new item' do
+        expect { subject }.to change(Item, :count).by(1)
+      end
+
+      it 'should set the new item price to zero' do
+        subject
+        expect(Item.last.grocery_item(grocery).price_cents).to eq 0
+      end
     end
 
-    it 'successfully returns' do
-      expect(subject).to be_ok
+    context 'existing item' do
+      subject { patch :add, grocery_id: grocery, items: { ids: [item.id] } }
+
+      it 'should not create a new record' do
+        expect { subject }.to_not change(Item, :count)
+      end
+
+      context 'without a store' do
+        before(:each) do
+          groceries = create_list :grocery, 3, items: [item]
+          item.grocery_item(groceries[0]).update_attribute(:price_cents, 500)
+          item.grocery_item(groceries[1]).update_attribute(:price_cents, 100)
+          item.grocery_item(groceries[2]).update_attribute(:price_cents, 500)
+        end
+
+        it 'should assign the overall most common price' do
+          subject
+          expect(item.reload.grocery_item(grocery).price_cents).to eq 500
+        end
+      end
+
+      context 'with a store' do
+        let(:nearby_store) { create(:grocery_store) }
+        before(:each) do
+          grocery.update_attribute(:grocery_store, nearby_store)
+          groceries = create_list :grocery, 3, items: [item], grocery_store: nearby_store
+          item.grocery_item(groceries[0]).update_attribute(:price_cents, 500)
+          item.grocery_item(groceries[1]).update_attribute(:price_cents, 100)
+          item.grocery_item(groceries[2]).update_attribute(:price_cents, 500)
+
+          other_groceries = create_list :grocery, 3, items: [item]
+          other_groceries.each do |grocery|
+            item.grocery_item(grocery).update_attribute(:price_cents, 50)
+          end
+        end
+
+        context 'with a nearby store' do
+          it 'should assign the most common price from the nearby store' do
+            subject
+            expect(item.reload.grocery_item(grocery).price_cents).to eq 500
+          end
+        end
+
+        context 'without a nearby store' do
+          let(:nearby_store) { nil }
+          it 'should fallback on the general most common price' do
+            subject
+            expect(item.reload.grocery_item(grocery).price_cents).to eq 50
+          end
+        end
+      end
     end
   end
 
