@@ -4,6 +4,7 @@ class GroceriesItems < ActiveRecord::Base
 
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates_uniqueness_of :grocery_id, scope: :item_id
   monetize :price_cents
 
   # Determines the price for the item based on the most common non-zero

@@ -7,8 +7,6 @@ class Item < ActiveRecord::Base
 
   accepts_nested_attributes_for :groceries_items
 
-  validates :name, presence: true
-
   scope :with_name, ->(q) { where('items.name LIKE ?', "%#{q}%").distinct }
 
   def grocery_item(grocery)
