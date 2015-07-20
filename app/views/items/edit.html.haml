@@ -18,7 +18,3 @@
                       .columns.large-6
                         = f.simple_fields_for :groceries_items do |g|
                           = g.input :quantity, input_html: { class: 'quantity-input', id: "grocery-item-#{g.object.id}" }
-                    .row
-                      .columns.large-12
-                        = f.input :price, label: 'Price per item'
-                        = f.button :submit, 'Update', class: 'button radius'

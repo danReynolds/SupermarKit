@@ -19,9 +19,4 @@
               %hr
               .row
                 .columns.large-12
-                  %label Price per item
-                  %p= @item.price.format(symbol: true)
-              %hr
-              .row
-                .columns.large-12
                   = link_to 'Edit Item', edit_item_path(@item), class: 'button'
