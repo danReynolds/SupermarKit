@@ -7,8 +7,8 @@ class ItemsController < ApplicationController
   def index
     respond_to do |format|
       format.json do
-        items = @items.map do |item|
-          grocery_item = item.grocery_item(@grocery)
+        items = @items.select(:id, :name, :description).map do |item|
+          grocery_item = GroceriesItems.find_by_item_id_and_grocery_id(item.id, @grocery.id)
           {
             id: item.id,
             name: item.name,
