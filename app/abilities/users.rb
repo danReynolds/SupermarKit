@@ -9,8 +9,9 @@ Canard::Abilities.for(:user) do
   can :manage,                                   UserGroup,                       id: @user.user_group_ids
 
   can :create,                                   Item
-  can :manage,                                   Item,                            id: UserGroup.public.union(@user.user_groups).flat_map(&:item_ids)
-
+  can :manage, Item, Item.all do |item|
+    UserGroup.public.union(@user.user_groups).merge(item.user_groups).length.nonzero?
+  end
   can :create,                                   Authentication
   can :manage,                                   Authentication,                  user_id: @user.id
 end
