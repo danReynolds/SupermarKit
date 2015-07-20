@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20150720023647) do
     t.integer "price_cents", limit: 4, default: 0
   end
 
+  add_index "groceries_items", ["grocery_id"], name: "index_groceries_items_on_grocery_id", using: :btree
   add_index "groceries_items", ["item_id", "grocery_id"], name: "index_groceries_items_on_item_id_and_grocery_id", unique: true, using: :btree
 
   create_table "grocery_stores", force: :cascade do |t|
@@ -82,6 +83,7 @@ ActiveRecord::Schema.define(version: 20150720023647) do
     t.string  "state",         limit: 255, default: "invited"
   end
 
+  add_index "user_groups_users", ["user_group_id"], name: "index_user_groups_users_on_user_group_id", using: :btree
   add_index "user_groups_users", ["user_id", "user_group_id"], name: "index_user_groups_users_on_user_id_and_user_group_id", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|

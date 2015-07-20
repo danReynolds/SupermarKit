@@ -5,6 +5,7 @@ $ ->
     # Grocery Table Setup
     # ============================
     table_initialized = false
+    grocery_items = null
 
     $grocery_table = $('#grocery-table').dataTable
       responsive: true
@@ -17,8 +18,12 @@ $ ->
 
       ajax:
         url: "/groceries/#{grocery_id}/items.json"
-        dataSrc: (json) ->
-          json = formatItems(json)
+        dataSrc: (items) ->
+          grocery_items = items.data
+          # Once we have the items, fetch recipes on page load
+          if !table_initialized
+            reloadRecipes()
+          json = formatItems(items)
 
       columnDefs: [
         { 'class': 'never', 'targets': 0 }
@@ -131,6 +136,7 @@ $ ->
         url: "/items/#{item_id}/remove/?grocery_id=#{grocery_id}"
         success: ->
           $grocery_table.api().row(row).remove().draw()
+          grocery_items = grocery_items.filter (item) -> item.id isnt item_id
 
     # ============================
     # Finish List Functionality
@@ -198,41 +204,37 @@ $ ->
       $('.recipe-content').hide()
       $('.recipe-no-content').hide()
 
-      $.get "/groceries/#{grocery_id}/items.json", (items) ->
-        ingredients = $.map items.data, (item, i) ->
-          item.name
+      ingredients = $.map grocery_items, (item, i) ->
+        item.name
 
-        if ingredients.length > 0
-          ingredients = ingredients.join(',')
+      if ingredients.length > 0
+        ingredients = ingredients.join(',')
 
-          $.ajax
-            url: "/groceries/#{grocery_id}/recipes.json"
-            success: (data) ->
-              $('.recipe-spinner').hide()
-              $('.recipe-content').show()
-              recipes = data.recipes
+        $.ajax
+          url: "/groceries/#{grocery_id}/recipes.json"
+          success: (data) ->
+            $('.recipe-spinner').hide()
+            $('.recipe-content').show()
+            recipes = data.recipes
 
-              if recipes.length > 0
-                _.each _.first(recipes, 8), (recipe) ->
-                  $('#recipes ul').append(
-                    "<li><img src=#{recipe.image_url}>
-                    </img><div class=orbit-caption><div>#{recipe.title}</div>
-                    <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
-                  )
-              else
-                $('.recipe-content').hide()
-                $('.recipe-no-content').show()
+            if recipes.length > 0
+              _.each _.first(recipes, 8), (recipe) ->
+                $('#recipes ul').append(
+                  "<li><img src=#{recipe.image_url}>
+                  </img><div class=orbit-caption><div>#{recipe.title}</div>
+                  <a class='button' target='_blank' href='#{recipe.source_url}'>Go to recipe</a></div></li>"
+                )
+            else
+              $('.recipe-content').hide()
+              $('.recipe-no-content').show()
 
-              if !recipe_initialized
-                $('#recipes ul').attr('data-orbit', '')
-                $(document).foundation('orbit', 'reflow')
-                recipe_initialized = true
-        else
-          $('.recipe-spinner').hide()
-          $('.recipe-no-content').show()
-
-    # Call on inital page load
-    reloadRecipes()
+            if !recipe_initialized
+              $('#recipes ul').attr('data-orbit', '')
+              $(document).foundation('orbit', 'reflow')
+              recipe_initialized = true
+      else
+        $('.recipe-spinner').hide()
+        $('.recipe-no-content').show()
 
     $('.reload').on 'click', 'a', ->
       $('.reload').hide()
