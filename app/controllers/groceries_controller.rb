@@ -78,7 +78,8 @@ class GroceriesController < ApplicationController
 
   def recipes
     ingredients = URI.escape(@grocery.items.pluck(:name).join(','))
-    res = Nokogiri::HTML(open("http://food2fork.com/api/search?key=#{ENV["FOOD2FORK_KEY"]}&q=#{ingredients}"))
+    uri = URI("http://food2fork.com/api/search?key=#{ENV["FOOD2FORK_KEY"]}&q=#{ingredients}")
+    res = Net::HTTP.get(uri)
     render json: JSON.parse(res)
   end
 
