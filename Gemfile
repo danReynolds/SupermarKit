@@ -36,6 +36,7 @@ gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'active_record_union'
 gem 'webmock', group: :test
 gem 'dotenv-rails'
+gem 'ionicons-rails'
 
 gem 'geokit-rails'
 group :development do
@@ -44,6 +45,7 @@ group :development do
 end
 
 group :development, :test do
+	gem 'stackprof'
 	gem 'flamegraph'
 	gem 'rack-mini-profiler'
   gem 'pry'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721012639) do
+ActiveRecord::Schema.define(version: 20150721041550) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -68,16 +68,13 @@ ActiveRecord::Schema.define(version: 20150721012639) do
   add_index "items", ["name"], name: "index_items_on_name", using: :btree
 
   create_table "user_groups", force: :cascade do |t|
-    t.string   "name",            limit: 255
-    t.string   "description",     limit: 255
+    t.string   "name",        limit: 255
+    t.string   "description", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_default_id", limit: 4
-    t.string   "emblem",          limit: 255
-    t.string   "privacy",         limit: 255
+    t.string   "emblem",      limit: 255
+    t.string   "privacy",     limit: 255
   end
-
-  add_index "user_groups", ["user_default_id"], name: "index_user_groups_on_user_default_id", using: :btree
 
   create_table "user_groups_users", force: :cascade do |t|
     t.integer "user_group_id", limit: 4,                       null: false
