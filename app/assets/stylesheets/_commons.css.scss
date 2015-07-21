@@ -161,6 +161,10 @@ body {
     border: 1px solid lighten($light-gray, 25%) !important;
   }
 
+  .select2-active {
+    transition: none;
+  }
+
   .dataTables_filter {
     input { margin-left: 0.5rem; }
   }

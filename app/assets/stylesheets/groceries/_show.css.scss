@@ -81,15 +81,14 @@
     }
 
     .button.add-button {
-      border-radius: 0 !important;
       width: 60px;
       border-bottom-right-radius: 1000px !important;
       border-top-right-radius: 1000px !important;
       display: inline-block;
       margin-left: -4px;
-      height: 41px;
+      height: 43px;
       margin-bottom: 0;
-      vertical-align: middle;
+      padding: 0;
     }
   }
 
@@ -97,22 +96,34 @@
     td:nth-child(6) {
       text-align: center;
       font-size: 1.2rem;
-    }
 
-    .dropdown {
       i {
-        background: $green;
-        padding: 6px 4px 4px 6px;
+        background: $light-gray;
+        padding: 4px 6px;
         border-radius: 20px;
         color: white;
 
-        &:hover { background: darken($green, 5%); }
+        &:hover {
+          background: darken($light-gray, 15%);
+        }
       }
     }
 
-    .f-dropdown {
-      width: inherit;
-      padding: 2px;
+    @media #{$small-only} {
+      td {
+        &:first-child:not(.child):not(.dataTables_empty):before {
+          font-size: 28px;
+          height: 22px;
+          left: 2px;
+          line-height: 18px;
+          top: 12px;
+          width: 22px;
+        }
+
+        &:nth-child(3) {
+          text-align: center;
+        }
+      }
     }
   }
 
