@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :user_groups, through: :user_groups_users
   has_many :items, through: :user_groups
   has_many :groceries, through: :user_groups
-  has_one :default_group, class_name: 'UserGroup', foreign_key: :user_group_default_id
+  has_one :default_group, class_name: 'UserGroup', foreign_key: :user_default_id
 
   acts_as_user roles: :admin
 
