@@ -9,7 +9,7 @@
       "<a href='#' class='editable' name='groceries_items_quantity' data-type='text' data-pk='{ item_id: #{item.id}, groceries_items_id: #{item.grocery_item_id } }' data-url='#{item.path}'>#{item.quantity}</a>",
       "<a href='#' class='editable' name='groceries_items_price' data-value='#{item.price}' data-type='text' data-pk='{ item_id: #{item.id}, groceries_items_id: #{item.grocery_item_id } }' data-url='#{item.path}'>#{item.price_formatted}</a>",
       item.total_price_formatted,
-      "<a class='remove' href='#'><i class='fa fa-remove'></i></a>"
+      "<a class='remove' href='#'><i class='icon ion-close-circled'></i></a>"
     ]
     dataRows.push(dataRow)
 

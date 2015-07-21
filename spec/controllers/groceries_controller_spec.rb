@@ -25,7 +25,7 @@ describe GroceriesController, type: :controller do
     it 'should return all group groceries' do
       subject
       data = JSON.parse(response.body)['data']
-      groceries = user_group.groceries
+      groceries = user_group.groceries.order('created_at DESC')
 
       expect(data.length).to eq groceries.length
 

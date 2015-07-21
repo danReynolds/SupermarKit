@@ -3,6 +3,7 @@ class UserGroup < ActiveRecord::Base
   has_many :users, through: :user_groups_users
   has_many :items, -> { uniq }, through: :groceries
   has_many :groceries
+  has_many :user_defaults, class_name: 'User', foreign_key: :user_group_default_id
 
   validates :name, presence: true
 
