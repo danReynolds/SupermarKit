@@ -3,14 +3,14 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.3'
 gem 'mysql2'
 gem 'haml-rails'
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'simple_form'
-gem 'foundation-rails', '~> 5.4.5.0'
+gem 'foundation-rails'
 gem 'sorcery'
 gem 'select2-rails'
 gem 'jquery-datatables-rails', '~> 3.1.1'
@@ -44,6 +44,7 @@ group :development do
 end
 
 group :development, :test do
+	gem 'flamegraph'
 	gem 'rack-mini-profiler'
   gem 'pry'
   gem 'pry-stack_explorer'
