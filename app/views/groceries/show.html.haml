@@ -31,7 +31,7 @@
                       %th Quantity
                       %th Price per Item
                       %th Total Price
-                      %th Actions
+                      %th Remove
                   %tfoot
                     %tr
                       %th.text-right{colspan: 6}
@@ -50,7 +50,7 @@
               - unless @grocery.finished?
                 = link_to '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button inline' do
                   Finish List
-                  %i.fa.fa-check
+                  %i.icon.ion-android-done
 
       - unless @grocery.finished?
         .row
