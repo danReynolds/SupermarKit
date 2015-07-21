@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.default_group = new_group
 
-    if grocery = user.default_group.active_groceries.first
+    if user.save && grocery = user.default_group.active_groceries.first
       link = grocery_path(grocery)
     else
       link = new_user_group_grocery_path(user.default_group)
