@@ -10,7 +10,7 @@ describe PagesController, type: :controller do
 
       context 'with default group' do
         it 'should redirect to active grocery if present' do
-          controller.current_user.update_attribute(:default_group, user_group)
+          user_group.user_defaults << controller.current_user
           expect(subject).to redirect_to user_group.active_groceries.first
         end
 
