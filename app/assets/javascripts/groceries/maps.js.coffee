@@ -36,12 +36,12 @@ $ ->
 
       else if places.length == 1
         store = places[0]
-        geometry = store.geometry.location
+        location = store.geometry.location
 
         $.post '/groceries/' + grocery_id + '/set_store',
           grocery_store:
-            lat: geometry.A
-            lng: geometry.F
+            lat: location.lat()
+            lng: location.lng()
             name: store.name
             place_id: store.place_id
 
