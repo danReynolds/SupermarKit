@@ -1,0 +1,21 @@
+.social-icons {
+  a + a { margin-left: 1rem; }
+
+  i {
+    background: $light-green;
+    border-radius: 35px;
+    color: white;
+    font-size: 3rem;
+    height: 56px;
+    line-height: 1.25;
+    text-align: center;
+    transition: 0.5s;
+    width: 56px;
+
+    &.fa-github { line-height: 1.2; }
+
+    &.fa-facebook:hover { background: #3b5998; }
+    &.fa-google:hover { background: #dd4b39; }
+    &.fa-github:hover { background: #333333; }
+  }
+}
