@@ -1,2 +1,2 @@
 $ ->
-    $('.alert-box').delay(500).fadeOut 1200
+  $('.alert-box').delay(500).fadeOut 1200
