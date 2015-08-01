@@ -125,7 +125,8 @@ $ ->
     # Row Removal
     # ============================
 
-    $('.main').on 'click', '.remove', ->
+    $('.main').on 'click touchstart', '.remove', (e) ->
+      e.preventDefault()
       row = $(@).parents('tr')
       row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0])
       item_id = $grocery_table.fnGetData(row)[0]
@@ -234,7 +235,8 @@ $ ->
         $('.recipe-spinner').hide()
         $('.recipe-no-content').show()
 
-    $('.reload').on 'click', 'a', ->
+    $('.reload').on 'click', 'a', (e) ->
+      e.preventDefault()
       $('.reload').hide()
       $('#recipes ul').html('')
       reloadRecipes()
