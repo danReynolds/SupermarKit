@@ -5,7 +5,7 @@
 .container.groceries-show
   - unless @grocery.finished?
     .row.add-items
-      .columns.large-12
+      .columns.large-12.wide
         = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
           .row.collapse.postfix-round
             .columns.large-12

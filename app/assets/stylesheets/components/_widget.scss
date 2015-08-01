@@ -1,0 +1,28 @@
+.widget {
+  background: white;
+  box-shadow: 0px 0px 1px lighten($black, 50%);
+  margin: 0.8rem;
+
+  @media #{$small-only} { margin: 0.5rem; }
+
+  .main, .header { padding: 1.4rem; }
+
+  .header {
+    padding-bottom: 0;
+
+    h1, h2, h3 {
+      color: $gray;
+      font-size: 1.4rem;
+    }
+  }
+
+  h3 {
+    padding: 0;
+    margin: 0;
+  }
+
+  .la-ball-grid-pulse,
+  .la-ball-scale-ripple-multiple {
+    margin: 0 auto;
+  }
+}
