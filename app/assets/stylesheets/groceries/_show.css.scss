@@ -93,27 +93,28 @@
   }
 
   #grocery-table tr {
+    i {
+      font-size: 1.5rem;
+      color: $green;
+
+      &:hover { color: $red; }
+    }
+
     td:nth-child(6) {
       text-align: center;
       font-size: 1.2rem;
 
-      i {
-        font-size: 1.5rem;
-        color: $light-gray;
-        
-        &:hover { color: $red; }
-      }
     }
 
     @media #{$small-only} {
       td {
         &:first-child:not(.child):not(.dataTables_empty):before {
+          border-radius: 50%;
           font-size: 28px;
-          height: 22px;
-          left: 2px;
-          line-height: 18px;
+          left: 0;
+          line-height: 12px;
+          padding: 2px;
           top: 12px;
-          width: 22px;
         }
 
         &:nth-child(3) {
