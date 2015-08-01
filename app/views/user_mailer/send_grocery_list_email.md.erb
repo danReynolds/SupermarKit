@@ -1,12 +1,16 @@
 # Groceries for <%= @grocery.name %>
 
-All right everybody, here's the plan:
+All right everybody, here's the list:
 
 <% @grocery.items.sort_by(&:name).each do |item| %>
   * <%= item.name %> <%= check_box_tag :buy %>
-    * <%= item.description %>
+
+    <% if item.description.present? %>
+      * <%= item.description %>
+    <% end %>
     * <%= "Quantity: #{item.quantity(@grocery)}" %>
     * <%= "Expected Price: #{item.price(@grocery).format}" %>
+
 <% end %>
 
 If everything goes according to plan, we're looking at <%= @grocery.total.to_money.format %>.
