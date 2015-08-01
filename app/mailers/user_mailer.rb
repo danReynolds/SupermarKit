@@ -1,21 +1,26 @@
 class UserMailer < ActionMailer::Base
-  default from: 'us@supermarkit.ca'
+  default from: 'folks@supermarkit.ca'
 
   def activation_needed_email(user)
     @user = user
     @url = activate_user_url(@user)
-    mail(to: @user.email, subject: 'Join Supermarkit')
+    mail(to: format_recipient(@user), subject: 'Join Supermarkit')
   end
 
   def activation_success_email(user)
     @user = user
     @url = activate_user_url(@user)
-    mail(to: @user.email, subject: 'Shop with Supermarkit')
+    mail(to: format_recipient(@user), subject: 'Shop with Supermarkit')
   end
 
   def send_grocery_list_email(user, grocery)
     @user = user
     @grocery = grocery
-    mail(to: @user.email, subject: "Groceries For #{@grocery.name}")
+    mail(to: format_recipient(@user), subject: "Groceries For #{@grocery.name}")
+  end
+
+private
+  def format_recipient(user)
+    "#{user.name} <#{user.email}>"
   end
 end

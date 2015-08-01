@@ -183,6 +183,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    mail_view (2.0.4)
+      tilt
     maildown (1.0.4)
       kramdown
       rails (>= 4.0.0)
@@ -380,6 +382,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.1.1)
   jquery-rails
+  mail_view (~> 2.0.4)
   maildown
   money-rails
   mysql2
