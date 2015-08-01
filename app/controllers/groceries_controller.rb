@@ -45,18 +45,18 @@ class GroceriesController < ApplicationController
 	end
 
   def finish
-    current_items = params[:finish][:current_ids].split(',').flat_map { |id| Item.find(id) }
-    next_items = params[:finish][:next_ids].split(',').flat_map { |id| Item.find(id) }
+    current_items = find_items(params[:finish][:current_ids])
+    next_items = find_items(params[:finish][:next_ids])
 
     @grocery.items = current_items
     @grocery.finished_at = DateTime.now
 
     new_grocery = Grocery.new(
       name: params[:finish][:name],
-      description: params[:finish][:description]
+      description: params[:finish][:description],
+      items: next_items,
+      user_group: @grocery.user_group
     )
-    new_grocery.items = next_items
-    new_grocery.user_group = @grocery.user_group
 
     begin
       Grocery.transaction do
@@ -98,6 +98,10 @@ class GroceriesController < ApplicationController
   end
 
 private
+
+  def find_items(ids)
+    ids.split(',').flat_map { |id| Item.find(id) }
+  end
 
   def grocery_params
     params.require(:grocery).permit(:name, :description)
