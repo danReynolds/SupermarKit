@@ -1,0 +1,20 @@
+table.dataTable {
+  border: 1px solid lighten($light-gray, 25%);
+  box-shadow: none;
+  width: 100% !important;
+
+  thead, tfoot, tr, tr.even { background: white; }
+  tr td,
+  tfoot tr th,
+  thead tr th { color: $light-gray; }
+
+  td:before {
+    background-color: #2CDF79 !important;
+    border: 2px solid white !important;
+    box-shadow: none !important;
+  }
+}
+
+.dataTables_filter {
+  input { margin-left: 0.5rem; }
+}
