@@ -1,0 +1,6 @@
+.tab-bar .menu-icon { text-indent: 0.6rem; }
+.top-bar { overflow: hidden !important; }
+
+@media #{$small-only} {
+  .f-topbar-fixed { padding-top: 0 !important; }
+}
