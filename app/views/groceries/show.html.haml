@@ -5,7 +5,7 @@
 .container.groceries-show
   - unless @grocery.finished?
     .row.add-items
-      .columns.large-12
+      .columns.large-12.wide
         = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
           .row.collapse.postfix-round
             .columns.large-12
@@ -123,7 +123,7 @@
     = link_to '#', class: 'close-reveal-modal' do
       &#215
 
-  #new-list-modal.reveal-modal.tiny{ "data-reveal" => "", role: "dialog" }
+  #new-list-modal.reveal-modal.small{ "data-reveal" => "", role: "dialog" }
     .row
       .columns.large-8.large-centered
         %h2.modalTitle New Grocery List.
