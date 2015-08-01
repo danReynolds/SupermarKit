@@ -45,7 +45,6 @@ group :development do
 end
 
 group :development, :test do
-	gem 'mail_view', '~> 2.0.4'
 	gem 'stackprof'
 	gem 'flamegraph'
 	gem 'rack-mini-profiler'
