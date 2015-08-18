@@ -41,13 +41,14 @@
     escapeMarkup: (m) ->
       m
 
-    createSearchChoice: (term, data) ->
-        if data.length == 0
-          {
-            id: $.trim(term),
-            name: $.trim(term)
-            description: 'Add new item'
-          }
+    createSearchChoice: (term, items) ->
+      add_item = _.all items, (item) ->
+        item.name != term
+
+      if add_item
+        id: $.trim(term),
+        name: $.trim(term)
+        description: 'Add new item'
 
   $form.on 'ajax:success', (event, data, status, xhr) ->
     $('#s2id_items_ids').select2('val','')

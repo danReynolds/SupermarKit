@@ -59,6 +59,7 @@ class ItemsController < ApplicationController
     items = @grocery.user_group.privacy_items.select(:id, :description, :name)
                     .with_name(params[:q])
                     .where.not(id: @grocery.item_ids).limit(5)
+
     items.map do |item|
       {
         id: item.id,
@@ -68,8 +69,8 @@ class ItemsController < ApplicationController
     end
 
     render json: {
-      total_items: items.length,
-      items: items
+      items: items,
+      total_items: items.length
     }
   end
 
