@@ -4,13 +4,13 @@ class UserMailer < ActionMailer::Base
   def activation_needed_email(user)
     @user = user
     @url = activate_user_url(@user)
-    mail(to: format_recipient(@user), subject: 'Join Supermarkit')
+    mail(to: format_recipient(@user), subject: 'Join SupermarKit')
   end
 
   def activation_success_email(user)
     @user = user
     @url = activate_user_url(@user)
-    mail(to: format_recipient(@user), subject: 'Shop with Supermarkit')
+    mail(to: format_recipient(@user), subject: 'Shop with SupermarKit')
   end
 
   def send_grocery_list_email(user, grocery)

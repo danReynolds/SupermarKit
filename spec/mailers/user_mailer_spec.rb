@@ -7,7 +7,7 @@ RSpec.describe UserMailer, type: :mailer do
     let(:mail) { UserMailer.activation_needed_email(user) }
 
     it 'renders the headers' do
-      expect(mail.subject).to eq('Join Supermarkit')
+      expect(mail.subject).to eq('Join SupermarKit')
       expect(mail.to).to eq(["#{user.email}"])
       expect(mail.from).to eq(['folks@supermarkit.ca'])
     end
@@ -17,7 +17,7 @@ RSpec.describe UserMailer, type: :mailer do
     let(:mail) { UserMailer.activation_success_email(user) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq('Shop with Supermarkit')
+      expect(mail.subject).to eq('Shop with SupermarKit')
       expect(mail.to).to eq(["#{user.email}"])
       expect(mail.from).to eq(['folks@supermarkit.ca'])
     end
