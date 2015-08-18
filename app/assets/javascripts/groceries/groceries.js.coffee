@@ -125,7 +125,7 @@ $ ->
     # Row Removal
     # ============================
 
-    $('.main').on 'click touchstart', '.remove', (e) ->
+    $('.main').on 'click', '.remove', (e) ->
       e.preventDefault()
       row = $(@).parents('tr')
       row_id = $grocery_table.fnGetPosition($(@).parents('tr')[0])
