@@ -11,28 +11,20 @@ class GroceriesItems < ActiveRecord::Base
   # price at the closest grocery that has that item
   def localized_price
     grocery_store = grocery.grocery_store
-    item_instances = GroceriesItems.where(item: item).where.not(price_cents: 0)
-    price = 0
+    groceries_items = GroceriesItems.where(item: item).where.not(price_cents: 0)
 
-    # First try and calculate the price based on store proximity
-    if grocery_store
+    if grocery_store # First try and calculate the price based on store proximity
       stores = GroceryStore.by_distance(origin: [grocery_store.lat.to_f, grocery_store.lng.to_f]).limit(10)
 
       stores.each do |store|
-        prices = item_instances.where(grocery: store.groceries)
-
-        if prices.length.nonzero?
-          price = most_common_price(prices)
-          break
-        end
+        store_groceries_items = groceries_items.where(grocery: store.groceries)
+        return most_common_price(store_groceries_items) if store_groceries_items.length.nonzero?
       end
-
-    # If it was not in any nearby stores, then fall back on the overall most common price
-    elsif price.zero? && item_instances.length.nonzero?
-      price = most_common_price(item_instances)
     end
 
-    price
+    # If it was not in any nearby stores, then fall back on the overall most common price
+    return most_common_price(groceries_items) if groceries_items.length.nonzero?
+    return 0
   end
 
   def total_price
@@ -41,7 +33,7 @@ class GroceriesItems < ActiveRecord::Base
 
 private
 
-  def most_common_price(prices)
-    prices.group(:price_cents).order('count_id DESC').count(:id).first.first
+  def most_common_price(groceries_items)
+    groceries_items.group(:price_cents).order('count_id DESC').count(:id).first.first
   end
 end
