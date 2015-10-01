@@ -23,8 +23,7 @@ class GroceriesItems < ActiveRecord::Base
     end
 
     # If it was not in any nearby stores, then fall back on the overall most common price
-    return most_common_price(groceries_items) if groceries_items.length.nonzero?
-    return 0
+    most_common_price(groceries_items)
   end
 
   def total_price
@@ -34,6 +33,7 @@ class GroceriesItems < ActiveRecord::Base
 private
 
   def most_common_price(groceries_items)
+    return 0 if groceries_items.empty?
     groceries_items.group(:price_cents).order('count_id DESC').count(:id).first.first
   end
 end
