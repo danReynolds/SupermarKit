@@ -8,7 +8,6 @@ class OauthsController < ApplicationController
 
   def callback
     provider = auth_params[:provider]
-
     if @user = login_from(provider)
       redirect_to root_path, notice: "Welcome back #{@user.name}"
     else
@@ -19,9 +18,8 @@ class OauthsController < ApplicationController
         reset_session # protect from session fixation attack
         auto_login(@user)
         redirect_to user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first group of people you're shopping for."
-      rescue
-        @user.valid?
-        redirect_to new_user_path(errors: @user.errors.full_messages)
+      rescue Exception
+        redirect_to new_user_path, alert: "Oh no! We're unable to create a user with your #{provider.humanize} account."
       end
     end
   end
