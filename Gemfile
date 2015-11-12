@@ -21,15 +21,10 @@ gem 'inline_svg'
 gem 'happy_path'
 gem 'money-rails'
 gem 'canard', '0.4.2.pre'
-gem 'capistrano',  '~> 3.3.5'
-gem 'capistrano-rails', '~> 1.1.2'
-gem 'capistrano-rvm'
-gem 'capistrano-npm'
 gem 'newrelic_rpm'
 gem 'maildown'
 gem 'nokogiri'
 gem 'browserify-rails'
-gem 'capistrano-rails-console'
 gem 'airbrake'
 gem 'coveralls', require: false
 gem 'codeclimate-test-reporter', group: :test, require: nil
@@ -37,6 +32,7 @@ gem 'active_record_union'
 gem 'webmock', group: :test
 gem 'dotenv-rails'
 gem 'ionicons-rails'
+gem 'puma'
 
 gem 'geokit-rails'
 group :development do
@@ -45,6 +41,12 @@ group :development do
 end
 
 group :development, :test do
+  gem 'capistrano',         require: false
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
+	gem 'capistrano-rails-console'
 	gem 'stackprof'
 	gem 'flamegraph'
 	gem 'rack-mini-profiler'
