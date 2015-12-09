@@ -33,6 +33,13 @@ gem 'webmock', group: :test
 gem 'dotenv-rails'
 gem 'ionicons-rails'
 gem 'puma'
+gem 'capistrano',         require: false
+gem 'capistrano-rvm',     require: false
+gem 'capistrano-rails',   require: false
+gem 'capistrano-bundler', require: false
+gem 'capistrano3-puma',   require: false
+gem 'capistrano-rails-console'
+gem 'capistrano-npm'
 
 gem 'geokit-rails'
 group :development do
@@ -41,13 +48,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'capistrano',         require: false
-  gem 'capistrano-rvm',     require: false
-  gem 'capistrano-rails',   require: false
-  gem 'capistrano-bundler', require: false
-  gem 'capistrano3-puma',   require: false
-	gem 'capistrano-npm'
-	gem 'capistrano-rails-console'
 	gem 'stackprof'
 	gem 'flamegraph'
 	gem 'rack-mini-profiler'
