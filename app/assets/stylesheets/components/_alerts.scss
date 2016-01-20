@@ -12,6 +12,6 @@
   width: 95%;
   z-index: 10000;
 
-  &.notice { background: $green !important; }
-  &.alert { background: $red !important; }
+  &.notice { background: $sm-green !important; }
+  &.alert { background: $sm-red !important; }
 }

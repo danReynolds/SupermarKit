@@ -189,6 +189,8 @@ GEM
     maildown (1.0.4)
       kramdown
       rails (>= 4.0.0)
+    materialize-sass (0.97.5)
+      sass (~> 3.3)
     method_source (0.8.2)
     mime-types (2.6.1)
     mini_portile (0.6.2)
@@ -387,6 +389,7 @@ DEPENDENCIES
   jquery-datatables-rails (~> 3.1.1)
   jquery-rails
   maildown
+  materialize-sass
   money-rails
   mysql2
   newrelic_rpm
@@ -410,4 +413,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.10.5
+   1.10.6

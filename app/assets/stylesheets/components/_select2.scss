@@ -3,17 +3,17 @@
 .select2-search-choice {
   background-color: #FAFAFA;
   background-image: none;
-  border: 1px solid lighten($light-gray, 10%);
-  color: $gray !important;
+  border: 1px solid lighten($sm-light-gray, 10%);
+  color: $sm-gray !important;
   height: 2rem;
   padding-top: 0.5rem !important;
 }
 
 .select2-result-selectable {
-  color: $gray;
+  color: $sm-gray;
 
   &.select2-highlighted {
-    background: $green;
+    background: $sm-green;
     color: white;
   }
 }
@@ -21,7 +21,7 @@
 .select2-no-results {
   background-color: white;
   border-top: 1px solid rgb(247, 247, 247);
-  color: $gray;
+  color: $sm-gray;
 }
 
 .select2-container { width: 75%; }
@@ -31,7 +31,7 @@
 
 .select2-choices {
   background-image: none !important;
-  border: 1px solid lighten($light-gray, 25%);
+  border: 1px solid lighten($sm-light-gray, 25%);
   border-radius: 3px;
 }
 

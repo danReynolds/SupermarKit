@@ -32,12 +32,12 @@
 
         &:hover {
           transition: background 0.4s ease;
-          background: $green;
+          background: $sm-green;
           color: white;
         }
 
         &.selected {
-          background: $green;
+          background: $sm-green;
           color: white;
         }
       }
@@ -54,14 +54,14 @@
 
       i {
         font-size: 7rem;
-        color: $green;
+        color: $sm-green;
       }
 
       svg {
         width: 7.5rem;
         height: 7.5rem;
         path {
-          fill: $green !important;
+          fill: $sm-green !important;
         }
       }
 
