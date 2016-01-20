@@ -40,6 +40,7 @@ gem 'capistrano-bundler', require: false
 gem 'capistrano3-puma',   require: false
 gem 'capistrano-rails-console'
 gem 'capistrano-npm'
+gem 'materialize-sass'
 
 gem 'geokit-rails'
 group :development do

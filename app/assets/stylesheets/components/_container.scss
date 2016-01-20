@@ -1,5 +1,5 @@
 .container {
-  background-image: linear-gradient($dark-green, rgba($dark-blue-green, 0.95)),
+  background-image: linear-gradient($sm-dark-green, rgba($sm-dark-blue-green, 0.95)),
                     image-url('homepage/homepage-pattern.jpg');
   min-height: 100%;
   @media #{$medium-up} { padding: 6rem 0 3rem 0; }

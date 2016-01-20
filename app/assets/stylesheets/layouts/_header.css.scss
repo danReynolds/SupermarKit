@@ -1,22 +1,22 @@
 nav.header {
-  background: $dark-green !important;
-  li, a { background: $dark-green !important; }
+  background: $sm-dark-green !important;
+  li, a { background: $sm-dark-green !important; }
 }
 
 .magellan.header {
-  background: $dark-green !important;
+  background: $sm-dark-green !important;
 
   ul, li { margin: 0; }
-  li, a { background: $dark-green !important; }
+  li, a { background: $sm-dark-green !important; }
 
   a {
     color: white !important;
-    &:hover { background: $green; }
+    &:hover { background: $sm-green; }
     padding: 0;
   }
 
   dd.active {
-    background: $green !important;
+    background: $sm-green !important;
     border-radius: 1rem;
     box-shadow: 0px 0px 1px rgb(129, 129, 129);
 

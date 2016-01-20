@@ -15,18 +15,18 @@
         margin: 10px;
         padding: 10px;
         background-color: white;
-        color: $gray;
+        color: $sm-gray;
         transition: all 0.4s ease-in-out;
         cursor: move;
 
-        &.selected { background: $green; }
+        &.selected { background: $sm-green; }
 
         i {
           float: right;
           margin-top: 4px;
-          color: $red;
+          color: $sm-red;
           cursor: pointer;
-          &:hover { color: darken($red, 5%) }
+          &:hover { color: darken($sm-red, 5%) }
         }
       }
     }
@@ -95,9 +95,9 @@
   #grocery-table tr {
     i {
       font-size: 1.5rem;
-      color: $green;
+      color: $sm-green;
 
-      &:hover { color: $red; }
+      &:hover { color: $sm-red; }
     }
 
     td:nth-child(6) {
@@ -159,7 +159,7 @@
         margin-left: 0;
 
         li {
-          background: $dark-gray;
+          background: $sm-dark-gray;
           img {
             margin: 0;
             width: 100%;
