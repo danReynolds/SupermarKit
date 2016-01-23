@@ -5,8 +5,16 @@
     height: 100vh;
     padding: 20vh 0;
 
-    li { list-style-type: none; }
-    h2 { color: $sm-white; }
+    form { margin-top: 2.5rem; }
+    input { color: $sm-white; }
+    li {
+      list-style-type: none;
+      margin-left: 0.25rem;
+    }
+    h2 {
+      color: $sm-white;
+      margin-top: 0;
+    }
 
     .svg-images {
       span {
@@ -39,41 +47,40 @@
 
     li { display: inline-block; }
 
-    .signup {
-      margin-top: 2rem;
-      input {
-        border-radius: 2px;
-        height: 3rem;
-
-        &.button {
-          margin: 0 0 1rem;
-          display: block;
-
-          @media #{$mobile} { margin: 0 auto; }
-        }
-      }
-    }
   }
 
   .section {
     padding: 6rem 0;
     background: $sm-off-white;
 
-    @media #{$mobile} { padding: 4rem 0; }
+    @media #{$mobile} {
+      padding: 4rem 0;
+      text-align: center;
+
+      .valign-wrapper {
+        display: block;
+      }
+
+      .col + .col {
+        margin-top: 2rem;
+      }
+    }
 
     img {
       border-radius: 4px;
       box-shadow: 0 0 1px $sm-gray;
-
-      @media #{$mobile} {
-        width: 90%;
-      }
+      @media #{$mobile} { width: 100%; }
     }
 
     h1 { color: $sm-gray; }
 
     &#grocery-section {
+      padding: 3rem 0;
       img { height: 30rem; }
+
+      @media #{$mobile} {
+        img { height: auto; }
+      }
     }
 
     &#kit-section {
@@ -83,8 +90,9 @@
 
     &#finish-section {
       overflow: hidden;
-      height: 50rem;
-      img { width: 70%; }
+      height: 45rem;
+      img { width: 100%; }
+      @media #{$mobile} { height: 40rem; }
     }
 
     &#elevator-section {
