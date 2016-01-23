@@ -1,0 +1,5 @@
+.btn {
+  background: $sm-green;
+  margin-top: 0.5rem;
+  &:hover { background: darken($sm-green, 10%) }
+}
