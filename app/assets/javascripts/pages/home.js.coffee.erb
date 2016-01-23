@@ -1,5 +1,13 @@
 $ ->
   onPage 'pages home', ->
+    $nav = $('nav')
+
+    $(window).scroll ->
+      if ($(@).scrollTop() == 0)
+        $nav.addClass('top')
+      else
+        $nav.removeClass('top')
+
     window.onload = ->
       sound = "<%= audio_path('ding.mp3') %>"
       elevator = new Elevator
@@ -10,3 +18,6 @@ $ ->
 
       $('.elevator-button').click ->
         $('#user_name').focus()
+
+    # Trigger a scroll to determine the nav color
+    $(window).scroll()

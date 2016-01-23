@@ -1,0 +1,35 @@
+html { height: 100%; }
+
+body {
+  $font-family: 'Oxygen', sans-serif;
+  $primary-text-color: $sm-gray;
+  $primary-link-color: $sm-gray;
+  $primary-link-hover-color: $sm-green;
+  $primary-font-weight: 100;
+
+  background-image: linear-gradient($sm-dark-green, rgba($sm-dark-blue-green, 0.95)), image-url('homepage/homepage-pattern.jpg');
+  background-attachment: fixed;
+  color: $primary-text-color;
+  font-weight: $primary-font-weight;
+  font-family: $font-family;
+  min-height: 100%;
+
+  h1 {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  h2, h3, p, li {
+    color: $sm-gray;
+    word-wrap: break-word;
+  }
+
+  a {
+    color: $primary-link-color;
+    &.highlight, &:hover { color: $primary-link-hover-color; }
+  }
+
+  #squiggle { fill: $sm-green; }
+}

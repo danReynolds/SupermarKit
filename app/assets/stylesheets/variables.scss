@@ -2,9 +2,12 @@
 // SupermarKit Colours
 // =========================
 
+$sm-black:                    #000000;
+$sm-white:                    #ffffff;
+$sm-off-white:                #FCFCFC;
 $sm-red:                      #FF8D8D;
-$sm-light-gray:               #A6A6A6;
-$sm-gray:                     #8B8B8B;
+$sm-light-gray:               #F3F3F3;
+$sm-gray:                     #6D6D6D;
 $sm-dark-gray:                rgb(58, 58, 58);
 $sm-light-green:              #0F9260;
 $sm-green:                    #2CDF79;
@@ -12,3 +15,10 @@ $sm-dark-green:               #148560;
 $sm-blue-green:               rgb(2, 73, 49);
 $sm-mid-blue-green:           #126552;
 $sm-dark-blue-green:          rgb(17, 66, 64);
+
+// =========================
+// Media Queries
+// =========================
+
+$mobile: "(max-width: 480px)";
+$tablet: "(max-width: 1024px)";

@@ -37,7 +37,7 @@
   }
 }
 
-@media #{$small-only} {
+@media #{$mobile} {
   #new-list-modal { top: 0 !important; }
 }
 
@@ -56,7 +56,7 @@
     text-align: center;
     padding: 0 1rem;
 
-    @media #{$small-only} {
+    @media #{$mobile} {
       padding-left: 0;
       padding-right: 0;
     }
@@ -65,8 +65,8 @@
       display: inline-block;
       width: 92.5%;
 
-      @media #{$small-only} { width: 75%; }
-      @media #{$medium-only} { width: 85%; }
+      @media #{$mobile} { width: 75%; }
+      @media #{$tablet} { width: 85%; }
     }
 
     .select2-choices {
@@ -106,7 +106,7 @@
 
     }
 
-    @media #{$small-only} {
+    @media #{$mobile} {
       td {
         &:first-child:not(.child):not(.dataTables_empty):before {
           border-radius: 50%;
@@ -165,7 +165,7 @@
             width: 100%;
             height: 25rem;
 
-            @media #{$small-only} { height: 18rem; }
+            @media #{$mobile} { height: 18rem; }
           }
         }
       }
@@ -174,7 +174,7 @@
 
   .orbit-container {
     height: 25rem;
-    @media #{$small-only} { height: 18rem; }
+    @media #{$mobile} { height: 18rem; }
     .orbit-caption {
       text-align: left;
       a {

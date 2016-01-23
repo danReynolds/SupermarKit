@@ -1,23 +1,16 @@
 .container.new-user-session
-  .row
-    .columns.large-8.large-centered.wide
-      .widget
-        .header
+  .col.l8.offset-l2
+    .card
+      .row
+        .col.l12
           %h1 Login
-        .main
-          .row
+      .row
+        .col.l6.s12
           = simple_form_for :session, url: user_sessions_path do |f|
-            .row.social-icons
-              .columns.large-6
-                = f.input :email
-                = f.input :password
-                = f.button :submit, 'Login'
-              .columns.large-6.social-icons
-                %p Or if you prefer, login with one of our friends below:
-                .text-center
-                  = link_to auth_at_provider_path(provider: :facebook) do
-                    = fa_icon 'facebook'
-                  = link_to auth_at_provider_path(provider: :google) do
-                    = fa_icon 'google'
-                  = link_to auth_at_provider_path(provider: :github) do
-                    = fa_icon 'github'
+            .input-field
+              = f.input :email
+            .input-field
+              = f.input :password
+            = f.button :submit, 'Login'
+        .col.l6.s12
+          = render partial: 'components/social', locals: { button_label: 'Login with' }

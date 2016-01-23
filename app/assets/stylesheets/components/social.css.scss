@@ -1,0 +1,31 @@
+.social-icons {
+  $facebook-color: #3b5998;
+  $google-color: #dd4b39;
+  $github-color: #333333;
+  $plain-text-color: $sm-white;
+  $active-text-color: $sm-gray;
+  $active-background-color: $sm-light-gray;
+
+  margin-top: 0.2rem;
+  @media #{$tablet} { margin-top: 3rem; }
+
+  a {
+    color: $plain-text-color;
+    margin-bottom: 0.75rem;
+    width: 100%;
+
+    &.facebook { background: $facebook-color; }
+    &.google { background: $google-color; }
+    &.github { background: $github-color; }
+    &:hover {
+      color: $active-text-color;
+      background: $active-background-color;
+
+      .fa-facebook { color: $facebook-color; }
+      .fa-google { color: $google-color; }
+      .fa-github { color: $github-color; }
+    }
+  }
+
+  i { color: $plain-text-color; }
+}
