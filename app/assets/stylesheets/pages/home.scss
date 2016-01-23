@@ -1,30 +1,29 @@
-.home {
+.homepage {
   #signup {
     background-image: linear-gradient(rgba($sm-light-green, 0.9), rgba($sm-blue-green, 0.75)), image-url("homepage/elevator-background.jpg");
-    height: 100%;
     text-align: center;
-    padding: 1rem 0 5rem 0;
+    height: 100vh;
+    padding: 20vh 0;
 
     li { list-style-type: none; }
+    h2 { color: $sm-white; }
 
     .svg-images {
-      h3 { color: white; }
-
       span {
-          font-size: 7rem;
-          color: white;
+          color: $sm-white;
           display: inline-block;
+          font-size: 7rem;
           margin-bottom: 0;
           vertical-align: super;
       }
 
       svg {
-        width: 7rem;
         height: 7rem;
-        path { fill: white !important; }
+        path { fill: $sm-white !important; }
+        width: 7rem;
       }
 
-      @media #{$small-only} {
+      @media #{$mobile} {
         line-height: 1;
         svg {
           width: 5rem;
@@ -34,16 +33,11 @@
     }
 
     h1 {
-      color: white;
-      font-size: 3rem;
+      color: $sm-white;
+      font-size: 4rem;
     }
 
-    @media #{$medium-up} {
-      height: 100vh;
-      padding: 20vh 0;
-      li { display: inline-block; }
-      h1 { font-size: 4rem; }
-    }
+    li { display: inline-block; }
 
     .signup {
       margin-top: 2rem;
@@ -55,48 +49,48 @@
           margin: 0 0 1rem;
           display: block;
 
-          @media #{$small-only} { margin: 0 auto; }
+          @media #{$mobile} { margin: 0 auto; }
         }
       }
     }
   }
 
   .section {
-    padding: 8rem 0;
-    background: white;
+    padding: 6rem 0;
+    background: $sm-off-white;
 
-    @media #{$small-only} {
-      padding: 4rem 0;
-    }
+    @media #{$mobile} { padding: 4rem 0; }
 
     img {
       border-radius: 4px;
       box-shadow: 0 0 1px $sm-gray;
-      margin: 1rem 0 2rem 0;
 
-      @media #{$large-up} { margin: 1rem 0 0 0; }
+      @media #{$mobile} {
+        width: 90%;
+      }
     }
 
     h1 { color: $sm-gray; }
 
-    &#grocery-section { background: #FCFCFC; }
+    &#grocery-section {
+      img { height: 30rem; }
+    }
 
     &#kit-section {
       background-image: linear-gradient(rgba($sm-dark-blue-green, 0.9), rgba($sm-mid-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
-      h1, p { color: white; }
-
+      h1, p { color: $sm-white; }
     }
 
     &#finish-section {
       overflow: hidden;
-      @media #{$medium-up} { height: 52rem; }
-      img { width: 80%; }
+      height: 50rem;
+      img { width: 70%; }
     }
 
     &#elevator-section {
       background: linear-gradient($sm-mid-blue-green, $sm-dark-green);
       padding: 8rem 0;
-      h1, p { color: white; }
+      h1, p { color: $sm-white; }
     }
   }
 }

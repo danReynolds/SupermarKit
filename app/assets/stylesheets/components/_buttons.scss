@@ -1,9 +1,5 @@
-.button {
+.btn {
   background: $sm-green;
-  border-bottom: 2px solid $sm-light-green;
-  border-radius: 0.4rem !important;
-  color: white !important;
-  padding: 0.7rem 1.2rem;
-
+  margin-top: 0.5rem;
   &:hover { background: darken($sm-green, 10%) }
 }

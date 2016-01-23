@@ -55,22 +55,40 @@
       = yield
 
 - else
-  .magellan.header{'data-magellan-expedition' => 'fixed'}
-    %dl.sub-nav{ 'data-magellan-destination' => 'signup' }
-      - if current_page? root_path
-        %dd{'data-magellan-arrival' => 'signup', class: 'active'}
-          = link_to 'Sign up', '#signup'
-        %dd{'data-magellan-arrival' => 'groceries'}
-          = link_to 'Lists', '#groceries'
-        %dd{'data-magellan-arrival' => 'kits'}
-          = link_to 'Kits', '#kits'
-        %dd{'data-magellan-arrival' => 'finish'}
-          = link_to 'Groceries', '#finish'
-      - else
-        %dd.left
-          = link_to 'Supermarkit', root_path
-      %dd.right
-        = link_to 'Login', login_path
-  = render partial: 'layouts/flash_messages'
-  = render partial: 'layouts/error_messages'
-  = yield
+  .navigation{ class: ('navbar-fixed' if current_page? root_path) }
+    %nav{ class: ('top' if current_page? root_path) }
+      .nav-wrapper
+        = link_to root_url, class: 'brand-logo center' do
+          = inline_svg "svgs/groceries.svg", id: 'groceries-svg'
+        = link_to root_url, class: 'button-collapse', 'data-activates' => 'site-navigation' do
+          :plain
+            <i class="material-icons">menu</i>
+        %ul.hide-on-med-and-down.right
+          %li
+            = link_to 'Sign up', new_user_path
+          %li
+            = link_to 'Login', login_path
+        %ul.side-nav#site-navigation
+          %li
+            = link_to 'Sign up', new_user_path
+          %li
+            = link_to 'Login', login_path
+    -# .magellan.header{'data-magellan-expedition' => 'fixed'}
+    -#   %dl.sub-nav{ 'data-magellan-destination' => 'signup' }
+    -#     - if current_page? root_path
+    -#       %dd{'data-magellan-arrival' => 'signup', class: 'active'}
+    -#         = link_to 'Sign up', '#signup'
+    -#       %dd{'data-magellan-arrival' => 'groceries'}
+    -#         = link_to 'Lists', '#groceries'
+    -#       %dd{'data-magellan-arrival' => 'kits'}
+    -#         = link_to 'Kits', '#kits'
+    -#       %dd{'data-magellan-arrival' => 'finish'}
+    -#         = link_to 'Groceries', '#finish'
+    -#     - else
+    -#       %dd.left
+    -#         = link_to 'Supermarkit', root_path
+    -#     %dd.right
+    -#       = link_to 'Login', login_path
+    -# = render partial: 'layouts/flash_messages'
+    -# = render partial: 'layouts/error_messages'
+    = yield

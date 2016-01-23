@@ -10,7 +10,6 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'simple_form'
-gem 'foundation-rails'
 gem 'sorcery'
 gem 'select2-rails'
 gem 'jquery-datatables-rails', '~> 3.1.1'
@@ -41,6 +40,8 @@ gem 'capistrano3-puma',   require: false
 gem 'capistrano-rails-console'
 gem 'capistrano-npm'
 gem 'materialize-sass'
+gem 'bourbon'
+gem 'neat'
 
 gem 'geokit-rails'
 group :development do
@@ -51,7 +52,6 @@ end
 group :development, :test do
 	gem 'stackprof'
 	gem 'flamegraph'
-	gem 'rack-mini-profiler'
   gem 'pry'
   gem 'pry-stack_explorer'
   gem 'pry-byebug'

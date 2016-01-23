@@ -2,26 +2,25 @@
 // Base Styles
 // =====================
 @import 'variables';
-@import 'foundation_and_overrides';
 @import 'commons';
 
 // =====================
 // Third parties
 // =====================
 @import 'select2';
-@import 'dataTables/jquery.dataTables.foundation';
 @import 'dataTables/extras/dataTables.responsive';
 @import 'font-awesome';
 @import 'jquery-editable';
 @import 'loaders';
 @import 'ionicons';
-@import 'materialize';
+@import 'bourbon';
+@import 'neat';
+@import 'materialize-components';
 
 // =====================
 // Page Styles
 // =====================
 
-@import 'layouts/*';
 @import 'pages/*';
 @import 'groceries/*';
 @import 'user_sessions/*';
