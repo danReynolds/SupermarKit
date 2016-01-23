@@ -11,19 +11,17 @@
       %h2 The formula for grocery shopping should be simple.
 
       = simple_form_for :user, url: new_user_path, method: :get do |f|
-        .row.signup
-          .col.l12
-            %ul
-              %li
-                = f.input :name, label: false, input_html: { placeholder: 'Name', class: 'round' }
-              %li
-                = f.input :email, label: false, input_html: { placeholder: 'Email', class: 'round' }
-              %li
-                = f.button :submit, 'Sign up', class: 'radius'
+        %ul
+          %li
+            = f.input :name, label: false, input_html: { placeholder: 'Name' }
+          %li
+            = f.input :email, label: false, input_html: { placeholder: 'Email' }
+          %li
+            = f.button :submit, 'Sign up'
   .section#grocery-section
     .container
       .row.valign-wrapper
-        .col.l6
+        .col.l4.offset-l1
           %h1 It starts with lists.
           %p You've been making them for years and we can help with that. SupermarKit grocery lists remember what you have bought in the past and make it easy to add those grocery items again.
           %p Items are being shared from many grocery lists across SupermarKit, so if there is an item that you want to add to your list, it should already have reviews and an estimated price.
@@ -44,13 +42,12 @@
   .section#finish-section
     .container.center-align
       .row
-        .col.l12
+        .col.l8.offset-l2
           %h1 Put it all together.
           %p Once you have put your shopping cart together and gone through checkout, it is important to make sure that what you purchased accurately reflects what you put on your list.
           %p When you finish your list we make it easy for you to remove any items that you forgot to or decided not to buy. You can then move those items over to your next shopping trip's list which we will make automatically for you.
       .row
-        .col.l12
-          %br
+        .col.l8.offset-l2
           = image_tag 'homepage/carry-over.png'
 
   .section#elevator-section
