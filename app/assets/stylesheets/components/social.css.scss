@@ -6,12 +6,11 @@
   $active-text-color: $sm-gray;
   $active-background-color: $sm-light-gray;
 
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
   @media #{$tablet} { margin-top: 3rem; }
 
   a {
     color: $plain-text-color;
-    margin-bottom: 0.75rem;
     width: 100%;
 
     &.facebook { background: $facebook-color; }

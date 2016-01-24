@@ -1,4 +1,18 @@
 .card {
   margin: 0;
-  padding: 1.5rem 3rem;
+
+  .card-content, .card-action { padding: 1.5rem 3rem; }
+  .card-reveal {
+    padding: 0;
+    margin-top: -2px;
+  }
+  .card-reveal-controls {
+    position: absolute;
+    bottom: 2rem;
+    right: 1rem;
+
+    a { display: inline-block !important; }
+    a + a { margin-left: 0.5rem; }
+  }
+  &.image-wrapper { padding: 0; }
 }

@@ -2,16 +2,16 @@
   .row
     .col.l8.offset-l2
       .card
-        .row
-          .col.l12
-            %h1 Login
-        .row
-          .col.l6.s12
-            = simple_form_for :session, url: user_sessions_path do |f|
-              .input-field
-                = f.input :email
-              .input-field
-                = f.input :password
-              = f.button :submit, 'Login'
-          .col.l6.s12
-            = render partial: 'components/social', locals: { button_label: 'Login with' }
+        = simple_form_for :session, url: user_sessions_path do |f|
+          .card-content
+            .row
+              .col.l12
+                %h1 Login
+            .row
+              .col.l6.s12
+                .input-field= f.input :email
+                .input-field= f.input :password
+              .col.l6.s12
+                = render partial: 'components/social', locals: { button_label: 'Login with' }
+          .card-action
+            = f.button :submit, 'Login'
