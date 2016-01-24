@@ -3,8 +3,6 @@ html { height: 100%; }
 body {
   $font-family: 'Oxygen', sans-serif;
   $primary-text-color: $sm-gray;
-  $primary-link-color: $sm-gray;
-  $primary-link-hover-color: $sm-green;
   $primary-font-weight: 100;
 
   background-image: linear-gradient($sm-dark-green, rgba($sm-dark-blue-green, 0.95)), image-url('homepage/homepage-pattern.jpg');
@@ -26,10 +24,7 @@ body {
     word-wrap: break-word;
   }
 
-  a {
-    color: $primary-link-color;
-    &.highlight, &:hover { color: $primary-link-hover-color; }
-  }
+  span.error { color: $sm-red; }
 
   #squiggle { fill: $sm-green; }
 }

@@ -34,9 +34,9 @@ $ ->
     # Public / Private Kit switching
     # ============================
     $('#user_group_privacy_public').click ->
-        $('p.private').hide();
-        $('p.public').show();
+        $('p.private').addClass('hide');
+        $('p.public').removeClass('hide');
 
     $('#user_group_privacy_private').click ->
-        $('p.public').hide();
-        $('p.private').show();
+        $('p.public').addClass('hide')
+        $('p.private').removeClass('hide');

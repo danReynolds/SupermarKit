@@ -1,36 +1,56 @@
 :coffee
   @current_user_id = #{current_user.id}
 
-.container
-  .user-groups-index
-    .row.title
-      .columns.large-12.text-center
-        %h1 #{current_user.name}'s Kits
+.container.user-groups-index
+  .row
+    .col.l12.align-center
+      %h1 #{current_user.name}'s Kits
+  - @user_groups.each_slice(3) do |groups|
     .row
-      .columns.large-12
-        %ul.large-block-grid-4.small-block-grid-1
-          - @user_groups.each do |group|
-            %li
-              .group
-                .wrapper{class: group.user_state(current_user) == UserGroupsUsers::INVITED ? 'invited' : ''}
-                  - if group.user_state(current_user) == UserGroupsUsers::ACCEPTED
-                    .default-group{ class: current_user.default_group == group ? 'selected' : '', data: { value: group.id } }
-                  - else
-                    .default-group.hide{ data: { value: group.id } }
-                  .group-body
-                    - if active_grocery = group.active_groceries.first
-                      = link_to active_grocery do
-                        = inline_svg "svgs/#{group.emblem}.svg"
-                        %p #{group.name}
-                    - else
-                      = link_to new_user_group_grocery_path(group) do
-                        = inline_svg "svgs/#{group.emblem}.svg"
-                        %p #{group.name}
-                    - if group.user_state(current_user) == UserGroupsUsers::INVITED
-                      = link_to 'Join Kit', '#', class: 'group-invite button'
-          %li.group
-            = link_to new_user_group_path do
-              .wrapper.new-kit
-                .group-body
-                  = fa_icon 'plus-square-o'
-                  %p Create Grocery Kit
+      - groups.each do |group|
+        .col.l4
+          .card.image-wrapper.hoverable
+            = link_to group do
+              .card-image
+                = image_tag 'user_groups/default3.jpg'
+                %span.card-title= group.name
+            .card-content
+              %p.truncate
+                - if group.description.present?
+                  = group.description
+                - else
+                  Describe your
+                  = link_to 'your Kit.', edit_user_group_path(group), class: :highlight
+            .card-action
+              = link_to 'Edit', user_group_path(group), class: 'highlight'
+  .fixed-action-btn
+    = link_to new_user_group_path, class: 'btn-floating btn-large waves-effect waves-light' do
+      %i.material-icons add
+    -# .row
+    -#   .columns.large-12
+    -#     %ul.large-block-grid-4.small-block-grid-1
+    -#       - @user_groups.each do |group|
+    -#         %li
+    -#           .group
+    -#             .wrapper{class: group.user_state(current_user) == UserGroupsUsers::INVITED ? 'invited' : ''}
+    -#               - if group.user_state(current_user) == UserGroupsUsers::ACCEPTED
+    -#                 .default-group{ class: current_user.default_group == group ? 'selected' : '', data: { value: group.id } }
+    -#               - else
+    -#                 .default-group.hide{ data: { value: group.id } }
+    -#               .group-body
+    -#                 - if active_grocery = group.active_groceries.first
+    -#                   = link_to active_grocery do
+    -#                     = inline_svg "svgs/#{group.emblem}.svg"
+    -#                     %p #{group.name}
+    -#                 - else
+    -#                   = link_to new_user_group_grocery_path(group) do
+    -#                     = inline_svg "svgs/#{group.emblem}.svg"
+    -#                     %p #{group.name}
+    -#                 - if group.user_state(current_user) == UserGroupsUsers::INVITED
+    -#                   = link_to 'Join Kit', '#', class: 'group-invite button'
+    -#       %li.group
+    -#         = link_to new_user_group_path do
+    -#           .wrapper.new-kit
+    -#             .group-body
+    -#               = fa_icon 'plus-square-o'
+    -#               %p Create Grocery Kit

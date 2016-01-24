@@ -1,29 +1,52 @@
 .container.user-groups-new
   .row
-    .columns.large-10.large-centered.wide
-      .widget
-        .header
-          %h3 Create a Grocery Kit
-        .main
-          .row
-            .columns.large-12
-              %p A Kit maintains the list of people and groceries that are included in that Kit. Once you fill out some quick details we'll get started!
-          = simple_form_for @user_group do |f|
+    .col.l8.offset-l2
+      .card
+        = simple_form_for @user_group do |f|
+          .card-content
+            %h3 Create a Grocery Kit
             .row
-              .columns.large-6
-                = f.input :name
-                = f.input :description, as: :text
-                = f.input :user_ids, label: false, as: :text, input_html: { value: "" }
-              .columns.large-6
-                = f.input :privacy, as: :radio_buttons, collection: UserGroup::PRIVACY, boolean_style: :inline, checked: UserGroup::PUBLIC
-                %p.public
-                  Items you add to lists in
-                  %strong Public
-                  kits will be accessible by other public kits, so like word of mouth, users are able to share pricing info and reviews for these items.
-                %p.private.hide
-                  A
-                  %strong Private
-                  kit is like starting from fresh. There won't be access to any of the items already available on SupermarKit, but any items that are created will only be visible to members of your kit.
-            .row
-              .columns.large-12
-                = f.button :submit, 'Create', class: 'button radius'
+              .col.l12
+                %p A Kit maintains the list of people and groceries that are included in that Kit. Once you fill out some quick details we'll get started!
+                .row
+                  .col.l6.s12
+                    .input-field= f.input :name
+                    .input-field= f.input :description, as: :text, input_html: { class: 'materialize-textarea' }
+                  .col.l6.s12.privacy
+                    Kit Privacy
+                    = f.input :privacy, as: :radio_buttons, label: false, collection: UserGroup::PRIVACY, boolean_style: :inline, checked: UserGroup::PUBLIC
+                    %p.public
+                      Items you add to lists in
+                      %strong Public
+                      kits will be accessible by other public kits, so like word of mouth, users are able to share pricing info and reviews for these items.
+                    %p.private.hide
+                      A
+                      %strong Private
+                      kit is like starting from fresh. There won't be access to any of the items already available on SupermarKit, but any items that are created will only be visible to members of your kit.
+                .row
+                  .col.l12.s12
+                    %h3 Group members
+                    .group-container
+                    = link_to '#', class: 'waves-effect waves-light btn secondary activator' do
+                      %i.fa.fa-pencil.left
+                      Group members
+          .card-action
+            = f.button :submit, 'Create'
+        :plain
+          <div class="card-reveal">
+            <nav>
+              <div class="nav-wrapper">
+                <form>
+                  <div class="input-field">
+                    <input id="search" type="search" required>
+                    <label for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                  </div>
+                </form>
+              </div>
+            </nav>
+            <div class="card-reveal-controls">
+              <a class="btn-floating btn-large waves-effect waves-light card-title cancel"><i class="material-icons">close</i></a>
+              <a class="btn-floating btn-large waves-effect waves-light card-title"><i class="material-icons">send</i></a>
+            </div>
+          </div>

@@ -1,0 +1,6 @@
+a {
+  color: $sm-light-gray !important;
+  text-transform: none !important;
+  &.highlight, &:hover { color: $sm-green !important; }
+  &.dark { color: $sm-dark-gray !important; }
+}
