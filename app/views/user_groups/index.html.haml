@@ -8,9 +8,10 @@
   - @user_groups.each_slice(3) do |groups|
     .row
       - groups.each do |group|
+        - grocery = group.active_groceries.try(:first) || new_user_group_grocery_path(group)
         .col.l4
           .card.image-wrapper.hoverable
-            = link_to group do
+            = link_to grocery do
               .card-image
                 = image_tag 'user_groups/default3.jpg'
                 %span.card-title= group.name

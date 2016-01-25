@@ -27,7 +27,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'GET activate' do
-    let(:user) { create(:user, password: 'valid') }
+    let(:user) { create(:user, password: 'valid_password') }
     subject { get :activate, id: user.activation_token }
 
     context 'when valid' do
