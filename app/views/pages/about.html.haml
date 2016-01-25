@@ -2,14 +2,18 @@
   .row
     .col.l8.offset-l2
       .card
-        %h1 Supermarkit
-        .row
-          .col.l12
-            %p We're a grocery app born out of the need for a better solution to get food from the store to our mouths. If you also struggle with this issue, or just want to see what we're all about, make an account and try us out.
-            %p
-              Want to get in touch? Email us at
-              = mail_to 'us@supermarkit.ca', 'us@supermarkit.ca', { class: 'highlight' }
-            %p
-              Have a functionality suggestion? The entire project is available online on
-              = link_to 'our GitHub', 'https://github.com/danReynolds/softgroceries', class: 'highlight'
-            %p - SupermarKit Team
+        .card-content
+          %h1 Supermarkit
+          .row
+            .col.l12
+              %p We're a grocery app born out of the need for a better solution to get food from the store to our mouths. If you also struggle with this issue, or just want to see what we're all about, make an account and try us out.
+              %br
+              %p
+                Want to get in touch? Email us at
+                = mail_to 'us@supermarkit.ca', 'us@supermarkit.ca', { class: 'highlight' }
+              %br
+              %p
+                Have a functionality suggestion? The entire project is available online on
+                = link_to 'our GitHub', 'https://github.com/danReynolds/softgroceries', class: 'highlight'
+              %br
+              %p - SupermarKit Team

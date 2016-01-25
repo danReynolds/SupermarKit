@@ -12,6 +12,14 @@ class UserGroupsController < ApplicationController
   end
 
   def new
+    @group_data = {
+      title: 'Group members',
+      button: 'Change',
+      hiddenField: '#user_group_user_ids'
+    }
+    @reveal_data = {
+      url: '/users/auto_complete'
+    }
   end
 
   def create
@@ -23,8 +31,19 @@ class UserGroupsController < ApplicationController
       @user_group.user_groups_users
                  .find_by_user_id(current_user.id)
                  .update_attributes(state: UserGroupsUsers::ACCEPTED)
+
+      current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
+
       redirect_to new_user_group_grocery_path(@user_group)
     else
+      @group_data = {
+        title: 'Group members',
+        button: 'Change',
+        hiddenField: '#user_group_user_ids'
+      }
+      @reveal_data = {
+        url: '/users/auto_complete'
+      }
       render :new
     end
   end

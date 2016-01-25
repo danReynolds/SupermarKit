@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   validates :password, confirmation: true
-  validates :password_confirmation, length: { minimum: 3 }, if: :new_record?
+  validates :password_confirmation, length: { minimum: 9 }, if: :new_record?
   validates :password_confirmation, presence: true, if: :new_record?
   validates :name, presence: true, uniqueness: true
   validates :email, uniqueness: true, presence: true
@@ -21,4 +21,9 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :authentications
 
   scope :with_name, ->(q) { where('users.name LIKE ?', "%#{q}%").distinct }
+
+  def gravatar_url(size)
+    gravatar = Digest::MD5::hexdigest(email).downcase
+    url = "http://gravatar.com/avatar/#{gravatar}.png?s=#{size}"
+  end
 end

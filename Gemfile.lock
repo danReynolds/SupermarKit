@@ -43,6 +43,10 @@ GEM
       builder
       multi_json
     arel (6.0.2)
+    babel-source (5.8.35)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
     bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -103,6 +107,7 @@ GEM
     coffee-script-source (1.9.1.1)
     colorize (0.7.7)
     columnize (0.9.0)
+    connection_pool (2.2.0)
     coveralls (0.8.2)
       json (~> 1.8)
       rest-client (>= 1.6.8, < 2)
@@ -268,6 +273,13 @@ GEM
       rake
     rdoc (4.2.0)
       json (~> 1.4)
+    react-rails (1.5.0)
+      babel-transpiler (>= 0.7.0)
+      coffee-script-source (~> 1.8)
+      connection_pool
+      execjs
+      rails (>= 3.2)
+      tilt
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
@@ -401,6 +413,7 @@ DEPENDENCIES
   pry-stack_explorer
   puma
   rails (= 4.2.3)
+  react-rails (~> 1.5.0)
   rspec-rails
   sass-rails
   sdoc (~> 0.4.0)
@@ -414,4 +427,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

@@ -24,6 +24,9 @@ body {
     word-wrap: break-word;
   }
 
+  .row { margin-bottom: 0; }
+  .row + .row { margin-top: 20px; }
+
   span.error { color: $sm-red; }
 
   #squiggle { fill: $sm-green; }
