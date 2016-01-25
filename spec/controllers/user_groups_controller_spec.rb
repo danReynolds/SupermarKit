@@ -20,6 +20,10 @@ describe UserGroupsController, type: :controller do
     let(:new_group) { UserGroup.last }
 
     context 'with valid params' do
+      it 'creates the new group' do
+        expect { subject }.to change(UserGroup, :count).by(1)
+      end
+
       it 'adds specified and current user to group' do
         subject
         expect(new_group.users).to contain_exactly(group_member, controller.current_user)
@@ -28,6 +32,19 @@ describe UserGroupsController, type: :controller do
       it 'sets an emblem' do
         subject
         expect(new_group.emblem).not_to be_nil
+      end
+
+      it 'sets the default group if user does not have one' do
+        controller.current_user.update_attribute(:default_group, nil)
+        subject
+        expect(controller.current_user.default_group).to eq new_group
+      end
+
+      it 'keeps the default group if user does have one' do
+        default_group = create(:user_group)
+        controller.current_user.update_attribute(:default_group, default_group)
+        subject
+        expect(controller.current_user.default_group).to eq default_group
       end
 
       it 'makes only the current user accepted into the group' do
