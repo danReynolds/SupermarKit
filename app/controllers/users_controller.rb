@@ -50,11 +50,13 @@ class UsersController < ApplicationController
   end
 
   def auto_complete
-    users = User.with_name(params[:q]).select(:id, :name).map do |user|
-      {
+    users = User.with_name(params[:q]).map do |user|
+      results = {
         id: user.id,
         name: user.name
       }
+      results[:gravatar] = user.gravatar_url(50) if params[:gravatar]
+      results
     end
 
     render json: {

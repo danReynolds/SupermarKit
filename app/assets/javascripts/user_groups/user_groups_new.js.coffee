@@ -2,35 +2,6 @@ $ ->
   onPage 'user_groups new', ->
 
     # ============================
-    # select2 multiselect
-    # ============================
-
-    usersFormatResults = (user) ->
-        markup = "<div class=\"row\">" +
-        "<div class=\"columns large-12\"><div>" + user.name + "</div></div></div>"
-
-    $('.user-groups-new #user_group_user_ids').select2
-        placeholder: "Add other users to the group."
-        minimumInputLength: 1
-        multiple: true
-        ajax:
-          url: "/users/auto_complete"
-          dataType: "json"
-          quietMillis: 250
-          data: (term, page) ->
-            q: term
-            cache: true
-
-          results: (data, page) ->
-            results: data.users
-
-        formatResult: usersFormatResults
-        formatSelection: (user) ->
-          user.name
-        escapeMarkup: (m) ->
-          m
-
-    # ============================
     # Public / Private Kit switching
     # ============================
     $('#user_group_privacy_public').click ->
@@ -40,3 +11,18 @@ $ ->
     $('#user_group_privacy_private').click ->
         $('p.public').addClass('hide')
         $('p.private').removeClass('hide');
+
+    # ============================
+    # Form Submission
+    # - because simpleform changes the DOM,
+    # - it messes up the React VD, need to not put React
+    # - component within simpleform
+    # ============================
+    $('.submit-group-form').click ->
+      $('.simple_form.new_user_group').submit()
+
+    # ============================
+    # The activator needs to prevent default so the
+    # anchor isn't triggered
+    $('.activator').click (e) ->
+      e.preventDefault()

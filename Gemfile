@@ -1,47 +1,47 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.3'
-gem 'mysql2'
-gem 'haml-rails'
-gem 'sass-rails'
-gem 'uglifier', '>= 1.3.0'
+gem 'active_record_union'
+gem 'airbrake'
+gem 'bourbon'
+gem 'browserify-rails'
+gem 'canard', '0.4.2.pre'
+gem 'capistrano-bundler', require: false
+gem 'capistrano-npm'
+gem 'capistrano-rails-console'
+gem 'capistrano-rails',   require: false
+gem 'capistrano-rvm',     require: false
+gem 'capistrano',         require: false
+gem 'capistrano3-puma',   require: false
+gem 'chartkick'
+gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails', '~> 4.0.0'
-gem 'jquery-rails'
-gem 'jbuilder', '~> 2.0'
-gem 'sdoc', '~> 0.4.0',          group: :doc
-gem 'simple_form'
-gem 'sorcery'
-gem 'select2-rails'
-gem 'jquery-datatables-rails', '~> 3.1.1'
+gem 'coveralls', require: false
+gem 'dotenv-rails'
 gem 'font-awesome-rails', '~> 4.3.0'
 gem 'groupdate'
-gem 'chartkick'
-gem 'inline_svg'
+gem 'haml-rails'
 gem 'happy_path'
-gem 'money-rails'
-gem 'canard', '0.4.2.pre'
-gem 'newrelic_rpm'
-gem 'maildown'
-gem 'nokogiri'
-gem 'browserify-rails'
-gem 'airbrake'
-gem 'coveralls', require: false
-gem 'codeclimate-test-reporter', group: :test, require: nil
-gem 'active_record_union'
-gem 'webmock', group: :test
-gem 'dotenv-rails'
+gem 'inline_svg'
 gem 'ionicons-rails'
-gem 'puma'
-gem 'capistrano',         require: false
-gem 'capistrano-rvm',     require: false
-gem 'capistrano-rails',   require: false
-gem 'capistrano-bundler', require: false
-gem 'capistrano3-puma',   require: false
-gem 'capistrano-rails-console'
-gem 'capistrano-npm'
+gem 'jbuilder', '~> 2.0'
+gem 'jquery-datatables-rails', '~> 3.1.1'
+gem 'jquery-rails'
+gem 'maildown'
 gem 'materialize-sass'
-gem 'bourbon'
+gem 'money-rails'
+gem 'mysql2'
 gem 'neat'
+gem 'newrelic_rpm'
+gem 'nokogiri'
+gem 'puma'
+gem 'rails', '4.2.3'
+gem 'react-rails', '~> 1.5.0'
+gem 'sass-rails'
+gem 'sdoc', '~> 0.4.0',          group: :doc
+gem 'select2-rails'
+gem 'simple_form'
+gem 'sorcery'
+gem 'uglifier', '>= 1.3.0'
 
 gem 'geokit-rails'
 group :development do
@@ -50,6 +50,7 @@ group :development do
 end
 
 group :development, :test do
+	gem 'webmock'
 	gem 'stackprof'
 	gem 'flamegraph'
   gem 'pry'

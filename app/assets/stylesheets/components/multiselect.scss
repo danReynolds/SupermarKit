@@ -1,0 +1,16 @@
+.multiselect {
+  .selection-container {
+    box-shadow: 0 0 1px $sm-gray;
+    height: 5rem;
+    padding-left: 1rem;
+    width: 100%;
+    .chip + .chip { margin-left: 0.75rem; }
+    i {
+      cursor: pointer;
+      float: right;
+      font-size: 16px;
+      line-height: 32px;
+      padding-left: 8px;
+    }
+  }
+}
