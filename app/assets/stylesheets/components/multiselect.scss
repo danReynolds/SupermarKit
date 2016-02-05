@@ -4,7 +4,6 @@
     height: 5rem;
     padding-left: 1rem;
     width: 100%;
-    .chip + .chip { margin-left: 0.75rem; }
     i {
       cursor: pointer;
       float: right;
@@ -13,4 +12,6 @@
       padding-left: 8px;
     }
   }
+  .targetted { background: $sm-green; }
+  .chip + .chip { margin-left: 0.75rem; }
 }

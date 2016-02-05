@@ -3,8 +3,9 @@ var Multiselect = React.createClass({
         title: React.PropTypes.string,
         button: React.PropTypes.string,
         selection: React.PropTypes.array,
-        handleRemove: React.PropTypes.func,
-        hiddenField: React.PropTypes.string
+        removeSelection: React.PropTypes.func,
+        hiddenField: React.PropTypes.string,
+        backspaceTarget: React.PropTypes.number
     },
 
     getInitialState: function() {
@@ -14,8 +15,7 @@ var Multiselect = React.createClass({
     },
 
     handleRemove: function(event) {
-        var id = parseInt(event.target.closest('.chip').getAttribute('data-id'));
-        this.props.handleRemove(id);
+        this.props.removeSelection(parseInt(event.target.closest('.chip').getAttribute('data-id')));
     },
 
     render: function() {
@@ -30,19 +30,22 @@ var Multiselect = React.createClass({
             title = <h3>{this.props.title}</h3>;
         }
 
-        if (this.props.handleRemove) {
+        if (this.props.removeSelection) {
             remove = <i className='fa fa-close' onClick={this.handleRemove}/>;
         }
 
-        var selection = this.state.selection.map(function(selected) {
+        var selection = this.state.selection.map(function(selected, index) {
             return (
-                <div className='chip' data-id={selected.id} key={"selection-" + selected.id} >
+                <div
+                    className={this.props.backspaceTarget === index ? 'chip targetted' : 'chip'}
+                    data-id={index}
+                    key={'selection-' + index} >
                     <img src={selected.gravatar}/>
                     {selected.name}
                     {remove}
                 </div>
             );
-        });
+        }.bind(this));
 
         return (
             <div className='multiselect' ref='root'>
@@ -56,7 +59,7 @@ var Multiselect = React.createClass({
     },
 
     componentDidMount: function() {
-        if (!this.props.handleRemove) {
+        if (!this.props.removeSelection) {
             this.refs.root.addEventListener('selection-updated', function(event) {
                 this.setState({ selection: event.detail });
             }.bind(this));
