@@ -1,0 +1,13 @@
+.modal {
+  max-height: initial !important;
+  height: 55%;
+  overflow: hidden;
+
+  @media #{$tablet} {
+    height: 100%;
+  }
+
+  .modal-content {
+    padding: 0;
+  }
+}

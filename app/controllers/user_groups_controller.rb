@@ -15,10 +15,12 @@ class UserGroupsController < ApplicationController
     @group_data = {
       title: 'Group members',
       button: 'Change',
+      modal: '#change-members',
       hiddenField: '#user_group_user_ids'
     }
     @reveal_data = {
-      url: '/users/auto_complete'
+      url: '/users/auto_complete',
+      modal: '#change-members'
     }
   end
 

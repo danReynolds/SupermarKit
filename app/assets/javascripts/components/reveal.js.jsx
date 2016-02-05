@@ -1,6 +1,7 @@
 var Reveal = React.createClass({
     propTypes: {
-        url: React.PropTypes.string.isRequired
+        url: React.PropTypes.string.isRequired,
+        modal: React.PropTypes.string.isRequired
     },
 
     getInitialState: function() {
@@ -31,7 +32,10 @@ var Reveal = React.createClass({
                 change = 1;
                 break;
             case this.props.enterTarget:
-                this.addSelected(this.state.scrollTarget);
+                if (this.state.results.length === 0)
+                    this.handleSave();
+                else
+                    this.addSelected(this.state.scrollTarget);
                 event.preventDefault();
                 return;
             case this.props.backTarget:
@@ -50,7 +54,7 @@ var Reveal = React.createClass({
     },
 
     handleAdd: function(event) {
-        this.addSelected(event.target.getAttribute('data-index'));
+        this.addSelected(parseInt(event.target.getAttribute('data-index')));
     },
 
     addSelected: function(index) {
@@ -84,17 +88,24 @@ var Reveal = React.createClass({
         });
     },
 
-    handleSave: function(event) {
+    handleSave: function() {
+        $(this.props.modal).closeModal();
         var event = new CustomEvent('selection-updated', { detail: this.state.selection });
         document.querySelector('.multiselect').dispatchEvent(event);
     },
 
     getResults: function(query) {
+        var user_ids = this.state.selection.map(function(selected) {
+            return selected.id;
+        });
+
         if (query.length >= this.props.minLength) {
             $.getJSON(this.props.url + "/?gravatar=true&q=" + query, function(data) {
                 results = data.users;
                 this.setState({
-                    results: data.users,
+                    results: data.users.filter(function(user) {
+                        return !user_ids.includes(user.id);
+                    }),
                     scrollTarget: 0
                 });
             }.bind(this));
@@ -120,7 +131,7 @@ var Reveal = React.createClass({
                 <li
                     className={index == self.state.scrollTarget ? resultClass + ' target' : resultClass}
                     onClick={self.handleAdd}
-                    data-index={"result-" + index}
+                    data-index={index}
                     key={"result-" + result.id}>
                     <img src={result.gravatar}/>
                     <p>{result.name}</p>
@@ -138,6 +149,7 @@ var Reveal = React.createClass({
                                 autoComplete='off'
                                 id='search'
                                 type='search'
+                                ref='search'
                                 value={this.state.value}
                                 onChange={this.handleChange}
                                 onKeyDown={this.handleKeyPress}
@@ -156,9 +168,9 @@ var Reveal = React.createClass({
                 <ul className='results-container'>
                     {results}
                 </ul>
-                <div className='card-reveal-controls'>
-                  <a className='btn-floating btn-large waves-effect waves-light card-title cancel'><i className='material-icons'>close</i></a>
-                  <a className='btn-floating btn-large waves-effect waves-light card-title' onClick={this.handleSave}><i className='material-icons'>send</i></a>
+                <div className='reveal-controls'>
+                  <a className='waves-effect waves-light btn cancel modal-close'><i className='material-icons left'>close</i>Cancel</a>
+                  <a className='waves-effect waves-light btn' onClick={this.handleSave}><i className='material-icons left'>send</i>Update</a>
                 </div>
             </div>
         );

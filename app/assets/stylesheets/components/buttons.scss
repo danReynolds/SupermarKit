@@ -1,8 +1,9 @@
 .btn {
-  color: $sm-white;
   background: $sm-green;
+  color: $sm-white;
   margin-top: 0.5rem;
   text-transform: none;
+
   &.secondary {
     color: $sm-white !important;
     background: $sm-mid-blue-green;
@@ -17,3 +18,5 @@
     background: darken($sm-green, 10%)
   }
 }
+
+.btn + .btn { margin-left: 1rem; }

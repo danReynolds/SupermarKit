@@ -8,12 +8,20 @@
     p { margin-left: 1rem; }
     img { border-radius: 50%; }
   }
+
   li + li { border-top: 1px solid $sm-light-gray; }
+
   .results-container {
     margin-top: 0;
-    max-height: 15rem;
     overflow-y: auto;
   }
+
+  .reveal-controls {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+  }
+
   .target {
     background: $sm-green;
     p { color: $sm-white; }
