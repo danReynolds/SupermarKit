@@ -33,4 +33,6 @@
               = react_component 'Multiselect', @group_data
         .card-action
           = link_to 'Create', '#', class: 'btn submit-group-form'
-        .card-reveal= react_component 'Reveal', @reveal_data
+
+  #change-members.modal.bottom-sheet
+    .modal-content= react_component 'Reveal', @reveal_data

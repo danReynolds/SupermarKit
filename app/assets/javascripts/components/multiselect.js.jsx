@@ -5,6 +5,7 @@ var Multiselect = React.createClass({
         selection: React.PropTypes.array,
         removeSelection: React.PropTypes.func,
         hiddenField: React.PropTypes.string,
+        modal: React.PropTypes.string,
         backspaceTarget: React.PropTypes.number
     },
 
@@ -20,8 +21,8 @@ var Multiselect = React.createClass({
 
     render: function() {
         var button, title, remove;
-        if (this.props.button) {
-            button = <a href='#' className='waves effect waves light btn secondary activator'>
+        if (this.props.modal) {
+            button = <a href={this.props.modal} className='waves effect waves light btn secondary modal-trigger'>
                         {this.props.button}
                     </a>;
         }
