@@ -1,19 +1,21 @@
 .reveal {
-  .result {
+  li {
     cursor: pointer;
     width: 100%;
     height: 5rem;
     padding-left: 1rem;
 
     p { margin-left: 1rem; }
-
-    img {
-      border-radius: 50%;
-    }
+    img { border-radius: 50%; }
   }
-  .result + .result { border-top: 1px solid $sm-light-gray; }
+  li + li { border-top: 1px solid $sm-light-gray; }
   .results-container {
+    margin-top: 0;
     max-height: 15rem;
     overflow-y: auto;
+  }
+  .target {
+    background: $sm-green;
+    p { color: $sm-white; }
   }
 }
