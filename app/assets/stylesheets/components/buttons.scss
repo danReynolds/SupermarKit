@@ -5,17 +5,22 @@
   text-transform: none;
 
   &.secondary {
+    $button-color: $sm-dark-gray;
     color: $sm-white !important;
-    background: $sm-mid-blue-green;
-    &:hover { background: lighten($sm-mid-blue-green, 10%); }
+    background: $button-color;
+    &:hover { background: lighten($button-color, 10%); }
   }
+
   &.cancel {
+    $button-color: $sm-red;
     color: $sm-white !important;
-    background: $sm-red;
-    &:hover { background: lighten($sm-red, 10%); }
+    background: $button-color;
+    &:hover { background: lighten($button-color, 10%); }
   }
+
   &:hover {
-    background: darken($sm-green, 10%)
+    background: darken($sm-green, 10%);
+    color: $sm-white !important;
   }
 }
 

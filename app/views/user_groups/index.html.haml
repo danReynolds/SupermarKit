@@ -9,6 +9,7 @@
     .row
       - groups.each do |group|
         - grocery = group.active_groceries.try(:first) || new_user_group_grocery_path(group)
+        - invited = group.user_groups_users.find_by_user_id(current_user.id).state == UserGroupsUsers::INVITED
         .col.l4
           .card.image-wrapper.hoverable
             = link_to grocery do
@@ -17,13 +18,19 @@
                 %span.card-title= group.name
             .card-content
               %p.truncate
-                - if group.description.present?
+                - if invited
+                  You have been invited to join this Kit.
+                - elsif group.description.present?
                   = group.description
                 - else
                   Describe your
                   = link_to 'your Kit.', edit_user_group_path(group), class: :highlight
             .card-action
-              = link_to 'Edit', user_group_path(group), class: 'highlight'
+              - if invited
+                = link_to 'Join', accept_invitation_user_group_path(group), method: :post, class: 'highlight'
+                %span.badge Invited
+              - else
+                = link_to 'Edit', user_group_path(group), class: 'highlight'
   .fixed-action-btn
     = link_to new_user_group_path, class: 'btn-floating btn-large waves-effect waves-light' do
       %i.material-icons add
