@@ -43,7 +43,7 @@ Rails.application.routes.draw do
       end
       member do
         get :metrics
-        patch :accept_invitation
+        post :accept_invitation
       end
     end
   end

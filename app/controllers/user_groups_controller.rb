@@ -86,9 +86,11 @@ class UserGroupsController < ApplicationController
     @user_group_user.state = UserGroupsUsers::ACCEPTED
 
     if @user_group_user.save
-      render nothing: true, status: :ok
+      flash[:notice] = "You've been added to #{@user_group.name}."
+      redirect_to @user_group
     else
-      render nothing: true, status: :internal_server_error
+      flash[:error] = 'Unable to join Kit.'
+      redirect_to action: :index
     end
   end
 
