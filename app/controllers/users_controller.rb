@@ -55,8 +55,9 @@ class UsersController < ApplicationController
         id: user.id,
         name: user.name
       }
-      results[:gravatar] = user.gravatar_url(50) if params[:gravatar]
-      results
+      results.tap do
+        results[:gravatar] = user.gravatar_url(50) if params[:gravatar]
+      end
     end
 
     render json: {

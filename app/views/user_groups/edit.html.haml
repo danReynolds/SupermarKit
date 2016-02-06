@@ -3,21 +3,21 @@
 
 .container.user-groups-edit
   .row
-    .columns.large-10.large-centered
-      .widget
-        .header
-          %h3 Update Kit
-        .main
-          = simple_form_for @user_group do |f|
+    .col.l8.offset-l2
+      .card
+        = simple_form_for @user_group do |f|
+          .card-content
+            %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
             .row
-              .columns.large-6
-                = f.input :name
-                = f.input :description, as: :text
-              .columns.large-6
-                = f.input :user_ids, label: 'Kit Members', as: :text, input_html: { value: @users }
-                %p
-                  Privacy:
-                  %strong=@user_group.privacy.humanize
-            .row
-              .columns.large-12
-                = f.button :submit, 'Update', class: 'button radius'
+              .col.l6
+                %h3 Update Kit
+                .inputs
+                  .input-field= f.input :name
+                  .input-field= f.input :description, as: :text, input_html: { class: 'materialize-textarea' }
+                  .input-field= f.input :user_ids, as: :hidden
+              .col.l6
+                = react_component 'Multiselect', @members_data[:multiselect]
+          .card-action
+            = f.button :submit, 'Submit'
+  #change-members.modal.bottom-sheet
+    .modal-content= react_component 'Reveal', @members_data[:reveal]

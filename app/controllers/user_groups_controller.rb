@@ -12,16 +12,7 @@ class UserGroupsController < ApplicationController
   end
 
   def new
-    @group_data = {
-      title: 'Group members',
-      button: 'Change',
-      modal: '#change-members',
-      hiddenField: '#user_group_user_ids'
-    }
-    @reveal_data = {
-      url: '/users/auto_complete',
-      modal: '#change-members'
-    }
+    @members_data = members_data
   end
 
   def create
@@ -38,27 +29,13 @@ class UserGroupsController < ApplicationController
 
       redirect_to new_user_group_grocery_path(@user_group)
     else
-      @group_data = {
-        title: 'Group members',
-        button: 'Change',
-        hiddenField: '#user_group_user_ids'
-      }
-      @reveal_data = {
-        url: '/users/auto_complete'
-      }
+      @members_data = members_data
       render :new
     end
   end
 
   def edit
-    @user_group = UserGroup.find(params[:id])
-    @users = @user_group.user_groups_users.map do |user_group_user|
-      {
-        id: user_group_user.user.id,
-        name: user_group_user.user.name,
-        state: user_group_user.state
-      }
-    end
+    @members_data = members_data
   end
 
   def update
@@ -97,5 +74,29 @@ class UserGroupsController < ApplicationController
 private
   def user_group_params
     params.require(:user_group).permit(:name, :description, :privacy)
+  end
+
+  def members_data
+    users = @user_group.user_groups_users.map do |user_group_user|
+      {
+        id: user_group_user.user.id,
+        name: user_group_user.user.name,
+        state: user_group_user.state,
+        gravatar: user_group_user.user.gravatar_url(50)
+      }
+    end
+    {
+      multiselect: {
+        title: 'Group members',
+        button: 'Change',
+        modal: '#change-members',
+        hiddenField: '#user_group_user_ids'
+      },
+      reveal: {
+        url: '/users/auto_complete',
+        modal: '#change-members',
+        selection: users
+      }
+    }
   end
 end
