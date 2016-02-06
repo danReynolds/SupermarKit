@@ -9,9 +9,15 @@ var Multiselect = React.createClass({
         backspaceTarget: React.PropTypes.number
     },
 
-    getInitialState: function() {
+    getDefaultProps: function() {
         return {
             selection: []
+        }
+    },
+
+    getInitialState: function() {
+        return {
+            selection: this.props.selection
         };
     },
 

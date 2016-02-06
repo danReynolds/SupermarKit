@@ -1,14 +1,16 @@
 .multiselect {
+  margin-bottom: 0.75rem;
+
   .selection-container {
     box-shadow: 0 0 1px $sm-gray;
-    min-height: 5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
     max-height: 9rem;
+    margin: 2rem 0;
+    min-height: 5rem;
     overflow: auto;
     padding: 1rem;
     width: 100%;
-
-    flex-wrap: wrap;
-    flex-direction: row;
 
     i {
       cursor: pointer;
@@ -18,6 +20,7 @@
       padding-left: 8px;
     }
   }
+
   .targetted { background: $sm-green; }
   .chip { margin: 0.5rem 0.75rem 0.5rem 0; }
 }

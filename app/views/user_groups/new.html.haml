@@ -12,7 +12,7 @@
                   .col.l6.s12
                     .input-field= f.input :name
                     .input-field= f.input :description, as: :text, input_html: { class: 'materialize-textarea' }
-                    .input-field= f.input :user_ids, as: :hidden, input_html: { class: :activator }
+                    .input-field= f.input :user_ids, as: :hidden
                   .col.l6.s12.privacy
                     Kit Privacy
                     = f.input :privacy, as: :radio_buttons, label: false, collection: UserGroup::PRIVACY, boolean_style: :inline, checked: UserGroup::PUBLIC
@@ -30,9 +30,9 @@
         .card-content
           .row
             .col.l12.s12
-              = react_component 'Multiselect', @group_data
+              = react_component 'Multiselect', @members_data[:multiselect]
         .card-action
           = link_to 'Create', '#', class: 'btn submit-group-form'
 
   #change-members.modal.bottom-sheet
-    .modal-content= react_component 'Reveal', @reveal_data
+    .modal-content= react_component 'Reveal', @members_data[:reveal]

@@ -1,14 +1,15 @@
 var Reveal = React.createClass({
     propTypes: {
         url: React.PropTypes.string.isRequired,
-        modal: React.PropTypes.string.isRequired
+        modal: React.PropTypes.string.isRequired,
+        selection: React.PropTypes.array
     },
 
     getInitialState: function() {
         return {
             value: '',
             results: [],
-            selection: []
+            selection: this.props.selection
         };
     },
 
@@ -18,7 +19,8 @@ var Reveal = React.createClass({
             changeTargetUp: 38,
             changeTargetDown: 40,
             enterTarget: 13,
-            backTarget: 8
+            backTarget: 8,
+            selection: []
         }
     },
 
@@ -90,6 +92,10 @@ var Reveal = React.createClass({
 
     handleSave: function() {
         $(this.props.modal).closeModal();
+        this.dispatchSelection();
+    },
+
+    dispatchSelection: function() {
         var event = new CustomEvent('selection-updated', { detail: this.state.selection });
         document.querySelector('.multiselect').dispatchEvent(event);
     },
@@ -116,6 +122,12 @@ var Reveal = React.createClass({
             });
         }
 
+    },
+
+    componentDidMount: function() {
+        $(document).ready(function() {
+            this.dispatchSelection();
+        }.bind(this));
     },
 
     render: function() {
