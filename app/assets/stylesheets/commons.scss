@@ -11,6 +11,7 @@ body {
   font-weight: $primary-font-weight;
   font-family: $font-family;
   min-height: 100%;
+  margin-bottom: 2rem !important;
 
   h1 {
     font-size: 2rem;
@@ -24,10 +25,10 @@ body {
     word-wrap: break-word;
   }
 
+  .col { @extend .s12; }
+
   .row { margin-bottom: 0; }
   .row + .row { margin-top: 20px; }
 
   span.error { color: $sm-red; }
-
-  #squiggle { fill: $sm-green; }
 }

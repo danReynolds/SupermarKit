@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   has_many :authentications, dependent: :destroy
   accepts_nested_attributes_for :authentications
 
-  scope :with_name, ->(q) { where('users.name LIKE ?', "%#{q}%").distinct }
+  scope :with_name, ->(q) { where('users.name LIKE ?', "%#{q}%").distinct.order('name ASC') }
 
   def gravatar_url(size)
     gravatar = Digest::MD5::hexdigest(email).downcase
