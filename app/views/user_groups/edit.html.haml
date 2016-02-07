@@ -2,22 +2,44 @@
   @users = #{@users.to_json}
 
 .container.user-groups-edit
-  .row
-    .col.l8.offset-l2
-      .card
-        = simple_form_for @user_group do |f|
+  = simple_form_for @user_group do |f|
+    .row
+      .col.l8.offset-l2
+        .card
           .card-content
-            %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
             .row
-              .col.l6
+              .col.l12
+                %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
                 %h3 Update Kit
                 .inputs
                   .input-field= f.input :name
                   .input-field= f.input :description, as: :text, input_html: { class: 'materialize-textarea' }
                   .input-field= f.input :user_ids, as: :hidden
-              .col.l6
+    .row
+      .col.l8.offset-l2
+        .card
+          .card-image
+            = image_tag @user_group.banner.url(:medium)
+            %span.card-title Kit banner
+          .card-content
+            %p Add a custom image to your kit for you and your members to see.
+          .card-action
+            .input-field.file-field
+              .btn
+                %span File
+                = f.input :banner, label: false, as: :file
+              .file-path-wrapper
+                %input.file-path.validate
+
+    .row
+      .col.l8.offset-l2.s12
+        .card
+          .card-content
+            .row
+              .col.l12.s12
                 = react_component 'Multiselect', @members_data[:multiselect]
           .card-action
             = f.button :submit, 'Submit'
+
   #change-members.modal.bottom-sheet
     .modal-content= react_component 'Reveal', @members_data[:reveal]

@@ -61,6 +61,7 @@ var Reveal = React.createClass({
 
     addSelected: function(index) {
         this.setState({
+            value: '',
             backspaceTarget: null,
             scrollTarget: 0,
             selection: this.state.selection.concat(this.state.results[index]),

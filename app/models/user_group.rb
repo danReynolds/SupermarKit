@@ -4,7 +4,9 @@ class UserGroup < ActiveRecord::Base
   has_many :items, -> { uniq }, through: :groceries
   has_many :groceries
   has_many :user_defaults, class_name: 'User', foreign_key: :user_group_default_id
+  has_attached_file :banner, styles: { small: '400x200>', medium: '500x350>' }, default_url: 'user_groups/default3.jpg'
 
+  validates_attachment :banner, content_type: { content_type: /\Aimage\/.*\Z/ }
   validates :name, presence: true
 
   PUBLIC = 'public'.freeze
