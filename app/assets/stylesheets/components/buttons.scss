@@ -22,6 +22,11 @@
     background: darken($sm-green, 10%);
     color: $sm-white !important;
   }
+
+  .file-field & {
+    height: auto !important;
+    line-height: 36px !important;
+  }
 }
 
 .btn + .btn { margin-left: 1rem; }

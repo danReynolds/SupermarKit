@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721045836) do
+ActiveRecord::Schema.define(version: 20160206195244) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20150721045836) do
     t.string  "place_id", limit: 255
   end
 
+  add_index "grocery_stores", ["lat"], name: "index_grocery_stores_on_lat", using: :btree
+  add_index "grocery_stores", ["lng"], name: "index_grocery_stores_on_lng", using: :btree
   add_index "grocery_stores", ["place_id"], name: "index_grocery_stores_on_place_id", using: :btree
 
   create_table "items", force: :cascade do |t|
@@ -68,12 +70,16 @@ ActiveRecord::Schema.define(version: 20150721045836) do
   add_index "items", ["name"], name: "index_items_on_name", using: :btree
 
   create_table "user_groups", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.string   "description", limit: 255
+    t.string   "name",                limit: 255
+    t.string   "description",         limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "emblem",      limit: 255
-    t.string   "privacy",     limit: 255
+    t.string   "emblem",              limit: 255
+    t.string   "privacy",             limit: 255
+    t.string   "banner_file_name",    limit: 255
+    t.string   "banner_content_type", limit: 255
+    t.integer  "banner_file_size",    limit: 4
+    t.datetime "banner_updated_at"
   end
 
   create_table "user_groups_users", force: :cascade do |t|

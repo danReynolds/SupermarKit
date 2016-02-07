@@ -14,7 +14,7 @@
           .card.image-wrapper.hoverable
             = link_to grocery do
               .card-image
-                = image_tag 'user_groups/default3.jpg'
+                = image_tag group.banner.url(:small)
                 %span.card-title= group.name
             .card-content
               %p.truncate

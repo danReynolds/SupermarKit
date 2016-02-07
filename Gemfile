@@ -42,17 +42,22 @@ gem 'select2-rails'
 gem 'simple_form'
 gem 'sorcery'
 gem 'uglifier', '>= 1.3.0'
+gem 'paperclip'
+gem 'aws-sdk', '< 2.0'
 
 gem 'geokit-rails'
+
 group :development do
 	gem 'better_errors'
 	gem 'binding_of_caller'
 end
 
-group :development, :test do
+group :test do
 	gem 'webmock'
+end
+
+group :development, :test do
 	gem 'stackprof'
-	gem 'flamegraph'
   gem 'pry'
   gem 'pry-stack_explorer'
   gem 'pry-byebug'
