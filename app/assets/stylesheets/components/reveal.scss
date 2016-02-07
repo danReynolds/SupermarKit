@@ -22,6 +22,9 @@
     right: 2rem;
   }
 
+  .multiselect { margin-bottom: 0; }
+  .selection-container { margin: 0; }
+
   .target {
     background: $sm-green;
     p { color: $sm-white; }
