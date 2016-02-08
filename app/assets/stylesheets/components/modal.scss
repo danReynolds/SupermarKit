@@ -1,10 +1,12 @@
 .modal {
+  height: 100%;
   max-height: initial !important;
-  height: 55%;
   overflow: hidden;
 
-  @media #{$tablet} {
-    height: 100%;
+  @media #{$desktop} {
+    height: 55%;
+    width: 50% !important;
+    margin: 0 auto !important;
   }
 
   .modal-content {

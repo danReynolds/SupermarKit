@@ -4,13 +4,8 @@
 
 //= require jquery
 //= require jquery_ujs
-//= require select2
-//= require dataTables/jquery.dataTables
-//= require dataTables/extras/dataTables.responsive
 //= require highcharts.min
 //= require chartkick
-//= require jquery-editable-poshytip.min
-//= require jquery.poshytip.min
 //= require elevator.min
 //= require underscore.min
 //= require materialize-sprockets
@@ -33,5 +28,4 @@ $(document).ready(function() {
     $('.collapsible').collapsible({
         accordion : false
     });
-   $('.modal-trigger').leanModal();
 });

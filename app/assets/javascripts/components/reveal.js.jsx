@@ -126,7 +126,13 @@ var Reveal = React.createClass({
     },
 
     componentDidMount: function() {
+        var self = this;
         $(document).ready(function() {
+            $('.modal-trigger').leanModal({
+                ready: function() {
+                    ReactDOM.findDOMNode(self.refs.search).focus();
+                }
+            });
             this.dispatchSelection();
         }.bind(this));
     },
