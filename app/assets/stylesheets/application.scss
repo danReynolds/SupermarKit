@@ -7,12 +7,6 @@
 // =====================
 // Third parties
 // =====================
-@import 'select2';
-@import 'dataTables/extras/dataTables.responsive';
-@import 'font-awesome';
-@import 'jquery-editable';
-@import 'loaders';
-@import 'ionicons';
 @import 'bourbon';
 @import 'neat';
 @import 'materialize-components';
@@ -20,7 +14,6 @@
 // =====================
 // Page Styles
 // =====================
-
 @import 'components/*';
 @import 'pages/*';
 @import 'groceries/*';
