@@ -1,4 +1,5 @@
 class GroceriesItems < ActiveRecord::Base
+  belongs_to :requester, class_name: User
   belongs_to :item
   belongs_to :grocery
 

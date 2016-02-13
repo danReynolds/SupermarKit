@@ -12,7 +12,7 @@ class UserGroupsController < ApplicationController
   end
 
   def new
-    @members_data = members_data
+    @user_data = user_data
   end
 
   def create
@@ -29,13 +29,13 @@ class UserGroupsController < ApplicationController
 
       redirect_to new_user_group_grocery_path(@user_group)
     else
-      @members_data = members_data
+      @user_data = user_data
       render :new
     end
   end
 
   def edit
-    @members_data = members_data
+    @user_data = user_data
   end
 
   def update
@@ -71,20 +71,27 @@ class UserGroupsController < ApplicationController
     end
   end
 
+  def list_users
+    render json: user_list
+  end
+
 private
   def user_group_params
     params.require(:user_group).permit(:name, :description, :privacy, :banner)
   end
 
-  def members_data
-    users = @user_group.user_groups_users.map do |user_group_user|
+  def user_list
+    @user_group.user_groups_users.map do |user_group_user, h|
       {
-        id: user_group_user.user.id,
+        id: user_group_user.user_id,
         name: user_group_user.user.name,
         state: user_group_user.state,
         gravatar: user_group_user.user.gravatar_url(50)
       }
     end
+  end
+
+  def user_data
     {
       multiselect: {
         title: 'Group members',
@@ -95,7 +102,7 @@ private
       reveal: {
         url: '/users/auto_complete',
         modal: '#change-members',
-        selection: users
+        selection: user_list
       }
     }
   end

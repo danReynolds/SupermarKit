@@ -30,9 +30,9 @@
         .card-content
           .row
             .col.l12.s12
-              = react_component 'Multiselect', @members_data[:multiselect]
+              = react_component 'Multiselect', @user_data[:multiselect]
         .card-action
           = link_to 'Create', '#', class: 'btn submit-group-form'
 
   #change-members.modal.bottom-sheet
-    .modal-content= react_component 'Reveal', @members_data[:reveal]
+    .modal-content= react_component 'Reveal', @user_data[:reveal]
