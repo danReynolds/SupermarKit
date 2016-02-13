@@ -23,6 +23,10 @@ class GroceriesController < ApplicationController
 	end
 
 	def show
+    @items_data = {
+      itemsUrl: grocery_items_path(@grocery),
+      usersUrl: list_users_user_group_path(@grocery.user_group)
+    }
     @grocery_store = @grocery.grocery_store
 	end
 

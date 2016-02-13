@@ -1,3 +1,10 @@
+GIT
+  remote: git@github.com:danReynolds/materialize-sass.git
+  revision: 0fad4589b95c19ba63ccae5e886da53a9e1a61d3
+  specs:
+    materialize-sass (0.97.5)
+      sass (~> 3.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -187,6 +194,9 @@ GEM
     json (1.8.3)
     jwt (1.5.1)
     kramdown (1.8.0)
+    linguistics (2.1.0)
+      loggability (~> 0.11)
+    loggability (0.11.0)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -194,8 +204,6 @@ GEM
     maildown (1.0.4)
       kramdown
       rails (>= 4.0.0)
-    materialize-sass (0.97.5)
-      sass (~> 3.3)
     method_source (0.8.2)
     mime-types (2.6.1)
     mimemagic (0.3.0)
@@ -309,7 +317,7 @@ GEM
     ruby_parser (3.7.0)
       sexp_processor (~> 4.1)
     safe_yaml (1.0.4)
-    sass (3.4.16)
+    sass (3.4.21)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -401,8 +409,9 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.1.1)
   jquery-rails
+  linguistics
   maildown
-  materialize-sass
+  materialize-sass!
   money-rails
   mysql2
   neat

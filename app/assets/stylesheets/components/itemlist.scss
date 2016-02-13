@@ -1,0 +1,41 @@
+.item-list {
+  .card {
+    background: transparent;
+    box-shadow: none !important;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+
+  .collection-item {
+    &.active {
+      border-bottom: none;
+      color: $sm-gray;
+      background: $sm-white;
+    }
+    p { margin-left: 1rem; }
+  }
+
+  .collapsible-header {
+    border-bottom: none;
+    width: 100%;
+    @extend .valign-wrapper;
+  }
+
+  .collapsible-body {
+    border-bottom: none;
+  }
+
+  .collapsible {
+    li {
+      box-shadow: none;
+      margin: 0 0.6rem;
+      padding: 0.7rem;
+    }
+  }
+
+  img {
+    border-radius: 50%;
+  }
+}
