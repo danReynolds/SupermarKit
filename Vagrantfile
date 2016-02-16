@@ -53,7 +53,3 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
   end
 end
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.provision "shell", path: "scripts/post_provision.sh"
-end
