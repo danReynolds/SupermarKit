@@ -15,6 +15,7 @@ Note: the vagrant version on Ubuntu 14.04 was too old for me using the official 
 
 ```
 sudo apt-get install virtualbox vagrant
+vagrant plugin install vagrant-librarian-chef-nochef vagrant-vbguest
 vagrant up
 vagrant ssh
 cd /vagrant
