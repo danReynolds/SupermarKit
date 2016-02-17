@@ -20,6 +20,8 @@ vagrant up
 vagrant ssh
 cd /vagrant
 bundle
+npm install
+mv config/database.yml.sample config/database.yml
 rake db:create
 rake db:migrate
 ```
