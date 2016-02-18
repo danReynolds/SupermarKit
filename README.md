@@ -19,11 +19,6 @@ vagrant plugin install vagrant-librarian-chef-nochef vagrant-vbguest
 vagrant up
 vagrant ssh
 cd /vagrant
-bundle
-npm install
-mv config/database.yml.sample config/database.yml
-rake db:create
-rake db:migrate
 ```
 
 Then to run the app, start the server on the forwarded port 4000:
