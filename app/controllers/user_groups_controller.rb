@@ -87,8 +87,9 @@ private
       reveal: {
         queryUrl: auto_complete_users_path(gravatar: true, q: ''),
         type: 'UserResult',
-        modal: '#change-members',
-        selection: @user_group.format_users
+        modal: 'change-members',
+        selection: @user_group.format_users,
+        dispatchReceiver: '.multiselect'
       }
     }
   end

@@ -18,7 +18,7 @@ class GroceriesController < ApplicationController
         queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
         modal: 'add-groceries',
         type: 'ItemResult',
-        selection: @grocery.format_items
+        selection: @grocery.format_items,
       }
     }
     @grocery_store = @grocery.grocery_store
