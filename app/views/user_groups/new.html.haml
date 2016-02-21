@@ -34,5 +34,4 @@
         .card-action
           = link_to 'Create', '#', class: 'btn submit-group-form'
 
-  #change-members.modal.bottom-sheet
-    .modal-content= react_component 'Reveal', @user_data[:reveal]
+  = react_component 'Reveal', @user_data[:reveal]
