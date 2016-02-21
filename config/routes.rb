@@ -42,7 +42,6 @@ Rails.application.routes.draw do
         end
       end
       member do
-        get :list_users
         get :metrics
         post :accept_invitation
       end

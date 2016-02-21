@@ -71,24 +71,9 @@ class UserGroupsController < ApplicationController
     end
   end
 
-  def list_users
-    render json: user_list
-  end
-
 private
   def user_group_params
     params.require(:user_group).permit(:name, :description, :privacy, :banner)
-  end
-
-  def user_list
-    @user_group.user_groups_users.map do |user_group_user, h|
-      {
-        id: user_group_user.user_id,
-        name: user_group_user.user.name,
-        state: user_group_user.state,
-        gravatar: user_group_user.user.gravatar_url(50)
-      }
-    end
   end
 
   def user_data
@@ -100,9 +85,10 @@ private
         hiddenField: '#user_group_user_ids'
       },
       reveal: {
-        url: '/users/auto_complete',
+        queryUrl: auto_complete_users_path(gravatar: true, q: ''),
+        type: 'UserResult',
         modal: '#change-members',
-        selection: user_list
+        selection: @user_group.format_users
       }
     }
   end

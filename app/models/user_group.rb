@@ -45,4 +45,15 @@ class UserGroup < ActiveRecord::Base
   def user_state(user)
     user_groups_users.find_by_user_id(user.id).state
   end
+
+  def format_users
+    user_groups_users.map do |user_group_user, h|
+      {
+        id: user_group_user.user_id,
+        name: user_group_user.user.name,
+        state: user_group_user.state,
+        gravatar: user_group_user.user.gravatar_url(50)
+      }
+    end
+  end
 end

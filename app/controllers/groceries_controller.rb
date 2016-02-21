@@ -5,27 +5,21 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
   def index
-    respond_to do |format|
-      format.json do
-        groceries = @groceries.order('created_at DESC').map do |grocery|
-          {
-            id: grocery.id,
-            name: grocery.name,
-            description: grocery.description,
-            count: grocery.items.count,
-            cost: grocery.total.to_money.format,
-            finished: grocery.finished?
-          }
-        end
-        render json: { data: groceries }
-      end
-    end
 	end
 
 	def show
     @items_data = {
-      itemsUrl: grocery_items_path(@grocery),
-      usersUrl: list_users_user_group_path(@grocery.user_group)
+      grocery: {
+        name: @grocery.name,
+        id: @grocery.id
+      },
+      users: @grocery.user_group.format_users,
+      reveal: {
+        queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
+        modal: 'add-groceries',
+        type: 'ItemResult',
+        selection: @grocery.format_items
+      }
     }
     @grocery_store = @grocery.grocery_store
 	end

@@ -60,10 +60,7 @@ class UsersController < ApplicationController
       end
     end
 
-    render json: {
-      total_users: users.count,
-      users: users
-    }
+    render json: users
   end
 
   def update

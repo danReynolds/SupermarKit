@@ -3,7 +3,7 @@ var Multiselect = React.createClass({
         title: React.PropTypes.string,
         button: React.PropTypes.string,
         selection: React.PropTypes.array,
-        removeSelection: React.PropTypes.func,
+        removeFromSelection: React.PropTypes.func,
         hiddenField: React.PropTypes.string,
         modal: React.PropTypes.string,
         backspaceTarget: React.PropTypes.number
@@ -22,7 +22,7 @@ var Multiselect = React.createClass({
     },
 
     handleRemove: function(event) {
-        this.props.removeSelection(parseInt(event.target.closest('.chip').getAttribute('data-id')));
+        this.props.removeFromSelection(parseInt(event.target.closest('.chip').getAttribute('data-id')));
     },
 
     render: function() {
@@ -30,14 +30,14 @@ var Multiselect = React.createClass({
         if (this.props.modal) {
             button = <a href={this.props.modal} className='waves effect waves light btn secondary modal-trigger'>
                         {this.props.button}
-                    </a>;
+                     </a>;
         }
 
         if (this.props.title) {
             title = <h3>{this.props.title}</h3>;
         }
 
-        if (this.props.removeSelection) {
+        if (this.props.removeFromSelection) {
             remove = <i className='fa fa-close' onClick={this.handleRemove}/>;
         }
 
@@ -66,7 +66,7 @@ var Multiselect = React.createClass({
     },
 
     componentDidMount: function() {
-        if (!this.props.removeSelection) {
+        if (!this.props.removeFromSelection) {
             this.refs.root.addEventListener('selection-updated', function(event) {
                 this.setState({ selection: event.detail });
             }.bind(this));
