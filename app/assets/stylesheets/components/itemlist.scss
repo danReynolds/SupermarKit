@@ -6,15 +6,37 @@
 
   .card-content {
     padding: 1rem;
+    position: relative;
+  }
+
+  .no-items {
+    margin: 5rem;
+    text-align: center;
+
+    i {
+      color: $sm-light-green;
+      font-size: 10rem;
+    }
   }
 
   .collection-item {
     &.active {
+      margin: 0.6rem !important;
       border-bottom: none;
       color: $sm-gray;
       background: $sm-white;
     }
     p { margin-left: 1rem; }
+  }
+
+  .card-header {
+    background: $sm-dark-blue-green;
+  }
+
+  h3 {
+    color: $sm-white;
+    margin: 0;
+    padding: 1.5rem;
   }
 
   .collapsible-header {
@@ -28,11 +50,21 @@
   }
 
   .collapsible {
+    margin: 0;
+    background: $sm-light-gray;
+
     li {
       box-shadow: none;
-      margin: 0 0.6rem;
-      padding: 0.7rem;
+      margin: 0;
+      padding: 0.6rem;
     }
+  }
+
+  .btn-floating {
+    background: $sm-green;
+    position: absolute;
+    bottom: -1rem;
+    right: 2rem;
   }
 
   img {

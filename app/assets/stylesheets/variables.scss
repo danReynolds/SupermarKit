@@ -22,5 +22,5 @@ $sm-blue:                     #4799FF;
 // =========================
 
 $mobile: "(max-width: 480px)";
-$tablet: "(max-width: 1024px)";
+$tablet: "(min-width: 480px) and (max-width: 1024px)";
 $desktop: "(min-width: 1024px)";

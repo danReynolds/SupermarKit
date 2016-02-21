@@ -1,8 +1,10 @@
 var Reveal = React.createClass({
     propTypes: {
-        url: React.PropTypes.string.isRequired,
         modal: React.PropTypes.string.isRequired,
-        selection: React.PropTypes.array
+        queryUrl: React.PropTypes.string.isRequired,
+        results: React.PropTypes.array,
+        selection: React.PropTypes.array,
+        type: React.PropTypes.string.isRequired
     },
 
     getInitialState: function() {
@@ -37,7 +39,7 @@ var Reveal = React.createClass({
                 if (this.state.results.length === 0)
                     this.handleSave();
                 else
-                    this.addSelected(this.state.scrollTarget);
+                    this.addToSelection(this.state.scrollTarget);
                 event.preventDefault();
                 return;
             case this.props.backTarget:
@@ -56,24 +58,7 @@ var Reveal = React.createClass({
     },
 
     handleAdd: function(event) {
-        this.addSelected(parseInt(event.target.getAttribute('data-index')));
-    },
-
-    addSelected: function(index) {
-        this.setState({
-            value: '',
-            backspaceTarget: null,
-            scrollTarget: 0,
-            selection: this.state.selection.concat(this.state.results[index]),
-            results: React.addons.update(this.state.results, {$splice: [[index, 1]]})
-        });
-    },
-
-    removeSelection: function(index) {
-        this.setState({
-            backspaceTarget: null,
-            selection: React.addons.update(this.state.selection, {$splice: [[index, 1]]})
-        });
+        this.addToSelection(parseInt(event.target.getAttribute('data-index')));
     },
 
     handleRemove: function(event) {
@@ -96,22 +81,36 @@ var Reveal = React.createClass({
         this.dispatchSelection();
     },
 
+    addToSelection: function(index) {
+        this.setState({
+            backspaceTarget: null,
+            scrollTarget: 0,
+            selection: this.state.selection.concat(this.state.results[index])
+        });
+    },
+
+    removeFromSelection: function(index) {
+        this.setState({
+            backspaceTarget: null,
+            selection: React.addons.update(this.state.selection, {$splice: [[index, 1]]})
+        });
+    },
+
     dispatchSelection: function() {
         var event = new CustomEvent('selection-updated', { detail: this.state.selection });
         document.querySelector('.multiselect').dispatchEvent(event);
     },
 
     getResults: function(query) {
-        var user_ids = this.state.selection.map(function(selected) {
+        var selected_ids = this.state.selection.map(function(selected) {
             return selected.id;
         });
 
         if (query.length >= this.props.minLength) {
-            $.getJSON(this.props.url + "/?gravatar=true&q=" + query, function(data) {
-                results = data.users;
+            $.getJSON(this.props.queryUrl + query, function(results) {
                 this.setState({
-                    results: data.users.filter(function(user) {
-                        return !user_ids.includes(user.id);
+                    results: results.filter(function(user) {
+                        return !selected_ids.includes(user.id);
                     }),
                     scrollTarget: 0
                 });
@@ -122,7 +121,6 @@ var Reveal = React.createClass({
                 scrollTarget: 0
             });
         }
-
     },
 
     componentDidMount: function() {
@@ -133,8 +131,8 @@ var Reveal = React.createClass({
                     ReactDOM.findDOMNode(self.refs.search).focus();
                 }
             });
-            this.dispatchSelection();
-        }.bind(this));
+            self.dispatchSelection();
+        });
     },
 
     render: function() {
@@ -147,14 +145,13 @@ var Reveal = React.createClass({
             }).includes(result.id);
         }).map(function(result, index) {
             return (
-                <li
-                    className={index == self.state.scrollTarget ? resultClass + ' target' : resultClass}
-                    onClick={self.handleAdd}
-                    data-index={index}
-                    key={"result-" + result.id}>
-                    <img src={result.gravatar}/>
-                    <p>{result.name}</p>
-                </li>
+                React.createElement(this[self.props.type], {
+                    key: "result-" + index,
+                    resultIndex: index,
+                    handleAdd: self.handleAdd,
+                    result: result,
+                    scrollTarget: self.state.scrollTarget
+                })
             );
         });
 
@@ -163,18 +160,18 @@ var Reveal = React.createClass({
                 <nav>
                     <div className='nav-wrapper'>
                         <form>
-                          <div className='input-field'>
-                            <input
-                                autoComplete='off'
-                                id='search'
-                                type='search'
-                                ref='search'
-                                value={this.state.value}
-                                onChange={this.handleChange}
-                                onKeyDown={this.handleKeyPress}
-                                required />
-                            <label htmlFor='search'><i className='material-icons'>search</i></label>
-                            <i className='material-icons'>close</i>
+                            <div className='input-field'>
+                                <input
+                                    autoComplete='off'
+                                    id='search'
+                                    type='search'
+                                    ref='search'
+                                    value={this.state.value}
+                                    onKeyDown={this.handleKeyPress}
+                                    onChange={this.handleChange}
+                                    required />
+                                <label htmlFor='search'><i className='material-icons'>search</i></label>
+                                <i className='material-icons'>close</i>
                           </div>
                         </form>
                     </div>
@@ -183,13 +180,13 @@ var Reveal = React.createClass({
                     ref="selection"
                     selection={this.state.selection}
                     backspaceTarget={this.state.backspaceTarget}
-                    removeSelection={this.removeSelection}/>
+                    removeFromSelection={this.removeFromSelection}/>
                 <ul className='results-container'>
                     {results}
                 </ul>
                 <div className='reveal-controls'>
-                  <a className='waves-effect waves-light btn cancel modal-close'><i className='material-icons left'>close</i>Cancel</a>
-                  <a className='waves-effect waves-light btn' onClick={this.handleSave}><i className='material-icons left'>send</i>Update</a>
+                    <a className='waves-effect waves-light btn cancel modal-close'><i className='material-icons left'>close</i>Cancel</a>
+                    <a className='waves-effect waves-light btn' onClick={this.handleSave}><i className='material-icons left'>send</i>Update</a>
                 </div>
             </div>
         );

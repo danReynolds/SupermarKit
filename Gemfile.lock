@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:danReynolds/materialize-sass.git
-  revision: 0fad4589b95c19ba63ccae5e886da53a9e1a61d3
+  revision: ad8118221ce3b3fe9bed11d6a0017a23405a77ba
   specs:
     materialize-sass (0.97.5)
       sass (~> 3.3)
@@ -147,8 +147,8 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
-    font-awesome-rails (4.3.0.0)
-      railties (>= 3.2, < 5.0)
+    font-awesome-sass (4.5.0)
+      sass (>= 3.2)
     geokit (1.9.0)
       multi_json (>= 1.3.2)
     geokit-rails (2.1.0)
@@ -400,7 +400,7 @@ DEPENDENCIES
   coveralls
   dotenv-rails
   factory_girl_rails
-  font-awesome-rails (~> 4.3.0)
+  font-awesome-sass (~> 4.5.0)
   geokit-rails
   groupdate
   haml-rails

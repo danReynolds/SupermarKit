@@ -1,19 +1,20 @@
 .reveal {
   li {
+    background: $sm-white;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     cursor: pointer;
-    width: 100%;
     height: 5rem;
+    margin: 0 auto;
     padding-left: 1rem;
+    width: 95%;
 
     p { margin-left: 1rem; }
     img { border-radius: 50%; }
   }
 
-  li + li { border-top: 1px solid $sm-light-gray; }
-
-  .results-container {
-    margin-top: 0;
-    overflow-y: auto;
+  li {
+    margin-bottom: 0.5rem;
   }
 
   .reveal-controls {
@@ -24,6 +25,11 @@
 
   .multiselect { margin-bottom: 0; }
   .selection-container { margin: 0; }
+
+  .results-container {
+    max-height: 22rem;
+    overflow: scroll;
+  }
 
   .target {
     background: $sm-green;

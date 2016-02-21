@@ -1,8 +1,8 @@
 var ItemList = React.createClass({
-
     propTypes: {
-        itemsUrl: React.PropTypes.string.isRequired,
-        usersUrl: React.PropTypes.string.isRequired
+        users: React.PropTypes.array.isRequired,
+        grocery: React.PropTypes.object.isRequired,
+        reveal: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
@@ -12,41 +12,54 @@ var ItemList = React.createClass({
         }
     },
 
-    componentDidMount: function() {
-        var self = this;
-        $.getJSON(self.props.usersUrl, function(users) {
-            return users;
-        }).then(function(users) {
-            $.getJSON(self.props.itemsUrl, function(items) {
-                self.setState({
-                    users: users,
-                    items: items
-                });
-            })
-        });
+    handleRemove: function(index) {
+        $.ajax({
+            method: 'PATCH',
+            url: '/items/' + this.state.items[index].id + '/remove/?grocery_id=' + this.props.grocery.id
+        }).done(function() {
+            this.setState({
+                items: React.addons.update(this.state.items, {$splice: [[index, 1]]})
+            });
+        }.bind(this));
+    },
 
+    componentDidMount: function() {
         $(document).ready(function() {
             $('.collapsible').collapsible({
                 accordion: false
             });
         });
-
     },
 
     componentDidUpdate: function() {
         Materialize.initializeDismissable();
+        $('.dismissable').on('remove', function(e) {
+            this.handleRemove(parseInt(e.target.getAttribute('data-index')));
+        }.bind(this));
     },
 
     render: function() {
-        var image, requester;
+        var requester, noItems;
+
+        if (this.state.items.length === 0) {
+            noItems = <div className="no-items">
+                          <i className='fa fa-shopping-basket'/>
+                          <h2>Your grocery list is empty.</h2>
+                      </div>
+        }
         var items = this.state.items.map(function(item, index) {
-            image = <img src={item.gravatar}/>;
+            requester = this.state.users.filter(function(user) {
+                return user.id == item.requester;
+            })[0];
+
             return (
-                <li key={'item-' + index} className='collection-item dismissable'>
+                <li key={'item-' + index}
+                    data-index={index}
+                    className='collection-item dismissable'>
                     <div className='collapsible-header'>
-                        {image}
+                        <img src={requester.gravatar}/>
                         <p>
-                            <strong>Dan</strong> wants <strong>{item.quantity_formatted}</strong>
+                            <strong>{requester.name}</strong> wants <strong>{item.quantity_formatted}</strong>
                         </p>
                     </div>
                     <div className='collapsible-body'>
@@ -60,9 +73,23 @@ var ItemList = React.createClass({
             <div className='item-list'>
                 <div className='card'>
                     <div className='card-content'>
+                        <div className='card-header'>
+                            <h3>Groceries for {this.props.grocery.name}</h3>
+                        </div>
                         <ul className='collection collapsible popout data-collapsible="accordion'>
+                            {noItems}
                             {items}
                         </ul>
+                        <a
+                            href={"#" + this.props.reveal.modal}
+                            className="btn-floating btn-large waves-effect waves-light modal-trigger">
+                            <i className="material-icons">add</i>
+                        </a>
+                    </div>
+                </div>
+                <div id={this.props.reveal.modal} className='modal bottom-sheet'>
+                    <div className='modal-content'>
+                        <Reveal {...this.props.reveal} />
                     </div>
                 </div>
             </div>
