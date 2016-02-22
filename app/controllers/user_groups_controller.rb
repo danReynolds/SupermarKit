@@ -77,20 +77,16 @@ private
   end
 
   def user_data
-    {
-      multiselect: {
+      {
         title: 'Group members',
         button: 'Change',
-        modal: '#change-members',
-        hiddenField: '#user_group_user_ids'
-      },
-      reveal: {
-        queryUrl: auto_complete_users_path(gravatar: true, q: ''),
-        type: 'UserResult',
-        modal: 'change-members',
+        hiddenField: '#user_group_user_ids',
         selection: @user_group.format_users,
-        dispatchReceiver: '.multiselect'
+        modal: {
+          id: 'change-members',
+          queryUrl: auto_complete_users_path(gravatar: true, q: ''),
+          type: 'UserResult',
+        }
       }
-    }
   end
 end

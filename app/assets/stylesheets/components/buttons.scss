@@ -5,7 +5,7 @@
   text-transform: none;
 
   &.secondary {
-    $button-color: $sm-blue;
+    $button-color: $sm-gray;
     background: $button-color;
     &:hover { background: lighten($button-color, 10%); }
   }
