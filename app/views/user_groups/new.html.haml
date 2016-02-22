@@ -30,8 +30,6 @@
         .card-content
           .row
             .col.l12.s12
-              = react_component 'Multiselect', @user_data[:multiselect]
+              = react_component 'Multiselect', @user_data
         .card-action
           = link_to 'Create', '#', class: 'btn submit-group-form'
-
-  = react_component 'Reveal', @user_data[:reveal]

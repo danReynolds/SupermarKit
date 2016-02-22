@@ -1,17 +1,18 @@
 var Reveal = React.createClass({
     propTypes: {
-        modal: React.PropTypes.string.isRequired,
+        id: React.PropTypes.string.isRequired,
         queryUrl: React.PropTypes.string.isRequired,
         results: React.PropTypes.array,
         selection: React.PropTypes.array,
-        type: React.PropTypes.string.isRequired
+        type: React.PropTypes.string.isRequired,
+        addToSelection: React.PropTypes.func.isRequired,
+        removeFromSelection: React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
         return {
             value: '',
             results: [],
-            selection: this.props.selection
         };
     },
 
@@ -41,7 +42,7 @@ var Reveal = React.createClass({
                 else
                     this.addToSelection(this.state.scrollTarget);
                 event.preventDefault();
-                return;
+            return;
             case this.props.backTarget:
                 this.handleRemove(event);
                 return;
@@ -64,49 +65,38 @@ var Reveal = React.createClass({
     handleRemove: function(event) {
         if (this.state.value.length !== 0) return;
 
-        var selection = this.state.selection;
-
         if (Number.isInteger(this.state.backspaceTarget) && this.state.backspaceTarget >= 0) {
-            selection = React.addons.update(selection, {$splice: [[this.state.backspaceTarget, 1]]});
+            this.props.removeFromSelection(this.state.backspaceTarget);
         }
 
         this.setState({
-            backspaceTarget: selection.length - 1,
-            selection: selection
+            backspaceTarget: this.props.selection.length - 1,
         });
     },
 
     handleSave: function() {
-        $(document.getElementById(this.props.modal)).closeModal();
-        if (this.props.dispatchReceiver) {
-            this.dispatchSelection();
-        }
+        $(document.getElementById(this.props.id)).closeModal();
     },
 
     addToSelection: function(index) {
         this.setState({
+            value: '',
             backspaceTarget: null,
             scrollTarget: 0,
-            selection: this.state.selection.concat(this.state.results[index]),
-            results: React.addons.update(this.state.results, {$splice: [[index, 1]]})
+            results: []
         });
+        this.props.addToSelection(this.state.results[index]);
     },
 
     removeFromSelection: function(index) {
         this.setState({
             backspaceTarget: null,
-            selection: React.addons.update(this.state.selection, {$splice: [[index, 1]]}),
-            results: React.addons.update(this.state.results, {$push: [this.state.selection[index]]})
         });
-    },
-
-    dispatchSelection: function() {
-        var event = new CustomEvent('selection-updated', { detail: this.state.selection });
-        document.querySelector(this.props.dispatchReceiver).dispatchEvent(event);
+        this.props.removeFromSelection(index);
     },
 
     getResults: function(query) {
-        var selected_ids = this.state.selection.map(function(selected) {
+        var selected_ids = this.props.selection.map(function(selected) {
             return selected.id;
         });
 
@@ -135,7 +125,6 @@ var Reveal = React.createClass({
                     ReactDOM.findDOMNode(self.refs.search).focus();
                 }
             });
-            self.dispatchSelection();
         });
     },
 
@@ -179,7 +168,7 @@ var Reveal = React.createClass({
                     </nav>
                     <Multiselect
                         ref="selection"
-                        selection={this.state.selection}
+                        selection={this.props.selection}
                         backspaceTarget={this.state.backspaceTarget}
                         removeFromSelection={this.removeFromSelection}/>
                     <ul className='results-container'>

@@ -5,7 +5,7 @@ var Multiselect = React.createClass({
         selection: React.PropTypes.array,
         removeFromSelection: React.PropTypes.func,
         hiddenField: React.PropTypes.string,
-        modal: React.PropTypes.string,
+        modal: React.PropTypes.object,
         backspaceTarget: React.PropTypes.number
     },
 
@@ -25,12 +25,29 @@ var Multiselect = React.createClass({
         this.props.removeFromSelection(parseInt(event.target.closest('.chip').getAttribute('data-id')));
     },
 
+    addToSelection: function(selected) {
+        this.setState({
+            selection: React.addons.update(this.state.selection, {$push: [selected]})
+        });
+    },
+
+    removeFromSelection: function(index) {
+        this.setState({
+            selection: React.addons.update(this.state.selection, {$splice: [[index, 1]]})
+        });
+    },
+
     render: function() {
-        var button, title, remove;
+        var button, title, remove, modal;
         if (this.props.modal) {
-            button = <a href={this.props.modal} className='waves effect waves light btn secondary modal-trigger'>
+            button = <a href={'#' + this.props.modal.id} className='waves effect waves light btn secondary modal-trigger'>
                         {this.props.button}
                      </a>;
+            modal = <Reveal
+                        {...this.props.modal}
+                        addToSelection={this.addToSelection}
+                        removeFromSelection={this.removeFromSelection}
+                        selection={this.state.selection} />
         }
 
         if (this.props.title) {
@@ -61,6 +78,7 @@ var Multiselect = React.createClass({
                     {selection}
                 </div>
                 {button}
+                {modal}
             </div>
         );
     },
