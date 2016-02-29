@@ -11,14 +11,34 @@ class GroceriesController < ApplicationController
     @items_data = {
       grocery: {
         name: @grocery.name,
-        id: @grocery.id
+        id: @grocery.id,
+        url: grocery_path(@grocery)
       },
+      selection: format_items,
       users: @grocery.user_group.format_users,
-      reveal: {
+      modal: {
         queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
-        modal: 'add-groceries',
+        id: 'add-groceries',
         type: 'ItemResult',
-        selection: @grocery.format_items,
+        placeholder: 'Add your item, like 5 bananas.',
+        input: {
+          search: 'item'
+          delimit: '\s+'
+          fields: [
+            {
+              name: 'quantity',
+              regex: '([0-9]+)'
+            },
+            {
+              name: 'item',
+              regex: '(.*)'
+            },
+            {
+              name: 'price',
+              regex: 'for \$([0-9]+)'
+            }
+          ]
+        }
       }
     }
     @grocery_store = @grocery.grocery_store
@@ -40,6 +60,15 @@ class GroceriesController < ApplicationController
 	end
 
 	def update
+    params[:items].each do |item|
+      @grocery.groceries_items.first_or_initialize(item_id: item[:id], grocery_id: @grocery.id)
+                              .update_attributes(quantity: item[:quantity], requester: current_user)
+    end
+    if @grocery.update_attributes(grocery_params)
+      render nothing: true, status: :ok
+    else
+      render nothing: true, status: :internal_server_error
+    end
 	end
 
   def finish
@@ -97,12 +126,31 @@ class GroceriesController < ApplicationController
 
 private
 
+  def format_items
+    @grocery.items.select(:id, :name, :description).map do |item|
+      grocery_item = GroceriesItems.find_by_item_id_and_grocery_id(item.id, @grocery.id)
+      {
+        id: item.id,
+        name: item.name,
+        description: item.description.to_s,
+        grocery_item_id: grocery_item.id,
+        quantity: grocery_item.quantity,
+        quantity_formatted: "#{grocery_item.quantity.en.numwords} #{item.name.en.plural(grocery_item.quantity)}",
+        price: grocery_item.price.dollars.to_s,
+        price_formatted: grocery_item.price.format,
+        total_price_formatted: grocery_item.total_price.format,
+        path: item_path(item.id),
+        requester: grocery_item.requester_id
+      }
+    end
+  end
+
   def find_items(ids)
     ids.split(',').flat_map { |id| Item.find(id) }
   end
 
   def grocery_params
-    params.require(:grocery).permit(:name, :description)
+    params.require(:grocery).permit(:name, :description, items: [])
   end
 
   def grocery_store_params

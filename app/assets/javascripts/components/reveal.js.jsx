@@ -6,7 +6,11 @@ var Reveal = React.createClass({
         selection: React.PropTypes.array,
         type: React.PropTypes.string.isRequired,
         addToSelection: React.PropTypes.func.isRequired,
-        removeFromSelection: React.PropTypes.func.isRequired
+        removeFromSelection: React.PropTypes.func.isRequired,
+        handleSave: React.PropTypes.func.isRequired,
+        toggleModal: React.PropTypes.func.isRequired,
+        placeholder: React.PropTypes.string,
+        input: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
@@ -55,6 +59,7 @@ var Reveal = React.createClass({
     handleChange: function(event) {
         var query = event.target.value;
         this.setState({ value: query });
+        this.getFieldValues(query);
         this.getResults(query);
     },
 
@@ -75,7 +80,8 @@ var Reveal = React.createClass({
     },
 
     handleSave: function() {
-        $(document.getElementById(this.props.id)).closeModal();
+        this.props.toggleModal();
+        this.props.handleSave();
     },
 
     addToSelection: function(index) {
@@ -145,13 +151,14 @@ var Reveal = React.createClass({
         });
 
         return (
-            <div id='change-members' className='modal bottom-sheet'>
+            <div id={this.props.id} className='modal bottom-sheet'>
                 <div className='reveal'>
                     <nav>
                         <div className='nav-wrapper'>
                             <form>
                                 <div className='input-field'>
                                     <input
+                                        placeholder={this.props.placeholder}
                                         autoComplete='off'
                                         id='search'
                                         type='search'
@@ -168,6 +175,7 @@ var Reveal = React.createClass({
                     </nav>
                     <Multiselect
                         ref="selection"
+                        placeholder={this.props.placeholder}
                         selection={this.props.selection}
                         backspaceTarget={this.state.backspaceTarget}
                         removeFromSelection={this.removeFromSelection}/>
@@ -175,7 +183,7 @@ var Reveal = React.createClass({
                         {results}
                     </ul>
                     <div className='reveal-controls'>
-                        <a className='waves-effect waves-light btn cancel modal-close'><i className='material-icons left'>close</i>Cancel</a>
+                        <a className='waves-effect waves-light btn cancel' onClick={this.props.toggleModal}><i className='material-icons left'>close</i>Cancel</a>
                         <a className='waves-effect waves-light btn' onClick={this.handleSave}><i className='material-icons left'>send</i>Update</a>
                     </div>
                 </div>

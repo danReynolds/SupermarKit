@@ -16,6 +16,7 @@
 // Page Scripts
 // =============================
 
+//= require_tree ./mixins
 //= require components
 //= require_tree ./layouts
 //= require_tree ./helpers

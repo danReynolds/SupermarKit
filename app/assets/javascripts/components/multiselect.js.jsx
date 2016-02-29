@@ -38,7 +38,8 @@ var Multiselect = React.createClass({
     },
 
     render: function() {
-        var button, title, remove, modal;
+        var button, title, remove, modal, image;
+
         if (this.props.modal) {
             button = <a href={'#' + this.props.modal.id} className='waves effect waves light btn secondary modal-trigger'>
                         {this.props.button}
@@ -48,6 +49,10 @@ var Multiselect = React.createClass({
                         addToSelection={this.addToSelection}
                         removeFromSelection={this.removeFromSelection}
                         selection={this.state.selection} />
+        }
+
+        if (this.props.image) {
+            image = <img src={selected.image} />;
         }
 
         if (this.props.title) {
@@ -64,7 +69,7 @@ var Multiselect = React.createClass({
                     className={this.props.backspaceTarget === index ? 'chip targetted' : 'chip'}
                     data-id={index}
                     key={'selection-' + index} >
-                    <img src={selected.gravatar}/>
+                    {image}
                     {selected.name}
                     {remove}
                 </div>
