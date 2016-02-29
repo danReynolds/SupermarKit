@@ -1,24 +1,41 @@
 var ItemList = React.createClass({
+    mixins: [RevealMixin],
     propTypes: {
         users: React.PropTypes.array.isRequired,
-        grocery: React.PropTypes.object.isRequired,
-        reveal: React.PropTypes.object.isRequired
+        grocery: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
         return {
-            items: [],
-            users: []
+            users: this.props.users
         }
     },
 
     handleRemove: function(index) {
+        this.saveSelection(React.addons.update(this.state.selection, {$splice: [[index, 1]]}));
+    },
+
+    handleSave: function() {
+        this.saveSelection(this.state.selection);
+    },
+
+    saveSelection: function(selection) {
         $.ajax({
             method: 'PATCH',
-            url: '/items/' + this.state.items[index].id + '/remove/?grocery_id=' + this.props.grocery.id
+            data: JSON.stringify({
+                items: this.state.selection.map(function(selected) {
+                    return {
+                        id: selected.id,
+                        quantity: selected.quantity
+                    };
+                })
+            }),
+            dataType: 'json',
+            contentType: 'application/json',
+            url: this.props.grocery.url
         }).done(function() {
             this.setState({
-                items: React.addons.update(this.state.items, {$splice: [[index, 1]]})
+                items: selection
             });
         }.bind(this));
     },
@@ -39,25 +56,30 @@ var ItemList = React.createClass({
     },
 
     render: function() {
-        var requester, noItems;
+        var requester, noItems, image;
 
-        if (this.state.items.length === 0) {
+        if (this.state.selection.length === 0) {
             noItems = <div className="no-items">
                           <i className='fa fa-shopping-basket'/>
                           <h2>Your grocery list is empty.</h2>
                       </div>
         }
-        var items = this.state.items.map(function(item, index) {
+
+        var items = this.state.selection.map(function(item, index) {
             requester = this.state.users.filter(function(user) {
                 return user.id == item.requester;
             })[0];
+
+            if (!requester) {
+                return;
+            }
 
             return (
                 <li key={'item-' + index}
                     data-index={index}
                     className='collection-item dismissable'>
                     <div className='collapsible-header'>
-                        <img src={requester.gravatar}/>
+                        <img src={requester.gravatar} />
                         <p>
                             <strong>{requester.name}</strong> wants <strong>{item.quantity_formatted}</strong>
                         </p>
@@ -81,17 +103,20 @@ var ItemList = React.createClass({
                             {items}
                         </ul>
                         <a
-                            href={"#" + this.props.reveal.modal}
-                            className="btn-floating btn-large waves-effect waves-light modal-trigger">
+                            onClick={this.toggleModal}
+                            href={"#" + this.props.modal.id}
+                            className="btn-floating btn-large waves-effect waves-light">
                             <i className="material-icons">add</i>
                         </a>
                     </div>
                 </div>
-                <div id={this.props.reveal.modal} className='modal bottom-sheet'>
-                    <div className='modal-content'>
-                        <Reveal {...this.props.reveal} />
-                    </div>
-                </div>
+                <Reveal
+                    selection={this.state.selection}
+                    toggleModal={this.toggleModal}
+                    handleSave={this.handleSave}
+                    addToSelection={this.addToSelection}
+                    removeFromSelection={this.removeFromSelection}
+                    {...this.props.modal} />
             </div>
         );
     }
