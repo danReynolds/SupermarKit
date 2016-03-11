@@ -52,7 +52,7 @@ class ItemsController < ApplicationController
 
   def auto_complete
     items = @grocery.user_group.privacy_items.select(:id, :description, :name)
-                    .with_name(params[:q])
+                    .with_name(params[:q].singularize)
                     .where.not(id: @grocery.item_ids).limit(5)
 
     items.map do |item|

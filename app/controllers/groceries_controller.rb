@@ -20,22 +20,22 @@ class GroceriesController < ApplicationController
         queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
         id: 'add-groceries',
         type: 'ItemResult',
-        placeholder: 'Add your item, like 5 bananas.',
         input: {
-          search: 'item'
-          delimit: '\s+'
+          placeholder: 'Add your item, like 5 bananas (for $4).',
+          queryField: 'query',
+          delimiter: '\s*',
           fields: [
             {
               name: 'quantity',
-              regex: '([0-9]+)'
+              regex: '([0-9]*)?'
             },
             {
-              name: 'item',
-              regex: '(.*)'
+              name: 'query',
+              regex: '(.*?)'
             },
             {
               name: 'price',
-              regex: 'for \$([0-9]+)'
+              regex: '(?:for \$([0-9]*))?'
             }
           ]
         }
@@ -60,10 +60,16 @@ class GroceriesController < ApplicationController
 	end
 
 	def update
-    params[:items].each do |item|
-      @grocery.groceries_items.first_or_initialize(item_id: item[:id], grocery_id: @grocery.id)
-                              .update_attributes(quantity: item[:quantity], requester: current_user)
+    items = params[:grocery][:items] || []
+
+    @grocery.items.delete(@grocery.items - items.map { |item| Item.find_by_id(item[:id]) })
+    items.each do |item|
+      GroceriesItems.find_or_initialize_by(
+        item: Item.find_or_create_by(id: item[:id], name: item[:name]),
+        grocery: @grocery
+      ).update_attributes(item.permit(:quantity, :price).merge!({ requester_id: current_user.id }))
     end
+
     if @grocery.update_attributes(grocery_params)
       render nothing: true, status: :ok
     else
@@ -150,7 +156,11 @@ private
   end
 
   def grocery_params
-    params.require(:grocery).permit(:name, :description, items: [])
+      params.require(:grocery).permit(:name, :description)
+  end
+
+  def grocery_item_params
+      params.require(:grocery).permit(items: [:id, :quantity, :price])
   end
 
   def grocery_store_params
