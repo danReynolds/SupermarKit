@@ -8,7 +8,7 @@ class GroceriesItems < ActiveRecord::Base
   validates_uniqueness_of :grocery_id, scope: :item_id
   monetize :price_cents
 
-  # Determines the price for the item based on the most common non-zero
+  # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item
   def localized_price
     grocery_store = grocery.grocery_store
@@ -35,6 +35,6 @@ private
 
   def most_common_price(groceries_items)
     return 0 if groceries_items.empty?
-    groceries_items.group(:price_cents).order('count_id DESC').count(:id).first.first
+    Money.new(groceries_items.group(:price_cents).order('count_id DESC').count(:id).first.first)
   end
 end

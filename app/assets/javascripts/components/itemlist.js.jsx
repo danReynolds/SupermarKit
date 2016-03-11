@@ -23,20 +23,22 @@ var ItemList = React.createClass({
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
-                items: this.state.selection.map(function(selected) {
-                    return {
-                        id: selected.id,
-                        quantity: selected.quantity
-                    };
-                })
+                grocery: {
+                    items: selection.map(function(item) {
+                        return {
+                            name: item.name,
+                            id: item.id,
+                            quantity: item.quantity,
+                            price: item.price
+                        }
+                    })
+                }
             }),
             dataType: 'json',
             contentType: 'application/json',
             url: this.props.grocery.url
         }).done(function() {
-            this.setState({
-                items: selection
-            });
+            this.setState({ items: selection });
         }.bind(this));
     },
 
@@ -48,11 +50,13 @@ var ItemList = React.createClass({
         });
     },
 
-    componentDidUpdate: function() {
-        Materialize.initializeDismissable();
-        $('.dismissable').on('remove', function(e) {
-            this.handleRemove(parseInt(e.target.getAttribute('data-index')));
-        }.bind(this));
+    componentDidUpdate: function(prevProps, prevState) {
+        if (this.state.selection.length !== prevState.selection.length) {
+            Materialize.initializeDismissable();
+            $('.dismissable').on('remove', function(e) {
+                this.handleRemove(parseInt(e.target.getAttribute('data-index')));
+            }.bind(this));
+        }
     },
 
     render: function() {

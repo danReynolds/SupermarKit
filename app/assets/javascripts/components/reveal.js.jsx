@@ -15,8 +15,9 @@ var Reveal = React.createClass({
 
     getInitialState: function() {
         return {
-            value: '',
-            results: [],
+            fullField: '',
+            fields: this.props.input.fields,
+            results: []
         };
     },
 
@@ -58,9 +59,7 @@ var Reveal = React.createClass({
 
     handleChange: function(event) {
         var query = event.target.value;
-        this.setState({ value: query });
-        this.getFieldValues(query);
-        this.getResults(query);
+        this.updateFields(query);
     },
 
     handleAdd: function(event) {
@@ -68,7 +67,7 @@ var Reveal = React.createClass({
     },
 
     handleRemove: function(event) {
-        if (this.state.value.length !== 0) return;
+        if (this.state.fullField.length !== 0) return;
 
         if (Number.isInteger(this.state.backspaceTarget) && this.state.backspaceTarget >= 0) {
             this.props.removeFromSelection(this.state.backspaceTarget);
@@ -86,12 +85,22 @@ var Reveal = React.createClass({
 
     addToSelection: function(index) {
         this.setState({
-            value: '',
             backspaceTarget: null,
             scrollTarget: 0,
-            results: []
+            results: [],
         });
-        this.props.addToSelection(this.state.results[index]);
+
+        var fieldValues = this.state.fields.reduce(function(acc, field) {
+            if (field.name !== this.props.input.queryField && field.value) {
+                acc[field.name] = field.value;
+            }
+
+            return acc;
+        }.bind(this), {});
+
+        this.props.addToSelection(
+            React.addons.update(this.state.results[index], {$merge: fieldValues})
+        );
     },
 
     removeFromSelection: function(index) {
@@ -101,7 +110,37 @@ var Reveal = React.createClass({
         this.props.removeFromSelection(index);
     },
 
-    getResults: function(query) {
+    queryValue: function() {
+        return this.state.fields.filter(function(field) {
+            return field.name === this.props.input.queryField;
+        }.bind(this))[0].value;
+    },
+
+    updateFields: function(query) {
+        var regexString = this.props.input.fields.map(function(field) {
+            return field.regex;
+        }).reduce(function(acc, regex) {
+            return acc + this.props.input.delimiter + regex;
+        }.bind(this)) + "$";
+
+        var regex = new RegExp(regexString);
+        var fieldValues = regex.exec(query).slice(1, this.state.fields.length + 1);
+        var inputFields = this.state.fields.map(function(input, index) {
+            return {
+                name: input.name,
+                regex: input.regex,
+                value: fieldValues[index]
+            };
+        });
+
+        this.setState({
+            fullField: query,
+            fields: inputFields
+        });
+    },
+
+    getResults: function() {
+        var query = this.queryValue();
         var selected_ids = this.props.selection.map(function(selected) {
             return selected.id;
         });
@@ -134,6 +173,12 @@ var Reveal = React.createClass({
         });
     },
 
+    componentDidUpdate: function(prevProps, prevState) {
+        if (prevState.fields !== this.state.fields) {
+            this.getResults();
+        }
+    },
+
     render: function() {
         var self = this;
         var resultClass = 'valign-wrapper';
@@ -163,7 +208,7 @@ var Reveal = React.createClass({
                                         id='search'
                                         type='search'
                                         ref='search'
-                                        value={this.state.value}
+                                        value={this.state.field}
                                         onKeyDown={this.handleKeyPress}
                                         onChange={this.handleChange}
                                         required />
