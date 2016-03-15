@@ -1,7 +1,6 @@
 var RevealMixin = {
     propTypes: {
-        modal: React.PropTypes.object.isRequired,
-        selection: React.PropTypes.array.isRequired
+        modal: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
@@ -26,11 +25,4 @@ var RevealMixin = {
     toggleModal: function() {
         this.setState({ modalOpen: !this.state.modalOpen });
     },
-
-    componentDidUpdate: function(prevProps, prevState) {
-        if (this.state.modalOpen != prevState.modalOpen) {
-            var modal = $('#' + this.props.modal.id);
-            this.state.modalOpen ? modal.openModal() : modal.closeModal();
-        }
-    }
 }

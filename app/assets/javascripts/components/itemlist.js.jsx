@@ -2,12 +2,14 @@ var ItemList = React.createClass({
     mixins: [RevealMixin],
     propTypes: {
         users: React.PropTypes.array.isRequired,
-        grocery: React.PropTypes.object.isRequired
+        grocery: React.PropTypes.object.isRequired,
+        items: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
         return {
-            users: this.props.users
+            users: this.props.users,
+            selection: []
         }
     },
 
@@ -42,20 +44,26 @@ var ItemList = React.createClass({
         }.bind(this));
     },
 
+    reloadItems: function() {
+        $.getJSON(this.props.items.url, function(selection) {
+            this.setState({ selection: selection });
+            $('.collapsible').collapsible({ accordion: false });
+            Materialize.initializeDismissable();
+        }.bind(this));
+    },
+
     componentDidMount: function() {
         $(document).ready(function() {
-            $('.collapsible').collapsible({
-                accordion: false
+            this.reloadItems();
+            $('item-list').on('remove', '.dismissable', function(e) {
+                this.handleRemove(parseInt(e.target.getAttribute('data-index')));
             });
-        });
+        }.bind(this));
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (this.state.selection.length !== prevState.selection.length) {
-            Materialize.initializeDismissable();
-            $('.dismissable').on('remove', function(e) {
-                this.handleRemove(parseInt(e.target.getAttribute('data-index')));
-            }.bind(this));
+        if (!this.state.modalOpen && prevState.modalOpen) {
+            this.reloadItems();
         }
     },
 
@@ -69,31 +77,33 @@ var ItemList = React.createClass({
                       </div>
         }
 
-        var items = this.state.selection.map(function(item, index) {
-            requester = this.state.users.filter(function(user) {
-                return user.id == item.requester;
-            })[0];
+        if (!this.state.modalOpen) {
+            var items = this.state.selection.map(function(item, index) {
+                requester = this.state.users.filter(function(user) {
+                    return user.id == item.requester;
+                })[0];
 
-            if (!requester) {
-                return;
-            }
+                if (!requester) {
+                    return;
+                }
 
-            return (
-                <li key={'item-' + index}
-                    data-index={index}
-                    className='collection-item dismissable'>
-                    <div className='collapsible-header'>
-                        <img src={requester.gravatar} />
-                        <p>
-                            <strong>{requester.name}</strong> wants <strong>{item.quantity_formatted}</strong>
-                        </p>
-                    </div>
-                    <div className='collapsible-body'>
-                        <p>This is a test of the collapsible body.</p>
-                    </div>
-                </li>
-            );
-        }.bind(this));
+                return (
+                    <li key={'item-' + index}
+                        data-index={index}
+                        className='collection-item dismissable'>
+                        <div className='collapsible-header'>
+                            <img src={requester.gravatar} />
+                            <p>
+                                <strong>{requester.name}</strong> wants <strong>{item.quantity_formatted}</strong>
+                            </p>
+                        </div>
+                        <div className='collapsible-body'>
+                            <p>This is a test of the collapsible body.</p>
+                        </div>
+                    </li>
+                );
+            }.bind(this));
+        }
 
         return (
             <div className='item-list'>
@@ -116,6 +126,7 @@ var ItemList = React.createClass({
                 </div>
                 <Reveal
                     selection={this.state.selection}
+                    modalOpen={this.state.modalOpen}
                     toggleModal={this.toggleModal}
                     handleSave={this.handleSave}
                     addToSelection={this.addToSelection}
