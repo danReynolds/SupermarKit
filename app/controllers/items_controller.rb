@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
   load_and_authorize_resource :item, through: :grocery, shallow: true
 
   def index
+    render json: format_items
   end
 
   def show
@@ -52,7 +53,7 @@ class ItemsController < ApplicationController
 
   def auto_complete
     items = @grocery.user_group.privacy_items.select(:id, :description, :name)
-                    .with_name(params[:q].singularize)
+                    .with_name(params[:q])
                     .where.not(id: @grocery.item_ids).limit(5)
 
     items.map do |item|
@@ -87,6 +88,25 @@ class ItemsController < ApplicationController
   end
 
 private
+  def format_items
+    @grocery.items.select(:id, :name, :description).map do |item|
+      grocery_item = GroceriesItems.find_by_item_id_and_grocery_id(item.id, @grocery.id)
+      {
+        id: item.id,
+        name: item.name,
+        description: item.description.to_s,
+        grocery_item_id: grocery_item.id,
+        quantity: grocery_item.quantity,
+        quantity_formatted: "#{grocery_item.quantity.en.numwords} #{item.name.en.plural(grocery_item.quantity)}",
+        price: grocery_item.price.dollars.to_s,
+        price_formatted: grocery_item.price.format,
+        total_price_formatted: grocery_item.total_price.format,
+        path: item_path(item.id),
+        requester: grocery_item.requester_id
+      }
+    end
+  end
+
   def item_params
     params.require(:item).permit(
       :name,

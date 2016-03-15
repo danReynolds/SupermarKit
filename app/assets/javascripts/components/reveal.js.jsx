@@ -10,14 +10,16 @@ var Reveal = React.createClass({
         handleSave: React.PropTypes.func.isRequired,
         toggleModal: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string,
-        input: React.PropTypes.object.isRequired
+        input: React.PropTypes.object.isRequired,
+        modalOpen: React.PropTypes.bool.isRequired
     },
 
     getInitialState: function() {
         return {
             fullField: '',
             fields: this.props.input.fields,
-            results: []
+            results: [],
+            backspaceTarget: null
         };
     },
 
@@ -49,7 +51,8 @@ var Reveal = React.createClass({
                 event.preventDefault();
             return;
             case this.props.backTarget:
-                this.handleRemove(event);
+                if (this.state.fullField.length === 0)
+                    this.handleRemove(event);
                 return;
             default:
                 return;
@@ -67,15 +70,15 @@ var Reveal = React.createClass({
     },
 
     handleRemove: function(event) {
-        if (this.state.fullField.length !== 0) return;
-
+        var backspaceTarget;
         if (Number.isInteger(this.state.backspaceTarget) && this.state.backspaceTarget >= 0) {
             this.props.removeFromSelection(this.state.backspaceTarget);
+            backspaceTarget = this.state.backspaceTarget - 1;
+        } else {
+            backspaceTarget = this.props.selection.length - 1;
         }
 
-        this.setState({
-            backspaceTarget: this.props.selection.length - 1,
-        });
+        this.setState({ backspaceTarget: backspaceTarget });
     },
 
     handleSave: function() {
@@ -84,30 +87,26 @@ var Reveal = React.createClass({
     },
 
     addToSelection: function(index) {
-        this.setState({
-            backspaceTarget: null,
-            scrollTarget: 0,
-            results: [],
-        });
-
         var fieldValues = this.state.fields.reduce(function(acc, field) {
             if (field.name !== this.props.input.queryField && field.value) {
                 acc[field.name] = field.value;
             }
-
             return acc;
         }.bind(this), {});
+
+        this.setState({
+            backspaceTarget: null,
+            scrollTarget: 0,
+            results: [],
+            fields: this.state.fields.map(function(field) {
+                return $.extend(field, {value: null})
+            }),
+            fullField: ''
+        });
 
         this.props.addToSelection(
             React.addons.update(this.state.results[index], {$merge: fieldValues})
         );
-    },
-
-    removeFromSelection: function(index) {
-        this.setState({
-            backspaceTarget: null,
-        });
-        this.props.removeFromSelection(index);
     },
 
     queryValue: function() {
@@ -145,7 +144,7 @@ var Reveal = React.createClass({
             return selected.id;
         });
 
-        if (query.length >= this.props.minLength) {
+        if (query && query.length >= this.props.minLength) {
             $.getJSON(this.props.queryUrl + query, function(results) {
                 this.setState({
                     results: results.filter(function(user) {
@@ -162,20 +161,22 @@ var Reveal = React.createClass({
         }
     },
 
-    componentDidMount: function() {
-        var self = this;
-        $(document).ready(function() {
-            $('.modal-trigger').leanModal({
-                ready: function() {
-                    ReactDOM.findDOMNode(self.refs.search).focus();
-                }
-            });
-        });
-    },
-
     componentDidUpdate: function(prevProps, prevState) {
+        var self = this;
+
         if (prevState.fields !== this.state.fields) {
             this.getResults();
+        } else if (this.props.modalOpen !== prevProps.modalOpen) {
+            var modal = $('#' + this.props.id);
+            if (this.props.modalOpen) {
+                modal.openModal({
+                    ready: function() {
+                        self.refs.search.focus();
+                    }
+                });
+            } else {
+                modal.closeModal();
+            }
         }
     },
 
@@ -208,7 +209,7 @@ var Reveal = React.createClass({
                                         id='search'
                                         type='search'
                                         ref='search'
-                                        value={this.state.field}
+                                        value={this.state.fullField}
                                         onKeyDown={this.handleKeyPress}
                                         onChange={this.handleChange}
                                         required />
@@ -223,13 +224,24 @@ var Reveal = React.createClass({
                         placeholder={this.props.placeholder}
                         selection={this.props.selection}
                         backspaceTarget={this.state.backspaceTarget}
-                        removeFromSelection={this.removeFromSelection}/>
+                        removeFromSelection={this.props.removeFromSelection}/>
                     <ul className='results-container'>
                         {results}
                     </ul>
                     <div className='reveal-controls'>
-                        <a className='waves-effect waves-light btn cancel' onClick={this.props.toggleModal}><i className='material-icons left'>close</i>Cancel</a>
-                        <a className='waves-effect waves-light btn' onClick={this.handleSave}><i className='material-icons left'>send</i>Update</a>
+                        <a
+                            ref='open'
+                            className='waves-effect waves-light btn cancel'
+                            onClick={this.props.toggleModal}>
+                            <i className='material-icons left'>close</i>
+                            Cancel
+                        </a>
+                        <a
+                            className='waves-effect waves-light btn'
+                            onClick={this.handleSave}>
+                            <i className='material-icons left'>send</i>
+                            Update
+                        </a>
                     </div>
                 </div>
             </div>

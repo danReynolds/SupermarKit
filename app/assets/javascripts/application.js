@@ -24,9 +24,3 @@
 //= require_tree ./user_groups
 //= require_tree ./groceries
 //= require_tree ./items
-
-$(document).ready(function() {
-    $('.collapsible').collapsible({
-        accordion : false
-    });
-});
