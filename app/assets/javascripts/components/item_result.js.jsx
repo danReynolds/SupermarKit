@@ -10,11 +10,12 @@ var ItemResult = React.createClass({
         var resultClass = 'valign-wrapper' + (this.props.resultIndex == this.props.scrollTarget ? ' target' : "");
 
         return (
-            <li
+            <li className='item-result'
                 className={resultClass}
                 onClick={this.props.handleAdd}
                 data-index={this.props.resultIndex}>
                 <p>{this.props.result.name}</p>
+                <p>{this.props.result.description}</p>
             </li>
         );
     }

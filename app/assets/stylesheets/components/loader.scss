@@ -1,0 +1,11 @@
+.la-cog {
+  color: $sm-green;
+  margin: 2rem auto;
+  animation: cycle 4s infinite alternate;
+
+  @keyframes cycle {
+    0% { color: $sm-green; }
+    50% { color: $sm-dark-green; }
+    100% { color: $sm-blue-green; }
+  }
+}

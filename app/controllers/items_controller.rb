@@ -98,8 +98,6 @@ private
         grocery_item_id: grocery_item.id,
         quantity: grocery_item.quantity,
         quantity_formatted: "#{grocery_item.quantity.en.numwords} #{item.name.en.plural(grocery_item.quantity)}",
-        price: grocery_item.price.dollars.to_s,
-        price_formatted: grocery_item.price.format,
         total_price_formatted: grocery_item.total_price.format,
         path: item_path(item.id),
         requester: grocery_item.requester_id

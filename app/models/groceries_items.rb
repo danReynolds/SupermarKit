@@ -10,7 +10,7 @@ class GroceriesItems < ActiveRecord::Base
 
   # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item
-  def localized_price
+  def estimated_price
     grocery_store = grocery.grocery_store
     groceries_items = GroceriesItems.where(item: item).where.not(price_cents: 0)
 
@@ -28,7 +28,11 @@ class GroceriesItems < ActiveRecord::Base
   end
 
   def total_price
-    quantity * price
+    quantity * calculated_price
+  end
+
+  def calculated_price
+    Money.new(price.nonzero? ? price : estimated_price)
   end
 
 private
