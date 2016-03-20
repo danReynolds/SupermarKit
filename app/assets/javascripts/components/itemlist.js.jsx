@@ -3,13 +3,20 @@ var ItemList = React.createClass({
     propTypes: {
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
-        items: React.PropTypes.object.isRequired
+        items: React.PropTypes.object.isRequired,
+        pageSize: React.PropTypes.number
+    },
+
+    getDefaultProps: function() {
+        return {
+            pageSize: 5
+        }
     },
 
     getInitialState: function() {
         return {
             users: this.props.users,
-            selection: []
+            pageNumber: 0
         }
     },
 
@@ -19,6 +26,30 @@ var ItemList = React.createClass({
 
     handleSave: function() {
         this.saveSelection(this.state.selection);
+    },
+
+    handlePageChange: function(e) {
+        this.pageChange(e.target.getAttribute('data-index'));
+    },
+
+    pageChange: function(index) {
+        this.setState({pageNumber: index});
+    },
+
+    lastPage: function() {
+        return Math.floor((this.state.selection.length - 1) / this.props.pageSize);
+    },
+
+    incrementPage: function() {
+        this.pageChange(
+            this.state.pageNumber === this.lastPage() ? 0 : this.state.pageNumber + 1
+        );
+    },
+
+    decrementPage: function() {
+        this.pageChange(
+            this.state.pageNumber === 0 ? this.lastPage() : this.state.pageNumber - 1
+        );
     },
 
     saveSelection: function(selection) {
@@ -40,6 +71,7 @@ var ItemList = React.createClass({
             contentType: 'application/json',
             url: this.props.grocery.url
         }).done(function() {
+            debugger;
             this.setState({ items: selection });
         }.bind(this));
     },
@@ -53,12 +85,13 @@ var ItemList = React.createClass({
     },
 
     componentDidMount: function() {
+        var self = this;
         $(document).ready(function() {
-            this.reloadItems();
-            $('item-list').on('remove', '.dismissable', function(e) {
-                this.handleRemove(parseInt(e.target.getAttribute('data-index')));
+            self.reloadItems();
+            $('.item-list').on('remove', '.dismissable', function(e) {
+                self.handleRemove(parseInt(e.target.getAttribute('data-index')));
             });
-        }.bind(this));
+        });
     },
 
     componentDidUpdate: function(prevProps, prevState) {
@@ -67,42 +100,88 @@ var ItemList = React.createClass({
         }
     },
 
-    render: function() {
-        var requester, noItems, image;
+    renderItems: function() {
+        var displayItems = this.state.selection.reduce(function(acc, item, index) {
+            var requester = this.state.users.filter(function(user) {
+                return user.id === item.requester;
+            })[0];
 
-        if (this.state.selection.length === 0) {
-            noItems = <div className="no-items">
-                          <i className='fa fa-shopping-basket'/>
-                          <h2>Your grocery list is empty.</h2>
-                      </div>
-        }
+            if (requester) {
+                acc.push({item: item, requester: requester});
+            }
+            return acc;
+        }.bind(this), []).splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
 
-        if (!this.state.modalOpen) {
-            var items = this.state.selection.map(function(item, index) {
-                requester = this.state.users.filter(function(user) {
-                    return user.id == item.requester;
-                })[0];
-
-                if (!requester) {
-                    return;
-                }
-
-                return (
-                    <li key={'item-' + index}
-                        data-index={index}
-                        className='collection-item dismissable'>
+        return displayItems.map(function(data, index) {
+            return (
+                <li key={'item-' + index}
+                    data-index={index}
+                    className='collection-item dismissable'>
                         <div className='collapsible-header'>
-                            <img src={requester.gravatar} />
+                            <img src={data.requester.gravatar} />
                             <p>
-                                <strong>{requester.name}</strong> wants <strong>{item.quantity_formatted}</strong>
+                                <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
                             </p>
+                            <div className='price'>
+                                {data.item.total_price_formatted}
+                            </div>
                         </div>
                         <div className='collapsible-body'>
                             <p>This is a test of the collapsible body.</p>
                         </div>
-                    </li>
-                );
-            }.bind(this));
+                </li>
+            );
+        }.bind(this));
+    },
+
+    renderNoContent: function() {
+        return <div className="no-items">
+                   <i className='fa fa-shopping-basket'/>
+                   <h3>Your grocery list is empty.</h3>
+               </div>;
+    },
+
+    renderPagination: function() {
+        var pages = [];
+        var pageLength = this.lastPage();
+        for (var pageNumber = 0; pageNumber <= this.state.selection.length / this.props.pageSize; pageNumber++) {
+            pages.push(
+                <li
+                    key={pageNumber}
+                    className={this.state.pageNumber == pageNumber ? "active" : ""}>
+                    <a
+                        data-index={pageNumber}
+                        onClick={this.handlePageChange}
+                        href="#!">
+                        {pageNumber + 1}
+                    </a>
+                </li>
+            );
+        }
+        return (
+            <ul className='pagination'>
+                <li>
+                    <a href="#!" onClick={this.decrementPage}>
+                        <i className="material-icons">chevron_left</i>
+                    </a>
+                </li>
+                {pages}
+                <li>
+                    <a href="#!" onClick={this.incrementPage}>
+                        <i className="material-icons">chevron_right</i>
+                    </a>
+                </li>
+            </ul>
+        );
+    },
+
+    render: function() {
+        var content, pagination;
+        if (this.state.modalOpen || !this.state.selection) {
+            content = <Loader />
+        } else {
+            content = this.state.selection.length ? this.renderItems() : this.renderNoContent();
+            pagination = this.renderPagination();
         }
 
         return (
@@ -113,8 +192,8 @@ var ItemList = React.createClass({
                             <h3>Groceries for {this.props.grocery.name}</h3>
                         </div>
                         <ul className='collection collapsible popout data-collapsible="accordion'>
-                            {noItems}
-                            {items}
+                            {content}
+                            {pagination}
                         </ul>
                         <a
                             onClick={this.toggleModal}

@@ -10,12 +10,32 @@
   }
 
   .no-items {
-    margin: 5rem;
+    margin: 2rem;
     text-align: center;
 
     i {
       color: $sm-light-green;
-      font-size: 10rem;
+      font-size: 4rem;
+    }
+
+    h3 {
+      color: $sm-gray;
+    }
+  }
+
+  .pagination {
+    margin: 0 auto;
+    display: table;
+    width: initial;
+
+    a { color: $sm-dark-gray !important; }
+    .active {
+      background: $sm-green;
+      height: 1.5rem;
+    }
+    li {
+      line-height: 0.8rem;
+      margin: 0 3px !important;
     }
   }
 
@@ -43,6 +63,19 @@
     border-bottom: none;
     width: 100%;
     @extend .valign-wrapper;
+
+    img {
+      @include size(2.5rem);
+    }
+  }
+
+  .price {
+    background: $sm-light-gray;
+    border-radius: 2px;
+    height: 28px;
+    line-height: 2;
+    margin-left: auto;
+    padding: 0 5px;
   }
 
   .collapsible-body {
@@ -56,7 +89,7 @@
     li {
       box-shadow: none;
       margin: 0;
-      padding: 0.6rem;
+      padding: 0.3rem;
     }
   }
 

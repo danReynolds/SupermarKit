@@ -19,7 +19,7 @@ var Reveal = React.createClass({
             fullField: '',
             fields: this.props.input.fields,
             results: [],
-            backspaceTarget: null
+            backspaceTarget: null,
         };
     },
 
@@ -48,8 +48,8 @@ var Reveal = React.createClass({
                     this.handleSave();
                 else
                     this.addToSelection(this.state.scrollTarget);
-                event.preventDefault();
-            return;
+                    event.preventDefault();
+                    return;
             case this.props.backTarget:
                 if (this.state.fullField.length === 0)
                     this.handleRemove(event);
@@ -146,10 +146,19 @@ var Reveal = React.createClass({
 
         if (query && query.length >= this.props.minLength) {
             $.getJSON(this.props.queryUrl + query, function(results) {
+                var displayedResults = results.filter(function(result) {
+                    return !selected_ids.includes(result.id);
+                });
+
+                if (displayedResults.length === 0) {
+                    displayedResults.push({
+                        name: query,
+                        description: 'Add new'
+                    });
+                }
+
                 this.setState({
-                    results: results.filter(function(user) {
-                        return !selected_ids.includes(user.id);
-                    }),
+                    results: displayedResults,
                     scrollTarget: 0
                 });
             }.bind(this));
@@ -172,6 +181,9 @@ var Reveal = React.createClass({
                 modal.openModal({
                     ready: function() {
                         self.refs.search.focus();
+                    },
+                    complete: function() {
+                        self.props.toggleModal();
                     }
                 });
             } else {
@@ -183,6 +195,7 @@ var Reveal = React.createClass({
     render: function() {
         var self = this;
         var resultClass = 'valign-wrapper';
+        var pagination;
 
         var results = this.state.results.map(function(result, index) {
             return (
@@ -215,7 +228,7 @@ var Reveal = React.createClass({
                                         required />
                                     <label htmlFor='search'><i className='material-icons'>search</i></label>
                                     <i className='material-icons'>close</i>
-                              </div>
+                                </div>
                             </form>
                         </div>
                     </nav>
