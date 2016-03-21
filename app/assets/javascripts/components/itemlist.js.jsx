@@ -29,7 +29,7 @@ var ItemList = React.createClass({
     },
 
     handlePageChange: function(e) {
-        this.pageChange(e.target.getAttribute('data-index'));
+        this.pageChange(parseInt(e.target.getAttribute('data-index')));
     },
 
     pageChange: function(index) {
@@ -71,8 +71,10 @@ var ItemList = React.createClass({
             contentType: 'application/json',
             url: this.props.grocery.url
         }).done(function() {
-            debugger;
-            this.setState({ items: selection });
+            this.setState({
+                items: selection,
+                pageNumber: 0
+            });
         }.bind(this));
     },
 
@@ -144,7 +146,7 @@ var ItemList = React.createClass({
     renderPagination: function() {
         var pages = [];
         var pageLength = this.lastPage();
-        for (var pageNumber = 0; pageNumber <= this.state.selection.length / this.props.pageSize; pageNumber++) {
+        for (var pageNumber = 0; pageNumber <= pageLength; pageNumber++) {
             pages.push(
                 <li
                     key={pageNumber}
