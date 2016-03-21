@@ -183,7 +183,9 @@ var ItemList = React.createClass({
             content = <Loader />
         } else {
             content = this.state.selection.length ? this.renderItems() : this.renderNoContent();
-            pagination = this.renderPagination();
+            if (this.state.selection.length !== 0) {
+                pagination = this.renderPagination();
+            }
         }
 
         return (

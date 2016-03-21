@@ -227,7 +227,6 @@ var Reveal = React.createClass({
                                         onChange={this.handleChange}
                                         required />
                                     <label htmlFor='search'><i className='material-icons'>search</i></label>
-                                    <i className='material-icons'>close</i>
                                 </div>
                             </form>
                         </div>
