@@ -20,6 +20,58 @@ var ItemList = React.createClass({
         }
     },
 
+    getSelectedIndex: function(e) {
+        return parseInt($(e.target).closest('.collection-item').attr('data-index'));
+    },
+
+    handleItemFieldChange: function(e) {
+        var index = this.getSelectedIndex(e);
+        var field = e.target.getAttribute('data-field');
+        var value = parseFloat(e.target.value);
+
+        this.setState({
+            selection: React.addons.update(
+                this.state.selection,
+                {
+                    [index]: {
+                        [field]: {$set: Number.isFinite(value) ? value : null}
+                    }
+                }
+            )
+        });
+    },
+
+    handleItemUpdate: function(e) {
+        var index = this.getSelectedIndex(e);
+        var selected = this.state.selection[index];
+        $.ajax({
+            method: 'PATCH',
+            data: JSON.stringify({
+                grocery_id: this.props.grocery.id,
+                id: selected.id,
+                item: {
+                    groceries_items_attributes: {
+                        id: selected.grocery_item_id,
+                        quantity: selected.quantity,
+                        price: selected.price
+                    }
+                }
+            }),
+            dataType: 'json',
+            contentType: 'application/json',
+            url: selected.url
+        }).done(function(item) {
+            this.setState({
+                selection: React.addons.update(
+                    this.state.selection,
+                    {
+                        [index]: {$set: item.data}
+                    }
+                )
+            });
+        }.bind(this));
+    },
+
     handleRemove: function(index) {
         this.saveSelection(React.addons.update(this.state.selection, {$splice: [[index, 1]]}));
     },
@@ -67,12 +119,11 @@ var ItemList = React.createClass({
                     })
                 }
             }),
-            dataType: 'json',
             contentType: 'application/json',
             url: this.props.grocery.url
         }).done(function() {
             this.setState({
-                items: selection,
+                selection: selection,
                 pageNumber: 0
             });
         }.bind(this));
@@ -90,8 +141,8 @@ var ItemList = React.createClass({
         var self = this;
         $(document).ready(function() {
             self.reloadItems();
-            $('.item-list').on('remove', '.dismissable', function(e) {
-                self.handleRemove(parseInt(e.target.getAttribute('data-index')));
+            $('.item-list').on('removeItem', '.dismissable', function(e) {
+                self.handleRemove(self.getSelectedIndex(e));
             });
         });
     },
@@ -115,6 +166,8 @@ var ItemList = React.createClass({
         }.bind(this), []).splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
 
         return displayItems.map(function(data, index) {
+            var quantityId = "quantity-" + index;
+            var priceId = "price-" + index;
             return (
                 <li key={'item-' + index}
                     data-index={index}
@@ -129,7 +182,33 @@ var ItemList = React.createClass({
                             </div>
                         </div>
                         <div className='collapsible-body'>
-                            <p>This is a test of the collapsible body.</p>
+                            <div className="valign-wrapper">
+                                <div className="col l3 s3">
+                                    <label htmlFor={quantityId}>Quantity</label>
+                                    <input
+                                        onChange={this.handleItemFieldChange}
+                                        id={quantityId}
+                                        data-field="quantity"
+                                        type="number"
+                                        step="any"
+                                        value={data.item.quantity} />
+                                </div>
+                                <div className="col s4">
+                                    <label htmlFor={priceId}>Price per item</label>
+                                    <input
+                                        onChange={this.handleItemFieldChange}
+                                        id={priceId}
+                                        type="number"
+                                        data-field="price"
+                                        step="any"
+                                        value={data.item.price} />
+                                </div>
+                                <a
+                                    className='waves-effect waves-light btn'
+                                    onClick={this.handleItemUpdate}>
+                                    Update
+                                </a>
+                            </div>
                         </div>
                 </li>
             );
@@ -197,8 +276,8 @@ var ItemList = React.createClass({
                         </div>
                         <ul className='collection collapsible popout data-collapsible="accordion'>
                             {content}
-                            {pagination}
                         </ul>
+                        {pagination}
                         <a
                             onClick={this.toggleModal}
                             href={"#" + this.props.modal.id}
