@@ -24,7 +24,7 @@
   }
 
   .pagination {
-    margin: 0 auto;
+    margin: 0.4rem auto;
     display: table;
     width: initial;
 
@@ -32,6 +32,8 @@
     .active {
       background: $sm-green;
       height: 1.5rem;
+      line-height: 1.5rem;
+      vertical-align: middle;
     }
     li {
       line-height: 0.8rem;
@@ -40,6 +42,7 @@
   }
 
   .collection-item {
+    padding: 0.3rem 1rem;
     &.active {
       margin: 0.6rem !important;
       border-bottom: none;
@@ -63,6 +66,13 @@
     border-bottom: none;
     width: 100%;
     @extend .valign-wrapper;
+    padding: 0;
+
+    &.active {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid $sm-light-gray;
+      margin-bottom: 1rem;
+    }
 
     img {
       @include size(2.5rem);
@@ -80,6 +90,8 @@
 
   .collapsible-body {
     border-bottom: none;
+    a { margin-left: auto; }
+    .col { margin-left: 0; }
   }
 
   .collapsible {
@@ -89,7 +101,6 @@
     li {
       box-shadow: none;
       margin: 0;
-      padding: 0.3rem;
     }
   }
 

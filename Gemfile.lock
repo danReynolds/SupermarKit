@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:danReynolds/materialize-sass.git
-  revision: ad8118221ce3b3fe9bed11d6a0017a23405a77ba
+  revision: fec9086e261ec855b53ba2799bcaf93e3ca7333b
   specs:
     materialize-sass (0.97.5)
       sass (~> 3.3)
