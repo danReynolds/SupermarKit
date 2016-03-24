@@ -73,7 +73,13 @@ var ItemList = React.createClass({
     },
 
     handleRemove: function(index) {
-        this.saveSelection(React.addons.update(this.state.selection, {$splice: [[index, 1]]}));
+        var updatedSelection = React.addons.update(this.state.selection, {$splice: [[index, 1]]});
+        this.saveSelection(updatedSelection);
+        setTimeout(function(){
+            this.setState({ selection: updatedSelection }, function() {
+                $('.collection-item').css('transform', 'none');
+            }.bind(this));
+        }.bind(this), 100);
     },
 
     handleSave: function() {
@@ -121,12 +127,7 @@ var ItemList = React.createClass({
             }),
             contentType: 'application/json',
             url: this.props.grocery.url
-        }).done(function() {
-            this.setState({
-                selection: selection,
-                pageNumber: 0
-            });
-        }.bind(this));
+        });
     },
 
     reloadItems: function() {
@@ -170,6 +171,7 @@ var ItemList = React.createClass({
             var priceId = "price-" + index;
             return (
                 <li key={'item-' + index}
+                    ref={'item-' + index}
                     data-index={index}
                     className='collection-item dismissable'>
                         <div className='collapsible-header'>
