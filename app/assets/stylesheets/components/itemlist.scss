@@ -7,6 +7,7 @@
   .card-content {
     padding: 0rem;
     position: relative;
+    background: $sm-light-gray;
   }
 
   .no-items {
@@ -24,8 +25,9 @@
   }
 
   .pagination {
-    margin: 0.4rem auto;
+    margin: 0 auto;
     display: table;
+    padding: 0.5rem 0;
     width: initial;
 
     a { color: $sm-dark-gray !important; }
@@ -107,7 +109,7 @@
   .btn-floating {
     background: $sm-green;
     position: absolute;
-    bottom: -1.8rem;
+    bottom: -2rem;
     right: 1rem;
   }
 
