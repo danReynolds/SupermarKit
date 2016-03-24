@@ -11,7 +11,7 @@
   }
 
   .no-items {
-    margin: 2rem;
+    padding: 2rem;
     text-align: center;
 
     i {
@@ -45,13 +45,47 @@
 
   .collection-item {
     padding: 0.3rem 1rem;
+    position: relative;
+
+    &:hover:not(.active) {
+      .remove {
+        width: 7.5%;
+        opacity: 1;
+        transition: all .15s ease-in;
+      }
+
+      .collapsible-header {
+        width: 92.5%;
+      }
+    }
+
     &.active {
       margin: 0.6rem !important;
       border-bottom: none;
       color: $sm-gray;
       background: $sm-white;
     }
+
     p { margin-left: 1rem; }
+  }
+
+  .remove {
+    background: $sm-green;
+    color: $sm-white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.5rem;
+    height: 100%;
+    line-height: 2.25;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    vertical-align: middle;
+    transition-property: opacity, width;
+    transition: none;
+    width: 0;
   }
 
   .card-header {
@@ -68,7 +102,6 @@
     border-bottom: none;
     width: 100%;
     @extend .valign-wrapper;
-    padding: 0;
 
     &.active {
       padding-bottom: 1rem;
@@ -97,8 +130,9 @@
   }
 
   .collapsible {
-    margin: 0;
     background: $sm-light-gray;
+    margin: 0;
+    overflow: visible;
 
     li {
       box-shadow: none;

@@ -72,7 +72,11 @@ var ItemList = React.createClass({
         }.bind(this));
     },
 
-    handleRemove: function(index) {
+    handleRemove: function(e) {
+        this.removeItem(this.getSelectedIndex(e));
+    },
+
+    removeItem: function(index) {
         var updatedSelection = React.addons.update(this.state.selection, {$splice: [[index, 1]]});
         this.saveSelection(updatedSelection);
         setTimeout(function(){
@@ -143,7 +147,7 @@ var ItemList = React.createClass({
         $(document).ready(function() {
             self.reloadItems();
             $('.item-list').on('removeItem', '.dismissable', function(e) {
-                self.handleRemove(self.getSelectedIndex(e));
+                self.handleRemove(e);
             });
         });
     },
@@ -166,7 +170,7 @@ var ItemList = React.createClass({
             return acc;
         }.bind(this), []).splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
 
-        return displayItems.map(function(data, index) {
+        var content = displayItems.map(function(data, index) {
             var quantityId = "quantity-" + index;
             var priceId = "price-" + index;
             return (
@@ -174,47 +178,59 @@ var ItemList = React.createClass({
                     ref={'item-' + index}
                     data-index={index}
                     className='collection-item dismissable'>
-                        <div className='collapsible-header'>
-                            <img src={data.requester.gravatar} />
-                            <p>
-                                <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
-                            </p>
-                            <div className='price'>
-                                {data.item.total_price_formatted}
-                            </div>
+                    <div className='collapsible-header'>
+                        <img src={data.requester.gravatar} />
+                        <p>
+                            <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
+                        </p>
+                        <div className='price'>
+                            {data.item.total_price_formatted}
                         </div>
-                        <div className='collapsible-body'>
-                            <div className="valign-wrapper">
-                                <div className="col l3 s3">
-                                    <label htmlFor={quantityId}>Quantity</label>
-                                    <input
-                                        onChange={this.handleItemFieldChange}
-                                        id={quantityId}
-                                        data-field="quantity"
-                                        type="number"
-                                        step="any"
-                                        value={data.item.quantity} />
-                                </div>
-                                <div className="col s4">
-                                    <label htmlFor={priceId}>Price per item</label>
-                                    <input
-                                        onChange={this.handleItemFieldChange}
-                                        id={priceId}
-                                        type="number"
-                                        data-field="price"
-                                        step="any"
-                                        value={data.item.price} />
-                                </div>
-                                <a
-                                    className='waves-effect waves-light btn'
-                                    onClick={this.handleItemUpdate}>
-                                    Update
-                                </a>
+                    </div>
+                    <div  className='collapsible-body'>
+                        <div className="valign-wrapper">
+                            <div className="col l3 s3">
+                                <label htmlFor={quantityId}>Quantity</label>
+                                <input
+                                    onChange={this.handleItemFieldChange}
+                                    id={quantityId}
+                                    data-field="quantity"
+                                    type="number"
+                                    step="any"
+                                    value={data.item.quantity} />
                             </div>
+                            <div className="col s4">
+                                <label htmlFor={priceId}>Price per item</label>
+                                <input
+                                    onChange={this.handleItemFieldChange}
+                                    id={priceId}
+                                    type="number"
+                                    data-field="price"
+                                    step="any"
+                                    value={data.item.price} />
+                            </div>
+                            <a
+                                className='waves-effect waves-light btn'
+                                onClick={this.handleItemUpdate}>
+                                Update
+                            </a>
                         </div>
+                    </div>
+                    <div
+                        onClick={this.handleRemove}
+                        className="remove">
+                        <i className='fa fa-close'/>
+                    </div>
                 </li>
             );
         }.bind(this));
+
+        return (
+            <ul className='collection collapsible popout data-collapsible="accordion'>
+                {content}
+                {this.renderPagination()}
+            </ul>
+        );
     },
 
     renderNoContent: function() {
@@ -264,9 +280,6 @@ var ItemList = React.createClass({
             content = <Loader />
         } else {
             content = this.state.selection.length ? this.renderItems() : this.renderNoContent();
-            if (this.state.selection.length !== 0) {
-                pagination = this.renderPagination();
-            }
         }
 
         return (
@@ -276,9 +289,7 @@ var ItemList = React.createClass({
                         <div className='card-header'>
                             <h3>Groceries for {this.props.grocery.name}</h3>
                         </div>
-                        <ul className='collection collapsible popout data-collapsible="accordion'>
-                            {content}
-                        </ul>
+                        {content}
                         {pagination}
                         <a
                             onClick={this.toggleModal}
