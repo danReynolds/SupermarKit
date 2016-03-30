@@ -86,6 +86,16 @@ private
           id: 'change-members',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),
           type: 'UserResult',
+          input: {
+            placeholder: 'Add friends to your Kit',
+            queryField: 'query',
+            fields: [
+              {
+                name: 'query',
+                regex: '(.*)'
+              }
+            ]
+          }
         }
       }
   end

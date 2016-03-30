@@ -10,14 +10,15 @@ var ItemList = React.createClass({
     getDefaultProps: function() {
         return {
             pageSize: 5
-        }
+        };
     },
 
     getInitialState: function() {
         return {
             users: this.props.users,
-            pageNumber: 0
-        }
+            pageNumber: 0,
+            total: 0
+        };
     },
 
     getSelectedIndex: function(e) {
@@ -30,11 +31,13 @@ var ItemList = React.createClass({
         var value = parseFloat(e.target.value);
 
         this.setState({
-            selection: React.addons.update(
-                this.state.selection,
+            modal: React.addons.update(
+                this.state.modal,
                 {
-                    [index]: {
-                        [field]: {$set: Number.isFinite(value) ? value : null}
+                    selection: {
+                        [index]: {
+                            [field]: {$set: Number.isFinite(value) ? value : null}
+                        }
                     }
                 }
             )
@@ -43,7 +46,7 @@ var ItemList = React.createClass({
 
     handleItemUpdate: function(e) {
         var index = this.getSelectedIndex(e);
-        var selected = this.state.selection[index];
+        var selected = this.state.modal.selection[index];
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -60,15 +63,24 @@ var ItemList = React.createClass({
             dataType: 'json',
             contentType: 'application/json',
             url: selected.url
-        }).done(function(item) {
-            this.setState({
-                selection: React.addons.update(
-                    this.state.selection,
+        }).done(function(response) {
+            this.setState(
+                React.addons.update(
+                    this.state,
                     {
-                        [index]: {$set: item.data}
+                        modal: {
+                            selection: {
+                                [index]: {
+                                    $merge: response.data.new_item
+                                }
+                            }
+                        },
+                        total: {
+                            $set: this.state.total + this.totalPrice(selected) - this.totalPrice(response.data.old_item)
+                        }
                     }
                 )
-            });
+            );
         }.bind(this));
     },
 
@@ -77,17 +89,22 @@ var ItemList = React.createClass({
     },
 
     removeItem: function(index) {
-        var updatedSelection = React.addons.update(this.state.selection, {$splice: [[index, 1]]});
-        this.saveSelection(updatedSelection);
+        var updatedModal = React.addons.update(
+            this.state.modal,
+            {
+                selection: {$splice: [[index, 1]]}
+            }
+        );
+        this.saveSelection(updatedModal.selection);
         setTimeout(function(){
-            this.setState({ selection: updatedSelection }, function() {
+            this.setState({ modal: updatedModal }, function() {
                 $('.collection-item').css('transform', 'none');
             }.bind(this));
         }.bind(this), 100);
     },
 
     handleSave: function() {
-        this.saveSelection(this.state.selection);
+        this.saveSelection(this.state.modal.selection);
     },
 
     handlePageChange: function(e) {
@@ -99,7 +116,7 @@ var ItemList = React.createClass({
     },
 
     lastPage: function() {
-        return Math.floor((this.state.selection.length - 1) / this.props.pageSize);
+        return Math.floor((this.state.modal.selection.length - 1) / this.props.pageSize);
     },
 
     incrementPage: function() {
@@ -112,6 +129,10 @@ var ItemList = React.createClass({
         this.pageChange(
             this.state.pageNumber === 0 ? this.lastPage() : this.state.pageNumber - 1
         );
+    },
+
+    totalPrice: function(item) {
+        return parseFloat(item.price) * parseFloat(item.quantity);
     },
 
     saveSelection: function(selection) {
@@ -135,8 +156,22 @@ var ItemList = React.createClass({
     },
 
     reloadItems: function() {
-        $.getJSON(this.props.items.url, function(selection) {
-            this.setState({ selection: selection });
+        $.getJSON(this.props.items.url, function(response) {
+            this.setState(
+                React.addons.update(
+                    this.state,
+                    {
+                        modal: {
+                            selection: {
+                                $set: response.data.items
+                            }
+                        },
+                        total: {
+                            $set: response.data.total
+                        }
+                    }
+                )
+            );
             $('.collapsible').collapsible({ accordion: false });
             Materialize.initializeDismissable();
         }.bind(this));
@@ -153,13 +188,13 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (!this.state.modalOpen && prevState.modalOpen) {
+        if (!this.state.modal.open && prevState.modal.open) {
             this.reloadItems();
         }
     },
 
     renderItems: function() {
-        var displayItems = this.state.selection.reduce(function(acc, item, index) {
+        var displayItems = this.state.modal.selection.reduce(function(acc, item, index) {
             var requester = this.state.users.filter(function(user) {
                 return user.id === item.requester;
             })[0];
@@ -170,7 +205,7 @@ var ItemList = React.createClass({
             return acc;
         }.bind(this), []).splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
 
-        var content = displayItems.map(function(data, index) {
+        var itemContent = displayItems.map(function(data, index) {
             var quantityId = "quantity-" + index;
             var priceId = "price-" + index;
             return (
@@ -184,7 +219,7 @@ var ItemList = React.createClass({
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
                         </p>
                         <div className='price'>
-                            {data.item.total_price_formatted}
+                            ${data.item.price * data.item.quantity}
                         </div>
                     </div>
                     <div  className='collapsible-body'>
@@ -227,7 +262,15 @@ var ItemList = React.createClass({
 
         return (
             <ul className='collection collapsible popout data-collapsible="accordion'>
-                {content}
+                {itemContent}
+                <div className="total">
+                    <span>
+                        Estimated Total:
+                        <span className="price">
+                            ${this.state.total}
+                        </span>
+                    </span>
+                </div>
                 {this.renderPagination()}
             </ul>
         );
@@ -276,12 +319,11 @@ var ItemList = React.createClass({
 
     render: function() {
         var content, pagination;
-        if (this.state.modalOpen || !this.state.selection) {
+        if (this.state.modal.open || !this.state.modal.selection) {
             content = <Loader />
         } else {
-            content = this.state.selection.length ? this.renderItems() : this.renderNoContent();
+            content = this.state.modal.selection.length ? this.renderItems() : this.renderNoContent();
         }
-
         return (
             <div className='item-list'>
                 <div className='card'>
@@ -300,13 +342,8 @@ var ItemList = React.createClass({
                     </div>
                 </div>
                 <Reveal
-                    selection={this.state.selection}
-                    modalOpen={this.state.modalOpen}
-                    toggleModal={this.toggleModal}
-                    handleSave={this.handleSave}
-                    addToSelection={this.addToSelection}
-                    removeFromSelection={this.removeFromSelection}
-                    {...this.props.modal} />
+                    {...this.state.modal}
+                    {...this.props.modal}/>
             </div>
         );
     }

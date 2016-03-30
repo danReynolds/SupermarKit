@@ -1,28 +1,62 @@
 var RevealMixin = {
     propTypes: {
-        modal: React.PropTypes.object.isRequired
+        modal: React.PropTypes.shape({
+            id: React.PropTypes.string.isRequired,
+            queryUrl: React.PropTypes.string.isRequired,
+            type: React.PropTypes.string.isRequired,
+            input: React.PropTypes.object.isRequired
+        })
     },
 
     getInitialState: function() {
         return {
-            selection: this.props.selection,
-            modalOpen: false
-        }
+            modal: {
+                selection: this.props.selection,
+                open: false,
+                addToSelection: this.addToSelection,
+                removeFromSelection: this.removeFromSelection,
+                handleSave: this.handleSave,
+                toggleModal: this.toggleModal
+            }
+        };
     },
 
     addToSelection: function(selected) {
         this.setState({
-            selection: React.addons.update(this.state.selection, {$push: [selected]})
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    selection: {
+                        $push: [selected]
+                    }
+                }
+            )
         });
     },
 
     removeFromSelection: function(index) {
         this.setState({
-            selection: React.addons.update(this.state.selection, {$splice: [[index, 1]]})
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    selection: {
+                        $splice: [[index, 1]]
+                    }
+                }
+            )
         });
     },
 
     toggleModal: function() {
-        this.setState({ modalOpen: !this.state.modalOpen });
+        this.setState({
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    open: {
+                        $set: !this.state.modal.open
+                    }
+                }
+            )
+        });
     },
 }

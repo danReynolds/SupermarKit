@@ -11,7 +11,7 @@ var Reveal = React.createClass({
         toggleModal: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string,
         input: React.PropTypes.object.isRequired,
-        modalOpen: React.PropTypes.bool.isRequired
+        open: React.PropTypes.bool.isRequired
     },
 
     getInitialState: function() {
@@ -140,17 +140,17 @@ var Reveal = React.createClass({
 
     getResults: function() {
         var query = this.queryValue();
-        var selected_ids = this.props.selection.map(function(selected) {
-            return selected.id;
+        var selected_names = this.props.selection.map(function(selected) {
+            return selected.name;
         });
 
         if (query && query.length >= this.props.minLength) {
             $.getJSON(this.props.queryUrl + query, function(results) {
                 var displayedResults = results.filter(function(result) {
-                    return !selected_ids.includes(result.id);
+                    return !selected_names.includes(result.name);
                 });
 
-                if (displayedResults.length === 0) {
+                if (displayedResults.length === 0 && !selected_names.includes(query)) {
                     displayedResults.push({
                         name: query,
                         description: 'Add new'
@@ -175,9 +175,9 @@ var Reveal = React.createClass({
 
         if (prevState.fields !== this.state.fields) {
             this.getResults();
-        } else if (this.props.modalOpen !== prevProps.modalOpen) {
+        } else if (this.props.open !== prevProps.open) {
             var modal = $('#' + this.props.id);
-            if (this.props.modalOpen) {
+            if (this.props.open) {
                 modal.openModal({
                     ready: function() {
                         self.refs.search.focus();
@@ -208,7 +208,6 @@ var Reveal = React.createClass({
                 })
             );
         });
-
         return (
             <div id={this.props.id} className='modal bottom-sheet'>
                 <div className='reveal'>
@@ -217,7 +216,7 @@ var Reveal = React.createClass({
                             <form>
                                 <div className='input-field'>
                                     <input
-                                        placeholder={this.props.placeholder}
+                                        placeholder={this.props.input.placeholder}
                                         autoComplete='off'
                                         id='search'
                                         type='search'

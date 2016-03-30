@@ -31,15 +31,13 @@
     width: initial;
 
     a { color: $sm-dark-gray !important; }
-    .active {
-      background: $sm-green;
-      height: 1.5rem;
-      line-height: 1.5rem;
-      vertical-align: middle;
-    }
     li {
-      line-height: 0.8rem;
-      margin: 0 3px !important;
+      margin: 0 2px !important;
+      line-height: 1.8rem;
+      vertical-align: middle;
+
+      &:not(:first-child, :last-child) { height: 1.5rem };
+      &.active { background: $sm-green; }
     }
   }
 
@@ -100,6 +98,7 @@
 
   .collapsible-header {
     border-bottom: none;
+    padding: 0;
     width: 100%;
     @extend .valign-wrapper;
 
@@ -112,6 +111,15 @@
     img {
       @include size(2.5rem);
     }
+  }
+
+  .total {
+    background: $sm-white;
+    padding: 1rem;
+    display: flex;
+
+    span { margin-left: auto; }
+    .price { margin-left: 0.5rem; }
   }
 
   .price {
