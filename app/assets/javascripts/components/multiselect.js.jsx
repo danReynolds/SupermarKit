@@ -1,5 +1,5 @@
 var Multiselect = React.createClass({
-    mixins: [RevealMixin],
+    mixins: [ModalContainer],
     propTypes: {
         title: React.PropTypes.string,
         button: React.PropTypes.string,
@@ -33,7 +33,7 @@ var Multiselect = React.createClass({
             button = <a href={'#' + this.props.modal.id} className='waves effect waves light btn secondary modal-trigger'>
                         {this.props.button}
                      </a>;
-            modal = <Reveal
+            modal = <Modal
                         {...this.props.modal}
                         addToSelection={this.addToSelection}
                         removeFromSelection={this.removeFromSelection}

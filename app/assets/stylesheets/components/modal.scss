@@ -13,3 +13,44 @@
     padding: 0;
   }
 }
+
+.modal-reveal {
+  li {
+    background: $sm-white;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+    width: 95%;
+
+    p { margin-left: 1rem !important; }
+    img {
+      border-radius: 50%;
+      height: 3rem;
+    }
+  }
+
+  .reveal-controls {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+  }
+
+  .multiselect { margin-bottom: 0; }
+  .selection-container { margin: 0 !important; }
+
+  .results-container {
+    max-height: 22rem;
+    @media #{$desktop} {
+       max-height: 13.2rem;
+    }
+    overflow: auto;
+  }
+
+  .target {
+    background: $sm-green;
+    p { color: $sm-white; }
+  }
+}

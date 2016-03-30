@@ -1,4 +1,4 @@
-var Reveal = React.createClass({
+var Modal = React.createClass({
     propTypes: {
         id: React.PropTypes.string.isRequired,
         queryUrl: React.PropTypes.string.isRequired,
@@ -210,7 +210,7 @@ var Reveal = React.createClass({
         });
         return (
             <div id={this.props.id} className='modal bottom-sheet'>
-                <div className='reveal'>
+                <div className='modal-reveal'>
                     <nav>
                         <div className='nav-wrapper'>
                             <form>
