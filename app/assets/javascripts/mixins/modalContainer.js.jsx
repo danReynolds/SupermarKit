@@ -1,4 +1,4 @@
-var RevealMixin = {
+var ModalContainer = {
     propTypes: {
         modal: React.PropTypes.shape({
             id: React.PropTypes.string.isRequired,

@@ -1,5 +1,5 @@
 var ItemList = React.createClass({
-    mixins: [RevealMixin],
+    mixins: [ModalContainer],
     propTypes: {
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
@@ -9,7 +9,7 @@ var ItemList = React.createClass({
 
     getDefaultProps: function() {
         return {
-            pageSize: 5
+            pageSize: 4
         };
     },
 
@@ -341,7 +341,7 @@ var ItemList = React.createClass({
                         </a>
                     </div>
                 </div>
-                <Reveal
+                <Modal
                     {...this.state.modal}
                     {...this.props.modal}/>
             </div>
