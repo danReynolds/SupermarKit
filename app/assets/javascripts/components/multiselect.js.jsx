@@ -1,4 +1,5 @@
 var Multiselect = React.createClass({
+    mixins: [RevealMixin],
     propTypes: {
         title: React.PropTypes.string,
         button: React.PropTypes.string,
@@ -23,18 +24,6 @@ var Multiselect = React.createClass({
 
     handleRemove: function(event) {
         this.props.removeFromSelection(parseInt(event.target.closest('.chip').getAttribute('data-id')));
-    },
-
-    addToSelection: function(selected) {
-        this.setState({
-            selection: React.addons.update(this.state.selection, {$push: [selected]})
-        });
-    },
-
-    removeFromSelection: function(index) {
-        this.setState({
-            selection: React.addons.update(this.state.selection, {$splice: [[index, 1]]})
-        });
     },
 
     render: function() {

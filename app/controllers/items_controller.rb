@@ -5,7 +5,9 @@ class ItemsController < ApplicationController
   load_and_authorize_resource :item, through: :grocery, shallow: true
 
   def index
-    render json: format_items
+    render json: {
+      data: items_data
+    }
   end
 
   def show
@@ -34,8 +36,16 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       format.json do
+        grocery_item = @item.grocery_item(@grocery)
+        old_item = format_item(grocery_item).slice(:price, :quantity)
         if @item.update_attributes(item_params)
-          render json: { data: format_item(@item.grocery_item(@grocery)) }, status: :ok
+          render json: {
+            data: {
+              old_item: old_item,
+              new_item: format_item(grocery_item.reload).slice(:price, :quantity, :quantity_formatted)
+            },
+            status: :ok
+          }
         else
           render nothing: true, status: :internal_server_error
         end
@@ -87,9 +97,11 @@ class ItemsController < ApplicationController
   end
 
 private
-  def format_items
-    @grocery.items.select(:id, :name, :description).map do |item|
-      format_item(GroceriesItems.find_by_item_id_and_grocery_id(item.id, @grocery.id))
+  def items_data
+    @grocery.items.select(:id, :name, :description).inject({total: 0, items: []}) do |acc, item|
+      grocery_item = GroceriesItems.find_by_item_id_and_grocery_id(item.id, @grocery.id)
+      acc[:items] << format_item(grocery_item)
+      acc.tap { |acc| acc[:total] += grocery_item.total_price.to_i }
     end
   end
 
@@ -102,7 +114,6 @@ private
       quantity: grocery_item.quantity,
       quantity_formatted: "#{grocery_item.quantity.en.numwords} #{grocery_item.item.name.en.plural(grocery_item.quantity)}",
       price: grocery_item.price.format(symbol: false),
-      total_price_formatted: grocery_item.total_price.format,
       url: item_path(grocery_item.item.id),
       requester: grocery_item.requester_id
     }

@@ -23,7 +23,7 @@ class GroceriesController < ApplicationController
         id: 'add-groceries',
         type: 'ItemResult',
         input: {
-          placeholder: 'Add your item, like 5 bananas (for $4).',
+          placeholder: 'Add your item, like 5 bananas (for $4)',
           queryField: 'query',
           delimiter: '\s*',
           fields: [
