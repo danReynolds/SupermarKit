@@ -1,5 +1,4 @@
 var Multiselect = React.createClass({
-    mixins: [ModalContainer],
     propTypes: {
         title: React.PropTypes.string,
         button: React.PropTypes.string,
@@ -16,29 +15,12 @@ var Multiselect = React.createClass({
         }
     },
 
-    getInitialState: function() {
-        return {
-            selection: this.props.selection
-        };
-    },
-
     handleRemove: function(event) {
         this.props.removeFromSelection(parseInt(event.target.closest('.chip').getAttribute('data-id')));
     },
 
     render: function() {
         var button, title, remove, modal, image;
-
-        if (this.props.modal) {
-            button = <a href={'#' + this.props.modal.id} className='waves effect waves light btn secondary modal-trigger'>
-                        {this.props.button}
-                     </a>;
-            modal = <Modal
-                        {...this.props.modal}
-                        addToSelection={this.addToSelection}
-                        removeFromSelection={this.removeFromSelection}
-                        selection={this.state.selection} />
-        }
 
         if (this.props.image) {
             image = <img src={selected.image} />;
@@ -52,7 +34,7 @@ var Multiselect = React.createClass({
             remove = <i className='fa fa-close' onClick={this.handleRemove}/>;
         }
 
-        var selection = this.state.selection.map(function(selected, index) {
+        var selection = this.props.selection.map(function(selected, index) {
             return (
                 <div
                     className={this.props.backspaceTarget === index ? 'chip targetted' : 'chip'}
@@ -78,23 +60,11 @@ var Multiselect = React.createClass({
     },
 
     componentDidMount: function() {
-        if (!this.props.removeFromSelection) {
-            this.refs.root.addEventListener('selection-updated', function(event) {
-                this.setState({ selection: event.detail });
-            }.bind(this));
-        }
     },
 
     componentDidUpdate: function(prevProps, prevState) {
         if (this.props.selection !== prevProps.selection) {
             this.setState({ selection: this.props.selection });
-        }
-        if (this.state.selection !== prevState.selection) {
-            if (this.props.hiddenField) {
-                document.querySelector(this.props.hiddenField).value = this.state.selection.map(function(selected) {
-                    return selected.id
-                }).join(',');
-            }
         }
     }
 });
