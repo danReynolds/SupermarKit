@@ -46,23 +46,32 @@ var ItemList = React.createClass({
 
     handleItemUpdate: function(e) {
         var index = this.getSelectedIndex(e);
-        var selected = this.state.modal.selection[index];
+
+        // Close collapsible on update button clicked
+        ReactDOM.findDOMNode(this.refs['collapsible-' + index]).click();
+
+        this.updateItem(index);
+    },
+
+    updateItem: function(index) {
+        var item = this.state.modal.selection[index];
+        
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
                 grocery_id: this.props.grocery.id,
-                id: selected.id,
+                id: item.id,
                 item: {
                     groceries_items_attributes: {
-                        id: selected.grocery_item_id,
-                        quantity: selected.quantity,
-                        price: selected.price
+                        id: item.grocery_item_id,
+                        quantity: item.quantity,
+                        price: item.price
                     }
                 }
             }),
             dataType: 'json',
             contentType: 'application/json',
-            url: selected.url
+            url: item.url
         }).done(function(response) {
             this.setState(
                 React.addons.update(
@@ -76,7 +85,7 @@ var ItemList = React.createClass({
                             }
                         },
                         total: {
-                            $set: this.state.total + this.totalPrice(selected) - this.totalPrice(response.data.old_item)
+                            $set: this.state.total + this.totalPrice(item) - this.totalPrice(response.data.old_item)
                         }
                     }
                 )
@@ -213,7 +222,7 @@ var ItemList = React.createClass({
                     ref={'item-' + index}
                     data-index={index}
                     className='collection-item dismissable'>
-                    <div className='collapsible-header'>
+                    <div ref={'collapsible-' + index} className='collapsible-header'>
                         <img src={data.requester.gravatar} />
                         <p>
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
