@@ -55,7 +55,7 @@ var ItemList = React.createClass({
 
     updateItem: function(index) {
         var item = this.state.modal.selection[index];
-        
+
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -285,7 +285,7 @@ var ItemList = React.createClass({
         );
     },
 
-    renderNoContent: function() {
+    renderNoItems: function() {
         return <div className="no-items">
                    <i className='fa fa-shopping-basket'/>
                    <h3>Your grocery list is empty.</h3>
@@ -331,7 +331,7 @@ var ItemList = React.createClass({
         if (this.state.modal.open || !this.state.modal.selection) {
             content = <Loader />
         } else {
-            content = this.state.modal.selection.length ? this.renderItems() : this.renderNoContent();
+            content = this.state.modal.selection.length ? this.renderItems() : this.renderNoItems();
         }
         return (
             <div className='item-list'>
