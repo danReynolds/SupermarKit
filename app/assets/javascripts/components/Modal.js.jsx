@@ -4,14 +4,15 @@ var Modal = React.createClass({
         queryUrl: React.PropTypes.string.isRequired,
         results: React.PropTypes.array,
         selection: React.PropTypes.array,
-        type: React.PropTypes.string.isRequired,
+        resultType: React.PropTypes.string.isRequired,
         addToSelection: React.PropTypes.func.isRequired,
         removeFromSelection: React.PropTypes.func.isRequired,
         handleSave: React.PropTypes.func.isRequired,
         toggleModal: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string,
         input: React.PropTypes.object.isRequired,
-        open: React.PropTypes.bool.isRequired
+        open: React.PropTypes.bool.isRequired,
+        addUnmatchedQuery: React.PropTypes.bool
     },
 
     getInitialState: function() {
@@ -30,7 +31,8 @@ var Modal = React.createClass({
             changeTargetDown: 40,
             enterTarget: 13,
             backTarget: 8,
-            selection: []
+            selection: [],
+            addUnmatchedQuery: false
         }
     },
 
@@ -150,7 +152,7 @@ var Modal = React.createClass({
                     return !selected_names.includes(result.name);
                 });
 
-                if (displayedResults.length === 0 && !selected_names.includes(query)) {
+                if (this.props.addUnmatchedQuery && displayedResults.length === 0 && !selected_names.includes(query)) {
                     displayedResults.push({
                         name: query,
                         description: 'Add new'
@@ -198,15 +200,13 @@ var Modal = React.createClass({
         var pagination;
 
         var results = this.state.results.map(function(result, index) {
-            return (
-                React.createElement(this[self.props.type], {
+            return React.createElement(this[self.props.resultType], {
                     key: "result-" + index,
                     resultIndex: index,
                     handleAdd: self.handleAdd,
                     result: result,
                     scrollTarget: self.state.scrollTarget
-                })
-            );
+                });
         });
         return (
             <div id={this.props.id} className='modal bottom-sheet'>
@@ -232,7 +232,6 @@ var Modal = React.createClass({
                     </nav>
                     <Multiselect
                         ref="selection"
-                        placeholder={this.props.placeholder}
                         selection={this.props.selection}
                         backspaceTarget={this.state.backspaceTarget}
                         removeFromSelection={this.props.removeFromSelection}/>

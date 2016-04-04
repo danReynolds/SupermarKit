@@ -78,14 +78,15 @@ private
 
   def user_data
       {
-        title: 'Group members',
-        button: 'Change',
-        hiddenField: '#user_group_user_ids',
-        selection: @user_group.format_users,
+        title: 'Kit members',
+        buttonText: 'Modify',
+        selection: @user_group.users,
+        formElement: 'user_group_user_ids',
         modal: {
           id: 'change-members',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),
-          type: 'UserResult',
+          resultType: 'UserResult',
+          chipType: 'UserChip',
           input: {
             placeholder: 'Add friends to your Kit',
             queryField: 'query',

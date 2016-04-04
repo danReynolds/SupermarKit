@@ -19,9 +19,10 @@ class GroceriesController < ApplicationController
       },
       users: @grocery.user_group.format_users,
       modal: {
+        addUnmatchedQuery: true,
         queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
         id: 'add-groceries',
-        type: 'ItemResult',
+        resultType: 'ItemResult',
         input: {
           placeholder: 'Add your item, like 5 bananas (for $4)',
           queryField: 'query',
