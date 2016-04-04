@@ -1,6 +1,9 @@
 .user-groups-new {
-  .radio { display: inline-block; }
-  .radio { margin: 1rem 0; }
+  .radio {
+    display: inline-block;
+    margin: 1rem 0;
+  }
   .radio + .radio { margin-left: 1rem; }
   .privacy { margin-bottom: 2rem; }
+  .inputs { margin-top: 1rem; }
 }

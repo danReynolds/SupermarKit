@@ -3,8 +3,9 @@ var ModalContainer = {
         modal: React.PropTypes.shape({
             id: React.PropTypes.string.isRequired,
             queryUrl: React.PropTypes.string.isRequired,
-            type: React.PropTypes.string.isRequired,
-            input: React.PropTypes.object.isRequired
+            resultType: React.PropTypes.string.isRequired,
+            input: React.PropTypes.object.isRequired,
+            addUnmatchedQuery: React.PropTypes.bool
         })
     },
 

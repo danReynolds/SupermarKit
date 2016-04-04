@@ -7,7 +7,7 @@ var UserResult = React.createClass({
     },
 
     render: function() {
-        var resultClass = 'valign-wrapper' + (this.props.resultIndex == this.props.scrollTarget ? ' target' : "");
+        var resultClass = 'valign-wrapper user-result' + (this.props.resultIndex == this.props.scrollTarget ? ' target' : "");
 
         return (
             <li

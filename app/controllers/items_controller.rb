@@ -113,7 +113,7 @@ private
       grocery_item_id: grocery_item.id,
       quantity: grocery_item.quantity,
       quantity_formatted: "#{grocery_item.quantity.en.numwords} #{grocery_item.item.name.en.plural(grocery_item.quantity)}",
-      price: grocery_item.price.format(symbol: false),
+      price: grocery_item.calculated_price.format(symbol: false),
       url: item_path(grocery_item.item.id),
       requester: grocery_item.requester_id
     }

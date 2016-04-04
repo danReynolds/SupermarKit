@@ -8,7 +8,7 @@
             .row
               .col.l12
                 %p A Kit maintains the list of people and groceries that are included in that Kit. Once you fill out some quick details we'll get started!
-                .row
+                .row.inputs
                   .col.l6.s12
                     .input-field= f.input :name
                     .input-field= f.input :description, as: :text, input_html: { class: 'materialize-textarea' }
@@ -30,6 +30,6 @@
         .card-content
           .row
             .col.l12.s12
-              = react_component 'Multiselect', @user_data
+              = react_component 'MultiselectForm', @user_data
         .card-action
           = link_to 'Create', '#', class: 'btn submit-group-form'
