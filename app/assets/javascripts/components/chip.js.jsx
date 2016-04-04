@@ -9,8 +9,7 @@ var Chip = React.createClass({
 
     getDefaultProps: function() {
         return {
-            active: false,
-            removable: false
+            active: false
         };
     },
 

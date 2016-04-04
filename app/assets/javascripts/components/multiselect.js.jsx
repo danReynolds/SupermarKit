@@ -3,12 +3,14 @@ var Multiselect = React.createClass({
         selection: React.PropTypes.array,
         removeFromSelection: React.PropTypes.func,
         hiddenField: React.PropTypes.string,
-        backspaceTarget: React.PropTypes.number
+        backspaceTarget: React.PropTypes.number,
+        removable: React.PropTypes.bool
     },
 
     getDefaultProps: function() {
         return {
-            selection: []
+            selection: [],
+            removable: false
         }
     },
 
@@ -17,10 +19,6 @@ var Multiselect = React.createClass({
     },
 
     render: function() {
-        if (this.props.removeFromSelection) {
-            remove = <i className='fa fa-close' onClick={this.handleRemove}/>;
-        }
-
         var selection = this.props.selection.map(function(selected, index) {
             return (
                 <Chip
@@ -28,7 +26,7 @@ var Multiselect = React.createClass({
                     index={index}
                     active={this.props.backspaceTarget === index}
                     label={selected.name}
-                    handleRemove={this.handleRemove}
+                    handleRemove={this.props.removable ? this.handleRemove : null}
                     gravatar={selected.gravatar}/>
             );
         }.bind(this));
