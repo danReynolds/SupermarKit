@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   acts_as_user roles: :admin
 
+  GRAVATAR_SIZE = 50
+
   authenticates_with_sorcery! do |config|
     config.authentications_class = Authentication
   end
@@ -23,7 +25,7 @@ class User < ActiveRecord::Base
 
   scope :with_name, ->(q) { where('users.name LIKE ?', "%#{q}%").distinct.order('name ASC') }
 
-  def gravatar_url(size)
+  def gravatar_url(size = GRAVATAR_SIZE)
     gravatar = Digest::MD5::hexdigest(email).downcase
     url = "http://gravatar.com/avatar/#{gravatar}.png?s=#{size}"
   end

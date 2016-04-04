@@ -80,7 +80,13 @@ private
       {
         title: 'Kit members',
         buttonText: 'Modify',
-        selection: @user_group.users,
+        selection: @user_group.users.map do |user|
+          {
+            name: user.name,
+            id: user.id,
+            gravatar: user.gravatar_url
+          }
+        end,
         formElement: 'user_group_user_ids',
         modal: {
           id: 'change-members',
