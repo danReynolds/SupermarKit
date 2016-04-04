@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    @item.name.capitalize!
+    @item.name = @item.name.singularize.capitalize
 
     if @item.save
       redirect_to @grocery

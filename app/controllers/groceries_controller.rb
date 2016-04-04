@@ -67,8 +67,9 @@ class GroceriesController < ApplicationController
 
     @grocery.items.delete(@grocery.items - items.map { |item| Item.find_by_id(item[:id]) })
     items.each do |item|
+      raise
       GroceriesItems.find_or_initialize_by(
-        item: Item.find_or_create_by(id: item[:id], name: item[:name]),
+        item: Item.find_or_create_by(id: item[:id], name: item[:name].singularize.capitalize),
         grocery: @grocery
       ).update_attributes(item.permit(:quantity, :price).merge!({ requester_id: current_user.id }))
     end
