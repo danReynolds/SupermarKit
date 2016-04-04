@@ -12,14 +12,7 @@ $ ->
         $('p.public').addClass('hide')
         $('p.private').removeClass('hide');
 
-    # ============================
-    # Form Submission
-    # - because simpleform changes the DOM,
-    # - it messes up the React VD, need to not put React
-    # - component within simpleform
-    # ============================
-    $('.submit-group-form').click ->
-      $('.simple_form.new_user_group').submit()
+    setupFormSubmission('.submit-group-form', '.simple_form.new_user_group')
 
     # ============================
     # The activator needs to prevent default so the

@@ -12,9 +12,9 @@
                 %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
                 %h3 Update Kit
                 .inputs
-                  .input-field= f.input :name
-                  .input-field= f.input :description, as: :text, input_html: { class: 'materialize-textarea' }
-                  .input-field= f.input :user_ids, as: :hidden
+                  = f.input :name, input_html: { class: 'input-field' }
+                  = f.input :description, input_html: { class: 'input-field' }
+                  = f.input :user_ids, as: :hidden
     .row
       .col.l8.offset-l2
         .card
@@ -31,15 +31,12 @@
               .file-path-wrapper
                 %input.file-path.validate
 
-    .row
-      .col.l8.offset-l2.s12
-        .card
-          .card-content
-            .row
-              .col.l12.s12
-                = react_component 'Multiselect', @user_data[:multiselect]
-          .card-action
-            = f.button :submit, 'Submit'
-
-  #change-members.modal.bottom-sheet
-    .modal-content= react_component 'Reveal', @user_data[:reveal]
+  .row
+    .col.l8.offset-l2.s12
+      .card
+        .card-content
+          .row
+            .col.l12.s12
+              = react_component 'MultiselectForm', @user_data
+        .card-action
+          = link_to 'Update', 'javascript:;', class: 'btn submit-group-form'

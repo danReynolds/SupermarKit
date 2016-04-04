@@ -10,9 +10,9 @@
                 %p A Kit maintains the list of people and groceries that are included in that Kit. Once you fill out some quick details we'll get started!
                 .row.inputs
                   .col.l6.s12
-                    .input-field= f.input :name
-                    .input-field= f.input :description, as: :text, input_html: { class: 'materialize-textarea' }
-                    .input-field= f.input :user_ids, as: :hidden
+                    = f.input :name, input_html: { class: 'input-field' }
+                    = f.input :description, input_html: { class: 'input-field' }
+                    = f.input :user_ids, as: :hidden
                   .col.l6.s12.privacy
                     Kit Privacy
                     = f.input :privacy, as: :radio_buttons, label: false, collection: UserGroup::PRIVACY, boolean_style: :inline, checked: UserGroup::PUBLIC
@@ -32,4 +32,4 @@
             .col.l12.s12
               = react_component 'MultiselectForm', @user_data
         .card-action
-          = link_to 'Create', '#', class: 'btn submit-group-form'
+          = link_to 'Create', 'javascript:;', class: 'btn submit-group-form'
