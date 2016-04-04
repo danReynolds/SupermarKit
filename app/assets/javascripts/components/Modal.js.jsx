@@ -231,6 +231,7 @@ var Modal = React.createClass({
                         </div>
                     </nav>
                     <Multiselect
+                        removable={true}
                         ref="selection"
                         selection={this.props.selection}
                         backspaceTarget={this.state.backspaceTarget}

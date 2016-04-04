@@ -25,13 +25,12 @@ var MultiselectForm = React.createClass({
                 <div>
                     {title}
                     <Multiselect
-                        chipType={this.props.modal.chipType}
                         selection={this.state.modal.selection}/>
                     <a
                         onClick={this.toggleModal}
                         href={"#" + this.props.modal.id}
                         className="btn-floating btn-large modal-trigger waves-effect waves-light">
-                        <i className="material-icons">add</i>
+                        <i className="material-icons">edit</i>
                     </a>
                 </div>
                 <div>
