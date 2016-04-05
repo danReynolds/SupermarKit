@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'active_record_union'
 gem 'bourbon'
-gem 'browserify-rails'
 gem 'canard', '0.4.2.pre'
 gem 'capistrano-bundler', require: false
 gem 'capistrano-npm'
@@ -20,7 +19,6 @@ gem 'groupdate'
 gem 'haml-rails'
 gem 'font-awesome-sass', '~> 4.5.0'
 gem 'happy_path'
-gem 'inline_svg'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-datatables-rails', '~> 3.1.1'
 gem 'jquery-rails'
@@ -41,7 +39,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'paperclip'
 gem 'aws-sdk', '< 2.0'
 gem 'linguistics'
-
 gem 'geokit-rails'
 
 group :development do
