@@ -1,9 +1,9 @@
 require 'rails_helper'
-require 'support/login_user'
+require 'support/basic_user'
 require 'support/routes'
 
 describe UserGroupsController, type: :controller do
-  include_context 'login user'
+  include_context 'basic user'
 
   let(:id) { user_group }
   it_should_behave_like 'routes', {

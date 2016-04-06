@@ -20,6 +20,5 @@ module Softgroceries
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.react.addons = true # defaults to false
-    config.browserify_rails.commandline_options = "-t coffeeify --extension=\".js.coffee\""
   end
 end

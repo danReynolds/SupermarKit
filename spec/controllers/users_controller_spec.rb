@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/login_user'
+require 'support/basic_user'
 require 'support/routes'
 
 describe UsersController, type: :controller do
@@ -12,7 +12,7 @@ describe UsersController, type: :controller do
   }
 
   describe 'GET auto_complete' do
-    include_context 'login user'
+    include_context 'basic user'
     it 'returns successful match' do
       get :auto_complete, q: controller.current_user.name
       count = JSON.parse(response.body)['total_users']
@@ -50,7 +50,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'PATCH default_group' do
-    include_context 'login user'
+    include_context 'basic user'
     let(:user_group) { create(:user_group) }
 
     it 'should update the user group' do
@@ -85,7 +85,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'PATCH update' do
-    include_context 'login user'
+    include_context 'basic user'
 
     it 'should update the user when valid' do
       patch :update, id: controller.current_user, user: { name: 'Updated User' }

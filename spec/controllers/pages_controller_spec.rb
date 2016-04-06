@@ -1,12 +1,12 @@
 require 'rails_helper'
-require 'support/login_user'
+require 'support/basic_user'
 
 describe PagesController, type: :controller do
   describe 'GET home' do
     subject { get :home }
 
     context 'logged in' do
-      include_context 'login user'
+      include_context 'basic user'
 
       context 'with default group' do
         it 'should redirect to active grocery if present' do

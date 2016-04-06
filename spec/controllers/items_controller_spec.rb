@@ -1,9 +1,9 @@
 require 'rails_helper'
-require 'support/login_user'
+require 'support/basic_user'
 require 'support/routes'
 
 RSpec.describe ItemsController, type: :controller do
-  include_context 'login user'
+  include_context 'basic user'
 
   let(:id) { grocery.items.first.id }
   let(:grocery_id) { grocery.id }
