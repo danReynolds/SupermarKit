@@ -1,44 +1,18 @@
 require 'rails_helper'
-require 'support/login_user'
+require 'support/basic_user'
 require 'support/routes'
 
 describe GroceriesController, type: :controller do
-  include_context 'login user'
+  include_context 'basic user'
 
   let(:id) { grocery.id }
   let(:user_group_id) { user_group.id }
   it_should_behave_like 'routes', {
+    index: { user_group_id: true },
     new: { user_group_id: true },
     show: { id: true },
     edit: { id: true }
   }
-
-  describe 'GET index' do
-    subject { get :index, user_group_id: user_group, format: :json }
-
-    it 'should have a data response' do
-      subject
-      resp = JSON.parse(response.body)
-      expect(resp.has_key?('data')).to eq true
-    end
-
-    it 'should return all group groceries' do
-      subject
-      data = JSON.parse(response.body)['data']
-      groceries = user_group.groceries.order('created_at DESC')
-
-      expect(data.length).to eq groceries.length
-
-      groceries.each_with_index do |g, i|
-        expect(g.id).to eq data[i]['id']
-        expect(g.name).to eq data[i]['name']
-        expect(g.description).to eq data[i]['description']
-        expect(g.items.count).to eq data[i]['count']
-        expect(g.total.to_money.format).to eq data[i]['cost']
-        expect(g.finished?).to eq data[i]['finished']
-      end
-    end
-  end
 
   describe 'POST create' do
     let(:grocery_params) {
@@ -62,9 +36,73 @@ describe GroceriesController, type: :controller do
     end
 
     context 'grocery is invalid' do
-      it 'should redirect to new template' do
+      it 'should render new template' do
         grocery_params[:name] = ""
         expect(subject).to render_template :new
+      end
+    end
+  end
+
+  describe 'PATCH update' do
+    let(:items) {
+      create_list :item, 3
+    }
+    let(:grocery_params) {
+      {
+        name: "#{grocery.name} updated"
+      }
+    }
+    subject { patch :update, id: grocery.id, grocery: grocery_params }
+
+    it 'should update the grocery fields' do
+      subject
+      old_name = grocery.name
+      expect(grocery.reload.name).to eq "#{old_name} updated"
+    end
+
+    it 'should default to no items' do
+      subject
+      expect(grocery.items).to be_empty
+    end
+
+    context 'adding existing items' do
+      before :each do
+        grocery_params[:items] = items.map do |item|
+          {
+            id: item.id,
+            name: item.name
+          }
+        end
+      end
+
+      it 'should replace current items' do
+        subject
+        expect(grocery.items).to eq items
+      end
+
+      it 'should use existing items' do
+        expect { subject }.to_not change(Grocery, :count)
+      end
+    end
+
+    context 'adding new items' do
+      let(:item_params) {
+        3.times.map { attributes_for(:item) }
+      }
+
+      before :each do
+        grocery_params[:items] = item_params
+      end
+
+      it 'should replace current items' do
+        subject
+        grocery.reload.items.each_with_index do |item, i|
+          expect(item.name).to eq item_params[i][:name]
+        end
+      end
+
+      it 'should create new items' do
+        expect { subject }.to change(Item, :count).by 3
       end
     end
   end
