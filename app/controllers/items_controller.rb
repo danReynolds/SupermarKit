@@ -11,53 +11,30 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @user_group = @item.groceries.first.user_group
   end
 
   def new
-    @groceries_items = @item.groceries_items.new
   end
 
   def create
-    @item = Item.new(item_params)
-    @item.name = @item.name.singularize.capitalize
-
-    if @item.save
-      redirect_to @grocery
-    else
-      render action: :new, alert: 'Unable to create new item.'
-    end
   end
 
   def edit
-    @user_group = @item.groceries.first.user_group
   end
 
   def update
-    respond_to do |format|
-      format.json do
-        grocery_item = @item.grocery_item(@grocery)
-        old_item = format_item(grocery_item).slice(:price, :quantity)
-        if @item.update_attributes(item_params)
-          render json: {
-            data: {
-              old_item: old_item,
-              new_item: format_item(grocery_item.reload).slice(:price, :quantity, :quantity_formatted)
-            },
-            status: :ok
-          }
-        else
-          render nothing: true, status: :internal_server_error
-        end
-      end
-
-      format.html do
-        if @item.update_attributes(item_params)
-          redirect_to @item.groceries.first.user_group
-        else
-          render :edit
-        end
-      end
+    grocery_item = @item.grocery_item(@grocery)
+    previous_item_values = format_item(grocery_item).slice(:price, :quantity)
+    if @item.update_attributes(item_params)
+      render json: {
+        data: {
+          previous_item_values: previous_item_values,
+          updated_item_values: format_item(grocery_item.reload).slice(:price, :quantity, :quantity_formatted)
+        },
+        status: :ok
+      }
+    else
+      render nothing: true, status: :internal_server_error
     end
   end
 
