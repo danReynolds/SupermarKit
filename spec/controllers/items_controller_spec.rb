@@ -10,138 +10,93 @@ RSpec.describe ItemsController, type: :controller do
   it_should_behave_like 'routes', {
     new: { grocery_id: true },
     show: { id: true },
-    edit: { id: true }
+    edit: { id: true },
+    create: { method: :post, grocery_id: true }
   }
 
   describe 'GET index' do
     subject { get :index, grocery_id: grocery, format: :json }
 
-    it 'should have a data response' do
+    it 'should return all items for the grocery' do
       subject
-      resp = JSON.parse(response.body)
-      expect(resp.has_key?('data')).to eq true
+      items = JSON.parse(response.body)['data']['items']
+      expect(items.length).to eq grocery.items.length
     end
 
-    it 'should return all grocery items' do
+    it "should return the total cost of the grocery's items" do
       subject
-      data = JSON.parse(response.body)['data']
-
-      expect(data.length).to eq grocery.items.length
-
-      grocery.items.each_with_index do |item, i|
-        expect(item.id).to eq data[i]['id']
-        expect(item.name).to eq data[i]['name']
-        expect(item.description.to_s).to eq data[i]['description']
-        expect(item.grocery_item(grocery).id).to eq data[i]['grocery_item_id']
-        expect(item.quantity(grocery)).to eq data[i]['quantity']
-        expect(item.price(grocery).dollars.to_s).to eq data[i]['price']
-        expect(item.price(grocery).format).to eq data[i]['price_formatted']
-        expect(item.total_price(grocery).format).to eq data[i]['total_price_formatted']
-        expect(item_path(item.id)).to eq data[i]['path']
-      end
-    end
-  end
-
-  describe 'POST create' do
-    context 'when valid item' do
-      subject { post :create, item: attributes_for(:item), grocery_id: grocery.id }
-
-      it 'should create a new item' do
-        expect { subject }.to change(Item, :count).by 1
+      returned_total = JSON.parse(response.body)['data']['total']
+      expected_total = grocery.items.inject(0) do |acc, item|
+        acc + item.grocery_item(grocery).total_price.to_i
       end
 
-      it 'should capitalize the item name' do
-        subject
-        name = Item.last.name
-        expect(name).to eq name.capitalize
-      end
-
-      it 'should redirect to the new grocery page' do
-        expect(subject).to redirect_to grocery
-      end
-    end
-
-    context 'when invalid item' do
-      subject { post :create, item: { name: '' }, grocery_id: grocery.id }
-
-      it 'should not create a new item' do
-        expect { subject }.to_not change(Item, :count)
-      end
-
-      it 'should render the new template' do
-        expect(subject).to render_template :new
-      end
+      expect(returned_total).to eq expected_total
     end
   end
 
   describe 'PATCH update' do
     let(:item) { grocery.items.last }
-    let(:params) {
+    let(:grocery_item) { item.grocery_item(grocery) }
+    let(:valid_params) {
       {
-        name: "#{item.name} updated"
+        grocery_id: grocery.id,
+        id: item.id,
+        item: {
+          groceries_items_attributes: {
+            id: grocery_item.id,
+            quantity: grocery_item.quantity + 1,
+            price: grocery_item.price.to_i + 1
+          }
+        }
+      }
+    }
+    let(:invalid_params) {
+      {
+        grocery_id: grocery.id,
+        id: item.id,
+        item: {
+          groceries_items_attributes: {
+            id: grocery_item.id,
+            quantity: "invalid"
+          }
+        }
       }
     }
 
-    context 'when HTML' do
-      subject { patch :update, id: item.id, item: params }
+    context 'when valid' do
+      subject { patch :update, valid_params, format: :json }
 
-      context 'when valid' do
-        it 'should update the item' do
-          subject
-          expect(item.reload.name).to eq params[:name]
-        end
-
-        it 'should redirect to the user group' do
-          expect(subject).to redirect_to user_group
-        end
+      it 'should update the item' do
+        subject
+        grocery_item.reload
+        expect(grocery_item.price.to_i).to eq valid_params[:item][:groceries_items_attributes][:price]
+        expect(grocery_item.quantity).to eq valid_params[:item][:groceries_items_attributes][:quantity]
       end
 
-      context 'when invalid' do
-        before :each do
-          params[:name] = ''
-        end
-
-        it 'should not update the item' do
-          name = item.name
-          subject
-          expect(item.reload.name).to eq name
-        end
-
-        it 'should render the edit template' do
-          expect(subject).to render_template :edit
-        end
+      it 'should successfully return the old and updated values' do
+        expect(subject).to be_ok
+        expect(JSON.parse(response.body)['data']['previous_item_values'])
+          .to eq controller.send(:format_item, grocery_item)
+          .slice(:price, :quantity).with_indifferent_access
+        expect(JSON.parse(response.body)['data']['updated_item_values'])
+          .to eq controller.send(:format_item, grocery_item.reload)
+          .slice(:price, :quantity, :quantity_formatted).with_indifferent_access
       end
     end
 
-    context 'when JSON' do
-      subject { patch :update, id: item.id, item: params, format: :json }
+    context 'when invalid' do
+      subject { patch :update, invalid_params, format: :json }
 
-      context 'when valid' do
-        it 'should update the item' do
-          subject
-          expect(item.reload.name).to eq params[:name]
-        end
+      it 'should not update the item' do
+        subject
 
-        it 'should return a valid response' do
-          expect(subject).to be_ok
-        end
-      end
+        previous_price = grocery_item.price
+        previous_quantity = grocery_item.quantity
+        grocery_item.reload
 
-      context 'when invalid' do
-        before :each do
-          params[:name] = ''
-        end
-
-        it 'should not update the item' do
-          name = item.name
-          subject
-          expect(item.reload.name).to eq name
-        end
-
-        it 'should return an internal server error' do
-          subject
-          expect(response).to have_http_status :internal_server_error
-        end
+        expect(response).to have_http_status :internal_server_error
+        expect(grocery_item.price).to eq previous_price
+        expect(grocery_item.quantity).to eq previous_quantity
       end
     end
   end

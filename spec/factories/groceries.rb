@@ -6,6 +6,9 @@ FactoryGirl.define do
       after(:create) do |instance|
         items = create_list :item, 3
         instance.items << items
+        instance.items.each do |item|
+          item.grocery_item(instance).update_attribute(:price_cents, (100..500).to_a.sample)
+        end
       end
     end
 
