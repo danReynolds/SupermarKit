@@ -80,12 +80,12 @@ var ItemList = React.createClass({
                         modal: {
                             selection: {
                                 [index]: {
-                                    $merge: response.data.new_item
+                                    $merge: response.data.updated_item_values
                                 }
                             }
                         },
                         total: {
-                            $set: this.state.total + this.totalPrice(item) - this.totalPrice(response.data.old_item)
+                            $set: this.state.total + this.totalPrice(item) - this.totalPrice(response.data.previous_item_values)
                         }
                     }
                 )
@@ -113,6 +113,7 @@ var ItemList = React.createClass({
     },
 
     handleSave: function() {
+        this.pageChange(0);
         this.saveSelection(this.state.modal.selection);
     },
 
