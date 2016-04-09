@@ -8,10 +8,8 @@ describe GroceriesController, type: :controller do
   let(:id) { grocery.id }
   let(:user_group_id) { user_group.id }
   it_should_behave_like 'routes', {
-    index: { user_group_id: true },
     new: { user_group_id: true },
-    show: { id: true },
-    edit: { id: true }
+    show: { id: true }
   }
 
   describe 'POST create' do
