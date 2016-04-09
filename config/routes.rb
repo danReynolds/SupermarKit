@@ -24,8 +24,8 @@ Rails.application.routes.draw do
   # Only the collection routes of the children get member routes of the parent
   shallow do
     resources :user_groups do
-      resources :groceries do
-        resources :items do
+      resources :groceries, except: [:index, :edit] do
+        resources :items, only: [:index, :update] do
           collection do
             get :auto_complete
             patch :add
