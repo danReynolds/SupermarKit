@@ -147,8 +147,8 @@ var Modal = React.createClass({
         });
 
         if (query && query.length >= this.props.minLength) {
-            $.getJSON(this.props.queryUrl + query, function(results) {
-                var displayedResults = results.filter(function(result) {
+            $.getJSON(this.props.queryUrl + query, function(res) {
+                var displayedResults = res.data.filter(function(result) {
                     return !selected_names.includes(result.name);
                 });
 
