@@ -4,9 +4,6 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :user_group
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
-  def index
-	end
-
 	def show
     @items_data = {
       grocery: {
