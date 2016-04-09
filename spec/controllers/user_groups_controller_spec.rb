@@ -7,9 +7,9 @@ describe UserGroupsController, type: :controller do
 
   let(:id) { user_group }
   it_should_behave_like 'routes', {
-    metrics: { id: true },
     edit: { id: true },
     show: { id: true },
+    index: {},
     new: {}
   }
 
@@ -24,30 +24,33 @@ describe UserGroupsController, type: :controller do
         expect { subject }.to change(UserGroup, :count).by(1)
       end
 
+      it 'redirects to the new group' do
+        expect(subject).to redirect_to UserGroup.last
+      end
+
       it 'adds specified and current user to group' do
         subject
         expect(new_group.users).to contain_exactly(group_member, controller.current_user)
       end
 
-      it 'sets an emblem' do
-        subject
-        expect(new_group.emblem).not_to be_nil
+      context 'without a default group' do
+        it 'sets the default group' do
+          controller.current_user.update_attribute(:default_group, nil)
+          subject
+          expect(controller.current_user.default_group).to eq new_group
+        end
       end
 
-      it 'sets the default group if user does not have one' do
-        controller.current_user.update_attribute(:default_group, nil)
-        subject
-        expect(controller.current_user.default_group).to eq new_group
+      context 'with a default group' do
+        it 'does not change the default' do
+          default_group = create(:user_group)
+          controller.current_user.update_attribute(:default_group, default_group)
+          subject
+          expect(controller.current_user.default_group).to eq default_group
+        end
       end
 
-      it 'keeps the default group if user does have one' do
-        default_group = create(:user_group)
-        controller.current_user.update_attribute(:default_group, default_group)
-        subject
-        expect(controller.current_user.default_group).to eq default_group
-      end
-
-      it 'makes only the current user accepted into the group' do
+      it 'accepts the current user and invites all others' do
         subject
         current_group_user = new_group.user_groups_users.find_by_user_id(controller.current_user.id)
         remaining_user_group_users = new_group.user_groups_users - [current_group_user]
@@ -65,7 +68,6 @@ describe UserGroupsController, type: :controller do
         expect(subject).to render_template :new
       end
     end
-
   end
 
   describe 'PATCH update' do
