@@ -8,14 +8,19 @@ class GroceriesItems < ActiveRecord::Base
   validates_uniqueness_of :grocery_id, scope: :item_id
   monetize :price_cents
 
+  CLOSEST_STORE_THRESHOLD = 10
+
   # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item
   def estimated_price
     grocery_store = grocery.grocery_store
     groceries_items = GroceriesItems.where(item: item).where.not(price_cents: 0)
 
-    if grocery_store # First try and calculate the price based on store proximity
-      stores = GroceryStore.by_distance(origin: [grocery_store.lat.to_f, grocery_store.lng.to_f]).limit(10)
+    # Calculate the price by looking at the price at each of the closest stores with that name
+    if grocery_store
+      stores = GroceryStore.by_distance(origin: [grocery_store.lat.to_f, grocery_store.lng.to_f])
+        .limit(CLOSEST_STORE_THRESHOLD)
+        .where(name: grocery_store.name)
 
       stores.each do |store|
         store_groceries_items = groceries_items.where(grocery: store.groceries)
@@ -23,15 +28,15 @@ class GroceriesItems < ActiveRecord::Base
       end
     end
 
-    # If it was not in any nearby stores, then fall back on the overall most common price
+    # Fallback on the overall most common price of all stores
     most_common_price(groceries_items)
   end
 
   def total_price
-    quantity * calculated_price
+    quantity * price_or_estimated
   end
 
-  def calculated_price
+  def price_or_estimated
     Money.new(price.nonzero? ? price : estimated_price)
   end
 
