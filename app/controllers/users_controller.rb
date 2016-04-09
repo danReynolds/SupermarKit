@@ -60,7 +60,9 @@ class UsersController < ApplicationController
       end
     end
 
-    render json: users
+    render json: {
+      data: users
+    }
   end
 
   def update
