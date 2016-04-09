@@ -18,6 +18,4 @@ class UserSessionsController < ApplicationController
     logout
     redirect_to root_path, notice: 'Successfully logged out.'
   end
-
-private
 end
