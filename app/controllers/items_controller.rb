@@ -10,18 +10,6 @@ class ItemsController < ApplicationController
     }
   end
 
-  def show
-  end
-
-  def new
-  end
-
-  def create
-  end
-
-  def edit
-  end
-
   def update
     grocery_item = @item.grocery_item(@grocery)
     previous_item_values = format_item(grocery_item).slice(:price, :quantity)
@@ -40,37 +28,17 @@ class ItemsController < ApplicationController
 
   def auto_complete
     items = @grocery.user_group.privacy_items.select(:id, :description, :name)
-                    .with_name(params[:q]).limit(5)
+      .with_name(params[:q]).limit(5)
 
-    items.map do |item|
-      {
-        id: item.id,
-        name: item.name,
-        description: item.description
-      }
-    end
-
-    render json: items
-  end
-
-  def add
-    # Id is either an id of a known item or a name for a new one
-    params[:items][:ids].split(',').each do |id|
-      item = Item.find_by_id(id) || Item.create(name: id)
-
-      @grocery.items << item
-      groceries_item = item.grocery_item(@grocery)
-      groceries_item.update_attributes(price_cents: groceries_item.localized_price)
-    end
-
-    render nothing: true, status: :ok
-  end
-
-  def remove
-    # the grocery is already loaded because grocery_id was passed with the request
-    # canard picks up on the grocery_id being passed when using load_resource
-    @grocery.items.delete(@item)
-    render nothing: true, status: :ok
+    render json: {
+      data: items.map do |item|
+        {
+          id: item.id,
+          name: item.name,
+          description: item.description
+        }
+      end
+    }
   end
 
 private
@@ -90,7 +58,7 @@ private
       grocery_item_id: grocery_item.id,
       quantity: grocery_item.quantity,
       quantity_formatted: "#{grocery_item.quantity.en.numwords} #{grocery_item.item.name.en.plural(grocery_item.quantity)}",
-      price: grocery_item.calculated_price.format(symbol: false),
+      price: grocery_item.price_or_estimated.format(symbol: false),
       url: item_path(grocery_item.item.id),
       requester: grocery_item.requester_id
     }
