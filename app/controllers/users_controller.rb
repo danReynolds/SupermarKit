@@ -4,9 +4,6 @@ class UsersController < ApplicationController
   skip_load_and_authorize_resource only: :activate
   skip_authorization_check only: :activate
 
-	def index
-	end
-
   def show
   end
 
@@ -14,20 +11,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-  end
-
-  def default_group
-    new_group = UserGroup.find(params[:default_group_id])
-    user = User.find(params[:id])
-    user.default_group = new_group
-
-    if user.save && grocery = user.default_group.active_groceries.first
-      link = grocery_path(grocery)
-    else
-      link = new_user_group_grocery_path(user.default_group)
-    end
-
-    render json: { success: true, name: new_group.name, href: link }
   end
 
   def activate
@@ -69,7 +52,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to @user
     else
-      render :edit, notice: 'Unable to update user.'
+      render :edit, notice: 'Unable to update your profile.'
     end
   end
 
