@@ -98,6 +98,7 @@ var ItemList = React.createClass({
     },
 
     removeItem: function(index) {
+        var item = this.state.modal.selection[index];
         var updatedModal = React.addons.update(
             this.state.modal,
             {
@@ -106,7 +107,10 @@ var ItemList = React.createClass({
         );
         this.saveSelection(updatedModal.selection);
         setTimeout(function(){
-            this.setState({ modal: updatedModal }, function() {
+            this.setState({
+                total: this.state.total - this.totalPrice(item),
+                modal: updatedModal
+            }, function() {
                 $('.collection-item').css('transform', 'none');
             }.bind(this));
         }.bind(this), 100);
