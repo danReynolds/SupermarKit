@@ -46,10 +46,14 @@
     position: relative;
 
     &:hover:not(.active) {
+      .collapsible-header {
+        width: 95%;
+        transition: width .2s ease-in;
+      }
       .remove {
-        width: 4%;
+        width: 5%;
         opacity: 1;
-        transition: all .15s ease-in;
+        transition: opacity .2s ease-in;
       }
     }
 
@@ -71,17 +75,15 @@
     display: inline-block;
     font-size: 1.2rem;
     height: 100%;
-    line-height: 1.3;
+    line-height: 3;
     opacity: 0;
     position: absolute;
     right: 0;
     text-align: center;
     top: 0;
     vertical-align: middle;
-    transition-property: opacity, width;
     transition: none;
-    height: 55%;
-    border-bottom-left-radius: 75%;
+    transition-property: opacity;
   }
 
   .card-header {
@@ -98,6 +100,7 @@
     border-bottom: none;
     padding: 0;
     width: 100%;
+    transition-property: width;
     @extend .valign-wrapper;
 
     &.active {
