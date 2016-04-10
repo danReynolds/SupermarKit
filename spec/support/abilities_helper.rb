@@ -1,5 +1,4 @@
 module AbilitiesHelper
-
   def any(*args)
     create(*args)
   end
