@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Grocery, type: :model do
-  describe '#total_price' do
+  describe '#total_price_or_estimated' do
     it 'calculates total with price' do
       grocery = create(:grocery)
       item1 = create(:item)
