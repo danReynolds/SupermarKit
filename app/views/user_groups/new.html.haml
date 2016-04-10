@@ -1,8 +1,8 @@
 .container.user-groups-new
-  .row
-    .col.l8.offset-l2
-      .card
-        = simple_form_for @user_group do |f|
+  = simple_form_for @user_group do |f|
+    .row
+      .col.l8.offset-l2
+        .card
           .card-content
             %h3 Create a Grocery Kit
             .row
@@ -24,6 +24,21 @@
                       A
                       %strong Private
                       kit is like starting from fresh. There won't be access to any of the items already available on SupermarKit, but any items that are created will only be visible to members of your kit.
+    .row
+      .col.l8.offset-l2
+        .card
+          .card-image
+            = image_tag "user_groups/#{@banner_image}"
+            %span.card-title Kit banner
+          .card-content
+            %p Add a custom image to your kit for you and your members to see.
+          .card-action
+            .input-field.file-field
+              .btn
+                %span File
+                = f.input :banner, label: false, as: :file
+              .file-path-wrapper
+                %input.file-path.validate
   .row
     .col.l8.offset-l2.s12
       .card

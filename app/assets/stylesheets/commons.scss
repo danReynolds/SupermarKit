@@ -27,7 +27,6 @@ body {
   .col { @extend .s12; }
 
   .row { margin-bottom: 0; }
-  .row + .row { margin-top: 20px; }
 
   span.error { color: $sm-red; }
 }
