@@ -64,16 +64,16 @@ class GroceriesController < ApplicationController
 
     @grocery.items.delete(@grocery.items - items.map { |item| Item.find_by_id(item[:id]) })
     items.each do |item|
-      GroceriesItems.find_or_initialize_by(
+      grocery_item = GroceriesItems.find_or_create_by(
         item: Item.find_or_create_by(id: item[:id], name: item[:name].capitalize),
         grocery: @grocery
-      ).update_attributes(item.permit(:quantity, :price).merge!({ requester_id: current_user.id }))
+      )
+      grocery_item.update!(item.permit(:quantity, :price)
+       .merge!({ requester_id: grocery_item.requester_id || current_user.id }))
     end
 
-    if @grocery.update_attributes(grocery_params)
-      render nothing: true, status: :ok
-    else
-      render nothing: true, status: :internal_server_error
+    if @grocery.update!(grocery_params)
+      render nothing: true
     end
 	end
 
