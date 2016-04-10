@@ -4,7 +4,7 @@ class UserGroup < ActiveRecord::Base
   has_many :items, -> { uniq }, through: :groceries
   has_many :groceries
   has_many :user_defaults, class_name: 'User', foreign_key: :user_group_default_id
-  has_attached_file :banner, styles: { large: '800x600>', standard: '600x450>' }, default_url: 'user_groups/default3.jpg'
+  has_attached_file :banner, styles: { large: '800x600>', standard: '600x450>' }, default_url: 'user_groups/default2.jpg'
 
   validates_attachment :banner, content_type: { content_type: /\Aimage\/.*\Z/ }
   validates :name, presence: true
@@ -12,6 +12,7 @@ class UserGroup < ActiveRecord::Base
   PUBLIC = 'public'.freeze
   PRIVATE = 'private'.freeze
   PRIVACY = [PUBLIC, PRIVATE]
+  BANNER_IMAGES = ['default', 'default1', 'default2', 'default3'].freeze
 
   def self.public
     UserGroup.where(privacy: PUBLIC)

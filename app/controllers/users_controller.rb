@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   end
 
   def auto_complete
-    users = User.with_name(params[:q]).map do |user|
+    users = User.accessible_by(current_ability).with_name(params[:q]).map do |user|
       results = {
         id: user.id,
         name: user.name

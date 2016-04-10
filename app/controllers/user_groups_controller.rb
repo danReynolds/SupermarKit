@@ -13,13 +13,12 @@ class UserGroupsController < ApplicationController
 
   def new
     @user_data = user_data
+    @banner_image = UserGroup::BANNER_IMAGES.sample
   end
 
   def create
-    users = User.find(params[:user_group][:user_ids].split(",")) << current_user
-
     if @user_group.save
-      @user_group.users << users
+      @user_group.users << (User.find(params[:user_group][:user_ids].split(",")) << current_user)
       @user_group.user_groups_users
        .find_by_user_id(current_user.id)
        .update_attributes(state: UserGroupsUsers::ACCEPTED)
@@ -28,6 +27,7 @@ class UserGroupsController < ApplicationController
       redirect_to @user_group
     else
       @user_data = user_data
+      @banner_image = UserGroup::BANNER_IMAGES.sample
       render :new
     end
   end
@@ -37,8 +37,7 @@ class UserGroupsController < ApplicationController
   end
 
   def update
-    users = User.find(params[:user_group][:user_ids].split(","))
-    @user_group.users = users
+    @user_group.users = User.find(params[:user_group][:user_ids].split(","))
 
     if @user_group.update_attributes(user_group_params)
       redirect_to @user_group
