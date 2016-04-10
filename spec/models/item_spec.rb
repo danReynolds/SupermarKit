@@ -28,7 +28,7 @@ describe Item, type: :model do
     end
 
     it 'calculates total based on quantity' do
-      expect(@item.total_price(@grocery)).to eq 2.00
+      expect(@item.total_price_or_estimated(@grocery)).to eq 2.00
     end
   end
 end

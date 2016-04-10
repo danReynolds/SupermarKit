@@ -32,7 +32,7 @@ class GroceriesItems < ActiveRecord::Base
     most_common_price(groceries_items)
   end
 
-  def total_price
+  def total_price_or_estimated
     quantity * price_or_estimated
   end
 
