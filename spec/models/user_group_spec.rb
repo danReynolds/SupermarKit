@@ -1,34 +1,32 @@
 require 'rails_helper'
 
 describe UserGroup, type: :model do
-  describe 'grocery scoping' do
-    context 'when returning groceries' do
-      let(:user_group) { create(:user_group, :with_groceries) }
+  describe 'grocery filtering' do
+    let(:user_group) { create(:user_group, :with_groceries) }
 
-      before :each do
-        user_group.groceries.first.update_attributes(finished_at: DateTime.now)
-      end
+    before :each do
+      user_group.groceries.first.update_attributes(finished_at: DateTime.now)
+    end
 
-      it 'scopes by unfinished' do
-        result = user_group.active_groceries
-        expect(result).to eq user_group.groceries[1..-1]
-      end
+    it '#active_groceries' do
+      result = user_group.active_groceries
+      expect(result).to eq user_group.groceries[1..-1]
+    end
 
-      it 'scopes by finished' do
-        result = user_group.finished_groceries
-        expect(result).to eq user_group.groceries.first(1)
-      end
+    it '#finished_groceries' do
+      result = user_group.finished_groceries
+      expect(result).to eq user_group.groceries.first(1)
     end
   end
 
-  describe 'privacy scoping' do
+  describe 'privacy filtering' do
     before :each do
       @public_group = create(:user_group, :with_groceries, privacy: UserGroup::PUBLIC)
       @public_group2 = create(:user_group, :with_groceries, privacy: UserGroup::PUBLIC)
       @private_group = create(:user_group, :with_groceries, privacy: UserGroup::PRIVATE)
     end
 
-    context 'public group' do
+    context '#public' do
       it 'should filter by public user groups' do
         expect(UserGroup.public.length).to eq 2
       end
@@ -39,7 +37,7 @@ describe UserGroup, type: :model do
       end
     end
 
-    context 'private group' do
+    context '#private' do
       it 'should filter by private user groups' do
         expect(UserGroup.private.length).to eq 1
       end
@@ -50,7 +48,7 @@ describe UserGroup, type: :model do
     end
   end
 
-  describe 'invitations' do
+  describe '#accepted_users' do
     before(:each) do
       @user_group = create(:user_group, :with_users)
       @accepted_user = @user_group.users.first

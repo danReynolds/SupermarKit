@@ -69,7 +69,7 @@ describe GroceriesController, type: :controller do
               id: item.id,
               name: item.name,
               quantity: item.grocery_item(grocery).quantity + 1,
-              price: item.grocery_item(grocery).price.to_f + 1
+              price: item.grocery_item(grocery).price + 1.to_money
             }
           end
         })
@@ -87,7 +87,7 @@ describe GroceriesController, type: :controller do
         subject
         grocery.items.each_with_index do |item, i|
           grocery_item = item.grocery_item(grocery)
-          expect(grocery_item.price.to_f).to eq grocery_params[:items][i][:price]
+          expect(grocery_item.price).to eq grocery_params[:items][i][:price]
           expect(grocery_item.quantity).to eq grocery_params[:items][i][:quantity]
         end
       end
@@ -125,7 +125,7 @@ describe GroceriesController, type: :controller do
           grocery_item = item.grocery_item(grocery)
 
           expect(item.name).to eq item_params[i][:name].capitalize
-          expect(grocery_item.price.to_f).to eq item_params[i][:price]
+          expect(grocery_item.price).to eq item_params[i][:price]
           expect(grocery_item.quantity).to eq item_params[i][:quantity]
           expect(grocery_item.requester).to eq controller.current_user
         end

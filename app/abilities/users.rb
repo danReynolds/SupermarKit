@@ -8,6 +8,9 @@ Canard::Abilities.for(:user) do
   can :create,                                   UserGroup
   can :manage,                                   UserGroup,                       id: @user.user_group_ids
 
+  can :create,                                   GroceryStore
+  can :read,                                     GroceryStore
+
   can :create,                                   Item
   can :manage, Item, Item.all do |item|
     UserGroup.public.union(@user.user_groups).merge(item.user_groups).length.nonzero?

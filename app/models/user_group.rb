@@ -12,7 +12,6 @@ class UserGroup < ActiveRecord::Base
   PUBLIC = 'public'.freeze
   PRIVATE = 'private'.freeze
   PRIVACY = [PUBLIC, PRIVATE]
-  EMBLEMS = ['apple', 'banana', 'cheese', 'fish', 'meal', 'veggie', 'watermelon'].freeze
 
   def self.public
     UserGroup.where(privacy: PUBLIC)

@@ -16,29 +16,39 @@ describe Canard::Abilities, 'for :user' do
     end
 
     context 'should not be able to' do
-      it { cant([:read, :update, :destroy, :metrics, :accept_invitation, :manage], any(:grocery)) }
+      it { cant([:read, :update, :destroy, :accept_invitation, :manage], any(:grocery)) }
     end
   end
 
   describe 'grocery' do
     context 'should be able to' do
-      it { can([:set_store, :recipes, :finish, :email_group, :read, :update, :create, :destroy, :toggle_finish, :manage], own_grocery) }
+      it { can([:set_store, :recipes, :finish, :email_group, :read, :update, :create, :destroy, :manage], own_grocery) }
       it { can([:create], any(:grocery)) }
     end
 
     context 'should not be able to' do
-      it { cant([:recipes, :finish, :email_group, :read, :update, :destroy, :toggle_finish, :manage], any(:grocery)) }
+      it { cant([:recipes, :finish, :email_group, :read, :update, :destroy, :manage], any(:grocery)) }
+    end
+  end
+
+  describe 'grocery store' do
+    context 'should be able to' do
+      it { can([:create, :read], any(:grocery_store)) }
+    end
+
+    context 'should not be able to' do
+      it { cant([:update, :destroy, :manage], any(:grocery_store)) }
     end
   end
 
   describe 'item' do
     context 'should be able to' do
-      it { can([:auto_complete, :add, :remove, :read, :create, :update, :destroy, :manage], own_item) }
+      it { can([:auto_complete, :read, :create, :update, :destroy, :manage], own_item) }
       it { can([:create], any(:item)) }
     end
 
     context 'should not be able to' do
-      it { cant([:read, :update, :destroy, :auto_complete, :add, :remove, :manage], any(:item)) }
+      it { cant([:read, :update, :destroy, :auto_complete, :manage], any(:item)) }
     end
   end
 
