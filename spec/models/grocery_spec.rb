@@ -1,30 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe Grocery, type: :model do
-  describe 'calculating grocery cost' do
-    it 'totals items' do
+  describe '#total_price' do
+    it 'calculates total with price' do
       grocery = create(:grocery)
       item1 = create(:item)
       item2 = create(:item)
       grocery.items << [item1, item2]
       item1.grocery_item(grocery).update_attribute(:price_cents, 500)
+      item1.grocery_item(grocery).update_attribute(:quantity, 2)
       item2.grocery_item(grocery).update_attribute(:price_cents, 724)
 
-      expect(grocery.total).to eq 12.24
+      expect(grocery.total_price_or_estimated).to eq 17.24
     end
 
-    it 'factors in quantity' do
-      item = create(:item)
+    it 'calculates total with estimated price' do
       grocery = create(:grocery)
+      other_grocery = create(:grocery)
+      item1 = create(:item)
+      item2 = create(:item)
+      grocery.items << [item1, item2]
+      other_grocery.items << [item1]
+      item1.grocery_item(other_grocery).update_attribute(:price_cents, 500)
+      item1.grocery_item(grocery).update_attribute(:quantity, 2)
+      item2.grocery_item(grocery).update_attribute(:price_cents, 724)
 
-      grocery.items << item
-      item.grocery_item(grocery).update_attribute(:price_cents, 500)
-      item.grocery_item(grocery).update_attribute(:quantity, 2)
-      expect(grocery.total).to eq 10.00
+      expect(grocery.total_price_or_estimated).to eq 17.24
     end
   end
 
-  describe 'state of grocery' do
+  describe '#finished?' do
     context 'when the grocery is finished' do
       let(:grocery) { create(:grocery, finished_at: DateTime.now) }
       it 'should confirm that it is finished' do

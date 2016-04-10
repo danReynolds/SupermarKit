@@ -46,7 +46,7 @@ private
     @grocery.items.select(:id, :name, :description).inject({total: 0, items: []}) do |acc, item|
       grocery_item = GroceriesItems.find_by_item_id_and_grocery_id(item.id, @grocery.id)
       acc[:items] << format_item(grocery_item)
-      acc.tap { |acc| acc[:total] += grocery_item.total_price.to_i }
+      acc.tap { |acc| acc[:total] += grocery_item.total_price_or_estimated.to_f }
     end
   end
 

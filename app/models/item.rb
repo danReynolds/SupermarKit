@@ -22,7 +22,7 @@ class Item < ActiveRecord::Base
     grocery_item(grocery).price
   end
 
-  def total_price(grocery)
-    grocery_item(grocery).total_price
+  def total_price_or_estimated(grocery)
+    grocery_item(grocery).total_price_or_estimated
   end
 end
