@@ -42,9 +42,6 @@ describe GroceriesController, type: :controller do
   end
 
   describe 'PATCH update' do
-    let(:items) {
-      create_list :item, 3
-    }
     let(:grocery_params) {
       {
         name: "#{grocery.name} updated"
@@ -58,24 +55,41 @@ describe GroceriesController, type: :controller do
       expect(grocery.reload.name).to eq "#{old_name} updated"
     end
 
-    it 'should default to no items' do
+    it 'should remove unspecified items' do
+      expect(grocery.items).to_not be_empty
       subject
-      expect(grocery.items).to be_empty
+      expect(grocery.reload.items).to be_empty
     end
 
     context 'adding existing items' do
       before :each do
-        grocery_params[:items] = items.map do |item|
-          {
-            id: item.id,
-            name: item.name
-          }
+        grocery_params.merge!({
+          items: grocery.items.map do |item|
+            {
+              id: item.id,
+              name: item.name,
+              quantity: item.grocery_item(grocery).quantity + 1,
+              price: item.grocery_item(grocery).price.to_f + 1
+            }
+          end
+        })
+      end
+
+      it 'should not change requesters' do
+        subject
+        grocery.items.each do |item|
+          grocery_item = item.grocery_item(grocery)
+          expect(grocery_item.requester).to eq grocery_item.reload.requester
         end
       end
 
-      it 'should replace current items' do
+      it 'should update the quantity and price' do
         subject
-        expect(grocery.items).to eq items
+        grocery.items.each_with_index do |item, i|
+          grocery_item = item.grocery_item(grocery)
+          expect(grocery_item.price.to_f).to eq grocery_params[:items][i][:price]
+          expect(grocery_item.quantity).to eq grocery_params[:items][i][:quantity]
+        end
       end
 
       it 'should use existing items' do
@@ -85,22 +99,36 @@ describe GroceriesController, type: :controller do
 
     context 'adding new items' do
       let(:item_params) {
-        3.times.map { attributes_for(:item) }
+        [
+          {
+            name: 'new item',
+            price: 2,
+            quantity: 3
+          },
+          {
+            name: 'new item2',
+            price: 1,
+            quantity: 2
+          }
+        ]
       }
 
       before :each do
-        grocery_params[:items] = item_params
+        grocery_params.merge!({
+            items: item_params
+        })
       end
 
-      it 'should replace current items' do
+      it 'should create new items with current user as requester' do
         subject
-        grocery.reload.items.each_with_index do |item, i|
-          expect(item.name).to eq item_params[i][:name]
-        end
-      end
+        grocery.items.each_with_index do |item, i|
+          grocery_item = item.grocery_item(grocery)
 
-      it 'should create new items' do
-        expect { subject }.to change(Item, :count).by 3
+          expect(item.name).to eq item_params[i][:name].capitalize
+          expect(grocery_item.price.to_f).to eq item_params[i][:price]
+          expect(grocery_item.quantity).to eq item_params[i][:quantity]
+          expect(grocery_item.requester).to eq controller.current_user
+        end
       end
     end
   end
