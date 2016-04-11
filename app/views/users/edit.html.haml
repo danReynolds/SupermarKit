@@ -1,13 +1,13 @@
 .container.users-edit
   .row
-    .columns.large-8.large-centered
-      .widget
-        .header
-          %h1 Need a change?
-        .main
-          = simple_form_for @user do |f|
+    .col.l8.offset-l2
+      = simple_form_for @user do |f|
+        .card
+          .card-content
+            %h3 Change profile
             .row
-              .columns.large-6.large-centered
+              .col.l12
                 = f.input :name
                 = f.input :email
-                = f.button :submit, 'Update'
+          .card-action
+            = f.button :submit, 'Update'
