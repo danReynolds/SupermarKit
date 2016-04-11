@@ -1,28 +1,23 @@
 .container.users-show
   .row
-    .columns.large-8.large-centered
-      .widget
-        .header
-          %h1 Here you are.
-        .main
+    .col.l8.offset-l2
+      .card
+        .card-content
+          %h3 Profile
           .row
-            .columns.large-6
-              .row
-                .columns.large-12
-                  %label Name
-                  %p= @user.name
-              %hr
-              .row
-                .columns.large-12
-                  %label Email
-                  %p= @user.email
-              %hr
-              .row
-                .columns.large-12
-                  %label Joined On
-                  %p= @user.created_at.to_date
-          - if can? :update, @user
-            %hr
+            .col.l12
+              %label Name
+              %p= @user.name
+          .row
+            .col.l12
+              %label Email
+              %p= @user.email
+          .row
+            .col.l12
+              %label Joined On
+              %p= @user.created_at.to_date
+        - if can? :view_email, @user
+          .card-action
             .row
-              .columns.large-12
-                = link_to 'Edit User', edit_user_path(@user), class: 'button'
+              .col.l12
+                = link_to 'Edit profile', edit_user_path(@user), class: 'btn'
