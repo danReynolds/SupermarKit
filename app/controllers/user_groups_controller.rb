@@ -49,6 +49,7 @@ class UserGroupsController < ApplicationController
   def accept_invitation
     @user_group_user = @user_group.user_groups_users.find_by_user_id(current_user.id)
     @user_group_user.state = UserGroupsUsers::ACCEPTED
+    current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
 
     if @user_group_user.save
       flash[:notice] = "You've been added to #{@user_group.name}."
