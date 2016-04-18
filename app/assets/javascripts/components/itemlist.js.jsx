@@ -277,7 +277,7 @@ var ItemList = React.createClass({
         return (
             <ul className='collection collapsible popout data-collapsible="accordion'>
                 {itemContent}
-                <div className="total">
+                <div className="bottom-row">
                     <span>
                         Estimated Total:
                         <span className="price">
