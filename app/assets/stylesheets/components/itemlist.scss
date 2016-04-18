@@ -114,13 +114,18 @@
     }
   }
 
-  .total {
+  .bottom-row {
     background: $sm-white;
     padding: 1rem;
-    display: flex;
 
+    @extend .valign-wrapper;
+
+    a { margin-top: 0; }
     span { margin-left: auto; }
-    .price { margin-left: 0.5rem; }
+    .price {
+      margin-left: 0.5rem;
+      padding: 5px;
+    }
   }
 
   .price {
