@@ -1,9 +1,8 @@
-.badge {
-  @extend .new;
-
+span.badge {
   padding: 0.3rem 0.7rem;
   background: $sm-green;
 
+  @extend .new;
   &.secondary { background: $sm-blue; }
-  &:after { content: none;}
+  &:after { content: none; }
 }

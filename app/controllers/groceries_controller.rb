@@ -84,7 +84,7 @@ class GroceriesController < ApplicationController
   def checkout
     @checkout_data = {
       users: format_users,
-      total: @grocery.total_price_or_estimated
+      estimated_total: @grocery.total_price_or_estimated.to_f
     }
   end
 
