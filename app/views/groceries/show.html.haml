@@ -1,7 +1,3 @@
-:coffee
-  @grocery_id = "#{@grocery.id}"
-  @place_id = "#{@grocery_store.try(:place_id)}"
-
 -# .container.groceries-show
 -#   - unless @grocery.finished?
 -#     .row.add-items
@@ -15,7 +11,7 @@
 .container.groceries-show
   .row
     .col.l6
-      = react_component 'ItemList', @items_data
+      = react_component 'Dashboard', @dashboard
   -# .row
   -#   .columns.wide.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
   -#     .widget

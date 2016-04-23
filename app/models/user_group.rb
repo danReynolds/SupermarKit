@@ -3,6 +3,7 @@ class UserGroup < ActiveRecord::Base
   has_many :users, through: :user_groups_users
   has_many :items, -> { uniq }, through: :groceries
   has_many :groceries
+  has_many :payments, through: :groceries
   has_many :user_defaults, class_name: 'User', foreign_key: :user_group_default_id
   has_attached_file :banner, styles: { large: '800x600>', standard: '600x450>' }, default_url: 'user_groups/default2.jpg'
 
@@ -44,16 +45,5 @@ class UserGroup < ActiveRecord::Base
 
   def user_state(user)
     user_groups_users.find_by_user_id(user.id).state
-  end
-
-  def format_users
-    user_groups_users.map do |user_group_user, h|
-      {
-        id: user_group_user.user_id,
-        name: user_group_user.user.name,
-        state: user_group_user.state,
-        gravatar: user_group_user.user.gravatar_url(50)
-      }
-    end
   end
 end
