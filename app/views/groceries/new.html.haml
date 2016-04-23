@@ -1,14 +1,14 @@
 .container.groceries-new
   .row
-    .columns.large-8.large-centered.wide
-      .widget
-        .header
-          %h3 New Grocery List
-        .main
-          %p This Kit doesn't have any active grocery lists at the moment. Go ahead and start a new list.
-          = simple_form_for [@user_group, @grocery] do |f|
+    .col.l8.offset-l2
+      .card
+        = simple_form_for [@user_group, @grocery] do |f|
+          .card-content
+            %h3 New Grocery List
+            %p This Kit doesn't have any active grocery lists at the moment. Go ahead and start a new list.
             .row
-              .columns.large-6.large-centered
-                = f.input :name, input_html: { value: "#{Date.today.strftime('%A')}'s List - #{Date.today}" }
-                = f.input :description, as: :text
-                = f.button :submit, 'Create', class: 'button radius'
+              .col.l12
+                = f.input :name, input_html: { class: 'input-field', value: "#{Date.today.strftime('%A')}'s List - #{Date.today}" }
+                = f.input :description, input_html: { class: 'input-field' }
+          .card-action
+            = f.button :submit, 'Create', class: 'button radius'
