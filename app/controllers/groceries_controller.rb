@@ -83,32 +83,25 @@ class GroceriesController < ApplicationController
 
   def checkout
     @checkout_data = {
+      grocery_id: @grocery.id,
       users: format_users,
+      url: do_checkout_grocery_path(@grocery),
+      redirect_url: new_user_group_grocery_path(@grocery.user_group),
       estimated_total: @grocery.total_price_or_estimated.to_f
     }
   end
 
   def do_checkout
-    current_items = find_items(params[:finish][:current_ids])
-    next_items = find_items(params[:finish][:next_ids])
-
-    @grocery.items = current_items
+    grocery_payment_params[:payments].each do |payment|
+      Payment.create(payment.merge!({ grocery_id: @grocery.id }))
+    end
     @grocery.finished_at = DateTime.now
 
-    new_grocery = Grocery.new(
-      name: params[:finish][:name],
-      description: params[:finish][:description],
-      items: next_items,
-      user_group: @grocery.user_group
-    )
-
-    begin
-      Grocery.transaction do
-        @grocery.save! && new_grocery.save!
-        redirect_to new_grocery, notice: 'Your new grocery list is setup and ready to use.'
-      end
-    rescue ActiveRecord::RecordInvalid
-      redirect_to @grocery, alert: 'There was a problem finishing your list.'
+    if @grocery.save
+      head :ok
+      flash[:notice] = "Checkout complete! When you're ready, make a new list."
+    else
+      head :internal_server_error
     end
   end
 
@@ -165,6 +158,10 @@ private
 
   def grocery_item_params
       params.require(:grocery).permit(items: [:id, :quantity, :price])
+  end
+
+  def grocery_payment_params
+    params.require(:grocery).permit(payments: [:user_id, :price])
   end
 
   def grocery_store_params

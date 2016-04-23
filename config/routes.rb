@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         member do
           get :recipes
           get :checkout
+          post :do_checkout
           post :email_group
           post :set_store
         end

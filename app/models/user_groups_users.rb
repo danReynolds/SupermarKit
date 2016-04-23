@@ -27,6 +27,7 @@ class UserGroupsUsers < ActiveRecord::Base
             SELECT DISTINCT groceries.id FROM groceries
             INNER JOIN payments ON groceries.id = payments.grocery_id
             AND payments.user_id = #{user.id}
+            WHERE groceries.user_group_id = #{user_group.id}
           )
           GROUP BY payments.grocery_id
         ) CONTRIBUTIONS INNER JOIN

@@ -70,11 +70,14 @@ ActiveRecord::Schema.define(version: 20160412071631) do
   add_index "items", ["grocery_id"], name: "index_items_on_grocery_id", using: :btree
   add_index "items", ["name"], name: "index_items_on_name", using: :btree
 
-  create_table "payments", id: false, force: :cascade do |t|
-    t.integer "user_id",     limit: 4,             null: false
-    t.integer "grocery_id",  limit: 4,             null: false
+  create_table "payments", force: :cascade do |t|
+    t.integer "grocery_id",  limit: 4
+    t.integer "user_id",     limit: 4
     t.integer "price_cents", limit: 4, default: 0
   end
+
+  add_index "payments", ["grocery_id"], name: "index_payments_on_grocery_id", using: :btree
+  add_index "payments", ["user_id", "grocery_id"], name: "index_payments_on_user_id_and_grocery_id", unique: true, using: :btree
 
   create_table "user_groups", force: :cascade do |t|
     t.string   "name",                limit: 255
