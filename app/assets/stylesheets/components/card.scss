@@ -1,6 +1,12 @@
 .card {
   margin-top: 0;
-  .card-content, .card-action { padding: 1.5rem 3rem; }
+  .card-content, .card-action {
+    padding: 1.5rem 3rem;
+
+    @media #{$mobile} {
+      padding: 1.5rem 2.5rem;
+    }
+  }
   .card-reveal {
     overflow: hidden;
     padding: 0;

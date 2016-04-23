@@ -5,40 +5,44 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
 	def show
-    @items_data = {
-      grocery: {
-        name: @grocery.name,
-        id: @grocery.id,
-        url: grocery_path(@grocery)
-      },
-      items: {
-        url: grocery_items_path(@grocery)
-      },
-      users: @grocery.user_group.format_users,
-      modal: {
-        addUnmatchedQuery: true,
-        queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
-        id: 'add-groceries',
-        resultType: 'ItemResult',
-        input: {
-          placeholder: 'Add your item, like 5 bananas (for $4)',
-          queryField: 'query',
-          delimiter: '\s*',
-          fields: [
-            {
-              name: 'quantity',
-              regex: '([0-9]*)?'
-            },
-            {
-              name: 'query',
-              regex: '(.*?)'
-            },
-            {
-              name: 'price',
-              regex: '(?:for \$([0-9]*))?'
-            }
-          ]
+    @dashboard = {
+      checkout_url: checkout_grocery_path(@grocery),
+      itemList: {
+        grocery: {
+          name: @grocery.name,
+          id: @grocery.id,
+          url: grocery_path(@grocery)
+        },
+        items: {
+          url: grocery_items_path(@grocery)
+        },
+        users: format_users,
+        modal: {
+          addUnmatchedQuery: true,
+          queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
+          id: 'add-groceries',
+          resultType: 'ItemResult',
+          input: {
+            placeholder: 'Add your item, like 5 bananas (for $4)',
+            queryField: 'query',
+            delimiter: '\s*',
+            fields: [
+              {
+                name: 'quantity',
+                regex: '([0-9]*)?'
+              },
+              {
+                name: 'query',
+                regex: '(.*?)'
+              },
+              {
+                name: 'price',
+                regex: '(?:for \$([0-9]*))?'
+              }
+            ]
+          }
         }
+
       }
     }
     @grocery_store = @grocery.grocery_store
@@ -77,7 +81,14 @@ class GroceriesController < ApplicationController
     end
 	end
 
-  def finish
+  def checkout
+    @checkout_data = {
+      users: format_users,
+      total: @grocery.total_price_or_estimated
+    }
+  end
+
+  def do_checkout
     current_items = find_items(params[:finish][:current_ids])
     next_items = find_items(params[:finish][:next_ids])
 
@@ -131,6 +142,18 @@ class GroceriesController < ApplicationController
   end
 
 private
+
+  def format_users
+    @grocery.user_group.user_groups_users.map do |user_group_user, h|
+      {
+        id: user_group_user.user_id,
+        name: user_group_user.user.name,
+        state: user_group_user.state,
+        gravatar: user_group_user.user.gravatar_url(50),
+        balance: user_group_user.balance.to_f
+      }
+    end
+  end
 
   def find_items(ids)
     ids.split(',').flat_map { |id| Item.find(id) }

@@ -1,0 +1,34 @@
+.groceries-show {
+  .fixed-action-btn {
+    bottom: 5%;
+    right: 5%;
+    text-align: center;
+    width: 5rem;
+
+    &:hover {
+      .btn-label {
+        opacity: 1;
+      }
+    }
+
+    .btn-floating {
+      background: $sm-dark-blue-green;
+    }
+
+    .btn-large {
+      background: $sm-dark-blue-green;
+
+      &:hover {
+        background: darken($sm-blue, 10%);
+      }
+    }
+
+    .btn-label {
+      color: $sm-white;
+      margin-top: 0.5rem;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+  }
+
+}

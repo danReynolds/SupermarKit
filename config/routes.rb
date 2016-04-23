@@ -28,15 +28,11 @@ Rails.application.routes.draw do
         resources :items, only: [:index, :update] do
           collection do
             get :auto_complete
-            patch :add
-          end
-          member do
-            patch :remove
           end
         end
         member do
           get :recipes
-          patch :finish
+          get :checkout
           post :email_group
           post :set_store
         end

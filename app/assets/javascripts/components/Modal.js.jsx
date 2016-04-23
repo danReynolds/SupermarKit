@@ -213,21 +213,19 @@ var Modal = React.createClass({
                 <div className='modal-reveal'>
                     <nav>
                         <div className='nav-wrapper'>
-                            <form>
-                                <div className='input-field'>
-                                    <input
-                                        placeholder={this.props.input.placeholder}
-                                        autoComplete='off'
-                                        id='search'
-                                        type='search'
-                                        ref='search'
-                                        value={this.state.fullField}
-                                        onKeyDown={this.handleKeyPress}
-                                        onChange={this.handleChange}
-                                        required />
-                                    <label htmlFor='search'><i className='material-icons'>search</i></label>
-                                </div>
-                            </form>
+                            <div className='input-field'>
+                                <input
+                                    placeholder={this.props.input.placeholder}
+                                    autoComplete='off'
+                                    id='search'
+                                    type='search'
+                                    ref='search'
+                                    value={this.state.fullField}
+                                    onKeyDown={this.handleKeyPress}
+                                    onChange={this.handleChange}
+                                    required />
+                                <label htmlFor='search'><i className='material-icons'>search</i></label>
+                            </div>
                         </div>
                     </nav>
                     <Multiselect
