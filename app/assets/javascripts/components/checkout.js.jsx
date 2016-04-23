@@ -119,7 +119,19 @@ var Checkout = React.createClass({
     render: function() {
         return (
             <div className='checkout'>
-                {this.renderUsers()}
+                <div className='card'>
+                    <div className='card-content'>
+                        <h3>Pay for your groceries</h3>
+                        <div className='row'>
+                            <div className='col l12'>
+                                {this.renderUsers()}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='card-action'>
+                        <div className='btn'>Checkout</div>
+                    </div>
+                </div>
             </div>
         );
     }
