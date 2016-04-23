@@ -9,7 +9,7 @@
 
         - if current_user.default_group
           %ul.hide-on-med-and-down.left
-            %li= link_to "#{current_user.default_group.name} Kit", current_user.default_group
+            %li= link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
 
         %ul.hide-on-med-and-down.right
           %li= link_to 'Kits', user_groups_path

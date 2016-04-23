@@ -1,4 +1,24 @@
 .checkout {
+  .totals {
+    padding-right: 1rem;
+    margin-bottom: 1rem;
+    float: right;
+  }
+
+  .total {
+    border-radius: 5px;
+    font-size: 2rem;
+  }
+
+  .card-action {
+    clear: both;
+  }
+
+  ul {
+    max-height: 24rem;
+    overflow: auto;
+  }
+
   .user-content {
     margin-bottom: 1.5rem;
 

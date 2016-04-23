@@ -1,7 +1,7 @@
 var Checkout = React.createClass({
     propTypes: {
         users: React.PropTypes.array.isRequired,
-        total: React.PropTypes.number.isRequired
+        estimated_total: React.PropTypes.number.isRequired
     },
 
     getInitialState: function() {
@@ -117,6 +117,13 @@ var Checkout = React.createClass({
     },
 
     render: function() {
+        var total = this.state.users.reduce(function(acc, user) {
+            if (user.contributed) {
+                acc += user.contribution;
+            }
+            return acc;
+        }, 0);
+
         return (
             <div className='checkout'>
                 <div className='card'>
@@ -126,6 +133,10 @@ var Checkout = React.createClass({
                             <div className='col l12'>
                                 {this.renderUsers()}
                             </div>
+                        </div>
+                        <div className='totals'>
+                            <div className='total'>Total: ${total}</div>
+                            <div className='estimated-total'>Estimated Total: ${this.props.estimated_total}</div>
                         </div>
                     </div>
                     <div className='card-action'>
