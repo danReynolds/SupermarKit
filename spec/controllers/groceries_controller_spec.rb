@@ -133,67 +133,36 @@ describe GroceriesController, type: :controller do
     end
   end
 
-  describe 'PATCH finish' do
-    let(:finish_params) {
+  describe 'PATCH do_checkout' do
+    subject { patch :do_checkout, params }
+    let (:payments) { [] }
+    let(:params) {
       {
-        name: 'Next list',
-        description: 'Description',
-        current_ids: user_group.groceries.first.items.first(1).map(&:id),
-        next_ids: user_group.groceries.first.items.map(&:id)[1..-2]
+        id: grocery.id,
+        grocery: {
+          payments: grocery.user_group.users.map do |user|
+            {
+              user_id: user.id,
+              price: 0
+            }
+          end
+        }
       }
     }
 
-    let(:grocery) { user_group.groceries.first }
-
-    subject {
-      patch :finish,
-      id: user_group.groceries.first.id,
-      finish: finish_params
-    }
-
-    context 'groceries are valid to finish' do
-      it 'should finish the current grocery list' do
-        expect(grocery.finished?).to eq false
-        subject
-        expect(grocery.reload.finished?).to eq true
-      end
-
-      it 'should remove specified items from current list' do
-        current_items = grocery.items.first(1)
-        subject
-        expect(grocery.reload.items.to_a).to eq current_items
-      end
-
-      it 'should add specified items to the next list' do
-        next_items = grocery.items[1..-2]
-        subject
-        new_grocery = user_group.groceries.last
-        expect(new_grocery.reload.items.to_a).to eq next_items
-      end
-
-      it 'should redirect to the newly created grocery' do
-        subject
-        new_grocery = user_group.groceries.last
-        expect(response).to redirect_to new_grocery
-      end
+    it 'should finish the grocery list' do
+      expect(grocery.finished?).to eq false
+      subject
+      expect(grocery.reload.finished?).to eq true
     end
 
-    context 'groceries are not both valid' do
-      before :each do
-        finish_params[:name] = ''
-      end
+    context 'with every user contributing' do
+      it 'should create payments for each user' do
+        other_user = create(:user)
+        user_group = grocery.user_group
+        user_group.users << other_user
 
-      it 'should not finish the current grocery' do
-        subject
-        expect(grocery.reload.finished_at).to be_nil
-      end
-
-      it 'should not create the new grocery' do
-        expect { subject }.to_not change(Grocery, :count)
-      end
-
-      it 'should notify that there was a problem' do
-        expect(subject).to redirect_to grocery
+        expect { subject }.to change { Payment.count }.by user_group.users.count
       end
     end
   end
