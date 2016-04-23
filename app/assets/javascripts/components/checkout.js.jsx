@@ -30,6 +30,33 @@ var Checkout = React.createClass({
         this.updateContribution(this.getIndex(e), parseInt(e.target.value));
     },
 
+    handleSubmit: function(e) {
+        e.preventDefault();
+        $.ajax({
+            method: 'POST',
+            url: this.props.url,
+            dataType: 'html',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                grocery: {
+                    payments: this.state.users.reduce(function(acc, user) {
+                        if (user.contributed) {
+                            acc.push(
+                                {
+                                    user_id: user.id,
+                                    price: user.contribution
+                                }
+                            )
+                        }
+                        return acc;
+                    }, [])
+                }
+            })
+        }).done(function() {
+            window.location = this.props.redirect_url;
+        }.bind(this));
+    },
+
     updateContribution: function(index, value) {
         this.setState({
             users: React.addons.update(
@@ -68,7 +95,23 @@ var Checkout = React.createClass({
             var userPayment = 'user-' + user.id + '-payment',
                 userContribution = 'user-' + user.id + '-contribution';
 
-            var positiveBalance = user.balance > 0;
+            var balance;
+            if (user.balance === 0) {
+                balance = {
+                    icon: 'trending_flat',
+                    class: 'zero'
+                }
+            } else if (user.balance > 0) {
+                balance = {
+                    icon: 'call_made',
+                    class: 'positive'
+                }
+            } else {
+                balance = {
+                    icon: 'call_received',
+                    class: 'negative'
+                }
+            }
 
             return (
                 <li
@@ -79,10 +122,10 @@ var Checkout = React.createClass({
                         <img src={user.gravatar}/>
                         <p className='name'>{user.name}</p>
                     </div>
-                    <div className={'balance-wrapper ' + (positiveBalance ? 'positive' : 'negative')}>
+                    <div className={'balance-wrapper ' + balance.class}>
                         <label className='balance-label' htmlFor={'balance-section' + index}>Kit balance</label>
                         <div className='balance-section' id={'balance-section-' + index}>
-                            <i className='material-icons'>{positiveBalance ? 'call_made' : 'call_received'}</i>
+                            <i className='material-icons'>{balance.icon}</i>
                             <div className='balance'>${user.balance}</div>
                         </div>
                     </div>
@@ -127,21 +170,28 @@ var Checkout = React.createClass({
         return (
             <div className='checkout'>
                 <div className='card'>
-                    <div className='card-content'>
-                        <h3>Pay for your groceries</h3>
-                        <div className='row'>
-                            <div className='col l12'>
-                                {this.renderUsers()}
+                    <form
+                        onSubmit={this.handleSubmit}
+                        className='checkoutForm'>
+                        <div className='card-content'>
+                            <h3>Pay for your groceries</h3>
+                            <div className='row'>
+                                <div className='col l12'>
+                                    {this.renderUsers()}
+                                </div>
+                            </div>
+                            <div className='totals'>
+                                <div className='total'>Total: ${total}</div>
+                            <div className='estimated-total'>Estimated Total: ${this.props.estimated_total}</div>
                             </div>
                         </div>
-                        <div className='totals'>
-                            <div className='total'>Total: ${total}</div>
-                            <div className='estimated-total'>Estimated Total: ${this.props.estimated_total}</div>
+                        <div className='card-action'>
+                            <input
+                                type='submit'
+                                value='Checkout'
+                                className='btn'/>
                         </div>
-                    </div>
-                    <div className='card-action'>
-                        <div className='btn'>Checkout</div>
-                    </div>
+                    </form>
                 </div>
             </div>
         );
