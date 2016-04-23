@@ -33,7 +33,7 @@ var Checkout = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
         $.ajax({
-            method: 'POST',
+            method: 'PATCH',
             url: this.props.url,
             dataType: 'html',
             contentType: 'application/json',
