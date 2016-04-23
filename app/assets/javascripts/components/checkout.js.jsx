@@ -118,7 +118,7 @@ var Checkout = React.createClass({
 
     render: function() {
         var total = this.state.users.reduce(function(acc, user) {
-            if (user.contributed) {
+            if (user.contributed && user.contribution) {
                 acc += user.contribution;
             }
             return acc;
