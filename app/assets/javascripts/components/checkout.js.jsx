@@ -101,7 +101,7 @@ var Checkout = React.createClass({
                     icon: 'trending_flat',
                     class: 'zero'
                 }
-            } else if (user.balance > 0) {
+            } else if (user.balance < 0) {
                 balance = {
                     icon: 'call_made',
                     class: 'positive'
@@ -126,7 +126,7 @@ var Checkout = React.createClass({
                         <label className='balance-label' htmlFor={'balance-section' + index}>Kit balance</label>
                         <div className='balance-section' id={'balance-section-' + index}>
                             <i className='material-icons'>{balance.icon}</i>
-                            <div className='balance'>${user.balance}</div>
+                            <div className='balance'>${Math.abs(user.balance)}</div>
                         </div>
                     </div>
                     <div className='input-field'>
