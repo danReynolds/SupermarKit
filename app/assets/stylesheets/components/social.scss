@@ -18,12 +18,9 @@
     &.google { background: $google-color; }
     &.github { background: $github-color; }
     &:hover {
-      color: $active-text-color;
-      background: $active-background-color;
-
-      .fa-facebook { color: $facebook-color; }
-      .fa-google { color: $google-color; }
-      .fa-github { color: $github-color; }
+      &.facebook { background: darken($facebook-color, 10%); }
+      &.google { background: darken($google-color, 10%); }
+      &.github { background: darken($github-color, 10%); }
     }
   }
 
