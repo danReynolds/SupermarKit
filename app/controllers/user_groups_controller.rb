@@ -40,7 +40,7 @@ class UserGroupsController < ApplicationController
     @user_group.users = User.find(params[:user_group][:user_ids].split(","))
 
     if @user_group.update_attributes(user_group_params)
-      redirect_to @user_group
+      redirect_to user_groups_path
     else
       render action: :edit
     end
