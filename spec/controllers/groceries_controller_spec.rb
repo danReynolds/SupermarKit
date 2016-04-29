@@ -139,16 +139,22 @@ describe GroceriesController, type: :controller do
     let(:params) {
       {
         id: grocery.id,
-        grocery: {
-          payments: grocery.user_group.users.map do |user|
-            {
-              user_id: user.id,
-              price: 0
-            }
-          end
-        }
+        grocery: {}
       }
     }
+
+    before :each do
+      other_user = create(:user)
+      grocery.user_group.users << other_user
+      params[:grocery][:payments] = grocery.user_group.users.map.with_index do |user, i|
+        {
+          user_id: user.id,
+          price: i
+        }
+      end
+
+      @payment_double = class_double('Payment').as_stubbed_const
+    end
 
     it 'should finish the grocery list' do
       expect(grocery.finished?).to eq false
@@ -158,11 +164,40 @@ describe GroceriesController, type: :controller do
 
     context 'with every user contributing' do
       it 'should create payments for each user' do
-        other_user = create(:user)
-        user_group = grocery.user_group
-        user_group.users << other_user
+        grocery.user_group.users.each_with_index do |user, i|
+          expect(@payment_double).to receive(:create).with(
+            hash_including(
+              'grocery_id': grocery.id,
+              'user_id': user.id.to_s,
+              'price': params[:grocery][:payments][i][:price].to_s
+            )
+          )
+        end
 
-        expect { subject }.to change { Payment.count }.by user_group.users.count
+        subject
+      end
+    end
+
+    context 'without every user contributing' do
+      it 'should create payments for only contributing users' do
+        params[:grocery][:payments] = grocery.user_group.users.first(1).map.with_index do |user, i|
+          {
+            user_id: user.id,
+            price: i
+          }
+        end
+
+        grocery.user_group.users.first(1).each_with_index do |user, i|
+          expect(@payment_double).to receive(:create).with(
+            hash_including(
+              'grocery_id': grocery.id,
+              'user_id': user.id.to_s,
+              'price': params[:grocery][:payments][i][:price].to_s
+            )
+          )
+        end
+
+        subject
       end
     end
   end
