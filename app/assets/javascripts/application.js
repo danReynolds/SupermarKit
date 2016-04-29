@@ -6,7 +6,6 @@
 //= require jquery_ujs
 //= require highcharts.min
 //= require chartkick
-//= require elevator.min
 //= require underscore.min
 //= require materialize-sprockets
 //= require react
