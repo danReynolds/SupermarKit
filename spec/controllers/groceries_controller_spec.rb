@@ -152,8 +152,6 @@ describe GroceriesController, type: :controller do
           price: i
         }
       end
-
-      @payment_double = class_double('Payment').as_stubbed_const
     end
 
     it 'should finish the grocery list' do
@@ -164,8 +162,10 @@ describe GroceriesController, type: :controller do
 
     context 'with every user contributing' do
       it 'should create payments for each user' do
+        payment_double = class_double('Payment').as_stubbed_const
+
         grocery.user_group.users.each_with_index do |user, i|
-          expect(@payment_double).to receive(:create).with(
+          expect(payment_double).to receive(:create).with(
             hash_including(
               'grocery_id': grocery.id,
               'user_id': user.id.to_s,
@@ -176,10 +176,15 @@ describe GroceriesController, type: :controller do
 
         subject
       end
+
+      it 'should create the correct number of payments' do
+        expect { subject }.to change(Payment, :count).by 2
+      end
     end
 
     context 'without every user contributing' do
       it 'should create payments for only contributing users' do
+        payment_double = class_double('Payment').as_stubbed_const
         params[:grocery][:payments] = grocery.user_group.users.first(1).map.with_index do |user, i|
           {
             user_id: user.id,
@@ -199,6 +204,10 @@ describe GroceriesController, type: :controller do
 
         subject
       end
+    end
+
+    it 'should create the correct number of payments' do
+      expect { subject }.to change(Payment, :count).by 1
     end
   end
 
