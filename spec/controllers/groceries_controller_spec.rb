@@ -183,17 +183,19 @@ describe GroceriesController, type: :controller do
     end
 
     context 'without every user contributing' do
-      it 'should create payments for only contributing users' do
-        payment_double = class_double('Payment').as_stubbed_const
+      before :each do
         params[:grocery][:payments] = grocery.user_group.users.first(1).map.with_index do |user, i|
           {
             user_id: user.id,
             price: i
           }
         end
+      end
+      it 'should create payments for only contributing users' do
+        payment_double = class_double('Payment').as_stubbed_const
 
         grocery.user_group.users.first(1).each_with_index do |user, i|
-          expect(@payment_double).to receive(:create).with(
+          expect(payment_double).to receive(:create).with(
             hash_including(
               'grocery_id': grocery.id,
               'user_id': user.id.to_s,
@@ -204,11 +206,12 @@ describe GroceriesController, type: :controller do
 
         subject
       end
+
+      it 'should create the correct number of payments' do
+        expect { subject }.to change(Payment, :count).by 1
+      end
     end
 
-    it 'should create the correct number of payments' do
-      expect { subject }.to change(Payment, :count).by 1
-    end
   end
 
   describe 'POST email_group' do
