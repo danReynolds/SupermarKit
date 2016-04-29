@@ -8,15 +8,16 @@
             .col.l12
               %label Name
               %p= @user.name
-          .row
-            .col.l12
-              %label Email
-              %p= @user.email
+          - if can? :view_email, @user
+            .row
+              .col.l12
+                %label Email
+                %p= @user.email
           .row
             .col.l12
               %label Joined On
               %p= @user.created_at.to_date
-        - if can? :view_email, @user
+        - if can? :manage, @user
           .card-action
             .row
               .col.l12
