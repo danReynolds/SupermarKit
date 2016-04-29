@@ -8,16 +8,5 @@ $ ->
       else
         $nav.removeClass('top')
 
-    window.onload = ->
-      sound = "<%= audio_path('ding.mp3') %>"
-      elevator = new Elevator
-        element: $('.elevator-button').get(0)
-        endAudio: sound
-        mainAudio: false
-        duration: 2000
-
-      $('.elevator-button').click ->
-        $('#user_name').focus()
-
     # Trigger a scroll to determine the nav color
     $(window).scroll()
