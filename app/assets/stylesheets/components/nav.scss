@@ -1,0 +1,26 @@
+nav {
+  background: $sm-dark-blue-green;
+  transition: background 0.2s linear;
+
+  &.top {
+    background: none;
+    box-shadow: none;
+    transition: box-shadow 0.2s linear;
+    svg {
+      opacity: 0;
+      transition: opacity 0.3s linear;
+    }
+  }
+
+  svg {
+    @include size(4rem);
+    fill: $sm-white;
+    &:hover {
+      path { fill: $sm-green !important };
+    }
+  }
+}
+
+.nav-wrapper {
+  i { margin-left: 0.75rem; }
+}

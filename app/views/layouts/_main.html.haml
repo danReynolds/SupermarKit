@@ -1,76 +1,49 @@
 - if logged_in?
-  .off-canvas-wrap{'data-offcanvas' => ''}
-    .inner-wrap
-      .show-for-medium-up
-        .fixed
-          %nav.header.top-bar
-            %section.top-bar-section
-              %ul.left
-                %li.primary-action
-                  - if group = current_user.default_group
-                    - if grocery = group.active_groceries.first
-                      = link_to "#{group.name} Kit", grocery
-                    - else
-                      = link_to "#{group.name} Kit", new_user_group_grocery_path(group)
-                  - else
-                    = link_to 'SupermarKit', user_groups_path
-              %ul.right
-                %li
-                  = link_to 'Kits', user_groups_path
-                %li
-                  = link_to 'Me', current_user
-                %li
-                  = link_to 'About', about_path
-                %li
-                  = link_to 'Logout', logout_path, method: :post
-      .hide-for-medium-up
-        %nav.header.tab-bar
-          %section.left-small
-            %a.left-off-canvas-toggle.menu-icon{href: '#'}
-              = inline_svg 'svgs/frankfurter.svg'
+  .navigation
+    %nav
+      .nav-wrapper
+        = link_to root_url, class: 'brand-logo center' do
+          = inline_svg "svgs/groceries.svg", id: 'groceries-svg'
+        = link_to root_url, class: 'button-collapse', 'data-activates' => 'site-navigation' do
+          %i.material-icons menu
 
-        %aside.left-off-canvas-menu
-          %ul.off-canvas-list
-            %li
-              %label SupermarKit
-            %li
-              - if group = current_user.default_group
-                - if grocery = group.active_groceries.first
-                  = link_to "#{group.name} Kit", grocery
-                - else
-                  = link_to "#{group.name} Kit", new_user_group_grocery_path(group)
-              - else
-                = link_to 'SupermarKit', user_groups_path
-            %li
-              = link_to 'Kits', user_groups_path
-            %li
-              = link_to 'Me', current_user
-            %li
-              = link_to 'About', about_path
-            %li
-              = link_to 'Logout', logout_path, method: :post
-        %a.exit-off-canvas
-      = render partial: 'layouts/flash_messages'
-      = render partial: 'layouts/error_messages'
-      = yield
+        - if (default = current_user.default_group) && default.active_groceries.length.nonzero?
+          %ul.hide-on-med-and-down.left
+            %li= link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
 
-- else
-  .magellan.header{'data-magellan-expedition' => 'fixed'}
-    %dl.sub-nav{ 'data-magellan-destination' => 'signup' }
-      - if current_page? root_path
-        %dd{'data-magellan-arrival' => 'signup', class: 'active'}
-          = link_to 'Sign up', '#signup'
-        %dd{'data-magellan-arrival' => 'groceries'}
-          = link_to 'Lists', '#groceries'
-        %dd{'data-magellan-arrival' => 'kits'}
-          = link_to 'Kits', '#kits'
-        %dd{'data-magellan-arrival' => 'finish'}
-          = link_to 'Groceries', '#finish'
-      - else
-        %dd.left
-          = link_to 'Supermarkit', root_path
-      %dd.right
-        = link_to 'Login', login_path
+        %ul.hide-on-med-and-down.right
+          %li= link_to 'Kits', user_groups_path
+          %li= link_to 'Me', current_user
+          %li= link_to 'About', about_path
+          %li= link_to 'Logout', logout_path, method: :post
+        %ul.side-nav#site-navigation
+          %li= link_to 'Kits', user_groups_path, class: :dark
+          %li= link_to 'Me', current_user, class: :dark
+          %li= link_to 'About', about_path, class: :dark
+          %li= link_to 'Logout', logout_path, method: :post, class: :dark
+
   = render partial: 'layouts/flash_messages'
   = render partial: 'layouts/error_messages'
   = yield
+
+- else
+  .navigation{ class: ('navbar-fixed' if current_page? root_path) }
+    %nav{ class: ('top' if current_page? root_path) }
+      .nav-wrapper
+        = link_to root_url, class: 'brand-logo center' do
+          = inline_svg "svgs/groceries.svg", id: 'groceries-svg'
+        = link_to root_url, class: 'button-collapse', 'data-activates' => 'site-navigation' do
+          %i.material-icons menu
+
+        %ul.hide-on-med-and-down.right
+          %li= link_to 'About', about_path
+          %li= link_to 'Sign up', new_user_path
+          %li= link_to 'Login', login_path
+        %ul.side-nav#site-navigation
+          %li= link_to 'About', about_path, class: :dark
+          %li= link_to 'Sign up', new_user_path, class: :dark
+          %li= link_to 'Login', login_path, class: :dark
+
+    = render partial: 'layouts/flash_messages'
+    = render partial: 'layouts/error_messages'
+    = yield

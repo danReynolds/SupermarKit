@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :user do
     sequence(:name) { |n| "Softie#{n}" }
-    password 'Soft'
+    password 'Soft123456789'
     password_confirmation { password }
     email { "#{name}@test.com" }
 
@@ -10,7 +10,7 @@ FactoryGirl.define do
         instance.update_attribute(:roles, [:admin])
       end
     end
-    
+
     trait :full_user do
       after(:create) do |instance|
         group = create(:user_group, users: [instance])

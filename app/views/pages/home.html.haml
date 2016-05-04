@@ -1,64 +1,59 @@
-.contain-to-grid.scroll
-  .home
-    #signup
-      .row
-        .columns.large-12.small-12.medium-12
-          %h1 SupermarKit
-      .row.svg-images
-        .columns.large-12.small-12.medium-12
-          = inline_svg "svgs/shop.svg", id: 'shop-svg'
-          %span +
-          = inline_svg "svgs/groceries.svg", id: 'groceries-svg'
-          %span =
-          = inline_svg "svgs/serve.svg", id: 'serve-svg'
-          %h3 The formula for grocery shopping should be simple.
+.homepage
+  #signup
+    .container
+      %h1 SupermarKit
+      .svg-images
+        = inline_svg "svgs/shop.svg", id: 'shop-svg'
+        %span +
+        = inline_svg "svgs/groceries.svg", id: 'groceries-svg'
+        %span =
+        = inline_svg "svgs/serve.svg", id: 'serve-svg'
+      %h2 The formula for grocery shopping should be simple.
 
       = simple_form_for :user, url: new_user_path, method: :get do |f|
-        .row.signup
-          .columns.large-12.small-8.small-centered
-            %ul
-              %li
-                = f.input :name, label: false, input_html: { placeholder: 'Name', class: 'round' }
-              %li
-                = f.input :email, label: false, input_html: { placeholder: 'Email', class: 'round' }
-              %li
-                = f.button :submit, 'Sign up', class: 'radius'
-    .section#grocery-section
-      .row
-        .columns.large-6.small-10.small-centered.large-uncentered
-          %h1#groceries{ "data-magellan-destination" => "groceries" } It starts with lists.
+        %ul
+          %li
+            = f.input :name, label: false, input_html: { placeholder: 'Name' }
+          %li
+            = f.input :email, label: false, input_html: { placeholder: 'Email' }
+          %li
+            = f.button :submit, 'Sign up'
+  .section#grocery-section
+    .container
+      .row.valign-wrapper
+        .col.l4.offset-l1
+          %h1 It starts with lists.
           %p You've been making them for years and we can help with that. SupermarKit grocery lists remember what you have bought in the past and make it easy to add those grocery items again.
           %p Items are being shared from many grocery lists across SupermarKit, so if there is an item that you want to add to your list, it should already have reviews and an estimated price.
-        .columns.large-6.text-center
+        .col.l6
           = image_tag 'homepage/lists.png'
 
-    .section#kit-section
-      .row
-        .columns.large-4.text-center.large-text-left
+  .section#kit-section
+    .container
+      .row.valign-wrapper
+        .col.l4.s6.offset-s3.center-align
           = image_tag 'homepage/kit.png'
-        .columns.large-8.text-center.large-text-left
-          %h1#kits{ "data-magellan-destination" => "kits" } Add some Kits.
+        .col.l8
+          %h1 Add some Kits.
           %p A Kit is a box that holds all of the grocery lists for a group of people on SupermarKit.
           %p You can have as many kits as you need, making it easy to maintain separate lists for your family and your roommates or for any events that you want to keep track of on their own.
           %p With separate lists for different groups of people, you don't have to worry about confusing who you're buying for.
 
-    .section#finish-section
+  .section#finish-section
+    .container.center-align
       .row
-        .columns.large-12.text-center
-          %h1#finish{ "data-magellan-destination" => "finish" } Put it all together.
-      .row
-        .columns.large-12.text-center
-          %br
+        .col.l8.offset-l2
+          %h1 Put it all together.
           %p Once you have put your shopping cart together and gone through checkout, it is important to make sure that what you purchased accurately reflects what you put on your list.
           %p When you finish your list we make it easy for you to remove any items that you forgot to or decided not to buy. You can then move those items over to your next shopping trip's list which we will make automatically for you.
       .row
-        .columns.large-12.text-center
-          %br
+        .col.l8.offset-l2
           = image_tag 'homepage/carry-over.png'
 
-    .section#elevator-section
+  .section#elevator-section
+    .container.center-align
       .row
-        .columns.large-12.text-center
+        .col.l12
           %h1 And make something useful.
           %p Give SupermarKit a try and see if it can make your grocery shopping easier.
-          %div{class: 'button elevator-button' } Go to sign up
+          = link_to 'Sign up', new_user_path, class: 'btn'

@@ -1,0 +1,168 @@
+.item-list {
+  .card {
+    background: transparent;
+    box-shadow: none !important;
+  }
+
+  .card-content {
+    padding: 0rem;
+    position: relative;
+    background: $sm-light-gray;
+  }
+
+  .no-items {
+    padding: 2rem;
+    text-align: center;
+
+    i {
+      color: $sm-light-green;
+      font-size: 4rem;
+    }
+
+    h3 {
+      color: $sm-gray;
+    }
+  }
+
+  .pagination {
+    margin: 0 auto;
+    display: table;
+    padding: 0.5rem 0;
+    width: initial;
+
+    a { color: $sm-dark-gray !important; }
+    li {
+      margin: 0 2px !important;
+      line-height: 1.8rem;
+      vertical-align: middle;
+
+      &:not(:first-child, :last-child) { height: 1.5rem };
+      &.active { background: $sm-green; }
+    }
+  }
+
+  .collection-item {
+    padding: 0.3rem 1rem;
+    position: relative;
+
+    &:hover:not(.active) {
+      .collapsible-header {
+        width: 95%;
+        transition: width .2s ease-in;
+      }
+      .remove {
+        width: 5%;
+        opacity: 1;
+        transition: opacity .2s ease-in;
+      }
+    }
+
+    &.active {
+      margin: 0.6rem !important;
+      border-bottom: none;
+      color: $sm-gray;
+      background: $sm-white;
+    }
+
+    p { margin-left: 1rem; }
+  }
+
+  .remove {
+    width: 0;
+    background: $sm-green;
+    color: $sm-white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.2rem;
+    height: 100%;
+    line-height: 3;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    vertical-align: middle;
+    transition: none;
+    transition-property: opacity;
+  }
+
+  .card-header {
+    background: $sm-dark-blue-green;
+  }
+
+  h3 {
+    color: $sm-white;
+    margin: 0;
+    padding: 1.25rem;
+  }
+
+  .collapsible-header {
+    border-bottom: none;
+    padding: 0;
+    width: 100%;
+    transition-property: width;
+    @extend .valign-wrapper;
+
+    &.active {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid $sm-light-gray;
+      margin-bottom: 1rem;
+    }
+
+    img {
+      @include size(2.5rem);
+    }
+  }
+
+  .bottom-row {
+    background: $sm-white;
+    padding: 1rem;
+
+    @extend .valign-wrapper;
+
+    a { margin-top: 0; }
+    span { margin-left: auto; }
+    .price {
+      margin-left: 0.5rem;
+      padding: 5px;
+    }
+  }
+
+  .price {
+    background: $sm-light-gray;
+    border-radius: 2px;
+    height: 28px;
+    line-height: 2;
+    margin-left: auto;
+    margin-right: 0.3rem;
+    padding: 0 5px;
+  }
+
+  .collapsible-body {
+    border-bottom: none;
+    a { margin-left: auto; }
+    .col { margin-left: 0; }
+  }
+
+  .collapsible {
+    background: $sm-light-gray;
+    margin: 0;
+    overflow: visible;
+
+    li {
+      box-shadow: none;
+      margin: 0;
+    }
+  }
+
+  .btn-floating {
+    background: $sm-green;
+    position: absolute;
+    bottom: -2rem;
+    right: 1rem;
+  }
+
+  img {
+    border-radius: 50%;
+  }
+}

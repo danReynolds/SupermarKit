@@ -28,7 +28,7 @@ ActiveRecord::Migration.maintain_test_schema!
 module Sorcery
   module TestHelpers
     module Rails
-      def login_user(user, password)
+      def basic_user(user, password)
         page.driver.post(user_sessions_url, { username: user, password: password}) 
       end
     end

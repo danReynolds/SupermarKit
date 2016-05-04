@@ -1,4 +1,4 @@
-require 'support/login_user'
+require 'support/basic_user'
 
 shared_examples 'routes' do |routes|
   describe 'check route' do

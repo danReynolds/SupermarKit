@@ -20,3 +20,4 @@ config/secrets.yml
 .tags_sorted_by_file
 /coverage
 /node_modules
+.vagrant

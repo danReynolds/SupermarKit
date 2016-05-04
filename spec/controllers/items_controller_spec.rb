@@ -1,184 +1,121 @@
 require 'rails_helper'
-require 'support/login_user'
-require 'support/routes'
+require 'support/basic_user'
 
 RSpec.describe ItemsController, type: :controller do
-  include_context 'login user'
-
-  let(:id) { grocery.items.first.id }
-  let(:grocery_id) { grocery.id }
-  it_should_behave_like 'routes', {
-    new: { grocery_id: true },
-    show: { id: true },
-    edit: { id: true }
-  }
+  include_context 'basic user'
 
   describe 'GET index' do
     subject { get :index, grocery_id: grocery, format: :json }
 
-    it 'should have a data response' do
+    it 'should return all items for the grocery' do
       subject
-      resp = JSON.parse(response.body)
-      expect(resp.has_key?('data')).to eq true
+      items = JSON.parse(response.body)['data']['items']
+      expect(items.length).to eq grocery.items.length
     end
 
-    it 'should return all grocery items' do
+    it "should return the total cost of the grocery's items" do
       subject
-      data = JSON.parse(response.body)['data']
-
-      expect(data.length).to eq grocery.items.length
-
-      grocery.items.each_with_index do |item, i|
-        expect(item.id).to eq data[i]['id']
-        expect(item.name).to eq data[i]['name']
-        expect(item.description.to_s).to eq data[i]['description']
-        expect(item.grocery_item(grocery).id).to eq data[i]['grocery_item_id']
-        expect(item.quantity(grocery)).to eq data[i]['quantity']
-        expect(item.price(grocery).dollars.to_s).to eq data[i]['price']
-        expect(item.price(grocery).format).to eq data[i]['price_formatted']
-        expect(item.total_price(grocery).format).to eq data[i]['total_price_formatted']
-        expect(item_path(item.id)).to eq data[i]['path']
-      end
-    end
-  end
-
-  describe 'POST create' do
-    context 'when valid item' do
-      subject { post :create, item: attributes_for(:item), grocery_id: grocery.id }
-
-      it 'should create a new item' do
-        expect { subject }.to change(Item, :count).by 1
+      returned_total = JSON.parse(response.body)['data']['total']
+      expected_total = grocery.items.inject(0) do |acc, item|
+        acc + item.grocery_item(grocery).total_price_or_estimated.to_f
       end
 
-      it 'should capitalize the item name' do
-        subject
-        name = Item.last.name
-        expect(name).to eq name.capitalize
-      end
-
-      it 'should redirect to the new grocery page' do
-        expect(subject).to redirect_to grocery
-      end
-    end
-
-    context 'when invalid item' do
-      subject { post :create, item: { name: '' }, grocery_id: grocery.id }
-
-      it 'should not create a new item' do
-        expect { subject }.to_not change(Item, :count)
-      end
-
-      it 'should render the new template' do
-        expect(subject).to render_template :new
-      end
+      expect(returned_total).to eq expected_total
     end
   end
 
   describe 'PATCH update' do
     let(:item) { grocery.items.last }
-    let(:params) {
+    let(:grocery_item) { item.grocery_item(grocery) }
+    let(:valid_params) {
       {
-        name: "#{item.name} updated"
+        grocery_id: grocery.id,
+        id: item.id,
+        item: {
+          groceries_items_attributes: {
+            id: grocery_item.id,
+            quantity: grocery_item.quantity + 1,
+            price: grocery_item.price.to_i + 1
+          }
+        }
+      }
+    }
+    let(:invalid_params) {
+      {
+        grocery_id: grocery.id,
+        id: item.id,
+        item: {
+          groceries_items_attributes: {
+            id: grocery_item.id,
+            quantity: "invalid"
+          }
+        }
       }
     }
 
-    context 'when HTML' do
-      subject { patch :update, id: item.id, item: params }
+    context 'when valid' do
+      subject { patch :update, valid_params, format: :json }
 
-      context 'when valid' do
-        it 'should update the item' do
-          subject
-          expect(item.reload.name).to eq params[:name]
-        end
-
-        it 'should redirect to the user group' do
-          expect(subject).to redirect_to user_group
-        end
+      it 'should update the item' do
+        subject
+        grocery_item.reload
+        expect(grocery_item.price.to_i).to eq valid_params[:item][:groceries_items_attributes][:price]
+        expect(grocery_item.quantity).to eq valid_params[:item][:groceries_items_attributes][:quantity]
       end
 
-      context 'when invalid' do
-        before :each do
-          params[:name] = ''
-        end
-
-        it 'should not update the item' do
-          name = item.name
-          subject
-          expect(item.reload.name).to eq name
-        end
-
-        it 'should render the edit template' do
-          expect(subject).to render_template :edit
-        end
+      it 'should successfully return the old and updated values' do
+        expect(subject).to be_ok
+        expect(JSON.parse(response.body)['data']['previous_item_values'])
+          .to eq controller.send(:format_item, grocery_item)
+          .slice(:price, :quantity).with_indifferent_access
+        expect(JSON.parse(response.body)['data']['updated_item_values'])
+          .to eq controller.send(:format_item, grocery_item.reload)
+          .slice(:price, :quantity, :quantity_formatted).with_indifferent_access
       end
     end
 
-    context 'when JSON' do
-      subject { patch :update, id: item.id, item: params, format: :json }
+    context 'when invalid' do
+      subject { patch :update, invalid_params, format: :json }
 
-      context 'when valid' do
-        it 'should update the item' do
-          subject
-          expect(item.reload.name).to eq params[:name]
-        end
+      it 'should not update the item' do
+        subject
 
-        it 'should return a valid response' do
-          expect(subject).to be_ok
-        end
-      end
+        previous_price = grocery_item.price
+        previous_quantity = grocery_item.quantity
+        grocery_item.reload
 
-      context 'when invalid' do
-        before :each do
-          params[:name] = ''
-        end
-
-        it 'should not update the item' do
-          name = item.name
-          subject
-          expect(item.reload.name).to eq name
-        end
-
-        it 'should return an internal server error' do
-          subject
-          expect(response).to have_http_status :internal_server_error
-        end
+        expect(response).to have_http_status :internal_server_error
+        expect(grocery_item.price).to eq previous_price
+        expect(grocery_item.quantity).to eq previous_quantity
       end
     end
   end
 
   describe 'GET auto_complete' do
-    describe 'Scope by presence' do
-      it 'returns an item not present in current grocery list' do
-        items = user_group.items - grocery.items
-        get :auto_complete, grocery_id: grocery, q: items.first.name
-        resp = JSON.parse(response.body)['total_items']
-        expect(resp).to eq 1
-      end
+    let(:data) { JSON.parse(response.body)['data'] }
 
-      it 'does not return an item present in the current grocery list' do
-        item = grocery.items.first
-        get :auto_complete, grocery_id: grocery, q: item.name
-        resp = JSON.parse(response.body)['total_items']
-        expect(resp).to eq 0
-      end
+    it 'returns an item matching the search query' do
+      item = grocery.items.first
+      get :auto_complete, grocery_id: grocery, q: item.name
+
+      expect(data.length).to eq 1
+      expect(data.first['name']).to eq item.name
     end
 
-    describe 'Scope by privacy' do
+    describe 'scope by privacy' do
       context 'public kit' do
         it 'returns other public group items' do
           group = create(:user_group, :with_groceries)
           item = group.items.first
           get :auto_complete, grocery_id: grocery, q: item.name
-          resp = JSON.parse(response.body)['total_items']
-          expect(resp).to eq 1
+          expect(data.length).to eq 1
         end
 
         it 'does not return other private group items' do
           group = create(:user_group, :with_groceries, privacy: UserGroup::PRIVATE)
           item = group.items.first
           get :auto_complete, grocery_id: grocery, q: item.name
-          resp = JSON.parse(response.body)['total_items']
-          expect(resp).to eq 0
+          expect(data.length).to eq 0
         end
       end
 
@@ -189,8 +126,7 @@ RSpec.describe ItemsController, type: :controller do
           item = other_group.items.first
 
           get :auto_complete, grocery_id: grocery, q: item.name
-          resp = JSON.parse(response.body)['total_items']
-          expect(resp).to eq 0
+          expect(data.length).to eq 0
         end
 
         it 'returns own private group items' do
@@ -198,90 +134,9 @@ RSpec.describe ItemsController, type: :controller do
           items = user_group.items - grocery.items
 
           get :auto_complete, grocery_id: grocery, q: items.first.name
-          resp = JSON.parse(response.body)['total_items']
-          expect(resp).to eq 1
+          expect(data.length).to eq 1
         end
       end
-    end
-  end
-
-  describe 'PATCH add' do
-    let(:new_item_name) { 'Schnitzel' }
-    let(:item) { create(:item) }
-
-    context 'new item' do
-      subject { patch :add, grocery_id: grocery, items: { ids: [new_item_name] } }
-      it 'should create the new item' do
-        expect { subject }.to change(Item, :count).by(1)
-      end
-
-      it 'should set the new item price to zero' do
-        subject
-        expect(Item.last.grocery_item(grocery).price_cents).to eq 0
-      end
-    end
-
-    context 'existing item' do
-      subject { patch :add, grocery_id: grocery, items: { ids: [item.id] } }
-
-      context 'without a store' do
-        before(:each) do
-          groceries = create_list :grocery, 3, items: [item]
-          item.grocery_item(groceries[0]).update_attribute(:price_cents, 500)
-          item.grocery_item(groceries[1]).update_attribute(:price_cents, 100)
-          item.grocery_item(groceries[2]).update_attribute(:price_cents, 500)
-        end
-
-        it 'should assign the overall most common price' do
-          subject
-          expect(item.reload.grocery_item(grocery).price_cents).to eq 500
-        end
-      end
-
-      context 'with a store' do
-        let(:nearby_store) { create(:grocery_store) }
-        before(:each) do
-          grocery.update_attribute(:grocery_store, nearby_store)
-          groceries = create_list :grocery, 3, items: [item], grocery_store: nearby_store
-          item.grocery_item(groceries[0]).update_attribute(:price_cents, 500)
-          item.grocery_item(groceries[1]).update_attribute(:price_cents, 100)
-          item.grocery_item(groceries[2]).update_attribute(:price_cents, 500)
-
-          other_groceries = create_list :grocery, 3, items: [item]
-          other_groceries.each do |grocery|
-            item.grocery_item(grocery).update_attribute(:price_cents, 50)
-          end
-        end
-
-        context 'with a nearby store' do
-          it 'should assign the most common price from the nearby store' do
-            subject
-            expect(item.reload.grocery_item(grocery).price_cents).to eq 500
-          end
-        end
-
-        context 'without a nearby store' do
-          let(:nearby_store) { nil }
-          it 'should fallback on the general most common price' do
-            subject
-            expect(item.reload.grocery_item(grocery).price_cents).to eq 50
-          end
-        end
-      end
-    end
-  end
-
-  describe 'PATCH remove' do
-    let(:item) { grocery.items.last }
-    subject { patch :remove, grocery_id: grocery, id: item }
-
-    it 'removes the item from grocery' do
-      subject
-      expect(grocery.reload.items).not_to include(item)
-    end
-
-    it 'successfully returns' do
-      expect(subject).to be_ok
     end
   end
 end

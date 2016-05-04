@@ -1,0 +1,104 @@
+.homepage {
+  #signup {
+    background-image: linear-gradient(rgba($sm-light-green, 0.9), rgba($sm-blue-green, 0.75)), image-url("homepage/elevator-background.jpg");
+    text-align: center;
+    height: 100vh;
+    padding: 20vh 0;
+
+    form { margin-top: 2.5rem; }
+    input { color: $sm-white; }
+    li {
+      list-style-type: none;
+      margin-left: 0.25rem;
+    }
+    h2 {
+      color: $sm-white;
+      margin-top: 0;
+    }
+
+    .svg-images {
+      span {
+          color: $sm-white;
+          display: inline-block;
+          font-size: 7rem;
+          margin-bottom: 0;
+          vertical-align: super;
+      }
+
+      svg {
+        height: 7rem;
+        path { fill: $sm-white !important; }
+        width: 7rem;
+      }
+
+      @media #{$mobile} {
+        line-height: 1;
+        svg {
+          width: 5rem;
+          height: 5rem;
+        }
+      }
+    }
+
+    h1 {
+      color: $sm-white;
+      font-size: 4rem;
+    }
+
+    li { display: inline-block; }
+
+  }
+
+  .section {
+    padding: 6rem 0;
+    background: $sm-off-white;
+
+    @media #{$mobile} {
+      padding: 4rem 0;
+      text-align: center;
+
+      .valign-wrapper {
+        display: block;
+      }
+
+      .col + .col {
+        margin-top: 2rem;
+      }
+    }
+
+    img {
+      border-radius: 4px;
+      box-shadow: 0 0 1px $sm-gray;
+      @media #{$mobile} { width: 100%; }
+    }
+
+    h1 { color: $sm-gray; }
+
+    &#grocery-section {
+      padding: 3rem 0;
+      img { height: 30rem; }
+
+      @media #{$mobile} {
+        img { height: auto; }
+      }
+    }
+
+    &#kit-section {
+      background-image: linear-gradient(rgba($sm-dark-blue-green, 0.9), rgba($sm-mid-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
+      h1, p { color: $sm-white; }
+    }
+
+    &#finish-section {
+      overflow: hidden;
+      height: 45rem;
+      img { width: 100%; }
+      @media #{$mobile} { height: 40rem; }
+    }
+
+    &#elevator-section {
+      background: linear-gradient($sm-mid-blue-green, $sm-dark-green);
+      padding: 8rem 0;
+      h1, p { color: $sm-white; }
+    }
+  }
+}

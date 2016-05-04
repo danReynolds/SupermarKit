@@ -1,0 +1,10 @@
+.social-icons
+  = link_to auth_at_provider_path(provider: :facebook), class: 'btn facebook' do
+    .left #{button_label} Facebook
+    = icon 'facebook', class: 'right'
+  = link_to auth_at_provider_path(provider: :google), class: 'btn google' do
+    .left #{button_label} Google
+    = icon 'google', class: 'right'
+  = link_to auth_at_provider_path(provider: :github), class: 'btn github' do
+    .left #{button_label} GitHub
+    = icon 'github', class: 'right'

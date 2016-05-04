@@ -12,9 +12,9 @@ describe Canard::Abilities, "for guests" do
   end
 
   context 'should not be able to' do
-    it { cant([:accept_invitation, :metrics, :read, :create, :destroy, :update, :manage], any(:user_group)) }
-    it { cant([:set_store, :recipes, :finish, :email_group, :read, :create, :destroy, :update, :manage], any(:grocery)) }
-    it { cant([:auto_complete, :add, :remove, :read, :create, :destroy, :update, :manage], any(:item)) }
+    it { cant([:accept_invitation, :read, :create, :destroy, :update, :manage], any(:user_group)) }
+    it { cant([:set_store, :recipes, :checkout, :do_checkout, :email_group, :read, :create, :destroy, :update, :manage], any(:grocery)) }
+    it { cant([:auto_complete, :read, :create, :destroy, :update, :manage], any(:item)) }
     it { cant([:default_group, :auto_complete, :read, :destroy, :update, :manage], any(:user)) }
     it { cant([:read, :create, :destroy, :update, :manage], any(:authentication)) }
   end
