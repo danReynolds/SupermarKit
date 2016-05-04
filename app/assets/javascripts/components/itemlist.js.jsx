@@ -117,7 +117,6 @@ var ItemList = React.createClass({
     },
 
     handleSave: function() {
-        this.pageChange(0);
         this.saveSelection(this.state.modal.selection);
     },
 
