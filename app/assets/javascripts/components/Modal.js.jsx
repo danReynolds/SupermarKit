@@ -47,7 +47,7 @@ var Modal = React.createClass({
                 break;
             case this.props.enterTarget:
                 if (this.state.results.length === 0)
-                    this.handleSave();
+                    this.props.handleSave();
                 else
                     this.addToSelection(this.state.scrollTarget);
                     event.preventDefault();
@@ -81,11 +81,6 @@ var Modal = React.createClass({
         }
 
         this.setState({ backspaceTarget: backspaceTarget });
-    },
-
-    handleSave: function() {
-        this.props.toggleModal();
-        this.props.handleSave();
     },
 
     addToSelection: function(index) {
@@ -247,7 +242,7 @@ var Modal = React.createClass({
                         </a>
                         <a
                             className='waves-effect waves-light btn'
-                            onClick={this.handleSave}>
+                            onClick={this.props.handleSave}>
                             <i className='material-icons left'>send</i>
                             Update
                         </a>
