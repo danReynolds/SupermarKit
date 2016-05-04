@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :user_sessions
 
-  resources :users do
+  resources :users, except: [:index] do
     member do
       get :activate
       patch :default_group
@@ -24,26 +24,23 @@ Rails.application.routes.draw do
   # Only the collection routes of the children get member routes of the parent
   shallow do
     resources :user_groups do
-      resources :groceries do
-        resources :items do
+      resources :groceries, except: [:index, :edit] do
+        resources :items, only: [:index, :update] do
           collection do
             get :auto_complete
-            patch :add
-          end
-          member do
-            patch :remove
           end
         end
         member do
           get :recipes
-          patch :finish
+          get :checkout
+          patch :do_checkout
           post :email_group
           post :set_store
         end
       end
       member do
         get :metrics
-        patch :accept_invitation
+        post :accept_invitation
       end
     end
   end

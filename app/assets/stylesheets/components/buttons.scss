@@ -1,0 +1,30 @@
+.btn {
+  background: $sm-green;
+  color: $sm-white !important;
+  margin-top: 0.5rem;
+  text-transform: none;
+
+  &.secondary {
+    $button-color: $sm-gray;
+    background: $button-color;
+    &:hover { background: lighten($button-color, 10%); }
+  }
+
+  &.cancel {
+    $button-color: $sm-red;
+    background: $button-color;
+    &:hover { background: lighten($button-color, 10%); }
+  }
+
+  &:hover {
+    color: $sm-white !important;
+    background: darken($sm-green, 10%);
+  }
+
+  .file-field & {
+    height: auto !important;
+    line-height: 36px !important;
+  }
+}
+
+.btn + .btn { margin-left: 1rem; }

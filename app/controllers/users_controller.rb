@@ -1,11 +1,8 @@
 class UsersController < ApplicationController
-  skip_before_filter :require_login, only: [:index, :new, :create, :activate]
+  skip_before_filter :require_login, only: [:new, :create, :activate]
   load_and_authorize_resource
   skip_load_and_authorize_resource only: :activate
   skip_authorization_check only: :activate
-
-	def index
-	end
 
   def show
   end
@@ -14,20 +11,6 @@ class UsersController < ApplicationController
   end
 
   def edit
-  end
-
-  def default_group
-    new_group = UserGroup.find(params[:default_group_id])
-    user = User.find(params[:id])
-    user.default_group = new_group
-
-    if user.save && grocery = user.default_group.active_groceries.first
-      link = grocery_path(grocery)
-    else
-      link = new_user_group_grocery_path(user.default_group)
-    end
-
-    render json: { success: true, name: new_group.name, href: link }
   end
 
   def activate
@@ -50,16 +33,18 @@ class UsersController < ApplicationController
   end
 
   def auto_complete
-    users = User.with_name(params[:q]).select(:id, :name).map do |user|
-      {
+    users = User.accessible_by(current_ability).with_name(params[:q]).map do |user|
+      results = {
         id: user.id,
         name: user.name
       }
+      results.tap do
+        results[:gravatar] = user.gravatar_url if params[:gravatar]
+      end
     end
 
     render json: {
-      total_users: users.count,
-      users: users
+      data: users
     }
   end
 
@@ -67,7 +52,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to @user
     else
-      render :edit, notice: 'Unable to update user.'
+      render :edit, notice: 'Unable to update your profile.'
     end
   end
 

@@ -4,25 +4,47 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :user_group
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
-  def index
-    respond_to do |format|
-      format.json do
-        groceries = @groceries.order('created_at DESC').map do |grocery|
-          {
-            id: grocery.id,
-            name: grocery.name,
-            description: grocery.description,
-            count: grocery.items.count,
-            cost: grocery.total.to_money.format,
-            finished: grocery.finished?
-          }
-        end
-        render json: { data: groceries }
-      end
-    end
-	end
-
 	def show
+    @dashboard = {
+      checkout_url: checkout_grocery_path(@grocery),
+      itemList: {
+        grocery: {
+          name: @grocery.name,
+          id: @grocery.id,
+          url: grocery_path(@grocery)
+        },
+        items: {
+          url: grocery_items_path(@grocery)
+        },
+        users: format_users,
+        modal: {
+          addUnmatchedQuery: true,
+          queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
+          id: 'add-groceries',
+          resultType: 'ItemResult',
+          input: {
+            placeholder: 'Add your item, like 5 bananas (for $4)',
+            queryField: 'query',
+            delimiter: '\s*',
+            fields: [
+              {
+                name: 'quantity',
+                regex: '([0-9]*)?'
+              },
+              {
+                name: 'query',
+                regex: '(.*?)'
+              },
+              {
+                name: 'price',
+                regex: '(?:for \$([0-9]*))?'
+              }
+            ]
+          }
+        }
+
+      }
+    }
     @grocery_store = @grocery.grocery_store
 	end
 
@@ -42,29 +64,44 @@ class GroceriesController < ApplicationController
 	end
 
 	def update
+    items = params[:grocery][:items] || []
+
+    @grocery.items.delete(@grocery.items - items.map { |item| Item.find_by_id(item[:id]) })
+    items.each do |item|
+      grocery_item = GroceriesItems.find_or_create_by(
+        item: Item.accessible_by(current_ability).find_or_create_by(id: item[:id], name: item[:name].capitalize),
+        grocery: @grocery
+      )
+      grocery_item.update!(item.permit(:quantity, :price)
+       .merge!({ requester_id: grocery_item.requester_id || current_user.id }))
+    end
+
+    if @grocery.update!(grocery_params)
+      render nothing: true
+    end
 	end
 
-  def finish
-    current_items = find_items(params[:finish][:current_ids])
-    next_items = find_items(params[:finish][:next_ids])
+  def checkout
+    @checkout_data = {
+      grocery_id: @grocery.id,
+      users: format_users,
+      url: do_checkout_grocery_path(@grocery),
+      redirect_url: new_user_group_grocery_path(@grocery.user_group),
+      estimated_total: @grocery.total_price_or_estimated.to_f
+    }
+  end
 
-    @grocery.items = current_items
+  def do_checkout
+    grocery_payment_params[:payments].each do |payment|
+      Payment.create(payment.merge!({ grocery_id: @grocery.id }))
+    end
     @grocery.finished_at = DateTime.now
 
-    new_grocery = Grocery.new(
-      name: params[:finish][:name],
-      description: params[:finish][:description],
-      items: next_items,
-      user_group: @grocery.user_group
-    )
-
-    begin
-      Grocery.transaction do
-        @grocery.save! && new_grocery.save!
-        redirect_to new_grocery, notice: 'Your new grocery list is setup and ready to use.'
-      end
-    rescue ActiveRecord::RecordInvalid
-      redirect_to @grocery, alert: 'There was a problem finishing your list.'
+    if @grocery.save
+      head :ok
+      flash[:notice] = "Checkout complete! When you're ready, make a new list."
+    else
+      head :internal_server_error
     end
   end
 
@@ -99,12 +136,32 @@ class GroceriesController < ApplicationController
 
 private
 
+  def format_users
+    @grocery.user_group.user_groups_users.map do |user_group_user, h|
+      {
+        id: user_group_user.user_id,
+        name: user_group_user.user.name,
+        state: user_group_user.state,
+        gravatar: user_group_user.user.gravatar_url(50),
+        balance: user_group_user.balance.to_f
+      }
+    end
+  end
+
   def find_items(ids)
     ids.split(',').flat_map { |id| Item.find(id) }
   end
 
   def grocery_params
-    params.require(:grocery).permit(:name, :description)
+      params.require(:grocery).permit(:name, :description)
+  end
+
+  def grocery_item_params
+      params.require(:grocery).permit(items: [:id, :quantity, :price])
+  end
+
+  def grocery_payment_params
+    params.require(:grocery).permit(payments: [:user_id, :price])
   end
 
   def grocery_store_params

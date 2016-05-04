@@ -8,11 +8,11 @@ All right everybody, here's the list:
     <% if item.description.present? %>
       * <%= item.description %>
     <% end %>
-    * <%= "Quantity: #{item.quantity(@grocery)}" %>
-    * <%= "Expected Price: #{item.price(@grocery).format}" %>
+    * <%= "Quantity: #{item.grocery_item(@grocery).quantity}" %>
+    * <%= "Expected Price: #{item.grocery_item(@grocery).price.format}" %>
 
 <% end %>
 
-If everything goes according to plan, we're looking at <%= @grocery.total.to_money.format %>.
+If everything goes according to plan, we're looking at <%= @grocery.total_price_or_estimated.format %>.
 
 Let's roll out.

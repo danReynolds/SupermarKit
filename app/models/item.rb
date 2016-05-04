@@ -1,5 +1,4 @@
 class Item < ActiveRecord::Base
-
   has_many :groceries_items, class_name: GroceriesItems, inverse_of: :item
   has_many :groceries, through: :groceries_items
   has_many :user_groups, through: :groceries
@@ -14,15 +13,7 @@ class Item < ActiveRecord::Base
     groceries_items.find_by_grocery_id(grocery.id)
   end
 
-  def quantity(grocery)
-    grocery_item(grocery).quantity
-  end
-
-  def price(grocery)
-    grocery_item(grocery).price
-  end
-
-  def total_price(grocery)
-    grocery_item(grocery).total_price
+  def total_price_or_estimated(grocery)
+    grocery_item(grocery).total_price_or_estimated
   end
 end

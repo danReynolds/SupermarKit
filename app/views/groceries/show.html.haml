@@ -1,141 +1,141 @@
-:coffee
-  @grocery_id = "#{@grocery.id}"
-  @place_id = "#{@grocery_store.try(:place_id)}"
+-# .container.groceries-show
+-#   - unless @grocery.finished?
+-#     .row.add-items
+-#       .columns.large-12.wide
+-#         = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
+-#           .row.collapse.postfix-round
+-#             .columns.large-12
+-#               = f.input :ids, label: false, class: 'add-input'
+-#               = f.button :submit, 'Add', class: 'add-button postfix'
 
 .container.groceries-show
-  - unless @grocery.finished?
-    .row.add-items
-      .columns.large-12.wide
-        = simple_form_for :items, url: add_grocery_items_path(@grocery), method: :patch, remote: true do |f|
-          .row.collapse.postfix-round
-            .columns.large-12
-              = f.input :ids, label: false, class: 'add-input'
-              = f.button :submit, 'Add', class: 'add-button postfix'
-
   .row
-    .columns.wide.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
-      .widget
-        .header
-          %h3= @grocery.name
-        .main
-          .row
-            .columns.large-12
-              = render partial: 'loaders/spinner', locals: { className: 'grocery-spinner' }
-              .grocery-content.hide
-                %table#grocery-table.display.responsive.nowrap
-                  %thead
-                    %tr
-                      %th ID
-                      %th Name
-                      %th Description
-                      %th Quantity
-                      %th Price per Item
-                      %th Total Price
-                      %th Remove
-                  %tfoot
-                    %tr
-                      %th.text-right{colspan: 6}
-                        Total:
-                      %th
-          .row.grocery-content.hide
-            .columns.large-12
-              - if @grocery.finished?
-                %h3 All Finished!
-                %p Groceries for this list have already been purchased. You can still modify this list if you need to make any corrections.
-              - else
-                %h3 Been through checkout?
-                %p Once you have purchased your groceries you can finish your list and we'll start a new one for you.
-          .row
-            .columns.large-12
-              - unless @grocery.finished?
-                = link_to '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button inline' do
-                  Finish List
-                  %i.icon.ion-android-done
-
-      - unless @grocery.finished?
-        .row
-          .columns.large-12
-            .widget#recipes
-              .header
-                %h3 Recipes
-              .main
-                = render partial: 'loaders/spinner', locals: { className: 'recipe-spinner' }
-                .recipe-content.hide
-                  %p.banner We have some great ideas for what to make based on your current groceries.
-                  %ul
-                .recipe-no-content.hide
-                  = fa_icon 'folder-open-o'
-                  %p.banner It looks like no recipes match your grocery list, but don't let that stop you from making something awesome.
-                .reload.hide
-                  %p Your grocery list has changed.
-                  = link_to 'Reload recipes', '#', class: 'button'
-
-    - unless @grocery.finished?
-      .columns.large-4
-        .row
-          .columns.large-12.wide
-            .widget.email
-              .header
-                %h3 Email Groceries
-              .main
-                .email-spinner.hide
-                  = render partial: 'loaders/spinner_ripple'
-                .email-content
-                  %p
-                    Tell the team! At any point you can email everyone in your Kit the grocery list.
-                  = link_to 'Send to team', email_group_grocery_path(@grocery), method: :post, class: 'button'
-      .columns.large-4.wide
-        .row
-          .columns.large-12
-            .widget.management
-              .header
-                %h3 Kit Management
-              .main
-                %p View Kit statistics, manage users and view past lists all in one place.
-                = link_to 'Manage Kit', @grocery.user_group, class: 'button'
-      .columns.large-4.wide
-        .row
-          .columns.large-12
-            .widget#location
-              .header
-                %h3 Grocery Store
-              .main
-                %input{id: "pac-input", class: "controls", placeholder: "Search Box"}
-                #map-canvas
-
-  -# Modals
-
-  #carry-over-modal.reveal-modal{ "data-reveal" => "", role: "dialog" }
-    .row
-      .columns.large-12
-        %h2.modalTitle Congrats.
-        %p You've bought your groceries! Let's finish your current list and set up a new one. Drag over any items that should go on your next list and remove any items from your current list that you did not buy.
-    .row.drag-items
-      .columns.large-6
-        %h3 Current list
-        .drag.left
-      .columns.large-6
-        %h3 Next list
-        .drag.right
-    .row.done
-      .columns.large-12
-        = link_to 'Continue', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
-    = link_to '#', class: 'close-reveal-modal' do
-      &#215
-
-  #new-list-modal.reveal-modal.tiny{ "data-reveal" => "", role: "dialog" }
-    .row
-      .columns.large-8.large-centered
-        %h2.modalTitle New Grocery List.
-        %p We're almost done, now just specify any details for your next list.
-        = simple_form_for :finish, url: finish_grocery_path(@grocery), method: :patch do |f|
-          .row
-            .columns.large-12
-              = f.input :name, input_html: { value: "#{Date.today.strftime('%A')}'s List - #{Date.today}" }
-              = f.input :description, as: :text
-              = f.button :submit, 'Create', class: 'button radius'
-              = f.input :current_ids, as: :hidden
-              = f.input :next_ids, as: :hidden
-
-    = link_to '#', class: 'close-reveal-modal' do
-      &#215
+    .col.l6
+      = react_component 'Dashboard', @dashboard
+  -# .row
+  -#   .columns.wide.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
+  -#     .widget
+  -#       .header
+  -#         %h3= @grocery.name
+  -#       .main
+  -#         .row
+  -#           .columns.large-12
+  -#             = render partial: 'loaders/spinner', locals: { className: 'grocery-spinner' }
+  -#             .grocery-content.hide
+  -#               %table#grocery-table.display.responsive.nowrap
+  -#                 %thead
+  -#                   %tr
+  -#                     %th ID
+  -#                     %th Name
+  -#                     %th Description
+  -#                     %th Quantity
+  -#                     %th Price per Item
+  -#                     %th Total Price
+  -#                     %th Remove
+  -#                 %tfoot
+  -#                   %tr
+  -#                     %th.text-right{colspan: 6}
+  -#                       Total:
+  -#                     %th
+  -#         .row.grocery-content.hide
+  -#           .columns.large-12
+  -#             - if @grocery.finished?
+  -#               %h3 All Finished!
+  -#               %p Groceries for this list have already been purchased. You can still modify this list if you need to make any corrections.
+  -#             - else
+  -#               %h3 Been through checkout?
+  -#               %p Once you have purchased your groceries you can finish your list and we'll start a new one for you.
+  -#         .row
+  -#           .columns.large-12
+  -#             - unless @grocery.finished?
+  -#               = link_to '#', data: { 'reveal-id' => 'carry-over-modal' }, class: 'button inline' do
+  -#                 Finish List
+  -#                 %i.icon.ion-android-done
+  -#
+  -#     - unless @grocery.finished?
+  -#       .row
+  -#         .columns.large-12
+  -#           .widget#recipes
+  -#             .header
+  -#               %h3 Recipes
+  -#             .main
+  -#               = render partial: 'loaders/spinner', locals: { className: 'recipe-spinner' }
+  -#               .recipe-content.hide
+  -#                 %p.banner We have some great ideas for what to make based on your current groceries.
+  -#                 %ul
+  -#               .recipe-no-content.hide
+  -#                 = fa_icon 'folder-open-o'
+  -#                 %p.banner It looks like no recipes match your grocery list, but don't let that stop you from making something awesome.
+  -#               .reload.hide
+  -#                 %p Your grocery list has changed.
+  -#                 = link_to 'Reload recipes', '#', class: 'button'
+  -#
+  -#   - unless @grocery.finished?
+  -#     .columns.large-4
+  -#       .row
+  -#         .columns.large-12.wide
+  -#           .widget.email
+  -#             .header
+  -#               %h3 Email Groceries
+  -#             .main
+  -#               .email-spinner.hide
+  -#                 = render partial: 'loaders/spinner_ripple'
+  -#               .email-content
+  -#                 %p
+  -#                   Tell the team! At any point you can email everyone in your Kit the grocery list.
+  -#                 = link_to 'Send to team', email_group_grocery_path(@grocery), method: :post, class: 'button'
+  -#     .columns.large-4.wide
+  -#       .row
+  -#         .columns.large-12
+  -#           .widget.management
+  -#             .header
+  -#               %h3 Kit Management
+  -#             .main
+  -#               %p View Kit statistics, manage users and view past lists all in one place.
+  -#               = link_to 'Manage Kit', @grocery.user_group, class: 'button'
+  -#     .columns.large-4.wide
+  -#       .row
+  -#         .columns.large-12
+  -#           .widget#location
+  -#             .header
+  -#               %h3 Grocery Store
+  -#             .main
+  -#               %input{id: "pac-input", class: "controls", placeholder: "Search Box"}
+  -#               #map-canvas
+  -#
+  -# -# Modals
+  -#
+  -# #carry-over-modal.reveal-modal{ "data-reveal" => "", role: "dialog" }
+  -#   .row
+  -#     .columns.large-12
+  -#       %h2.modalTitle Congrats.
+  -#       %p You've bought your groceries! Let's finish your current list and set up a new one. Drag over any items that should go on your next list and remove any items from your current list that you did not buy.
+  -#   .row.drag-items
+  -#     .columns.large-6
+  -#       %h3 Current list
+  -#       .drag.left
+  -#     .columns.large-6
+  -#       %h3 Next list
+  -#       .drag.right
+  -#   .row.done
+  -#     .columns.large-12
+  -#       = link_to 'Continue', '#', id: 'carry', data: { 'reveal-id' => 'new-list-modal' }, class: 'button'
+  -#   = link_to '#', class: 'close-reveal-modal' do
+  -#     &#215
+  -#
+  -# #new-list-modal.reveal-modal.tiny{ "data-reveal" => "", role: "dialog" }
+  -#   .row
+  -#     .columns.large-8.large-centered
+  -#       %h2.modalTitle New Grocery List.
+  -#       %p We're almost done, now just specify any details for your next list.
+  -#       = simple_form_for :finish, url: finish_grocery_path(@grocery), method: :patch do |f|
+  -#         .row
+  -#           .columns.large-12
+  -#             = f.input :name, input_html: { value: "#{Date.today.strftime('%A')}'s List - #{Date.today}" }
+  -#             = f.input :description, as: :text
+  -#             = f.button :submit, 'Create', class: 'button radius'
+  -#             = f.input :current_ids, as: :hidden
+  -#             = f.input :next_ids, as: :hidden
+  -#
+  -#   = link_to '#', class: 'close-reveal-modal' do
+  -#     &#215

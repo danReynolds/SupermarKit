@@ -1,0 +1,4 @@
+.container {
+  padding-top: 2rem;
+  @media #{$tablet} { padding-top: 1.5rem; }
+}

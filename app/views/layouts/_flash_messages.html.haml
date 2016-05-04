@@ -2,7 +2,5 @@
   - if flash.present?
     #flash
       - flash.each do |key, value|
-        .alert-box.radius{class: key, data: { alert: true }}
-          = h(value)
-          = link_to '#', class: 'close' do
-            &times
+        :coffeescript
+          Materialize.toast("#{value}", 4000)

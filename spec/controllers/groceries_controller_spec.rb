@@ -1,44 +1,16 @@
 require 'rails_helper'
-require 'support/login_user'
+require 'support/basic_user'
 require 'support/routes'
 
 describe GroceriesController, type: :controller do
-  include_context 'login user'
+  include_context 'basic user'
 
   let(:id) { grocery.id }
   let(:user_group_id) { user_group.id }
   it_should_behave_like 'routes', {
     new: { user_group_id: true },
-    show: { id: true },
-    edit: { id: true }
+    show: { id: true }
   }
-
-  describe 'GET index' do
-    subject { get :index, user_group_id: user_group, format: :json }
-
-    it 'should have a data response' do
-      subject
-      resp = JSON.parse(response.body)
-      expect(resp.has_key?('data')).to eq true
-    end
-
-    it 'should return all group groceries' do
-      subject
-      data = JSON.parse(response.body)['data']
-      groceries = user_group.groceries.order('created_at DESC')
-
-      expect(data.length).to eq groceries.length
-
-      groceries.each_with_index do |g, i|
-        expect(g.id).to eq data[i]['id']
-        expect(g.name).to eq data[i]['name']
-        expect(g.description).to eq data[i]['description']
-        expect(g.items.count).to eq data[i]['count']
-        expect(g.total.to_money.format).to eq data[i]['cost']
-        expect(g.finished?).to eq data[i]['finished']
-      end
-    end
-  end
 
   describe 'POST create' do
     let(:grocery_params) {
@@ -62,76 +34,184 @@ describe GroceriesController, type: :controller do
     end
 
     context 'grocery is invalid' do
-      it 'should redirect to new template' do
+      it 'should render new template' do
         grocery_params[:name] = ""
         expect(subject).to render_template :new
       end
     end
   end
 
-  describe 'PATCH finish' do
-    let(:finish_params) {
+  describe 'PATCH update' do
+    let(:grocery_params) {
       {
-        name: 'Next list',
-        description: 'Description',
-        current_ids: user_group.groceries.first.items.first(1).map(&:id),
-        next_ids: user_group.groceries.first.items.map(&:id)[1..-2]
+        name: "#{grocery.name} updated"
+      }
+    }
+    subject { patch :update, id: grocery.id, grocery: grocery_params }
+
+    it 'should update the grocery fields' do
+      subject
+      old_name = grocery.name
+      expect(grocery.reload.name).to eq "#{old_name} updated"
+    end
+
+    it 'should remove unspecified items' do
+      expect(grocery.items).to_not be_empty
+      subject
+      expect(grocery.reload.items).to be_empty
+    end
+
+    context 'adding existing items' do
+      before :each do
+        grocery_params.merge!({
+          items: grocery.items.map do |item|
+            {
+              id: item.id,
+              name: item.name,
+              quantity: item.grocery_item(grocery).quantity + 1,
+              price: item.grocery_item(grocery).price + 1.to_money
+            }
+          end
+        })
+      end
+
+      it 'should not change requesters' do
+        subject
+        grocery.items.each do |item|
+          grocery_item = item.grocery_item(grocery)
+          expect(grocery_item.requester).to eq grocery_item.reload.requester
+        end
+      end
+
+      it 'should update the quantity and price' do
+        subject
+        grocery.items.each_with_index do |item, i|
+          grocery_item = item.grocery_item(grocery)
+          expect(grocery_item.price).to eq grocery_params[:items][i][:price]
+          expect(grocery_item.quantity).to eq grocery_params[:items][i][:quantity]
+        end
+      end
+
+      it 'should use existing items' do
+        expect { subject }.to_not change(Grocery, :count)
+      end
+    end
+
+    context 'adding new items' do
+      let(:item_params) {
+        [
+          {
+            name: 'new item',
+            price: 2,
+            quantity: 3
+          },
+          {
+            name: 'new item2',
+            price: 1,
+            quantity: 2
+          }
+        ]
+      }
+
+      before :each do
+        grocery_params.merge!({
+            items: item_params
+        })
+      end
+
+      it 'should create new items with current user as requester' do
+        subject
+        grocery.items.each_with_index do |item, i|
+          grocery_item = item.grocery_item(grocery)
+
+          expect(item.name).to eq item_params[i][:name].capitalize
+          expect(grocery_item.price).to eq item_params[i][:price]
+          expect(grocery_item.quantity).to eq item_params[i][:quantity]
+          expect(grocery_item.requester).to eq controller.current_user
+        end
+      end
+    end
+  end
+
+  describe 'PATCH do_checkout' do
+    subject { patch :do_checkout, params }
+    let (:payments) { [] }
+    let(:params) {
+      {
+        id: grocery.id,
+        grocery: {}
       }
     }
 
-    let(:grocery) { user_group.groceries.first }
-
-    subject {
-      patch :finish,
-      id: user_group.groceries.first.id,
-      finish: finish_params
-    }
-
-    context 'groceries are valid to finish' do
-      it 'should finish the current grocery list' do
-        expect(grocery.finished?).to eq false
-        subject
-        expect(grocery.reload.finished?).to eq true
-      end
-
-      it 'should remove specified items from current list' do
-        current_items = grocery.items.first(1)
-        subject
-        expect(grocery.reload.items.to_a).to eq current_items
-      end
-
-      it 'should add specified items to the next list' do
-        next_items = grocery.items[1..-2]
-        subject
-        new_grocery = user_group.groceries.last
-        expect(new_grocery.reload.items.to_a).to eq next_items
-      end
-
-      it 'should redirect to the newly created grocery' do
-        subject
-        new_grocery = user_group.groceries.last
-        expect(response).to redirect_to new_grocery
+    before :each do
+      other_user = create(:user)
+      grocery.user_group.users << other_user
+      params[:grocery][:payments] = grocery.user_group.users.map.with_index do |user, i|
+        {
+          user_id: user.id,
+          price: i
+        }
       end
     end
 
-    context 'groceries are not both valid' do
+    it 'should finish the grocery list' do
+      expect(grocery.finished?).to eq false
+      subject
+      expect(grocery.reload.finished?).to eq true
+    end
+
+    context 'with every user contributing' do
+      it 'should create payments for each user' do
+        payment_double = class_double('Payment').as_stubbed_const
+
+        grocery.user_group.users.each_with_index do |user, i|
+          expect(payment_double).to receive(:create).with(
+            hash_including(
+              'grocery_id': grocery.id,
+              'user_id': user.id.to_s,
+              'price': params[:grocery][:payments][i][:price].to_s
+            )
+          )
+        end
+
+        subject
+      end
+
+      it 'should create the correct number of payments' do
+        expect { subject }.to change(Payment, :count).by 2
+      end
+    end
+
+    context 'without every user contributing' do
       before :each do
-        finish_params[:name] = ''
+        params[:grocery][:payments] = grocery.user_group.users.first(1).map.with_index do |user, i|
+          {
+            user_id: user.id,
+            price: i
+          }
+        end
       end
+      it 'should create payments for only contributing users' do
+        payment_double = class_double('Payment').as_stubbed_const
 
-      it 'should not finish the current grocery' do
+        grocery.user_group.users.first(1).each_with_index do |user, i|
+          expect(payment_double).to receive(:create).with(
+            hash_including(
+              'grocery_id': grocery.id,
+              'user_id': user.id.to_s,
+              'price': params[:grocery][:payments][i][:price].to_s
+            )
+          )
+        end
+
         subject
-        expect(grocery.reload.finished_at).to be_nil
       end
 
-      it 'should not create the new grocery' do
-        expect { subject }.to_not change(Grocery, :count)
-      end
-
-      it 'should notify that there was a problem' do
-        expect(subject).to redirect_to grocery
+      it 'should create the correct number of payments' do
+        expect { subject }.to change(Payment, :count).by 1
       end
     end
+
   end
 
   describe 'POST email_group' do

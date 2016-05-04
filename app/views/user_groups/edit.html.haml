@@ -2,22 +2,41 @@
   @users = #{@users.to_json}
 
 .container.user-groups-edit
+  = simple_form_for @user_group do |f|
+    .row
+      .col.l8.offset-l2
+        .card
+          .card-content
+            .row
+              .col.l12
+                %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
+                %h3 Update Kit
+                .inputs
+                  = f.input :name, input_html: { class: 'input-field' }
+                  = f.input :description, input_html: { class: 'input-field' }
+                  = f.input :user_ids, as: :hidden
+    .row
+      .col.l8.offset-l2
+        .card
+          .card-image
+            = image_tag @user_group.banner.url(:standard)
+            %span.card-title Kit banner
+          .card-content
+            %p Add a custom image to your kit for you and your members to see.
+          .card-action
+            .input-field.file-field
+              .btn
+                %span File
+                = f.input :banner, label: false, as: :file
+              .file-path-wrapper
+                %input.file-path.validate
+
   .row
-    .columns.large-10.large-centered
-      .widget
-        .header
-          %h3 Update Kit
-        .main
-          = simple_form_for @user_group do |f|
-            .row
-              .columns.large-6
-                = f.input :name
-                = f.input :description, as: :text
-              .columns.large-6
-                = f.input :user_ids, label: 'Kit Members', as: :text, input_html: { value: @users }
-                %p
-                  Privacy:
-                  %strong=@user_group.privacy.humanize
-            .row
-              .columns.large-12
-                = f.button :submit, 'Update', class: 'button radius'
+    .col.l8.offset-l2.s12
+      .card
+        .card-content
+          .row
+            .col.l12.s12
+              = react_component 'MultiselectForm', @user_data
+        .card-action
+          = link_to 'Update', 'javascript:;', class: 'btn submit-group-form'

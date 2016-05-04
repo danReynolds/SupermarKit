@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/login_user'
+require 'support/basic_user'
 require 'support/routes'
 
 describe UsersController, type: :controller do
@@ -12,22 +12,23 @@ describe UsersController, type: :controller do
   }
 
   describe 'GET auto_complete' do
-    include_context 'login user'
+    include_context 'basic user'
+
+    let(:data) { JSON.parse(response.body)['data'] }
+
     it 'returns successful match' do
       get :auto_complete, q: controller.current_user.name
-      count = JSON.parse(response.body)['total_users']
-      expect(count).to eq 1
+      expect(data.length).to eq 1
     end
 
     it 'returns nothing for unsuccessful match' do
       get :auto_complete, q: '#'
-      count = JSON.parse(response.body)['total_users']
-      expect(count).to eq 0
+      expect(data.length).to eq 0
     end
   end
 
   describe 'GET activate' do
-    let(:user) { create(:user, password: 'valid') }
+    let(:user) { create(:user, password: 'valid_password') }
     subject { get :activate, id: user.activation_token }
 
     context 'when valid' do
@@ -49,16 +50,6 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe 'PATCH default_group' do
-    include_context 'login user'
-    let(:user_group) { create(:user_group) }
-
-    it 'should update the user group' do
-      patch :default_group, id: controller.current_user, default_group_id: user_group.id
-      expect(controller.current_user.reload.default_group).to eq user_group
-    end
-  end
-
   describe 'POST create' do
     context 'when valid' do
       subject { post :create, user: attributes_for(:user) }
@@ -75,7 +66,7 @@ describe UsersController, type: :controller do
       subject { post :create, user: { name: '' } }
 
       it 'should not create a user' do
-        expect { subject }.to_not change { :count }
+        expect { subject }.to_not change(User, :count)
       end
 
       it 'should render the new user template' do
@@ -85,7 +76,7 @@ describe UsersController, type: :controller do
   end
 
   describe 'PATCH update' do
-    include_context 'login user'
+    include_context 'basic user'
 
     it 'should update the user when valid' do
       patch :update, id: controller.current_user, user: { name: 'Updated User' }
