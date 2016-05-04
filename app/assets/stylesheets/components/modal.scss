@@ -3,6 +3,12 @@
   max-height: initial !important;
   overflow: hidden;
 
+  @media screen and (max-height: 400px) {
+    .reveal-controls {
+      display: none;
+    }
+  }
+
   @media #{$desktop} {
     height: 55%;
     width: 50% !important;
