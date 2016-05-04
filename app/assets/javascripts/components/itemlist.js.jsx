@@ -106,7 +106,7 @@ var ItemList = React.createClass({
             }
         );
         this.saveSelection(updatedModal.selection);
-        setTimeout(function(){
+        setTimeout(function() {
             this.setState({
                 total: this.state.total - this.totalPrice(item),
                 modal: updatedModal
@@ -118,7 +118,7 @@ var ItemList = React.createClass({
 
     handleSave: function() {
         this.pageChange(0);
-        this.saveSelection(this.state.modal.selection);
+        this.saveSelection(this.state.modal.selection, this.toggleModal);
     },
 
     handlePageChange: function(e) {
@@ -149,7 +149,7 @@ var ItemList = React.createClass({
         return parseFloat(item.price) * parseFloat(item.quantity);
     },
 
-    saveSelection: function(selection) {
+    saveSelection: function(selection, callback) {
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -166,7 +166,7 @@ var ItemList = React.createClass({
             }),
             contentType: 'application/json',
             url: this.props.grocery.url
-        });
+        }).done(callback);
     },
 
     reloadItems: function() {
@@ -202,7 +202,7 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (!this.state.modal.open) {
+        if (!this.state.modal.open && prevState.modal.open) {
             this.reloadItems();
         }
     },
