@@ -117,6 +117,7 @@ var ItemList = React.createClass({
     },
 
     handleSave: function() {
+        this.pageChange(0);
         this.saveSelection(this.state.modal.selection);
     },
 
@@ -201,7 +202,7 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (!this.state.modal.open && prevState.modal.open) {
+        if (!this.state.modal.open) {
             this.reloadItems();
         }
     },
