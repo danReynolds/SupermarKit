@@ -28,6 +28,6 @@ class User < ActiveRecord::Base
 
   def gravatar_url(size = GRAVATAR_SIZE)
     gravatar = Digest::MD5::hexdigest(email).downcase
-    url = "http://gravatar.com/avatar/#{gravatar}.png?s=#{size}"
+    url = "https://gravatar.com/avatar/#{gravatar}.png?s=#{size}"
   end
 end
