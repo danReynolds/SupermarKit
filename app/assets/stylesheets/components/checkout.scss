@@ -39,11 +39,6 @@
 
     .balance-wrapper {
       font-size: 1rem;
-      padding: 0 1rem;
-
-      @media #{$mobile} {
-        padding: 0;
-      }
     }
 
     .balance {
