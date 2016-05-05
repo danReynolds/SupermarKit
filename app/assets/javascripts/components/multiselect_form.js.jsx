@@ -13,6 +13,7 @@ var MultiselectForm = React.createClass({
         document.getElementById(this.props.formElement).value = this.state.modal.selection.map(function(selected) {
             return selected.id;
         }).join(',');
+        this.toggleModal();
     },
 
     render: function() {
