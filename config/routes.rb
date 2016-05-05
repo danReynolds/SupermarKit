@@ -8,11 +8,8 @@ Rails.application.routes.draw do
   post 'logout' => 'user_sessions#destroy', as: :logout
   get 'about' => 'pages#about', as: :about
   root to: 'pages#home'
-  get '.well-known/acme-challenge/PQCzrmElcTJC87Jkfst2EviZkZmb6u7NpBSjoeELLss' => 'pages#letsencrypt'
-  get '.well-known/acme-challenge/d3H5G7hBqfmjacHT_D6VVyK74ucNPxfdFuoAuUUm3g0' => 'pages#letsencrypt2'
 
   resources :user_sessions
-
   resources :users, except: [:index] do
     member do
       get :activate
