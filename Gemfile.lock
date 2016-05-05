@@ -154,8 +154,6 @@ GEM
       rails (>= 3.0)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
-    groupdate (2.4.0)
-      activesupport (>= 3)
     haml (4.0.6)
       tilt
     haml-rails (0.9.0)
@@ -399,7 +397,6 @@ DEPENDENCIES
   factory_girl_rails
   font-awesome-sass (~> 4.5.0)
   geokit-rails
-  groupdate
   haml-rails
   happy_path
   inline_svg
