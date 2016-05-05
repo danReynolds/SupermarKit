@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post 'logout' => 'user_sessions#destroy', as: :logout
   get 'about' => 'pages#about', as: :about
   root to: 'pages#home'
+  get '.well-known/acme-challenge/q6Icrz2EFK6mjcV3TIHuF_-YcIPR_EUwLJ3G3sTJlNk', to: 'pages#letsencrypt'
 
   resources :user_sessions
 
