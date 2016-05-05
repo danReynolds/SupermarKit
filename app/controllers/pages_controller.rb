@@ -14,4 +14,8 @@ class PagesController < ApplicationController
 
   def about
   end
+
+  def letsencrypt
+    render text: 'q6Icrz2EFK6mjcV3TIHuF_-YcIPR_EUwLJ3G3sTJlNk.s20dhHv_2FQ191o8TybEHfK4j_N_p5wnIqM5QNARYus'
+  end
 end
