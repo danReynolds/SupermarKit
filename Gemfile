@@ -15,7 +15,6 @@ gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails', '~> 4.0.0'
 gem 'coveralls', require: false
 gem 'dotenv-rails'
-gem 'groupdate'
 gem 'haml-rails'
 gem 'inline_svg'
 gem 'font-awesome-sass', '~> 4.5.0'
