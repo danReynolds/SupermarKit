@@ -38,7 +38,9 @@
     }
 
     .balance-wrapper {
-      font-size: 1rem;
+      font-size: 1.5rem;
+      margin-top: -1rem;
+      line-height: 1.35;
     }
 
     .balance {
@@ -52,7 +54,8 @@
 
     .contribution-checkbox {
       @media #{$mobile} {
-        padding-left: 1rem;
+        padding-left: 20px;
+        margin-left: auto;
       }
     }
 
@@ -84,8 +87,9 @@
       margin-right: 3.5rem;
 
       @media #{$mobile} {
-        margin-right: 1.25rem;
-        width: 6rem;
+        margin-right: 0;
+        margin-left: 2rem;
+        width: 5rem;
       }
     }
   }
