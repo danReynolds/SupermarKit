@@ -21,3 +21,4 @@ config/secrets.yml
 /coverage
 /node_modules
 .vagrant
+/cookbooks
