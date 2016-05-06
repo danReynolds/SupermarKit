@@ -17,7 +17,7 @@ class OauthsController < ApplicationController
 
         reset_session # protect from session fixation attack
         auto_login(@user)
-        redirect_to user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first group of people you're shopping for."
+        redirect_to user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first Kit with the people you want to shop with."
       rescue Exception
         redirect_to new_user_path, alert: "Our fault! We're unable to create a user with your #{provider.humanize} account."
       end

@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     if @user = User.load_from_activation_token(params[:id])
       @user.activate!
       auto_login(@user)
-      redirect_to user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first group of people you're shopping for."
+      redirect_to user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first Kit with the people you want to shop with."
     else
       flash[:notice] = 'Invalid confirmation token.'
       not_authenticated
