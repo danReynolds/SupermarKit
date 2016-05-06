@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
     it 'should return the gravatar url for the given email' do
       user = create(:user)
       gravatar = Digest::MD5::hexdigest(user.email).downcase
-      expect(user.gravatar_url(50)).to eq "http://gravatar.com/avatar/#{gravatar}.png?s=50"
+      expect(user.gravatar_url(50)).to eq "https://gravatar.com/avatar/#{gravatar}.png?s=50"
     end
   end
 end
