@@ -71,13 +71,21 @@ describe UserGroupsController, type: :controller do
   end
 
   describe 'PATCH update' do
+    let(:user1) { create(:user) }
+    let(:user2) { create(:user) }
+    let(:group) { create(:user_group, users: [user1, controller.current_user]) }
+    let(:subject) { patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}"} }
+
     it 'replaces users with new ones' do
-      group = create(:user_group)
-      user1 = create(:user)
-      user2 = create(:user)
-      group.update_attribute(:users, [user1, controller.current_user])
-      patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}"}
+      subject
       expect(group.reload.users).to contain_exactly(controller.current_user, user2)
+    end
+
+    it 'makes removed users with that group as a default have no default' do
+      user1.update_attribute(:default_group, group)
+      expect(user1.default_group).to eq group
+      subject
+      expect(user1.reload.default_group).to eq nil
     end
   end
 

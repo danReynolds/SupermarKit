@@ -37,7 +37,15 @@ class UserGroupsController < ApplicationController
   end
 
   def update
-    @user_group.users = User.find(params[:user_group][:user_ids].split(","))
+    remaining_users = params[:user_group][:user_ids].split(",")
+    removed_users = @user_group.users - remaining_users
+    @user_group.users = User.find(remaining_users)
+
+    removed_users.each do |user|
+      if user.default_group == @user_group
+        user.update_attribute(:default_group, nil)
+      end
+    end
 
     if @user_group.update_attributes(user_group_params)
       redirect_to user_groups_path
