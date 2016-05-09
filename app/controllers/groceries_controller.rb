@@ -126,8 +126,8 @@ class GroceriesController < ApplicationController
   end
 
   def email_group
-    grocery_email_params[:email].each do |email_params|
-      UserMailer.send_grocery_list_email(User.find(email_params[:user_id]), @grocery).deliver_now
+    grocery_email_params[:email][:user_ids].each do |id|
+      UserMailer.send_grocery_list_email(User.find(id), @grocery, grocery_email_params[:email][:message]).deliver_now
     end
     head :ok
   end
@@ -184,7 +184,7 @@ private
   end
 
   def grocery_email_params
-    params.require(:grocery).permit(email: [:user_id])
+    params.require(:grocery).permit(email: [:user_id, :message])
   end
 
   def grocery_store_params
