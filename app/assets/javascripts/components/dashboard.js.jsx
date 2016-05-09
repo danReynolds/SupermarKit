@@ -9,7 +9,7 @@ var Dashboard = React.createClass({
         return (
             <div className='dashboard'>
                 <div className='row'>
-                    <div className='col l6'>
+                    <div className='col l6 dashboard-card'>
                         <ItemList
                             {...this.props.itemList}/>
                         <div className='fixed-action-btn'>
@@ -26,7 +26,7 @@ var Dashboard = React.createClass({
                             </ul>
                         </div>
                     </div>
-                    <div className='col l6'>
+                    <div className='col l6 dashboard-card'>
                         <Emailer
                             {...this.props.emailer}/>
                     </div>

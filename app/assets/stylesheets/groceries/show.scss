@@ -1,4 +1,10 @@
 .groceries-show {
+  @media #{$mobile} {
+    .dashboard-card + .dashboard-card {
+      margin-top: 2rem;
+    }
+  }
+
   .fixed-action-btn {
     bottom: 5%;
     right: 5%;
