@@ -20,8 +20,10 @@
     }
 
     &.dark {
-      h3 {
-        color: $sm-white;
+      .card-header {
+        h3 {
+          color: $sm-white;
+        }
       }
 
       .card-header {

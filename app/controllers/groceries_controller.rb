@@ -45,6 +45,8 @@ class GroceriesController < ApplicationController
       },
       emailer: {
         selection: format_users,
+        buttonText: 'person',
+        url: email_group_grocery_path(@grocery),
         modal: {
           id: 'user-emails',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),
@@ -124,11 +126,10 @@ class GroceriesController < ApplicationController
   end
 
   def email_group
-    @grocery.user_group.users.each do |user|
-      UserMailer.send_grocery_list_email(user, @grocery).deliver_now
+    grocery_email_params[:email].each do |email_params|
+      UserMailer.send_grocery_list_email(User.find(email_params[:user_id]), @grocery).deliver_now
     end
-
-    redirect_to @grocery, notice: 'All kit members have been emailed the grocery list.'
+    head :ok
   end
 
   def recipes
@@ -180,6 +181,10 @@ private
 
   def grocery_payment_params
     params.require(:grocery).permit(payments: [:user_id, :price])
+  end
+
+  def grocery_email_params
+    params.require(:grocery).permit(email: [:user_id])
   end
 
   def grocery_store_params

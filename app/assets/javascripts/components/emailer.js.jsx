@@ -10,7 +10,7 @@ var Emailer = React.createClass({
                     </div>
                     <div className='email-users'>
                         <Multiselect
-                            buttonText='person'
+                            buttonText={this.props.buttonText}
                             toggleModal={this.toggleModal}
                             selection={this.state.modal.selection}/>
                     </div>
@@ -25,6 +25,7 @@ var Emailer = React.createClass({
                     </div>
                     <div className='card-action'>
                         <a
+                            onClick={this.handleSave}
                             className='waves-effect waves-light btn'>
                             <i className='material-icons left'>send</i>
                             Send
@@ -40,6 +41,19 @@ var Emailer = React.createClass({
     },
 
     handleSave: function() {
-        this.toggleModal();
+        $.ajax({
+            method: 'POST',
+            data: JSON.stringify({
+                grocery: {
+                    email: this.state.modal.selection.map(function(item) {
+                        return {
+                            user_id: item.id
+                        }
+                    })
+                }
+            }),
+            contentType: 'application/json',
+            url: this.props.url
+        });
     }
 });
