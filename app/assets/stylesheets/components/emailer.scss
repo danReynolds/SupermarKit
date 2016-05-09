@@ -1,0 +1,19 @@
+.emailer {
+  .multiselect .selection-container {
+    margin: 0;
+  }
+
+  .row {
+    margin: 0 0.5rem;
+  }
+
+  textarea {
+    padding: 0;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  .card-action {
+    padding: 1.5rem;
+  }
+}

@@ -13,9 +13,10 @@ class UserMailer < ActionMailer::Base
     mail(to: format_recipient(@user), subject: 'Shop with SupermarKit')
   end
 
-  def send_grocery_list_email(user, grocery)
+  def send_grocery_list_email(user, grocery, message = nil)
     @user = user
     @grocery = grocery
+    @message = message
     mail(to: format_recipient(@user), subject: "Groceries For #{@grocery.name}")
   end
 

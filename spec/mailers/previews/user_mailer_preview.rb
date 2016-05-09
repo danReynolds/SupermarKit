@@ -8,6 +8,6 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def send_grocery_list_preview
-    UserMailer.send_grocery_list_email(User.last, Grocery.last)
+    UserMailer.send_grocery_list_email(User.last, Grocery.last, 'test message')
   end
 end

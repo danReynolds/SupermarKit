@@ -85,6 +85,7 @@ private
           }
         end,
         formElement: 'user_group_user_ids',
+        buttonText: 'person',
         modal: {
           id: 'change-members',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),

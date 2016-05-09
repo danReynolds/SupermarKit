@@ -42,7 +42,27 @@ class GroceriesController < ApplicationController
             ]
           }
         }
-
+      },
+      emailer: {
+        selection: format_users,
+        buttonText: 'person',
+        url: email_group_grocery_path(@grocery),
+        modal: {
+          id: 'user-emails',
+          queryUrl: auto_complete_users_path(gravatar: true, q: ''),
+          resultType: 'UserResult',
+          chipType: 'UserChip',
+          input: {
+            placeholder: 'Choose friends to email',
+            queryField: 'query',
+            fields: [
+              {
+                name: 'query',
+                regex: '(.*)'
+              }
+            ]
+          }
+        }
       }
     }
     @grocery_store = @grocery.grocery_store
@@ -106,11 +126,11 @@ class GroceriesController < ApplicationController
   end
 
   def email_group
-    @grocery.user_group.users.each do |user|
-      UserMailer.send_grocery_list_email(user, @grocery).deliver_now
+    grocery_email_params[:email][:user_ids] ||= []
+    grocery_email_params[:email][:user_ids].each do |id|
+      UserMailer.send_grocery_list_email(User.find(id), @grocery, grocery_email_params[:email][:message]).deliver_now
     end
-
-    redirect_to @grocery, notice: 'All kit members have been emailed the grocery list.'
+    head :ok
   end
 
   def recipes
@@ -162,6 +182,10 @@ private
 
   def grocery_payment_params
     params.require(:grocery).permit(payments: [:user_id, :price])
+  end
+
+  def grocery_email_params
+    params.require(:grocery).permit(email: [:message, user_ids: []])
   end
 
   def grocery_store_params

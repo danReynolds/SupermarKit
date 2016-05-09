@@ -5,7 +5,6 @@
   }
 
   .card-content {
-    padding: 0rem;
     position: relative;
     background: $sm-light-gray;
   }
@@ -84,16 +83,6 @@
     vertical-align: middle;
     transition: none;
     transition-property: opacity;
-  }
-
-  .card-header {
-    background: $sm-dark-blue-green;
-  }
-
-  h3 {
-    color: $sm-white;
-    margin: 0;
-    padding: 1.25rem;
   }
 
   .collapsible-header {
