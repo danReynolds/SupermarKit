@@ -1,5 +1,6 @@
 .card {
   margin-top: 0;
+
   .card-content, .card-action {
     padding: 1.5rem 3rem;
 
@@ -7,11 +8,34 @@
       padding: 1.5rem 2.5rem;
     }
   }
+
+  .card-content {
+    &.full-width {
+      padding: 0;
+
+      h3 {
+        margin: 0;
+        padding: 1.25rem;
+      }
+    }
+
+    &.dark {
+      h3 {
+        color: $sm-white;
+      }
+
+      .card-header {
+        background: $sm-dark-blue-green;
+      }
+    }
+  }
+
   .card-reveal {
     overflow: hidden;
     padding: 0;
     margin-top: -2px;
   }
+
   .card-reveal-controls {
     position: absolute;
     bottom: 2rem;
