@@ -184,7 +184,7 @@ private
   end
 
   def grocery_email_params
-    params.require(:grocery).permit(email: [:user_id, :message])
+    params.require(:grocery).permit(email: [:message, user_ids: []])
   end
 
   def grocery_store_params

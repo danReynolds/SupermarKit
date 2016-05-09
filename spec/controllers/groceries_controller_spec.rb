@@ -224,9 +224,12 @@ describe GroceriesController, type: :controller do
       post :email_group,
       id: grocery.id,
       grocery: {
-        email: @users.first(2).map do |user|
-          { user_id: user.id }
-        end
+        email: {
+          user_ids: @users.first(2).map do |user|
+            user.id
+          end,
+          message: 'test message'
+        }
       }
     }
 
