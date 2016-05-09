@@ -126,6 +126,7 @@ class GroceriesController < ApplicationController
   end
 
   def email_group
+    grocery_email_params[:email][:user_ids] ||= []
     grocery_email_params[:email][:user_ids].each do |id|
       UserMailer.send_grocery_list_email(User.find(id), @grocery, grocery_email_params[:email][:message]).deliver_now
     end

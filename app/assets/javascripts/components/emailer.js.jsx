@@ -9,13 +9,14 @@ var Emailer = React.createClass({
 
     handleChange: function(e) {
         this.setState({
-            message: e.target.value
+            message: e.target.value,
+            delivery: false
         });
     },
 
     render: function() {
         var content;
-        if (this.state.modal.open) {
+        if (this.state.modal.open || this.state.delivery) {
             content = <Loader />;
         } else {
             content = (
@@ -64,6 +65,9 @@ var Emailer = React.createClass({
     },
 
     deliverEmail: function() {
+        this.setState({
+            delivery: true
+        });
         $.ajax({
             method: 'POST',
             data: JSON.stringify({
@@ -78,7 +82,14 @@ var Emailer = React.createClass({
             }),
             contentType: 'application/json',
             url: this.props.url
-        });
+        }).done(function() {
+            setTimeout(function() {
+                this.setState({
+                    delivery: false
+                });
+                Materialize.toast('Your email has been sent!', 2000);
+            }.bind(this), 500);
+        }.bind(this));
     },
 
     handleSave: function() {
