@@ -71,7 +71,7 @@ var Emailer = React.createClass({
                     email: {
                         user_ids: this.state.modal.selection.map(function(user) {
                             return user.id;
-                        ),
+                        }),
                         message: this.state.message
                     }
                 }
