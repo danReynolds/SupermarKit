@@ -85,7 +85,8 @@ var Emailer = React.createClass({
         }).done(function() {
             setTimeout(function() {
                 this.setState({
-                    delivery: false
+                    delivery: false,
+                    message: ''
                 });
                 Materialize.toast('Your email has been sent!', 2000);
             }.bind(this), 500);
