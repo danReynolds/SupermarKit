@@ -9,9 +9,8 @@
 -#               = f.button :submit, 'Add', class: 'add-button postfix'
 
 .container.groceries-show
-  .row
-    .col.l6
-      = react_component 'Dashboard', @dashboard
+  = react_component 'Dashboard', @dashboard
+
   -# .row
   -#   .columns.wide.large-8{ class: @grocery.finished? ? 'large-centered' : '' }
   -#     .widget

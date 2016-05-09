@@ -42,7 +42,25 @@ class GroceriesController < ApplicationController
             ]
           }
         }
-
+      },
+      emailer: {
+        selection: format_users,
+        modal: {
+          id: 'user-emails',
+          queryUrl: auto_complete_users_path(gravatar: true, q: ''),
+          resultType: 'UserResult',
+          chipType: 'UserChip',
+          input: {
+            placeholder: 'Choose friends to email',
+            queryField: 'query',
+            fields: [
+              {
+                name: 'query',
+                regex: '(.*)'
+              }
+            ]
+          }
+        }
       }
     }
     @grocery_store = @grocery.grocery_store

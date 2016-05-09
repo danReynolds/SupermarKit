@@ -4,7 +4,9 @@ var Multiselect = React.createClass({
         removeFromSelection: React.PropTypes.func,
         hiddenField: React.PropTypes.string,
         backspaceTarget: React.PropTypes.number,
-        removable: React.PropTypes.bool
+        removable: React.PropTypes.bool,
+        buttonText: React.PropTypes.string,
+        toggleModal: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -31,11 +33,20 @@ var Multiselect = React.createClass({
             );
         }.bind(this));
 
+        if (this.props.buttonText) {
+            var button = <a
+                            onClick={this.props.toggleModal}
+                            className="btn-floating btn-large waves-effect waves-light">
+                            <i className="material-icons">{this.props.buttonText}</i>
+                        </a>;
+        }
+
         return (
             <div className='multiselect' ref='root'>
                 <div className='selection-container valign-wrapper'>
                     {selection}
                 </div>
+                {button}
             </div>
         );
     },
