@@ -215,15 +215,26 @@ describe GroceriesController, type: :controller do
   end
 
   describe 'POST email_group' do
-    subject { post :email_group, id: grocery.id }
-
-    it 'should deliver an email to each group member' do
-      users = grocery.user_group.users
-      expect { subject }.to change { ActionMailer::Base.deliveries.count }.by users.count
+    before(:each) do
+      @users = create_list(:user, 3)
+      ActionMailer::Base.deliveries = []
     end
 
-    it 'should redirect to the grocery page' do
-      expect(subject).to redirect_to grocery
+    subject {
+      post :email_group,
+      id: grocery.id,
+      grocery: {
+        email: @users.first(2).map do |user|
+          { user_id: user.id }
+        end
+      }
+    }
+
+    it 'should deliver an email to each specified member' do
+      expect { subject }.to change { ActionMailer::Base.deliveries.count }.by 2
+      @users.first(2).each_with_index do |user, i|
+        expect(ActionMailer::Base.deliveries[i].to.first).to eq user.email
+      end
     end
   end
 
