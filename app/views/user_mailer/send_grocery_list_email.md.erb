@@ -1,18 +1,14 @@
 # Groceries for <%= @grocery.name %>
 
-All right everybody, here's the list:
+<%= @message %>
 
 <% @grocery.items.sort_by(&:name).each do |item| %>
-  * <%= item.name %> <%= check_box_tag :buy %>
+  <% @grocery_item = item.grocery_item(@grocery) %>
+  * <%= "#{@grocery_item.quantity.en.numwords} #{@grocery_item.item.name.en.plural(@grocery_item.quantity) } for #{@grocery_item.price.format}" %> <%= check_box_tag :buy %>
 
     <% if item.description.present? %>
       * <%= item.description %>
     <% end %>
-    * <%= "Quantity: #{item.grocery_item(@grocery).quantity}" %>
-    * <%= "Expected Price: #{item.grocery_item(@grocery).price.format}" %>
-
 <% end %>
 
-If everything goes according to plan, we're looking at <%= @grocery.total_price_or_estimated.format %>.
-
-Let's roll out.
+Estimated total: <%= @grocery.total_price_or_estimated.format %>.
