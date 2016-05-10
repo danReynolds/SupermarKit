@@ -1,0 +1,15 @@
+.recipes {
+  .caption {
+    position: absolute;
+    bottom: 0;
+    background: $sm-light-gray;
+    width: 100%;
+    color: $sm-white;
+    padding: 0.5rem 1rem;
+
+    p {
+      padding: 0.25rem !important;
+      color: $sm-dark-gray;
+    }
+  }
+}

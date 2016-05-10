@@ -5,6 +5,18 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
 	def show
+    food_category = [
+      'Korean',
+      'American',
+      'Italian',
+      'Chinese',
+      'Mediterranean',
+      'Dessert',
+      'Breakfast',
+      'Lunch',
+      'Barbecue'
+    ].sample
+
     @dashboard = {
       checkout_url: checkout_grocery_path(@grocery),
       itemList: {
@@ -63,6 +75,10 @@ class GroceriesController < ApplicationController
             ]
           }
         }
+      },
+      recipes: {
+        recipe_url: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&q=#{food_category}&requirePictures=true",
+
       }
     }
     @grocery_store = @grocery.grocery_store

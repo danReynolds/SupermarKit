@@ -30,6 +30,10 @@ var Dashboard = React.createClass({
                         <Emailer
                             {...this.props.emailer}/>
                     </div>
+                    <div className='col l6 dashboard-card'>
+                        <Recipes
+                            {...this.props.recipes}/>
+                    </div>
                 </div>
             </div>
         );
