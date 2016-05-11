@@ -1,0 +1,28 @@
+.recipe-result {
+  padding: 1rem;
+
+  p {
+    margin: 0 0 3px 0 !important;
+    padding: 0;
+    color: $sm-dark-gray;
+  }
+
+  i {
+    color: $sm-dark-gray;
+    width: 1.5rem;
+  }
+
+  .info {
+    display: inline-block;
+    padding: 1rem;
+  }
+
+  i {
+    width: 1.5rem;
+  }
+
+  img {
+    width: 6rem;
+    height: 6rem !important;
+  }
+}

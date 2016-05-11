@@ -90,7 +90,6 @@ private
           id: 'change-members',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),
           resultType: 'UserResult',
-          chipType: 'UserChip',
           input: {
             placeholder: 'Add friends to your Kit',
             queryField: 'query',

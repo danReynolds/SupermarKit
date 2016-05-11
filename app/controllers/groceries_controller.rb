@@ -63,7 +63,6 @@ class GroceriesController < ApplicationController
           id: 'user-emails',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),
           resultType: 'UserResult',
-          chipType: 'UserChip',
           input: {
             placeholder: 'Choose friends to email',
             queryField: 'query',
@@ -77,8 +76,21 @@ class GroceriesController < ApplicationController
         }
       },
       recipes: {
-        recipe_url: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&q=#{food_category}&requirePictures=true",
-
+        modal: {
+          id: 'recipes',
+          queryUrl: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&q=#{food_category}&requirePictures=true&q=",
+          resultType: 'RecipeResult',
+          input: {
+            placeHolder: 'Search for recipes',
+            queryField: 'query',
+            fields: [
+              {
+                name: 'query',
+                regex: '(.*)'
+              }
+            ]
+          }
+        }
       }
     }
     @grocery_store = @grocery.grocery_store
