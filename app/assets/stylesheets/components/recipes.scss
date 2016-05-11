@@ -7,9 +7,26 @@
     color: $sm-white;
     padding: 0.5rem 1rem;
 
+    .info {
+      p, .ratings {
+        display: inline-block;
+      }
+    }
+
+    i {
+      color: $sm-dark-gray;
+      width: 1.5rem;
+    }
+
     p {
       padding: 0.25rem !important;
       color: $sm-dark-gray;
     }
+  }
+
+  .btn-floating {
+    position: absolute;
+    right: 1rem;
+    bottom: -2rem;
   }
 }

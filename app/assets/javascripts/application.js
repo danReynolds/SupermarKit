@@ -5,10 +5,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require highcharts.min
-//= require chartkick
 //= require underscore.min
 //= require materialize-sprockets
 //= require react
+//= require underscore
 //= require react_ujs
 
 // =============================

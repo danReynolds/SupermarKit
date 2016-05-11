@@ -12,7 +12,8 @@ var Modal = React.createClass({
         placeholder: React.PropTypes.string,
         input: React.PropTypes.object.isRequired,
         open: React.PropTypes.bool.isRequired,
-        addUnmatchedQuery: React.PropTypes.bool
+        addUnmatchedQuery: React.PropTypes.bool,
+        resultsFormatter: React.PropTypes.func
     },
 
     getInitialState: function() {
@@ -143,7 +144,9 @@ var Modal = React.createClass({
 
         if (query && query.length >= this.props.minLength) {
             $.getJSON(this.props.queryUrl + query, function(res) {
-                var displayedResults = res.data.filter(function(result) {
+                var results = this.props.resultsFormatter ? this.props.resultsFormatter(res) : res;
+
+                var displayedResults = results.data.filter(function(result) {
                     return !selected_names.includes(result.name);
                 });
 

@@ -12,6 +12,8 @@ var Dashboard = React.createClass({
                     <div className='col l6 dashboard-card'>
                         <ItemList
                             {...this.props.itemList}/>
+                        <Recipes
+                            {...this.props.recipes}/>
                         <div className='fixed-action-btn'>
                             <a className='btn-floating btn-large'>
                                 <i className='large material-icons'>mode_edit</i>
@@ -29,10 +31,6 @@ var Dashboard = React.createClass({
                     <div className='col l6 dashboard-card'>
                         <Emailer
                             {...this.props.emailer}/>
-                    </div>
-                    <div className='col l6 dashboard-card'>
-                        <Recipes
-                            {...this.props.recipes}/>
                     </div>
                 </div>
             </div>
