@@ -22,6 +22,7 @@ var Modal = React.createClass({
             fields: this.props.input.fields,
             results: [],
             backspaceTarget: null,
+            getResults: _.debounce(this.getResults, 300)
         };
     },
 
@@ -174,7 +175,7 @@ var Modal = React.createClass({
         var self = this;
 
         if (prevState.fields !== this.state.fields) {
-            this.getResults();
+            this.state.getResults();
         } else if (this.props.open !== prevProps.open) {
             var modal = $('#' + this.props.id);
             if (this.props.open) {
