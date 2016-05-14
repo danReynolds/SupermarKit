@@ -41,13 +41,71 @@ describe GroceriesController, type: :controller do
     end
   end
 
-  describe 'PATCH update' do
+  describe 'PATCH update_recipes' do
+    let(:recipe) { create(:recipe, :with_items) }
+    let(:subject) { patch :update_recipes, id: grocery.id, grocery: grocery_params }
+    let(:grocery_params) {
+      {
+        name: "#{grocery.name} updated",
+        recipes: [
+          {
+            id: recipe.id
+          }
+        ]
+      }
+    }
+
+    it "should remove the items of the grocery's of removed recipes" do
+      other_recipe = create(:recipe, :with_items)
+      grocery.recipes << other_recipe
+      grocery.items << other_recipe.items
+      items = Item.find(grocery.item_ids)
+      subject
+      expect(grocery.reload.items).to match_array(items + recipe.items - other_recipe.items)
+    end
+
+    it 'should add the recipe to the grocery' do
+      subject
+      expect(grocery.reload.recipes.first).to eq recipe
+    end
+
+    context 'adding existing recipe' do
+      it "should update the grocery's items to include the recipe items" do
+        items = Item.find(grocery.item_ids)
+        subject
+        expect(grocery.reload.items).to match_array(items + recipe.items)
+      end
+    end
+
+    context 'adding new recipe' do
+      before(:each) do
+        grocery_params[:recipes] << {
+          name: 'new recipe',
+          url: 'http://newrecipe.com',
+          items: [{ name: 'new recipe item' }]
+        }
+      end
+
+      it 'should add the new recipe to the grocery' do
+        expect { subject }.to change(Recipe, :count).by(1)
+        expect(grocery.reload.recipes.count).to eq 2
+      end
+
+      it "should create the new recipe's items and add them to the grocery" do
+        items = Item.find(grocery.item_ids)
+        expect { subject }.to change(Item, :count).by(1)
+        expect(grocery.reload.items).to match_array(items + grocery.recipes.flat_map(&:items).uniq)
+      end
+    end
+  end
+
+  describe 'PATCH update_items' do
     let(:grocery_params) {
       {
         name: "#{grocery.name} updated"
       }
     }
-    subject { patch :update, id: grocery.id, grocery: grocery_params }
+    subject { patch :update_items, id: grocery.id, grocery: grocery_params }
 
     it 'should update the grocery fields' do
       subject

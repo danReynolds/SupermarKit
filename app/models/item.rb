@@ -2,6 +2,7 @@ class Item < ActiveRecord::Base
   has_many :groceries_items, class_name: GroceriesItems, inverse_of: :item
   has_many :groceries, through: :groceries_items
   has_many :user_groups, through: :groceries
+  has_and_belongs_to_many :recipes
 
   validates :name, presence: true
 

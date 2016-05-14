@@ -14,7 +14,7 @@ var UserResult = React.createClass({
                 className={resultClass}
                 onClick={this.props.handleAdd}
                 data-index={this.props.resultIndex}>
-                <img src={this.props.result.gravatar}/>
+                <img src={this.props.result.image}/>
                 <p>{this.props.result.name}</p>
             </li>
         );

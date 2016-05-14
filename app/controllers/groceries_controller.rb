@@ -23,7 +23,7 @@ class GroceriesController < ApplicationController
         grocery: {
           name: @grocery.name,
           id: @grocery.id,
-          url: grocery_path(@grocery)
+          url: update_items_grocery_path(@grocery)
         },
         items: {
           url: grocery_items_path(@grocery)
@@ -79,6 +79,7 @@ class GroceriesController < ApplicationController
         modal: {
           id: 'recipes',
           queryUrl: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&q=#{food_category}&requirePictures=true&q=",
+          updateUrl: update_recipes_grocery_path(@grocery),
           resultType: 'RecipeResult',
           input: {
             placeHolder: 'Search for recipes',
@@ -93,10 +94,6 @@ class GroceriesController < ApplicationController
         }
       }
     }
-    @grocery_store = @grocery.grocery_store
-	end
-
-	def new
   end
 
   def create
@@ -111,23 +108,47 @@ class GroceriesController < ApplicationController
 	def edit
 	end
 
-	def update
+	def update_items
     items = params[:grocery][:items] || []
-
     @grocery.items.delete(@grocery.items - items.map { |item| Item.find_by_id(item[:id]) })
     items.each do |item|
       grocery_item = GroceriesItems.find_or_create_by(
         item: Item.accessible_by(current_ability).find_or_create_by(id: item[:id], name: item[:name].capitalize),
         grocery: @grocery
       )
-      grocery_item.update!(item.permit(:quantity, :price)
-       .merge!({ requester_id: grocery_item.requester_id || current_user.id }))
+      grocery_item.update!(
+        item.permit(:quantity, :price).merge!({ requester_id: grocery_item.requester_id || current_user.id })
+      )
     end
 
     if @grocery.update!(grocery_params)
-      render nothing: true
+      head :ok
     end
 	end
+
+  def update_recipes
+    params[:grocery][:recipes] ||= []
+    @grocery.recipes = params[:grocery][:recipes].map do |recipe_params|
+      recipe = Recipe.find_by_id(recipe_params[:id]) || Recipe.new(
+        name: recipe_params[:name],
+        url: recipe_params[:url]
+      )
+
+      if recipe.new_record?
+        recipe.items = recipe_params[:items].map do |item|
+          Item.find_or_create_by(
+            id: item[:id],
+            name: item[:name]
+          )
+        end
+        recipe.save!
+      end
+      recipe
+    end
+    @grocery.items = @grocery.items.includes(:recipes).where(recipes: { id: nil }) + @grocery.recipes.flat_map(&:items).uniq
+
+    head :ok if @grocery.save!
+  end
 
   def checkout
     @checkout_data = {
@@ -145,11 +166,9 @@ class GroceriesController < ApplicationController
     end
     @grocery.finished_at = DateTime.now
 
-    if @grocery.save
+    if @grocery.save!
       head :ok
       flash[:notice] = "Checkout complete! When you're ready, make a new list."
-    else
-      head :internal_server_error
     end
   end
 
@@ -190,7 +209,7 @@ private
         id: user_group_user.user_id,
         name: user_group_user.user.name,
         state: user_group_user.state,
-        gravatar: user_group_user.user.gravatar_url(50),
+        image: user_group_user.user.gravatar_url(50),
         balance: user_group_user.balance.to_f
       }
     end
