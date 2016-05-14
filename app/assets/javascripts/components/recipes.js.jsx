@@ -1,5 +1,5 @@
 var Recipes = React.createClass({
-    mixins: [_.omit(ModalContainer, 'addToSelection'), RecipeHelper],
+    mixins: [ModalContainer, RecipeHelper],
 
     getInitialState: function() {
         return {
@@ -69,10 +69,6 @@ var Recipes = React.createClass({
         }
     },
 
-    addToSelection: function(selected) {
-        debugger;
-    },
-
     resultsFormatter: function(res) {
         return {
             data: res.matches.map(function(recipe) {
@@ -85,6 +81,27 @@ var Recipes = React.createClass({
                 };
             }.bind(this))
         }
+    },
+
+    handleSave: function() {
+        $.ajax({
+            method: 'PATCH',
+            data: JSON.stringify({
+                grocery: {
+                    recipes: this.state.modal.selection.map(function(selected) {
+                        debugger;
+                        return {
+                        }
+                    })
+                }
+            }),
+            dataType: 'json',
+            contentType: 'application/json',
+            url: item.url
+        }.bind(this)).done(function() {
+            this.toggleModal();
+            this.props.updateRecipeLength(this.state.modal.selection.length);
+        });
     },
 
     render: function() {

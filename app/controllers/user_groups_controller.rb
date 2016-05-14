@@ -81,7 +81,7 @@ private
           {
             name: user.name,
             id: user.id,
-            gravatar: user.gravatar_url
+            image: user.gravatar_url
           }
         end,
         formElement: 'user_group_user_ids',

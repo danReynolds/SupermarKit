@@ -4,7 +4,8 @@ var ItemList = React.createClass({
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
         items: React.PropTypes.object.isRequired,
-        pageSize: React.PropTypes.number
+        pageSize: React.PropTypes.number,
+        recipeLength: React.PropTypes.number
     },
 
     getDefaultProps: function() {
@@ -202,7 +203,7 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (!this.state.modal.open && prevState.modal.open) {
+        if ((!this.state.modal.open && prevState.modal.open) || prevProps.recipeLength !== this.props.recipeLength) {
             this.reloadItems();
         }
     },
@@ -228,7 +229,7 @@ var ItemList = React.createClass({
                     data-index={index}
                     className='collection-item dismissable'>
                     <div ref={'collapsible-' + index} className='collapsible-header'>
-                        <img src={data.requester.gravatar} />
+                        <img src={data.requester.image} />
                         <p>
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
                         </p>

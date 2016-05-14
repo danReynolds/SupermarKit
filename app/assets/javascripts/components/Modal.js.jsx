@@ -70,7 +70,7 @@ var Modal = React.createClass({
     },
 
     handleAdd: function(event) {
-        this.addToSelection(parseInt(event.target.getAttribute('data-index')));
+        this.addToSelection(parseInt(event.target.closest('li').getAttribute('data-index')));
     },
 
     handleRemove: function(event) {
