@@ -77,20 +77,19 @@ private
       {
         title: 'Kit members',
         buttonText: 'Modify',
-        selection: @user_group.users.map do |user|
-          {
-            name: user.name,
-            id: user.id,
-            gravatar: user.gravatar_url
-          }
-        end,
         formElement: 'user_group_user_ids',
         buttonText: 'person',
         modal: {
+          selection: @user_group.users.map do |user|
+            {
+              name: user.name,
+              id: user.id,
+              image: user.gravatar_url
+            }
+          end,
           id: 'change-members',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),
           resultType: 'UserResult',
-          chipType: 'UserChip',
           input: {
             placeholder: 'Add friends to your Kit',
             queryField: 'query',

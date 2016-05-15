@@ -3,7 +3,7 @@ var Chip = React.createClass({
         label: React.PropTypes.string.isRequired,
         active: React.PropTypes.bool,
         index: React.PropTypes.number.isRequired,
-        gravatar: React.PropTypes.string,
+        image: React.PropTypes.string,
         handleRemove: React.PropTypes.func
     },
 
@@ -18,15 +18,15 @@ var Chip = React.createClass({
             var remove = <i className='fa fa-close' onClick={this.props.handleRemove}/>;
         }
 
-        if (this.props.gravatar) {
-            var gravatar = <img src={this.props.gravatar}/>;
+        if (this.props.image) {
+            var image = <img src={this.props.image}/>;
         }
 
         return (
             <div
                 className={this.props.active ? 'chip active' : 'chip'}
                 data-id={this.props.index}>
-                {gravatar}
+                {image}
                 {this.props.label}
                 {remove}
             </div>

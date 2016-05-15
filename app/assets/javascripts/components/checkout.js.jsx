@@ -119,7 +119,7 @@ var Checkout = React.createClass({
                     key={index}
                     data-index={index}>
                     <div className='valign-wrapper'>
-                        <img src={user.gravatar}/>
+                        <img src={user.image}/>
                         <p className='name'>{user.name}</p>
                     </div>
                     <div className={'balance-wrapper ' + balance.class}>

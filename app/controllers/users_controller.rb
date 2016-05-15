@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         name: user.name
       }
       results.tap do
-        results[:gravatar] = user.gravatar_url if params[:gravatar]
+        results[:image] = user.gravatar_url if params[:image]
       end
     end
 
