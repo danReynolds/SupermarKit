@@ -14,6 +14,10 @@ class Grocery < ActiveRecord::Base
     end
   end
 
+  def items_without_recipes
+    items.includes(:recipes).where(recipes: { id: nil })
+  end
+
   def finished?
     finished_at.present?
   end

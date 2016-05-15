@@ -157,7 +157,11 @@ class GroceriesController < ApplicationController
       )
     end
 
-    head :ok if @grocery.save!
+    if @grocery.save!
+      render json: {
+        data: format_recipes
+      }
+    end
   end
 
   def checkout

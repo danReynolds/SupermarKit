@@ -16,61 +16,19 @@ var Recipes = React.createClass({
     },
 
     componentDidMount: function() {
-        // $.getJSON(this.props.modal.queryUrl + this.props.modal.category, function(response) {
+        $.getJSON(this.props.modal.queryUrl + this.props.modal.category, function(response) {
             this.setState({
-                suggestedRecipes: [
-                    {
-                        "attributes": {
-                            "course": [
-                                "Main Dishes",
-                                "Soups"
-                            ]
-                        },
-                        "flavors": {
-                            "salty": 0.6666666666666666,
-                            "sour": 0.6666666666666666,
-                            "sweet": 0.3333333333333333,
-                            "bitter": 0.16666666666666666,
-                            "meaty": 0.3333333333333333,
-                            "piquant": 0.6666666666666666
-                        },
-                        "rating": 3.5,
-                        "id": "Miso-Vegetable-Noodle-Bowl-Recipezaar",
-                        "imageUrlsBySize": {
-                            90: "http://i.yummly.com/Miso-Vegetable-Noodle-Bowl-Recipezaar-12762.s.png"
-                        },
-                        "sourceDisplayName": "Food.com",
-                        "totalTimeInSeconds": 1200,
-                        "ingredients": [
-                            "vegetable broth",
-                            "lime",
-                            "edamame",
-                            "green onion",
-                            "snow peas",
-                            "fresh cilantro",
-                            "carrot",
-                            "shiitake mushroom caps",
-                            "peeled fresh ginger",
-                            "udon",
-                            "yellow miso",
-                            "napa cabbage",
-                            "chili paste",
-                            "fresh lime juice",
-                            "water",
-                            "red bell pepper"
-                        ],
-                        "recipeName": "Miso Vegetable Noodle Bowl"
-                    }
-                ]
+                suggestedRecipes: response.matches
             }, function() {
                 $(document).ready(function() {
                     $('.carousel').carousel({
+                        height: 400,
                         full_width: true,
                         time_constant: 100
                     });
                 });
             });
-        // }.bind(this));
+        }.bind(this));
     },
 
     componentDidUpdate: function(prevProps, prevState) {
@@ -78,7 +36,8 @@ var Recipes = React.createClass({
             if (this.state.suggestedRecipes.length) {
                 $('.carousel').carousel({
                     full_width: true,
-                    time_constant: 100
+                    time_constant: 100,
+                    height: 400
                 });
             } else {
                 this.getSuggestedRecipes();
@@ -151,9 +110,21 @@ var Recipes = React.createClass({
                 }),
                 contentType: 'application/json',
                 url: _this.props.modal.updateUrl
+            }).done(function(response) {
+                _this.setState({
+                    modal: React.addons.update(
+                        _this.state.modal,
+                        {
+                            selection: {
+                                $set: response.data
+                            }
+                        }
+                    )
+                }, function() {
+                    _this.props.updateRecipeLength(_this.state.modal.selection.length);
+                    _this.toggleModalAndLoading();
+                })
             });
-            _this.props.updateRecipeLength(_this.state.modal.selection.length);
-            _this.toggleModalAndLoading();
         });
     },
 
