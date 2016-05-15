@@ -69,6 +69,7 @@ GEM
     builder (3.2.2)
     byebug (5.0.0)
       columnize (= 0.9.0)
+    callsite (0.0.11)
     canard (0.4.2.pre)
       cancancan
       role_model
@@ -149,6 +150,7 @@ GEM
     geokit-rails (2.1.0)
       geokit (~> 1.5)
       rails (>= 3.0)
+    git-version-bump (0.15.1)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     haml (4.0.6)
@@ -197,6 +199,10 @@ GEM
     maildown (1.0.4)
       kramdown
       rails (>= 4.0.0)
+    meta_request (0.4.0)
+      callsite (~> 0.0, >= 0.0.11)
+      rack-contrib (~> 1.1)
+      railties (>= 3.0.0, < 5.1.0)
     method_source (0.8.2)
     mime-types (2.6.1)
     mimemagic (0.3.0)
@@ -249,6 +255,9 @@ GEM
       pry (>= 0.9.11)
     puma (2.13.4)
     rack (1.6.4)
+    rack-contrib (1.4.0)
+      git-version-bump (~> 0.15)
+      rack (~> 1.4)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.3)
@@ -402,6 +411,7 @@ DEPENDENCIES
   linguistics
   maildown
   materialize-sass!
+  meta_request
   money-rails
   mysql2
   neat

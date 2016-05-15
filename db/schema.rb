@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513173928) do
+ActiveRecord::Schema.define(version: 20160514215334) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -90,10 +90,14 @@ ActiveRecord::Schema.define(version: 20160513173928) do
   add_index "payments", ["user_id", "grocery_id"], name: "index_payments_on_user_id_and_grocery_id", unique: true, using: :btree
 
   create_table "recipes", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "url",        limit: 255
+    t.string   "name",          limit: 255
+    t.string   "url",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "image_url",     limit: 255
+    t.integer  "rating",        limit: 4
+    t.integer  "timeInSeconds", limit: 4
+    t.string   "external_id",   limit: 255
   end
 
   create_table "user_groups", force: :cascade do |t|

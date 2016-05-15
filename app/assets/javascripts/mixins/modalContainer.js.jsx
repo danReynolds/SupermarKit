@@ -6,20 +6,13 @@ var ModalContainer = {
             resultType: React.PropTypes.string.isRequired,
             input: React.PropTypes.object.isRequired,
             addUnmatchedQuery: React.PropTypes.bool,
-            selection: React.PropTypes.array
         })
-    },
-
-    getDefaultProps: function() {
-        return {
-            selection: []
-        };
     },
 
     getInitialState: function() {
         return {
             modal: {
-                selection: this.props.selection,
+                selection: this.props.selection || [],
                 open: false,
                 addToSelection: this.addToSelection,
                 removeFromSelection: this.removeFromSelection,

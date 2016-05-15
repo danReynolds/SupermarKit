@@ -49,13 +49,13 @@ describe GroceriesController, type: :controller do
         name: "#{grocery.name} updated",
         recipes: [
           {
-            id: recipe.id
+            external_id: recipe.external_id
           }
         ]
       }
     }
 
-    it "should remove the items of the grocery's of removed recipes" do
+    it "should remove the items of the grocery's removed recipes" do
       other_recipe = create(:recipe, :with_items)
       grocery.recipes << other_recipe
       grocery.items << other_recipe.items
@@ -75,6 +75,16 @@ describe GroceriesController, type: :controller do
         subject
         expect(grocery.reload.items).to match_array(items + recipe.items)
       end
+
+      it 'should use the existing recipe' do
+        recipe = create(:recipe)
+        grocery_params[:recipes] = [
+          {
+            external_id: recipe.external_id
+          }
+        ]
+        expect { subject }.to_not change(Recipe, :count)
+      end
     end
 
     context 'adding new recipe' do
@@ -84,6 +94,11 @@ describe GroceriesController, type: :controller do
           url: 'http://newrecipe.com',
           items: [{ name: 'new recipe item' }]
         }
+      end
+
+      it 'should not create an item if one by that name already exists' do
+        create(:item, name: 'new recipe item')
+        expect { subject }.to_not change(Item, :count)
       end
 
       it 'should add the new recipe to the grocery' do
