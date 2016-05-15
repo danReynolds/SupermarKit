@@ -79,16 +79,16 @@ private
         buttonText: 'Modify',
         formElement: 'user_group_user_ids',
         buttonText: 'person',
+        selection: @user_group.users.map do |user|
+          {
+            name: user.name,
+            id: user.id,
+            image: user.gravatar_url
+          }
+        end,
         modal: {
-          selection: @user_group.users.map do |user|
-            {
-              name: user.name,
-              id: user.id,
-              image: user.gravatar_url
-            }
-          end,
           id: 'change-members',
-          queryUrl: auto_complete_users_path(gravatar: true, q: ''),
+          queryUrl: auto_complete_users_path(image: true, q: ''),
           resultType: 'UserResult',
           input: {
             placeholder: 'Add friends to your Kit',

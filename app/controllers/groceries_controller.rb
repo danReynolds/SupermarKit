@@ -177,7 +177,7 @@ private
       selection: format_users,
       modal: {
         id: 'user-emails',
-        queryUrl: auto_complete_users_path(gravatar: true, q: ''),
+        queryUrl: auto_complete_users_path(image: true, q: ''),
         resultType: 'UserResult',
         input: {
           placeholder: 'Choose friends to email',
