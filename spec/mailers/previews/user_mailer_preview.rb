@@ -8,6 +8,7 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def send_grocery_list_preview
-    UserMailer.send_grocery_list_email(User.last, Grocery.last, 'test message')
+    grocery = Grocery.all.lazy.detect { |g| g.recipes.length.nonzero? && g.items.length.nonzero? }
+    UserMailer.send_grocery_list_email(User.last, grocery, 'test message')
   end
 end
