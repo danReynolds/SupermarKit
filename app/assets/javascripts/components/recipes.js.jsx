@@ -1,6 +1,10 @@
 var Recipes = React.createClass({
     mixins: [ModalContainer, RecipeHelper],
 
+    propTypes: {
+        updateRecipeLength: React.PropTypes.func
+    },
+
     getInitialState: function() {
         return {
             recipes: []
@@ -8,7 +12,7 @@ var Recipes = React.createClass({
     },
 
     componentDidMount: function() {
-        // $.getJSON(this.props.modal.queryUrl, function(response) {
+        // $.getJSON(this.props.modal.queryUrl + this.props.modal.category, function(response) {
             this.setState({
                 recipes: [
                     {
@@ -28,9 +32,9 @@ var Recipes = React.createClass({
                         },
                         "rating": 3.5,
                         "id": "Miso-Vegetable-Noodle-Bowl-Recipezaar",
-                        "smallImageUrls": [
-                            "http://i.yummly.com/Miso-Vegetable-Noodle-Bowl-Recipezaar-12762.s.png"
-                        ],
+                        "imageUrlsBySize": {
+                            90: "http://i.yummly.com/Miso-Vegetable-Noodle-Bowl-Recipezaar-12762.s.png"
+                        },
                         "sourceDisplayName": "Food.com",
                         "totalTimeInSeconds": 1200,
                         "ingredients": [
@@ -73,34 +77,72 @@ var Recipes = React.createClass({
         return {
             data: res.matches.map(function(recipe) {
                 return {
-                    image: recipe.smallImageUrls[0].replace('s90', 'l90'),
+                    image: recipe.imageUrlsBySize[90].replace('s90', 'l90'),
                     name: recipe.recipeName,
                     ingredients: recipe.ingredients,
                     rating: recipe.rating,
-                    time: this.recipeTime(recipe.totalTimeInSeconds)
+                    time: this.recipeTime(recipe.totalTimeInSeconds),
+                    timeInSeconds: recipe.totalTimeInSeconds,
+                    externalId: recipe.id
                 };
             }.bind(this))
         }
     },
 
     handleSave: function() {
-        $.ajax({
-            method: 'PATCH',
-            data: JSON.stringify({
-                grocery: {
-                    recipes: this.state.modal.selection.map(function(selected) {
-                        debugger;
-                        return {
-                        }
-                    })
+        var _this = this;
+        $.when.apply(
+            $,
+            this.state.modal.selection.reduce(function(acc, selected) {
+                if (!selected.url) {
+                    acc.push (
+                        $.getJSON(this.props.modal.recipeUrl.replace('@externalId', selected.externalId))
+                    );
                 }
-            }),
-            dataType: 'json',
-            contentType: 'application/json',
-            url: item.url
-        }.bind(this)).done(function() {
-            this.toggleModal();
-            this.props.updateRecipeLength(this.state.modal.selection.length);
+                return acc;
+            }.bind(this), [])
+        ).then(function(response) {
+            var missingRecipeUrls = {};
+
+            if (_this.state.modal.selection.length === 1) {
+                arguments = [arguments];
+            }
+            $.each(arguments, function(index, response) {
+                recipe = response[0];
+                missingRecipeUrls[recipe.id] = recipe.source.sourceRecipeUrl;
+            });
+
+            $.ajax({
+                method: 'PATCH',
+                data: JSON.stringify({
+                    grocery: {
+                        recipes: _this.state.modal.selection.map(function(selected) {
+                            if (selected.recipeUrl) {
+                                return {
+                                    id: selected.id
+                                }
+                            } else {
+                                return {
+                                    image_url: selected.image,
+                                    name: selected.name,
+                                    rating: selected.rating,
+                                    timeInSeconds: selected.timeInSeconds,
+                                    external_id: selected.externalId,
+                                    url: missingRecipeUrls[selected.externalId],
+                                    items: selected.ingredients.map(function(ingredient) {
+                                        return {name: ingredient};
+                                    })
+                                };
+                            }
+                        })
+                    }
+                }),
+                contentType: 'application/json',
+                url: _this.props.modal.updateUrl
+            }).done(function() {
+                _this.props.updateRecipeLength(_this.state.modal.selection.length);
+            });
+            _this.toggleModal();
         });
     },
 
@@ -111,7 +153,7 @@ var Recipes = React.createClass({
                     key={'carousel-item-' + index}
                     className='carousel-item'>
                     <a href="#">
-                        <img src={recipe.smallImageUrls[0].replace('s90', 'l90')} />
+                        <img src={recipe.imageUrlsBySize[90].replace('s90', 'l90')} />
                     </a>
                     <div className="recipe-listing caption">
                         <p>{recipe.recipeName}</p>

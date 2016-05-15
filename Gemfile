@@ -50,6 +50,7 @@ group :test do
 end
 
 group :development, :test do
+	gem 'meta_request'
 	gem 'stackprof'
   gem 'pry'
   gem 'pry-stack_explorer'

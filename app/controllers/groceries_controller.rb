@@ -5,19 +5,8 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
 	def show
-    food_category = [
-      'Korean',
-      'American',
-      'Italian',
-      'Chinese',
-      'Mediterranean',
-      'Dessert',
-      'Breakfast',
-      'Lunch',
-      'Barbecue'
-    ].sample
-
     @dashboard = {
+      recipeLength: @grocery.recipes.length,
       checkout_url: checkout_grocery_path(@grocery),
       itemList: {
         grocery: {
@@ -56,9 +45,9 @@ class GroceriesController < ApplicationController
         }
       },
       emailer: {
-        selection: format_users,
         buttonText: 'person',
         url: email_group_grocery_path(@grocery),
+        selection: format_users,
         modal: {
           id: 'user-emails',
           queryUrl: auto_complete_users_path(gravatar: true, q: ''),
@@ -76,9 +65,22 @@ class GroceriesController < ApplicationController
         }
       },
       recipes: {
+        selection: format_recipes,
         modal: {
           id: 'recipes',
-          queryUrl: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&q=#{food_category}&requirePictures=true&q=",
+          category: [
+            'Korean',
+            'American',
+            'Italian',
+            'Chinese',
+            'Mediterranean',
+            'Dessert',
+            'Breakfast',
+            'Lunch',
+            'Barbecue'
+          ].sample,
+          recipeUrl: "https://api.yummly.com/v1/api/recipe/@externalId?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}",
+          queryUrl: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&requirePictures=true&q=",
           updateUrl: update_recipes_grocery_path(@grocery),
           resultType: 'RecipeResult',
           input: {
@@ -113,7 +115,7 @@ class GroceriesController < ApplicationController
     @grocery.items.delete(@grocery.items - items.map { |item| Item.find_by_id(item[:id]) })
     items.each do |item|
       grocery_item = GroceriesItems.find_or_create_by(
-        item: Item.accessible_by(current_ability).find_or_create_by(id: item[:id], name: item[:name].capitalize),
+        item: Item.accessible_by(current_ability).find_or_create_by(name: item[:name].capitalize),
         grocery: @grocery
       )
       grocery_item.update!(
@@ -128,24 +130,30 @@ class GroceriesController < ApplicationController
 
   def update_recipes
     params[:grocery][:recipes] ||= []
-    @grocery.recipes = params[:grocery][:recipes].map do |recipe_params|
-      recipe = Recipe.find_by_id(recipe_params[:id]) || Recipe.new(
-        name: recipe_params[:name],
-        url: recipe_params[:url]
-      )
+    recipes = grocery_recipe_params[:recipes].map do |recipe_params|
+      recipe = Recipe.find_by_external_id(recipe_params[:external_id]) || Recipe.new(recipe_params.except(:items))
 
       if recipe.new_record?
         recipe.items = recipe_params[:items].map do |item|
-          Item.find_or_create_by(
-            id: item[:id],
-            name: item[:name]
-          )
+          Item.find_or_create_by(name: item[:name])
         end
         recipe.save!
       end
       recipe
     end
-    @grocery.items = @grocery.items.includes(:recipes).where(recipes: { id: nil }) + @grocery.recipes.flat_map(&:items).uniq
+    new_items = (recipes - @grocery.recipes).flat_map(&:items)
+    removed_items = (@grocery.recipes - recipes).flat_map(&:items)
+
+    @grocery.recipes = recipes
+    @grocery.items.delete(removed_items)
+
+    new_items.each do |item|
+      GroceriesItems.create(
+        grocery: @grocery,
+        item: item,
+        requester: current_user
+      )
+    end
 
     head :ok if @grocery.save!
   end
@@ -153,7 +161,7 @@ class GroceriesController < ApplicationController
   def checkout
     @checkout_data = {
       grocery_id: @grocery.id,
-      users: format_users,
+      users: format_users(true),
       url: do_checkout_grocery_path(@grocery),
       redirect_url: new_user_group_grocery_path(@grocery.user_group),
       estimated_total: @grocery.total_price_or_estimated.to_f
@@ -203,14 +211,28 @@ class GroceriesController < ApplicationController
 
 private
 
-  def format_users
+  def format_users(balance = false)
     @grocery.user_group.user_groups_users.map do |user_group_user, h|
-      {
+      user_data = {
         id: user_group_user.user_id,
         name: user_group_user.user.name,
         state: user_group_user.state,
         image: user_group_user.user.gravatar_url(50),
-        balance: user_group_user.balance.to_f
+      }
+      user_data[:balance] = user_group_user.balance.to_f if balance
+      user_data
+    end
+  end
+
+  def format_recipes
+    @grocery.recipes.map do |recipe|
+      {
+        externalId: recipe.external_id,
+        image: recipe.image_url,
+        name: recipe.name,
+        rating: recipe.rating,
+        timeInSeconds: recipe.timeInSeconds,
+        url: recipe.url
       }
     end
   end
@@ -229,6 +251,23 @@ private
 
   def grocery_payment_params
     params.require(:grocery).permit(payments: [:user_id, :price])
+  end
+
+  def grocery_recipe_params
+    params.require(:grocery).permit({
+      recipes: [
+        :external_id,
+        :name,
+        :url,
+        :image_url,
+        :rating,
+        :id,
+        :timeInSeconds,
+        {
+          items: [:name]
+        }
+      ]
+    })
   end
 
   def grocery_email_params

@@ -26,6 +26,7 @@ var Dashboard = React.createClass({
                             recipeLength={this.state.recipeLength}
                             {...this.props.itemList}/>
                         <Recipes
+                            updateRecipeLength={this.updateRecipeLength}
                             {...this.props.recipes}/>
                         <div className='fixed-action-btn'>
                             <a className='btn-floating btn-large'>
