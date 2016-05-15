@@ -8,95 +8,9 @@ class GroceriesController < ApplicationController
     @dashboard = {
       recipeLength: @grocery.recipes.length,
       checkout_url: checkout_grocery_path(@grocery),
-      itemList: {
-        grocery: {
-          name: @grocery.name,
-          id: @grocery.id,
-          url: update_items_grocery_path(@grocery)
-        },
-        items: {
-          url: grocery_items_path(@grocery)
-        },
-        users: format_users,
-        modal: {
-          addUnmatchedQuery: true,
-          queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
-          id: 'add-groceries',
-          resultType: 'ItemResult',
-          input: {
-            placeholder: 'Add your item, like 5 bananas (for $4)',
-            queryField: 'query',
-            delimiter: '\s*',
-            fields: [
-              {
-                name: 'quantity',
-                regex: '([0-9]*)?'
-              },
-              {
-                name: 'query',
-                regex: '(.*?)'
-              },
-              {
-                name: 'price',
-                regex: '(?:for \$([0-9]*))?'
-              }
-            ]
-          }
-        }
-      },
-      emailer: {
-        buttonText: 'person',
-        url: email_group_grocery_path(@grocery),
-        selection: format_users,
-        modal: {
-          id: 'user-emails',
-          queryUrl: auto_complete_users_path(gravatar: true, q: ''),
-          resultType: 'UserResult',
-          input: {
-            placeholder: 'Choose friends to email',
-            queryField: 'query',
-            fields: [
-              {
-                name: 'query',
-                regex: '(.*)'
-              }
-            ]
-          }
-        }
-      },
-      recipes: {
-        selection: format_recipes,
-        yourRecipeHeader: 'Your Recipes',
-        suggestedReciperHeader: 'Suggested Recipes',
-        modal: {
-          id: 'recipes',
-          category: [
-            'Korean',
-            'American',
-            'Italian',
-            'Chinese',
-            'Mediterranean',
-            'Dessert',
-            'Breakfast',
-            'Lunch',
-            'Barbecue'
-          ].sample,
-          recipeUrl: "https://api.yummly.com/v1/api/recipe/@externalId?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}",
-          queryUrl: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&requirePictures=true&q=",
-          updateUrl: update_recipes_grocery_path(@grocery),
-          resultType: 'RecipeResult',
-          input: {
-            placeHolder: 'Search for recipes',
-            queryField: 'query',
-            fields: [
-              {
-                name: 'query',
-                regex: '(.*)'
-              }
-            ]
-          }
-        }
-      }
+      itemList: itemlist_params,
+      emailer: emailer_params,
+      recipes: recipes_params
     }
   end
 
@@ -216,6 +130,104 @@ class GroceriesController < ApplicationController
   end
 
 private
+
+  def itemlist_params
+    {
+      grocery: {
+        name: @grocery.name,
+        id: @grocery.id,
+        url: update_items_grocery_path(@grocery)
+      },
+      items: {
+        url: grocery_items_path(@grocery)
+      },
+      users: format_users,
+      modal: {
+        addUnmatchedQuery: true,
+        queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
+        id: 'add-groceries',
+        resultType: 'ItemResult',
+        input: {
+          placeholder: 'Add your item, like 5 bananas (for $4)',
+          queryField: 'query',
+          delimiter: '\s*',
+          fields: [
+            {
+              name: 'quantity',
+              regex: '([0-9]*)?'
+            },
+            {
+              name: 'query',
+              regex: '(.*?)'
+            },
+            {
+              name: 'price',
+              regex: '(?:for \$([0-9]*))?'
+            }
+          ]
+        }
+      }
+    }
+  end
+
+  def emailer_params
+    {
+      buttonText: 'person',
+      url: email_group_grocery_path(@grocery),
+      selection: format_users,
+      modal: {
+        id: 'user-emails',
+        queryUrl: auto_complete_users_path(gravatar: true, q: ''),
+        resultType: 'UserResult',
+        input: {
+          placeholder: 'Choose friends to email',
+          queryField: 'query',
+          fields: [
+            {
+              name: 'query',
+              regex: '(.*)'
+            }
+          ]
+        }
+      }
+    }
+  end
+
+  def recipes_params
+    {
+      selection: format_recipes,
+      yourRecipeHeader: 'Your Recipes',
+      suggestedReciperHeader: 'Suggested Recipes',
+      modal: {
+        id: 'recipes',
+        category: [
+          'Korean',
+          'American',
+          'Italian',
+          'Chinese',
+          'Mediterranean',
+          'Dessert',
+          'Breakfast',
+          'Lunch',
+          'Barbecue'
+        ].sample,
+        recipeUrl: "https://api.yummly.com/v1/api/recipe/@externalId?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}",
+        queryUrl: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&requirePictures=true&q=",
+        updateUrl: update_recipes_grocery_path(@grocery),
+        resultType: 'RecipeResult',
+        input: {
+          placeHolder: 'Search for recipes',
+          queryField: 'query',
+          fields: [
+            {
+              name: 'query',
+              regex: '(.*)'
+            }
+          ]
+        }
+      }
+    }
+  end
 
   def format_users(balance = false)
     @grocery.user_group.user_groups_users.map do |user_group_user, h|
