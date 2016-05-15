@@ -3,7 +3,11 @@ var RecipeHelper = {
         var rating = [];
         for (let x = 0; x < Math.floor(ratingValue); x++) {
             rating.push(
-                <i className='material-icons'>star_rate</i>
+                <i
+                    key={'star-rating-' + x}
+                    className='material-icons'>
+                    star_rate
+                </i>
             );
         }
 
