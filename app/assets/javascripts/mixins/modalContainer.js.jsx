@@ -5,7 +5,7 @@ var ModalContainer = {
             queryUrl: React.PropTypes.string.isRequired,
             resultType: React.PropTypes.string.isRequired,
             input: React.PropTypes.object.isRequired,
-            addUnmatchedQuery: React.PropTypes.bool,
+            addUnmatchedQuery: React.PropTypes.bool
         })
     },
 
