@@ -1,5 +1,5 @@
 .recipe-result {
-  padding: 1rem;
+  padding: 1rem 2rem;
 
   p {
     margin: 0 0 3px 0 !important;
@@ -21,7 +21,14 @@
     width: 1.5rem;
   }
 
+  a {
+    margin-left: auto;
+    color: $sm-dark-blue-green !important;
+    font-size: 1.2rem;
+  }
+
   img {
+    border-radius: 50%;
     width: 6rem;
     height: 6rem !important;
   }
