@@ -28,7 +28,7 @@ class GroceriesController < ApplicationController
 
 	def update_items
     items = params[:grocery][:items] || []
-    @grocery.items.delete(@grocery.items - items.map { |item| Item.find_by_id(item[:id]) })
+    @grocery.items.delete(@grocery.items - items.map { |item| Item.accessible_by(current_ability).find_by_id(item[:id]) })
     items.each do |item|
       grocery_item = GroceriesItems.find_or_create_by(
         item: Item.accessible_by(current_ability).find_or_create_by(name: item[:name].capitalize),
