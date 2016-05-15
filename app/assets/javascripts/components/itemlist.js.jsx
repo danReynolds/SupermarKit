@@ -173,37 +173,29 @@ var ItemList = React.createClass({
 
     reloadItems: function() {
         var _this = this;
-        var reloadRequest = function() {
-            $.getJSON(_this.props.items.url, function(response) {
-                _this.setState(
-                    React.addons.update(
-                        _this.state,
-                        {
-                            modal: {
-                                selection: {
-                                    $set: response.data.items
-                                },
-                                loading: {
-                                    $set: false
-                                }
-                            },
-                            total: {
-                                $set: response.data.total
-                            }
-                        }
-                    ), function() {
-                        $('.collapsible').collapsible({ accordion: false });
-                        Materialize.initializeDismissable();
-                    }
-                );
-            });
-        };
-
         if (!this.state.modal.loading) {
-            this.toggleLoading(reloadRequest);
-        } else {
-            reloadRequest();
+            this.toggleLoading();
         }
+        $.getJSON(_this.props.items.url, function(response) {
+            _this.setState(
+                React.addons.update(
+                    _this.state,
+                    {
+                        modal: {
+                            selection: {
+                                $set: response.data.items
+                            },
+                            loading: {
+                                $set: false
+                            }
+                        },
+                        total: {
+                            $set: response.data.total
+                        }
+                    }
+                )
+            );
+        });
     },
 
     componentDidMount: function() {
@@ -219,6 +211,9 @@ var ItemList = React.createClass({
     componentDidUpdate: function(prevProps, prevState) {
         if (prevProps.recipeLength !== this.props.recipeLength) {
             this.reloadItems();
+        } else if (this.state.modal.selection !== prevState.modal.selection && this.state.modal.selection.length) {
+            Materialize.initializeDismissable();
+            $('.collapsible').collapsible({ accordion: false });
         }
     },
 
