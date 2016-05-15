@@ -8,11 +8,14 @@ var Modal = React.createClass({
         addToSelection: React.PropTypes.func.isRequired,
         removeFromSelection: React.PropTypes.func.isRequired,
         handleSave: React.PropTypes.func.isRequired,
+        toggleLoading: React.PropTypes.func.isRequired,
         toggleModal: React.PropTypes.func.isRequired,
+        toggleModalAndLoading: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string,
         input: React.PropTypes.object.isRequired,
         open: React.PropTypes.bool.isRequired,
-        addUnmatchedQuery: React.PropTypes.bool
+        addUnmatchedQuery: React.PropTypes.bool,
+        resultsFormatter: React.PropTypes.func
     },
 
     getInitialState: function() {
@@ -21,6 +24,7 @@ var Modal = React.createClass({
             fields: this.props.input.fields,
             results: [],
             backspaceTarget: null,
+            getResults: _.debounce(this.getResults, 300)
         };
     },
 
@@ -68,7 +72,7 @@ var Modal = React.createClass({
     },
 
     handleAdd: function(event) {
-        this.addToSelection(parseInt(event.target.getAttribute('data-index')));
+        this.addToSelection(parseInt(event.target.closest('li').getAttribute('data-index')));
     },
 
     handleRemove: function(event) {
@@ -143,7 +147,9 @@ var Modal = React.createClass({
 
         if (query && query.length >= this.props.minLength) {
             $.getJSON(this.props.queryUrl + query, function(res) {
-                var displayedResults = res.data.filter(function(result) {
+                var results = this.props.resultsFormatter ? this.props.resultsFormatter(res) : res;
+
+                var displayedResults = results.data.filter(function(result) {
                     return !selected_names.includes(result.name);
                 });
 
@@ -171,7 +177,7 @@ var Modal = React.createClass({
         var self = this;
 
         if (prevState.fields !== this.state.fields) {
-            this.getResults();
+            this.state.getResults();
         } else if (this.props.open !== prevProps.open) {
             var modal = $('#' + this.props.id);
             if (this.props.open) {
@@ -180,7 +186,7 @@ var Modal = React.createClass({
                         self.refs.search.focus();
                     },
                     complete: function() {
-                        self.props.toggleModal();
+                        self.props.toggleModalAndLoading();
                     }
                 });
             } else {
@@ -234,9 +240,8 @@ var Modal = React.createClass({
                     </ul>
                     <div className='reveal-controls'>
                         <a
-                            ref='open'
                             className='waves-effect waves-light btn cancel'
-                            onClick={this.props.toggleModal}>
+                            onClick={this.props.toggleModalAndLoading}>
                             <i className='material-icons left'>close</i>
                             Cancel
                         </a>

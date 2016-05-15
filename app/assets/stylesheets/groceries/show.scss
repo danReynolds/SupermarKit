@@ -1,7 +1,9 @@
 .groceries-show {
   @media #{$mobile} {
-    .dashboard-card + .dashboard-card {
-      margin-top: 2rem;
+    .dashboard-card {
+      .card {
+        margin-top: 2rem;
+      }
     }
   }
 

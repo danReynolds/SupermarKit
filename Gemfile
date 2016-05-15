@@ -9,7 +9,7 @@ gem 'capistrano-rails',   require: false
 gem 'capistrano-rvm',     require: false
 gem 'capistrano',         require: false
 gem 'capistrano3-puma',   require: false
-gem 'chartkick'
+gem 'underscore-rails'
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails', '~> 4.0.0'
 gem 'coveralls', require: false
@@ -50,6 +50,7 @@ group :test do
 end
 
 group :development, :test do
+	gem 'meta_request'
 	gem 'stackprof'
   gem 'pry'
   gem 'pry-stack_explorer'

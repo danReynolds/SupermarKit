@@ -29,7 +29,7 @@ var Multiselect = React.createClass({
                     active={this.props.backspaceTarget === index}
                     label={selected.name}
                     handleRemove={this.props.removable ? this.handleRemove : null}
-                    gravatar={selected.gravatar}/>
+                    image={selected.image}/>
             );
         }.bind(this));
 
