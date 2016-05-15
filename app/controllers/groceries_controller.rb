@@ -66,6 +66,8 @@ class GroceriesController < ApplicationController
       },
       recipes: {
         selection: format_recipes,
+        yourRecipeHeader: 'Your Recipes',
+        suggestedReciperHeader: 'Suggested Recipes',
         modal: {
           id: 'recipes',
           category: [
@@ -261,7 +263,6 @@ private
         :url,
         :image_url,
         :rating,
-        :id,
         :timeInSeconds,
         {
           items: [:name]

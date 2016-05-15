@@ -7,14 +7,18 @@ var Recipes = React.createClass({
 
     getInitialState: function() {
         return {
-            recipes: []
+            suggestedRecipes: []
         }
+    },
+
+    getSuggestedRecipes: function() {
+
     },
 
     componentDidMount: function() {
         // $.getJSON(this.props.modal.queryUrl + this.props.modal.category, function(response) {
             this.setState({
-                recipes: [
+                suggestedRecipes: [
                     {
                         "attributes": {
                             "course": [
@@ -58,18 +62,27 @@ var Recipes = React.createClass({
                         "recipeName": "Miso Vegetable Noodle Bowl"
                     }
                 ]
+            }, function() {
+                $(document).ready(function() {
+                    $('.carousel').carousel({
+                        full_width: true,
+                        time_constant: 100
+                    });
+                });
             });
         // }.bind(this));
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (this.state.recipes !== prevState.recipes) {
-            $(document).ready(function() {
+        if (!this.state.modal.open && prevState.modal.open && !this.state.modal.selection.length) {
+            if (this.state.suggestedRecipes.length) {
                 $('.carousel').carousel({
                     full_width: true,
                     time_constant: 100
                 });
-            });
+            } else {
+                this.getSuggestedRecipes();
+            }
         }
     },
 
@@ -91,20 +104,19 @@ var Recipes = React.createClass({
 
     handleSave: function() {
         var _this = this;
-        $.when.apply(
-            $,
-            this.state.modal.selection.reduce(function(acc, selected) {
-                if (!selected.url) {
-                    acc.push (
-                        $.getJSON(this.props.modal.recipeUrl.replace('@externalId', selected.externalId))
-                    );
-                }
-                return acc;
-            }.bind(this), [])
-        ).then(function(response) {
+        var requests = this.state.modal.selection.reduce(function(acc, selected) {
+            if (!selected.url) {
+                acc.push (
+                    $.getJSON(this.props.modal.recipeUrl.replace('@externalId', selected.externalId))
+                );
+            }
+            return acc;
+        }.bind(this), []);
+
+        $.when.apply( $, requests).then(function(response) {
             var missingRecipeUrls = {};
 
-            if (_this.state.modal.selection.length === 1) {
+            if (requests.length === 1) {
                 arguments = [arguments];
             }
             $.each(arguments, function(index, response) {
@@ -117,9 +129,9 @@ var Recipes = React.createClass({
                 data: JSON.stringify({
                     grocery: {
                         recipes: _this.state.modal.selection.map(function(selected) {
-                            if (selected.recipeUrl) {
+                            if (selected.url) {
                                 return {
-                                    id: selected.id
+                                    external_id: selected.externalId
                                 }
                             } else {
                                 return {
@@ -139,15 +151,14 @@ var Recipes = React.createClass({
                 }),
                 contentType: 'application/json',
                 url: _this.props.modal.updateUrl
-            }).done(function() {
-                _this.props.updateRecipeLength(_this.state.modal.selection.length);
             });
-            _this.toggleModal();
+            _this.props.updateRecipeLength(_this.state.modal.selection.length);
+            _this.toggleModalAndLoading();
         });
     },
 
-    render: function() {
-        var carousel_items = this.state.recipes.map(function(recipe, index) {
+    renderSuggestedRecipes: function() {
+        var carousel_items = this.state.suggestedRecipes.map(function(recipe, index) {
             return (
                 <div
                     key={'carousel-item-' + index}
@@ -169,13 +180,61 @@ var Recipes = React.createClass({
         }.bind(this));
 
         return (
+            <div>
+                {this.renderHeader()}
+                <div className='carousel carousel-slider'>
+                    {carousel_items}
+                </div>
+            </div>
+        );
+    },
+
+    renderHeader: function() {
+        return (
+            <div className='card-header'>
+                <h3>
+                    {this.state.modal.selection.length ? this.props.yourRecipeHeader : this.props.suggestedReciperHeader}
+                </h3>
+            </div>
+        );
+    },
+
+    renderRecipes: function() {
+        var recipes = this.state.modal.selection.map(function(selected, index) {
+            return (
+                <RecipeResult
+                    key={'recipe-' + index}
+                    resultIndex={index}
+                    result={selected} />
+            );
+        });
+
+        return (
+            <div>
+                {this.renderHeader()}
+                <ul>
+                    {recipes}
+                </ul>
+            </div>
+        );
+    },
+
+    render: function() {
+        var content;
+        if (this.state.modal.loading) {
+            content = <Loader />
+        } else if (this.state.modal.selection.length) {
+            content = this.renderRecipes();
+        } else {
+            content = this.renderSuggestedRecipes();
+        }
+
+        return (
             <div className='card recipes'>
-                <div className='card-content full-width'>
-                    <div className='carousel carousel-slider'>
-                        {carousel_items}
-                    </div>
+                <div className='card-content full-width dark'>
+                    {content}
                     <a
-                        onClick={this.toggleModal}
+                        onClick={this.toggleModalAndLoading}
                         className="btn-floating btn-large waves-effect waves-light">
                         <i className="material-icons">search</i>
                     </a>

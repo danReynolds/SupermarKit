@@ -119,7 +119,8 @@ var ItemList = React.createClass({
 
     handleSave: function() {
         this.pageChange(0);
-        this.saveSelection(this.state.modal.selection, this.toggleModal);
+        this.toggleModal();
+        this.saveSelection(this.state.modal.selection, this.reloadItems);
     },
 
     handlePageChange: function(e) {
@@ -171,25 +172,38 @@ var ItemList = React.createClass({
     },
 
     reloadItems: function() {
-        $.getJSON(this.props.items.url, function(response) {
-            this.setState(
-                React.addons.update(
-                    this.state,
-                    {
-                        modal: {
-                            selection: {
-                                $set: response.data.items
+        var _this = this;
+        var reloadRequest = function() {
+            $.getJSON(_this.props.items.url, function(response) {
+                _this.setState(
+                    React.addons.update(
+                        _this.state,
+                        {
+                            modal: {
+                                selection: {
+                                    $set: response.data.items
+                                },
+                                loading: {
+                                    $set: false
+                                }
+                            },
+                            total: {
+                                $set: response.data.total
                             }
-                        },
-                        total: {
-                            $set: response.data.total
                         }
+                    ), function() {
+                        $('.collapsible').collapsible({ accordion: false });
+                        Materialize.initializeDismissable();
                     }
-                )
-            );
-            $('.collapsible').collapsible({ accordion: false });
-            Materialize.initializeDismissable();
-        }.bind(this));
+                );
+            });
+        };
+
+        if (!this.state.modal.loading) {
+            this.toggleLoading(reloadRequest);
+        } else {
+            reloadRequest();
+        }
     },
 
     componentDidMount: function() {
@@ -203,7 +217,7 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if ((!this.state.modal.open && prevState.modal.open) || prevProps.recipeLength !== this.props.recipeLength) {
+        if (prevProps.recipeLength !== this.props.recipeLength) {
             this.reloadItems();
         }
     },
@@ -334,7 +348,7 @@ var ItemList = React.createClass({
 
     render: function() {
         var content, pagination;
-        if (this.state.modal.open || !this.state.modal.selection) {
+        if (this.state.modal.loading || !this.state.modal.selection) {
             content = <Loader />
         } else {
             content = this.state.modal.selection.length ? this.renderItems() : this.renderNoItems();
@@ -349,7 +363,7 @@ var ItemList = React.createClass({
                         {content}
                         {pagination}
                         <a
-                            onClick={this.toggleModal}
+                            onClick={this.toggleModalAndLoading}
                             href={"#" + this.props.modal.id}
                             className="btn-floating btn-large waves-effect waves-light">
                             <i className="material-icons">add</i>

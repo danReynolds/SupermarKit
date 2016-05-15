@@ -8,7 +8,9 @@ var Modal = React.createClass({
         addToSelection: React.PropTypes.func.isRequired,
         removeFromSelection: React.PropTypes.func.isRequired,
         handleSave: React.PropTypes.func.isRequired,
+        toggleLoading: React.PropTypes.func.isRequired,
         toggleModal: React.PropTypes.func.isRequired,
+        toggleModalAndLoading: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string,
         input: React.PropTypes.object.isRequired,
         open: React.PropTypes.bool.isRequired,
@@ -184,7 +186,7 @@ var Modal = React.createClass({
                         self.refs.search.focus();
                     },
                     complete: function() {
-                        self.props.toggleModal();
+                        self.props.toggleModalAndLoading();
                     }
                 });
             } else {
@@ -238,9 +240,8 @@ var Modal = React.createClass({
                     </ul>
                     <div className='reveal-controls'>
                         <a
-                            ref='open'
                             className='waves-effect waves-light btn cancel'
-                            onClick={this.props.toggleModal}>
+                            onClick={this.props.toggleModalAndLoading}>
                             <i className='material-icons left'>close</i>
                             Cancel
                         </a>

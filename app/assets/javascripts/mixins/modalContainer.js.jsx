@@ -17,7 +17,10 @@ var ModalContainer = {
                 addToSelection: this.addToSelection,
                 removeFromSelection: this.removeFromSelection,
                 handleSave: this.handleSave,
-                toggleModal: this.toggleModal
+                toggleLoading: this.toggleLoading,
+                toggleModal: this.toggleModal,
+                toggleModalAndLoading: this.toggleModalAndLoading,
+                loading: false
             }
         };
     },
@@ -55,7 +58,36 @@ var ModalContainer = {
                 {
                     open: {
                         $set: !this.state.modal.open
-                    }
+                    },
+                }
+            )
+        });
+    },
+
+    toggleLoading: function(callback) {
+        this.setState({
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    loading: {
+                        $set: !this.state.modal.loading
+                    },
+                }
+            )
+        }, callback);
+    },
+
+    toggleModalAndLoading: function() {
+        this.setState({
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    open: {
+                        $set: !this.state.modal.open
+                    },
+                    loading: {
+                        $set: !this.state.modal.loading
+                    },
                 }
             )
         });
