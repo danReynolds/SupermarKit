@@ -211,7 +211,7 @@ var ItemList = React.createClass({
     componentDidUpdate: function(prevProps, prevState) {
         if (prevProps.recipeLength !== this.props.recipeLength) {
             this.reloadItems();
-        } else if (this.state.modal.selection !== prevState.modal.selection && this.state.modal.selection.length) {
+        } else if (this.state.modal.loading !== prevState.modal.loading && this.state.modal.selection.length) {
             Materialize.initializeDismissable();
             $('.collapsible').collapsible({ accordion: false });
         }
