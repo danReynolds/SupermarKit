@@ -34,7 +34,7 @@ var RecipeResult = React.createClass({
                 <img src={this.props.result.image}/>
                 <div className='info'>
                     <p>{this.props.result.name}</p>
-                    <p>{this.props.result.time}</p>
+                    <p>{this.recipeTime(this.props.result.timeInSeconds)}</p>
                     <div className='ratings'>
                         {this.renderRatings(this.props.result.rating)}
                     </div>

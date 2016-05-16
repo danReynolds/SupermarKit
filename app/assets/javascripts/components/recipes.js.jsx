@@ -53,7 +53,6 @@ var Recipes = React.createClass({
                     name: recipe.recipeName,
                     ingredients: recipe.ingredients,
                     rating: recipe.rating,
-                    time: this.recipeTime(recipe.totalTimeInSeconds),
                     timeInSeconds: recipe.totalTimeInSeconds,
                     externalId: recipe.id
                 };
