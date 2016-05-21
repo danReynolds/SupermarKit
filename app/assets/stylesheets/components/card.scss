@@ -4,6 +4,10 @@
   .card-content, .card-action {
     padding: 1.5rem 3rem;
 
+    &.wide {
+      padding: 1.5rem;
+    }
+
     @media #{$mobile} {
       padding: 1.5rem 2.5rem;
     }

@@ -2,7 +2,8 @@ var Dashboard = React.createClass({
     propTypes: {
         checkout_url: React.PropTypes.string.isRequired,
         itemList: React.PropTypes.object.isRequired,
-        emailer: React.PropTypes.object.isRequired
+        emailer: React.PropTypes.object.isRequired,
+        location: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
@@ -45,6 +46,8 @@ var Dashboard = React.createClass({
                     <div className='col l6 dashboard-card'>
                         <Emailer
                             {...this.props.emailer}/>
+                        <Location
+                            {...this.props.location}/>
                     </div>
                 </div>
             </div>

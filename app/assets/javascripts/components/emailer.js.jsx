@@ -38,7 +38,7 @@ var Emailer = React.createClass({
                             </textarea>
                         </div>
                     </div>
-                    <div className='card-action'>
+                    <div className='card-action wide'>
                         <a
                             onClick={this.deliverEmail}
                             className='waves-effect waves-light btn'>
