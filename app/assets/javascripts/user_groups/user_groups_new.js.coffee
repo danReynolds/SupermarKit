@@ -1,5 +1,5 @@
 $ ->
-  onPage 'user_groups new', ->
+  onPage ['user_groups new', 'user_groups create'], ->
 
     # ============================
     # Public / Private Kit switching
