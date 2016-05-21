@@ -17,10 +17,22 @@
           %li= link_to 'About', about_path
           %li= link_to 'Logout', logout_path, method: :post
         %ul.side-nav#site-navigation
-          %li= link_to 'Kits', user_groups_path, class: :dark
-          %li= link_to 'Me', current_user, class: :dark
-          %li= link_to 'About', about_path, class: :dark
-          %li= link_to 'Logout', logout_path, method: :post, class: :dark
+          %li
+            = link_to user_groups_path, class: :dark do
+              = icon 'shopping-cart'
+              Kits
+          %li
+            = link_to current_user, class: :dark do
+              = icon 'user'
+              Me
+          %li
+            = link_to about_path, class: :dark do
+              = icon 'info'
+              About
+          %li
+            = link_to logout_path, method: :post, class: :dark do
+              = icon 'sign-out'
+              Logout
 
   = render partial: 'layouts/flash_messages'
   = render partial: 'layouts/error_messages'
@@ -40,9 +52,18 @@
           %li= link_to 'Sign up', new_user_path
           %li= link_to 'Login', login_path
         %ul.side-nav#site-navigation
-          %li= link_to 'About', about_path, class: :dark
-          %li= link_to 'Sign up', new_user_path, class: :dark
-          %li= link_to 'Login', login_path, class: :dark
+          %li
+            = link_to about_path, class: :dark do
+              = icon 'info'
+              About
+          %li
+            = link_to new_user_path, class: :dark do
+              = icon 'user-plus'
+              Sign up
+          %li
+            = link_to login_path, class: :dark do
+              = icon 'sign-in'
+              Login
 
     = render partial: 'layouts/flash_messages'
     = render partial: 'layouts/error_messages'

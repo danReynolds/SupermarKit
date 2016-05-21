@@ -21,6 +21,27 @@ nav {
   }
 }
 
+.side-nav {
+  li {
+    padding-left: 0.5rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+
+  i {
+    width: 3rem;
+    font-size: 1.5rem;
+    color: $sm-dark-blue-green;
+    text-align: center;
+    height: auto;
+    padding-right: 1rem;
+  }
+}
+
 .nav-wrapper {
   i { margin-left: 0.75rem; }
 }
