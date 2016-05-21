@@ -12,18 +12,28 @@ var Recipes = React.createClass({
     },
 
     getSuggestedRecipes: function() {
+        this.toggleLoading();
         $.getJSON(this.props.modal.queryUrl + this.props.modal.category, function(response) {
-            this.setState({
-                suggestedRecipes: response.matches
-            }, function() {
-                $(document).ready(function() {
-                    $('.carousel').carousel({
-                        height: 300,
-                        full_width: true,
-                        time_constant: 100
+            this.setState(
+                React.addons.update(
+                    this.state,
+                    {
+                        suggestedRecipes: { $set: response.matches },
+                        modal: {
+                            loading: { $set: false }
+                        }
+                    }
+                ),
+                function() {
+                    $(document).ready(function() {
+                        $('.carousel').carousel({
+                            height: 300,
+                            full_width: true,
+                            time_constant: 100
+                        });
                     });
-                });
-            });
+                }
+            );
         }.bind(this));
     },
 
