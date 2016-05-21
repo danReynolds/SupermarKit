@@ -25,6 +25,16 @@
 
     &.dark {
       .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        i {
+          font-size: 2rem;
+          padding-right: 1.5rem;
+          color: $sm-white;
+        }
+
         h3 {
           color: $sm-white;
         }

@@ -162,6 +162,7 @@ var Location = React.createClass({
                 <div className='card-content full-width dark'>
                     <div className='card-header'>
                         <h3>Shopping Location</h3>
+                        <i className='fa fa-map-marker'/>
                     </div>
                     <input
                         ref='search'

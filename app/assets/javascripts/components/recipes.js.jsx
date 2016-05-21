@@ -164,9 +164,8 @@ var Recipes = React.createClass({
     renderHeader: function() {
         return (
             <div className='card-header'>
-                <h3>
-                    {this.state.modal.selection.length ? this.props.yourRecipeHeader : this.props.suggestedReciperHeader}
-                </h3>
+                <h3>{this.state.modal.selection.length ? this.props.yourRecipeHeader : this.props.suggestedReciperHeader}</h3>
+                <i className='fa fa-bookmark-o'/>
             </div>
         );
     },
