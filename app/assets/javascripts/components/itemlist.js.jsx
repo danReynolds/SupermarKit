@@ -354,6 +354,7 @@ var ItemList = React.createClass({
                     <div className='card-content full-width dark'>
                         <div className='card-header'>
                             <h3>Groceries for {this.props.grocery.name}</h3>
+                            <i className='fa fa-shopping-cart'/>
                         </div>
                         {content}
                         {pagination}
