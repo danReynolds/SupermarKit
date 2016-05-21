@@ -12,10 +12,6 @@ var Recipes = React.createClass({
     },
 
     getSuggestedRecipes: function() {
-
-    },
-
-    componentDidMount: function() {
         $.getJSON(this.props.modal.queryUrl + this.props.modal.category, function(response) {
             this.setState({
                 suggestedRecipes: response.matches
@@ -29,6 +25,12 @@ var Recipes = React.createClass({
                 });
             });
         }.bind(this));
+    },
+
+    componentDidMount: function() {
+        if (!this.state.modal.selection.length) {
+            this.getSuggestedRecipes();
+        }
     },
 
     componentDidUpdate: function(prevProps, prevState) {
