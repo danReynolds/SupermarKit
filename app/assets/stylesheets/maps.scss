@@ -1,5 +1,5 @@
-#map-canvas {
-  height: 300px;
+#map {
+  height: 15rem;
   width: 100%;
 }
 
@@ -14,21 +14,13 @@
 }
 
 #pac-input {
-  background-color: $sm-white;
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 12px;
-  padding: 0 11px 0 13px;
+  background: $sm-white;
+  padding: 2px;
   text-overflow: ellipsis;
-  width: 75%;
+  text-indent: 0.5rem;
+  width: 90%;
+  top: 1rem !important;
+  left: 4% !important;
 
   &:focus { border-color: #4d90fe; }
-}
-
-#type-selector {
-  background-color: #4d90fe;
-  color: $sm-white;
-  padding: 5px 11px 0px 11px;
-
-  label { font-size: 13px; }
 }

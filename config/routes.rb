@@ -35,8 +35,8 @@ Rails.application.routes.draw do
           patch :do_checkout
           patch :update_items
           patch :update_recipes
+          patch :update_store
           post :email_group
-          post :set_store
         end
       end
       member do
