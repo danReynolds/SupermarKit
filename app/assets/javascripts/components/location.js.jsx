@@ -159,30 +159,30 @@ var Location = React.createClass({
     render: function() {
         return (
             <div className='card location'>
-            <div className='card-content full-width dark'>
-            <div className='card-header'>
-            <h3>Shopping Location</h3>
-            </div>
-            <input
-            ref='search'
-            id='pac-input'
-            className='controls'
-            type='text'
-            placeholder='Search Box'/>
-            <div id='map'></div>
-            <div className='card-action wide'>
-            <a
-            onClick={this.saveLocation}
-            className='waves-effect waves-light btn'>
-            Set location
-            </a>
-            <a
-            onClick={this.getDirections}
-            className='waves-effect waves-light btn'>
-            Directions
-            </a>
-            </div>
-            </div>
+                <div className='card-content full-width dark'>
+                    <div className='card-header'>
+                        <h3>Shopping Location</h3>
+                    </div>
+                    <input
+                        ref='search'
+                        id='pac-input'
+                        className='controls'
+                        type='text'
+                        placeholder='Search Box'/>
+                    <div id='map'></div>
+                    <div className='card-action wide'>
+                        <a
+                            onClick={this.saveLocation}
+                            className='waves-effect waves-light btn'>
+                            Set location
+                            </a>
+                        <a
+                            onClick={this.getDirections}
+                            className='waves-effect waves-light btn'>
+                            Directions
+                            </a>
+                    </div>
+                </div>
             </div>
         );
     }
