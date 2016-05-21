@@ -24,10 +24,6 @@ describe UserGroupsController, type: :controller do
         expect { subject }.to change(UserGroup, :count).by(1)
       end
 
-      it 'redirects to the new group' do
-        expect(subject).to redirect_to UserGroup.last
-      end
-
       it 'adds specified and current user to group' do
         subject
         expect(new_group.users).to contain_exactly(group_member, controller.current_user)
