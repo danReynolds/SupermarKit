@@ -13,7 +13,7 @@ class UserGroup < ActiveRecord::Base
   PUBLIC = 'public'.freeze
   PRIVATE = 'private'.freeze
   PRIVACY = [PUBLIC, PRIVATE]
-  BANNER_IMAGES = ['default', 'default1', 'default2', 'default3'].freeze
+  BANNER_IMAGES = ['default1', 'default2', 'default3'].freeze
 
   def self.public
     UserGroup.where(privacy: PUBLIC)
