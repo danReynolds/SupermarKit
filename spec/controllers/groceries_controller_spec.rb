@@ -314,9 +314,20 @@ describe GroceriesController, type: :controller do
     end
   end
 
-  describe 'POST set_store' do
-    let(:subject) { post :set_store, id: grocery.id, grocery_store: params }
-    let(:params) { attributes_for(:grocery_store) }
+  describe 'PATCH update_store' do
+    let(:store) { create(:grocery_store) }
+    let(:subject) {
+      patch :update_store,
+      params
+    }
+    let(:params) {
+      {
+        id: grocery.id,
+        grocery: {
+          store: attributes_for(:grocery_store)
+        }
+      }
+    }
 
     context 'when valid params' do
       it 'should finish successfully' do
@@ -324,8 +335,7 @@ describe GroceriesController, type: :controller do
       end
 
       context 'with an existing store' do
-        let(:store) { create(:grocery_store) }
-        before(:each) { params[:place_id] = store.place_id }
+        before(:each) { params[:grocery][:store][:place_id] = store.place_id }
 
         it 'should assign the store to the grocery list' do
           subject
@@ -344,15 +354,27 @@ describe GroceriesController, type: :controller do
 
         it 'should assign the new store to the grocery list' do
           subject
-          grocery_store = GroceryStore.find_by_place_id(params[:place_id])
+          grocery_store = GroceryStore.find_by_place_id(params[:grocery][:store][:place_id])
           expect(grocery.reload.grocery_store).to eq grocery_store
+        end
+      end
+
+      context 'without a store' do
+        it 'should clear the grocery store' do
+          params[:grocery][:store] = nil
+          grocery.grocery_store = store
+          grocery.save
+
+          expect(grocery.grocery_store).to eq store
+          subject
+          expect(grocery.reload.grocery_store).to eq nil
         end
       end
     end
 
     context 'when invalid params' do
       it 'should render an error' do
-        params[:place_id] = nil
+        params[:grocery][:store][:place_id] = nil
         expect(subject).to have_http_status(:internal_server_error)
       end
     end
