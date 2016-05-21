@@ -10,7 +10,8 @@ class GroceriesController < ApplicationController
       checkout_url: checkout_grocery_path(@grocery),
       itemList: itemlist_params,
       emailer: emailer_params,
-      recipes: recipes_params
+      recipes: recipes_params,
+      location: location_params
     }
   end
 
@@ -115,18 +116,19 @@ class GroceriesController < ApplicationController
     render json: JSON.parse(res)
   end
 
-  def set_store
-    @grocery_store = GroceryStore
-      .create_with(grocery_store_params)
-      .find_or_create_by(place_id: params[:grocery_store][:place_id])
+  def update_store
+    if params[:grocery][:store]
+      @grocery.grocery_store = GroceryStore.create_with(grocery_store_params[:store])
+        .find_or_create_by(place_id: grocery_store_params[:store][:place_id])
 
-    @grocery.grocery_store = @grocery_store
-
-    if @grocery_store.valid? && @grocery.save
-      render nothing: true, status: :ok
+      unless @grocery.grocery_store.valid? && @grocery.save
+        return head :internal_server_error
+      end
     else
-      render nothing: true, status: :internal_server_error
+      @grocery.update_attribute(:grocery_store, nil)
     end
+
+    head :ok
   end
 
 private
@@ -190,6 +192,13 @@ private
           ]
         }
       }
+    }
+  end
+
+  def location_params
+    {
+      url: update_store_grocery_path(@grocery),
+      place_id: @grocery.grocery_store.try(:place_id)
     }
   end
 
@@ -292,6 +301,13 @@ private
   end
 
   def grocery_store_params
-    params.require(:grocery_store).permit(:name, :lat, :lng, :place_id)
+    params.require(:grocery).permit({
+      store: [
+        :name,
+        :lat,
+        :lng,
+        :place_id
+      ]
+    })
   end
 end
