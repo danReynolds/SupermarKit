@@ -42,10 +42,11 @@ SITE
 DEPENDENCIES
   apt (>= 0)
   build-essential (>= 0)
-  mysql (= 5.5.3)
+  mysql (>= 0)
+  nodejs (>= 0)
   nodejs (>= 0)
   ruby_build (>= 0)
-  rvm (~> 0.9.4)
-  system (~> 0.10.1)
+  rvm (>= 0)
+  system (>= 0)
   vim (>= 0)
 
