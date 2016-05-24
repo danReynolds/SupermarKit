@@ -14,17 +14,11 @@ To run the app, you can do so natively or use vagrant. The following steps are f
 Note: the vagrant version on Ubuntu 14.04 was too old for me using the official repositories, so if that one doesn't work, it can be downloaded from the vagrant site.
 
 ```
+cd supermarkit
 sudo apt-get install virtualbox vagrant
-vagrant plugin install vagrant-librarian-chef-nochef vagrant-vbguest
+vagrant plugin install vagrant-librarian-chef-nochef vagrant-vbguest vagrant-omnibus
 vagrant up
-vagrant ssh
-cd /vagrant
 ```
-
-Then to run the app, start the server on the forwarded port 4000:
-
-```
-rails server -p 4000 -b 0.0.0.0
-```
+And visit localhost:4000 in your browser.
 
 Happy developing!
