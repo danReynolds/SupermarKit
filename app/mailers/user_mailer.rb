@@ -16,6 +16,9 @@ class UserMailer < ActionMailer::Base
   def send_grocery_list_email(user, grocery, message = nil)
     @user = user
     @grocery = grocery
+    @valid_recipes = @grocery.recipes.includes(:items).select do |recipe|
+      (recipe.items & @grocery.items).length.nonzero?
+    end
     @message = message
     mail(to: format_recipient(@user), subject: "Groceries For #{@grocery.name}")
   end

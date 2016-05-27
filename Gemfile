@@ -16,6 +16,7 @@ gem 'coveralls', require: false
 gem 'dotenv-rails'
 gem 'haml-rails'
 gem 'inline_svg'
+gem 'premailer-rails'
 gem 'font-awesome-sass', '~> 4.5.0'
 gem 'happy_path'
 gem 'jbuilder', '~> 2.0'
