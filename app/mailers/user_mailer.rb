@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: 'folks@supermarkit.io'
+  default from: 'team@supermarkit.io'
 
   def activation_needed_email(user)
     @user = user
