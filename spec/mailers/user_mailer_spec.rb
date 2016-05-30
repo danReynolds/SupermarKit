@@ -9,7 +9,7 @@ RSpec.describe UserMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq('Join SupermarKit')
       expect(mail.to).to eq(["#{user.email}"])
-      expect(mail.from).to eq(['folks@supermarkit.io'])
+      expect(mail.from).to eq(['team@supermarkit.io'])
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe UserMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq('Shop with SupermarKit')
       expect(mail.to).to eq(["#{user.email}"])
-      expect(mail.from).to eq(['folks@supermarkit.io'])
+      expect(mail.from).to eq(['team@supermarkit.io'])
     end
   end
 
@@ -30,7 +30,7 @@ RSpec.describe UserMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq("Groceries For #{grocery.name}")
       expect(mail.to).to eq(["#{user.email}"])
-      expect(mail.from).to eq(['folks@supermarkit.io'])
+      expect(mail.from).to eq(['team@supermarkit.io'])
     end
   end
 end
