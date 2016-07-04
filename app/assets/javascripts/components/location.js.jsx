@@ -169,7 +169,7 @@ var Location = React.createClass({
                         id='pac-input'
                         className='controls'
                         type='text'
-                        placeholder='Search Box'/>
+                        placeholder='Search for shopping location'/>
                     <div id='map'></div>
                     <div className='card-action wide'>
                         <a
