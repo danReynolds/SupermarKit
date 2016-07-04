@@ -1,5 +1,6 @@
 var Dashboard = React.createClass({
     propTypes: {
+        manage_url: React.PropTypes.string.isRequired,
         checkout_url: React.PropTypes.string.isRequired,
         itemList: React.PropTypes.object.isRequired,
         emailer: React.PropTypes.object.isRequired,
@@ -34,6 +35,12 @@ var Dashboard = React.createClass({
                                 <i className='large material-icons'>mode_edit</i>
                             </a>
                             <ul>
+                                <li>
+                                    <a className='btn-floating' href={this.props.manage_url}>
+                                        <i className='fa fa-users'/>
+                                    </a>
+                                    <div className='btn-label'>Manage Kit</div>
+                                </li>
                                 <li>
                                     <a className='btn-floating' href={this.props.checkout_url}>
                                         <i className='fa fa-shopping-basket'/>
