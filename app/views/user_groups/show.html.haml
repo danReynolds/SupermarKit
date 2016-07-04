@@ -1,15 +1,18 @@
-:coffee
-  @active_grocery_id = #{ @active_grocery.try(:id) }
-  @user_group_id = #{ @user_group.id }
-
 .container.user-groups-show
+  %h1 Manage #{@user_group.name}
   .row
-    .columns.large-12
-      %h1 Manage #{@user_group.name}
-      .row
-        .columns.large-6
-          = render partial: 'user_groups/widgets/user_groups_table'
-        .columns.large-6
-          = render partial: 'user_groups/widgets/groceries_table'
-          - if @user_group.finished_groceries.count.nonzero?
-            = render partial: 'user_groups/widgets/metrics_link'
+    .col.l6
+      .card.full
+        .card-content
+          %h3 Kit members
+          %ul
+            - @users.each_with_index do |user, i|
+              %li.user-content
+                .valign-wrapper
+                  = image_tag user[:gravatar_url]
+                  %p.name= user[:name]
+                %div{ class: "balance-wrapper #{user[:class]}" }
+                  = label "balance-section-#{i}", 'Kit Balance'
+                  .balance-section
+                    %i.material-icons= user[:icon]
+                    .balance= user[:balance].to_money.format
