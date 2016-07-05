@@ -1,5 +1,7 @@
-class UserPayment < Payment
-  belongs_to :user
+class UserPayment < ActiveRecord::Base
   belongs_to :user_group
-  validates_uniqueness_of :user_group_id, scope: :user_id
+  has_one :payee, class_name: User
+  has_one :payer, class_name: User
+  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  monetize :price_cents
 end

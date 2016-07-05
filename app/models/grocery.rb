@@ -1,6 +1,6 @@
 class Grocery < ActiveRecord::Base
   has_many :groceries_items, class_name: GroceriesItems
-  has_many :grocery_payments
+  has_many :payments, class_name: GroceryPayment
   has_many :items, through: :groceries_items
   has_and_belongs_to_many :recipes
   belongs_to :user_group
