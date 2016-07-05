@@ -44,7 +44,6 @@ RSpec.describe UserGroupsUsers, type: :model do
           context 'with full repayment' do
             it 'should have users at a zero balance' do
               UserPayment.create(user_group: grocery.user_group, payer: other_user, payee: user, price: 1)
-              binding.pry
               UserPayment.create(user_group: grocery.user_group, payer: other_user, payee: user, price: 1)
 
               grocery.user_group.user_groups_users.each do |user_group_user|
