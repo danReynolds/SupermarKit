@@ -7,13 +7,17 @@ class UserGroupsController < ApplicationController
   end
 
   def show
-    @users = @user_group.user_groups_users.map do |user_group_user|
-      user = user_group_user.user
-      {
-        gravatar_url: user.gravatar_url,
-        name: user.name
-      }.merge!(balance_params(user_group_user.balance.to_f))
-    end
+    @management_data = {
+      users: @user_group.user_groups_users.map do |user_group_user|
+        user = user_group_user.user
+        {
+          id: user.id,
+          image: user.gravatar_url,
+          name: user.name,
+          balance: user_group_user.balance.to_f
+        }
+      end
+    }
   end
 
   def new
@@ -76,21 +80,6 @@ class UserGroupsController < ApplicationController
 private
   def user_group_params
     params.require(:user_group).permit(:name, :description, :privacy, :banner)
-  end
-
-  def balance_params(balance)
-    bal = { balance: balance.abs }
-    if balance === 0
-      bal[:icon] = 'trending_flat'
-      bal[:class] = 'zero'
-    elsif balance < 0
-      bal[:icon] = 'call_made'
-      bal[:class] = 'positive'
-    else
-      bal[:class] = 'negative'
-      bal[:icon] = 'call_received'
-    end
-    bal
   end
 
   def user_data

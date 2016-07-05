@@ -2,17 +2,4 @@
   %h1 Manage #{@user_group.name}
   .row
     .col.l6
-      .card.full
-        .card-content
-          %h3 Kit members
-          %ul
-            - @users.each_with_index do |user, i|
-              %li.user-content
-                .valign-wrapper
-                  = image_tag user[:gravatar_url]
-                  %p.name= user[:name]
-                %div{ class: "balance-wrapper #{user[:class]}" }
-                  = label "balance-section-#{i}", 'Kit Balance'
-                  .balance-section
-                    %i.material-icons= user[:icon]
-                    .balance= user[:balance].to_money.format
+      = react_component 'UserManagement', @management_data

@@ -1,4 +1,6 @@
 var Checkout = React.createClass({
+    mixins: [BalanceCalculator],
+
     propTypes: {
         users: React.PropTypes.array.isRequired,
         estimated_total: React.PropTypes.number.isRequired
