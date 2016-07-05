@@ -3,7 +3,7 @@ class UserGroup < ActiveRecord::Base
   has_many :users, through: :user_groups_users
   has_many :items, -> { uniq }, through: :groceries
   has_many :groceries
-  has_many :user_payments
+  has_many :payments, class_name: UserPayment
   has_many :user_defaults, class_name: 'User', foreign_key: :user_group_default_id
   has_attached_file :banner, styles: { large: '800x600>', standard: '600x450>' }, default_url: 'user_groups/default2.jpg'
 
