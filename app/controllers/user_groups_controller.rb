@@ -79,11 +79,11 @@ private
   end
 
   def balance_params(balance)
-    bal = { balance: balance }
+    bal = { balance: balance.abs }
     if balance === 0
       bal[:icon] = 'trending_flat'
       bal[:class] = 'zero'
-    elsif balance > 0
+    elsif balance < 0
       bal[:icon] = 'call_made'
       bal[:class] = 'positive'
     else
