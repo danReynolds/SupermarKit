@@ -1,23 +1,15 @@
 var ItemList = React.createClass({
-    mixins: [ModalContainer],
+    mixins: [ModalContainer, Pagination],
     propTypes: {
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
         items: React.PropTypes.object.isRequired,
-        pageSize: React.PropTypes.number,
         recipeLength: React.PropTypes.number
-    },
-
-    getDefaultProps: function() {
-        return {
-            pageSize: 4
-        };
     },
 
     getInitialState: function() {
         return {
             users: this.props.users,
-            pageNumber: 0,
             total: 0
         };
     },
@@ -107,6 +99,8 @@ var ItemList = React.createClass({
             }
         );
         this.saveSelection(updatedModal.selection);
+
+        // Timeout is used for transition sliding animation on removal
         setTimeout(function() {
             this.setState({
                 total: this.state.total - this.totalPrice(item),
@@ -121,30 +115,6 @@ var ItemList = React.createClass({
         this.pageChange(0);
         this.toggleModal();
         this.saveSelection(this.state.modal.selection, this.reloadItems);
-    },
-
-    handlePageChange: function(e) {
-        this.pageChange(parseInt(e.target.getAttribute('data-index')));
-    },
-
-    pageChange: function(index) {
-        this.setState({pageNumber: index});
-    },
-
-    lastPage: function() {
-        return Math.floor((this.state.modal.selection.length - 1) / this.props.pageSize);
-    },
-
-    incrementPage: function() {
-        this.pageChange(
-            this.state.pageNumber === this.lastPage() ? 0 : this.state.pageNumber + 1
-        );
-    },
-
-    decrementPage: function() {
-        this.pageChange(
-            this.state.pageNumber === 0 ? this.lastPage() : this.state.pageNumber - 1
-        );
     },
 
     totalPrice: function(item) {
@@ -214,6 +184,10 @@ var ItemList = React.createClass({
         } else if (this.state.modal.loading !== prevState.modal.loading && this.state.modal.selection.length) {
             Materialize.initializeDismissable();
             $('.collapsible').collapsible({ accordion: false });
+        }
+
+        if (prevState.modal.selection.length != this.state.modal.selection.length) {
+            this.updatePaginationTotal(this.state.modal.selection.length);
         }
     },
 
@@ -305,40 +279,6 @@ var ItemList = React.createClass({
                    <i className='fa fa-shopping-basket'/>
                    <h3>Your grocery list is empty.</h3>
                </div>;
-    },
-
-    renderPagination: function() {
-        var pages = [];
-        var pageLength = this.lastPage();
-        for (var pageNumber = 0; pageNumber <= pageLength; pageNumber++) {
-            pages.push(
-                <li
-                    key={pageNumber}
-                    className={this.state.pageNumber == pageNumber ? "active" : ""}>
-                    <a
-                        data-index={pageNumber}
-                        onClick={this.handlePageChange}
-                        href="#!">
-                        {pageNumber + 1}
-                    </a>
-                </li>
-            );
-        }
-        return (
-            <ul className='pagination'>
-                <li>
-                    <a href="#!" onClick={this.decrementPage}>
-                        <i className="material-icons">chevron_left</i>
-                    </a>
-                </li>
-                {pages}
-                <li>
-                    <a href="#!" onClick={this.incrementPage}>
-                        <i className="material-icons">chevron_right</i>
-                    </a>
-                </li>
-            </ul>
-        );
     },
 
     render: function() {
