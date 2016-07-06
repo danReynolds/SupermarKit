@@ -4,6 +4,7 @@ class SeparateGroceryPayments < ActiveRecord::Migration
       t.integer :grocery_id
       t.integer :user_id
       t.integer :price_cents
+      t.timestamps
     end
 
     add_index :grocery_payments, [:user_id, :grocery_id], unique: true
@@ -19,7 +20,7 @@ class SeparateGroceryPayments < ActiveRecord::Migration
     add_reference :user_payments, :user_group, index: true
 
     Payment.all.each do |payment|
-      GroceryPayment.create(
+      GroceryPayment.create!(
         grocery_id: payment.grocery_id,
         user_id: payment.user_id,
         price_cents: payment.price_cents
