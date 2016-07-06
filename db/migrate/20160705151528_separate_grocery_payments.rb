@@ -19,14 +19,6 @@ class SeparateGroceryPayments < ActiveRecord::Migration
     add_reference :user_payments, :payee, index: true
     add_reference :user_payments, :user_group, index: true
 
-    Payment.all.each do |payment|
-      GroceryPayment.create!(
-        grocery_id: payment.grocery_id,
-        user_id: payment.user_id,
-        price_cents: payment.price_cents
-      )
-    end
-
     drop_table :payments
   end
 
