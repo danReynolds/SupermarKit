@@ -219,7 +219,7 @@ var ItemList = React.createClass({
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
                         </p>
                         <div className='price'>
-                            ${data.item.price * data.item.quantity}
+                            ${(data.item.price * data.item.quantity).toFixed(2)}
                         </div>
                     </div>
                     <div  className='collapsible-body'>
@@ -267,7 +267,7 @@ var ItemList = React.createClass({
                     <span>
                         Estimated Total:
                         <span className="price">
-                            ${this.state.total}
+                            ${this.state.total.toFixed(2)}
                         </span>
                     </span>
                 </div>
