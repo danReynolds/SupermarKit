@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705183605) do
+ActiveRecord::Schema.define(version: 20160706152802) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 20160705183605) do
     t.integer  "payer_id",      limit: 4
     t.integer  "payee_id",      limit: 4
     t.integer  "user_group_id", limit: 4
+    t.string   "reason",        limit: 255
   end
 
   add_index "user_payments", ["payee_id"], name: "index_user_payments_on_payee_id", using: :btree

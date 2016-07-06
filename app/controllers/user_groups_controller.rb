@@ -85,7 +85,7 @@ class UserGroupsController < ApplicationController
 
 private
   def user_group_params
-    params.require(:user_group).permit(:payee_id, :price, :name, :description, :privacy, :banner)
+    params.require(:user_group).permit(:reason, :payee_id, :price, :name, :description, :privacy, :banner)
   end
 
   def user_payment_data

@@ -11,6 +11,7 @@ var UserManagement = React.createClass({
         return {
             payeeIndex: 0,
             paymentAmount: 0,
+            paymentReason: '',
             users: this.props.users
         }
     },
@@ -20,7 +21,8 @@ var UserManagement = React.createClass({
             complete: function() {
                 this.setState({
                     paymentAmount: 0,
-                    payeeIndex: 0
+                    payeeIndex: 0,
+                    paymentReason: ''
                 });
             }.bind(this)
         });
@@ -50,6 +52,10 @@ var UserManagement = React.createClass({
         this.setState({paymentAmount: parseFloat(e.target.value ? e.target.value : 0)});
     },
 
+    handleReason: function(e) {
+        this.setState({paymentReason: e.target.value});
+    },
+
     handleSubmit: function() {
         $.ajax({
             method: 'PATCH',
@@ -57,6 +63,7 @@ var UserManagement = React.createClass({
             contentType: 'application/json',
             data: JSON.stringify({
                 user_group: {
+                    reason: this.state.paymentReason,
                     price: this.state.paymentAmount,
                     payee_id: this.state.users[this.state.payeeIndex].id
                 }
@@ -102,6 +109,16 @@ var UserManagement = React.createClass({
                                     onChange={this.handlePayment}
                                     id='payment'
                                     type='number'/>
+                                <label
+                                    htmlFor='reason'>
+                                    Reason
+                                </label>
+                                <input
+                                    id='reason'
+                                    value={this.state.paymentReason}
+                                    onChange={this.handleReason}
+                                    className='input-field'/>
+
                             </div>
                             <div className='col l6'>
                                 <li className='user-item'>
