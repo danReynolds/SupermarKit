@@ -169,11 +169,11 @@ var ItemList = React.createClass({
     },
 
     componentDidMount: function() {
-        var self = this;
+        var _this = this;
         $(document).ready(function() {
-            self.reloadItems();
+            _this.reloadItems();
             $('.item-list').on('removeItem', '.dismissable', function(e) {
-                self.handleRemove(e);
+                _this.handleRemove(e);
             });
         });
     },
