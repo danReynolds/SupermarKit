@@ -100,4 +100,27 @@ describe UserGroupsController, type: :controller do
       expect(user_group_user.reload.state).to eq(UserGroupsUsers::ACCEPTED)
     end
   end
+
+  describe 'PATCH do_payment' do
+    let(:payee) { create(:user) }
+    let(:group) { create(:user_group, users: [payee, controller.current_user]) }
+    let(:subject) { patch :do_payment, id: group.id, user_group: payment_params }
+    let(:payment_params) {
+      {
+        reason: 'This is a reason',
+        price: 4,
+        payee_id: payee.id
+      }
+    }
+
+    it 'should create the payment with the correct values and users' do
+      expect { subject }.to change(UserPayment, :count).by 1
+      payment = UserPayment.last
+      expect(payment.payer).to eq controller.current_user
+      expect(payment.payee).to eq payee
+      expect(payment.user_group).to eq group
+      expect(payment.price).to eq payment_params[:price].to_money
+      expect(payment.reason).to eq payment_params[:reason]
+    end
+  end
 end
