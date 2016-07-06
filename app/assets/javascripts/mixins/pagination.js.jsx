@@ -16,6 +16,10 @@ var Pagination = {
         };
     },
 
+    itemsForPage: function(items) {
+        return items.splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
+    },
+
     handlePageChange: function(e) {
         this.pageChange(parseInt(e.target.getAttribute('data-index')));
     },

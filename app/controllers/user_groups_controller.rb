@@ -8,20 +8,14 @@ class UserGroupsController < ApplicationController
 
   def show
     @management_data = {
-      users: @user_group.user_groups_users.map do |user_group_user|
-        user = user_group_user.user
-        {
-          id: user.id,
-          image: user.gravatar_url,
-          name: user.name,
-          balance: user_group_user.balance.to_f
-        }
-      end
+      modal: '#pay-modal',
+      url: do_payment_user_group_path(@user_group),
+      users: user_payment_data
     }
   end
 
   def new
-    @user_data = user_data
+    @kit_data = kit_data
     @banner_image = UserGroup::BANNER_IMAGES.sample
   end
 
@@ -35,14 +29,14 @@ class UserGroupsController < ApplicationController
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to new_user_group_grocery_path(@user_group)
     else
-      @user_data = user_data
+      @kit_data = kit_data
       @banner_image = UserGroup::BANNER_IMAGES.sample
       render :new
     end
   end
 
   def edit
-    @user_data = user_data
+    @kit_data = kit_data
   end
 
   def update
@@ -77,12 +71,38 @@ class UserGroupsController < ApplicationController
     end
   end
 
-private
-  def user_group_params
-    params.require(:user_group).permit(:name, :description, :privacy, :banner)
+  def do_payment
+    UserPayment.create!(
+      user_group_params.merge!({
+        payer_id: current_user.id,
+        user_group_id: @user_group.id
+      })
+    )
+    render json: {
+      data: user_payment_data
+    }
   end
 
-  def user_data
+private
+  def user_group_params
+    params.require(:user_group).permit(:payee_id, :price, :name, :description, :privacy, :banner)
+  end
+
+  def user_payment_data
+    @user_group.user_groups_users.partition do |user_group_user|
+      user_group_user.user == current_user
+    end.flatten.map do |user_group_user|
+      user = user_group_user.user
+      {
+        id: user.id,
+        image: user.gravatar_url,
+        name: user.name,
+        balance: user_group_user.balance.to_f
+      }
+    end
+  end
+
+  def kit_data
       {
         title: 'Kit members',
         buttonText: 'Modify',

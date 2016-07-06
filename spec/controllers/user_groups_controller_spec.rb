@@ -85,7 +85,7 @@ describe UserGroupsController, type: :controller do
     end
   end
 
-  describe 'POST accept_invitation' do
+  describe 'PATCH accept_invitation' do
     it 'should accept the invitation and change UserGroupUser state' do
       user = create(:user)
       user2 = controller.current_user
@@ -96,7 +96,7 @@ describe UserGroupsController, type: :controller do
       user_group_user = user_group.user_groups_users.find_by_user_id(user2.id)
 
       expect(user_group_user.state).to eq(UserGroupsUsers::INVITED)
-      post :accept_invitation, id: user_group.id
+      patch :accept_invitation, id: user_group.id
       expect(user_group_user.reload.state).to eq(UserGroupsUsers::ACCEPTED)
     end
   end

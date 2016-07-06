@@ -1,7 +1,9 @@
 var UserItem = React.createClass({
-    mixins: [BalanceCalculator],
 
     propTypes: {
+        index: React.PropTypes.number.isRequired,
+        modalTrigger: React.PropTypes.func.isRequired,
+        payable: React.PropTypes.bool.isRequired,
         user: React.PropTypes.shape({
             id: React.PropTypes.number.isRequired,
             image: React.PropTypes.string.isRequired,
@@ -10,23 +12,26 @@ var UserItem = React.createClass({
         })
     },
 
+    handleClick: function(e) {
+        this.props.modalTrigger(parseInt(e.target.getAttribute('data-index')));
+    },
+
     render: function() {
-        var balance = this.balanceResult(this.props.user.balance);
+        if (this.props.index) {
+            var payContent = (
+                <a
+                    data-index={this.props.index}
+                    onClick={this.handleClick}
+                    href='#!'>
+                    Pay
+                </a>
+            );
+        }
 
         return (
-            <li className='user-content'
-                data-index={this.props.user.id}>
-                <div className='valign-wrapper'>
-                    <img src={this.props.user.image}/>
-                    <p className='name'>{this.props.user.name}</p>
-                </div>
-                <div className={'balance-wrapper ' + balance.class}>
-                    <label className='balance-label' htmlFor={'balance-section' + this.props.user.id}>Kit balance</label>
-                    <div className='balance-section' id={'balance-section-' + this.props.user.id}>
-                        <i className='material-icons'>{balance.icon}</i>
-                        <div className='balance'>${Math.abs(this.props.user.balance)}</div>
-                    </div>
-                </div>
+            <li className='user-item'>
+                <UserItemContent user={this.props.user}/>
+                {payContent}
             </li>
         );
     }

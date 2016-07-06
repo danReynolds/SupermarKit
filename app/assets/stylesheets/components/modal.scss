@@ -18,6 +18,12 @@
   .modal-content {
     padding: 0;
   }
+
+  .modal-footer {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+  }
 }
 
 .modal-reveal {
