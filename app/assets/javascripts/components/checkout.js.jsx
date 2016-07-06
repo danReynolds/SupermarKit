@@ -1,6 +1,4 @@
 var Checkout = React.createClass({
-    mixins: [BalanceCalculator],
-
     propTypes: {
         users: React.PropTypes.array.isRequired,
         estimated_total: React.PropTypes.number.isRequired
@@ -97,40 +95,12 @@ var Checkout = React.createClass({
             var userPayment = 'user-' + user.id + '-payment',
                 userContribution = 'user-' + user.id + '-contribution';
 
-            var balance;
-            if (user.balance === 0) {
-                balance = {
-                    icon: 'trending_flat',
-                    class: 'zero'
-                }
-            } else if (user.balance < 0) {
-                balance = {
-                    icon: 'call_made',
-                    class: 'positive'
-                }
-            } else {
-                balance = {
-                    icon: 'call_received',
-                    class: 'negative'
-                }
-            }
-
             return (
                 <li
-                    className='user-content'
+                    className='user-item'
                     key={index}
                     data-index={index}>
-                    <div className='valign-wrapper'>
-                        <img src={user.image}/>
-                        <p className='name'>{user.name}</p>
-                    </div>
-                    <div className={'balance-wrapper ' + balance.class}>
-                        <label className='balance-label' htmlFor={'balance-section' + index}>Kit balance</label>
-                        <div className='balance-section' id={'balance-section-' + index}>
-                            <i className='material-icons'>{balance.icon}</i>
-                            <div className='balance'>${Math.abs(user.balance)}</div>
-                        </div>
-                    </div>
+                    <UserItemContent user={user}/>
                     <div className='input-field'>
                         <label htmlFor={userPayment}>Contribution</label>
                         <input

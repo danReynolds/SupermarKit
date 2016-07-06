@@ -22,13 +22,26 @@ RSpec.describe UserGroupsUsers, type: :model do
       end
 
       context 'with user payments' do
-        before :each do
-          GroceryPayment.create(grocery: grocery, user: user, price: 4)
-          GroceryPayment.create(grocery: grocery, user: other_user, price: 0)
+        it 'should determine the positive and negative balance' do
+          UserPayment.create(user_group: grocery.user_group, payer: user, payee: other_user, price: 2)
+          balances = {}
+          balances[user.id] = -2.to_money
+          balances[other_user.id] = 2.to_money
+
+          grocery.user_group.user_groups_users.each do |user_group_user|
+            expect(user_group_user.balance).to eq balances[user_group_user.user_id]
+          end
         end
 
-        context 'with payer payments' do
+        context 'with pre-existing payments' do
+          before :each do
+            GroceryPayment.create(grocery: grocery, user: user, price: 4)
+            GroceryPayment.create(grocery: grocery, user: other_user, price: 0)
+          end
+
           it 'should have the payer at a more negative balance' do
+            GroceryPayment.create(grocery: grocery, user: user, price: 4)
+            GroceryPayment.create(grocery: grocery, user: other_user, price: 0)
             UserPayment.create(user_group: grocery.user_group, payer: user, payee: other_user, price: 2)
             balances = {}
             balances[user.id] = -4.to_money
@@ -38,59 +51,33 @@ RSpec.describe UserGroupsUsers, type: :model do
               expect(user_group_user.balance).to eq balances[user_group_user.user_id]
             end
           end
-        end
 
-        context 'with payee repayment' do
-          context 'with full repayment' do
-            it 'should have users at a zero balance' do
-              UserPayment.create(user_group: grocery.user_group, payer: other_user, payee: user, price: 1)
-              UserPayment.create(user_group: grocery.user_group, payer: other_user, payee: user, price: 1)
+          context 'without user payments' do
+            context 'with each member contributing' do
+              context 'with equal pay' do
+                it 'should have users at a zero balance' do
+                  GroceryPayment.create(grocery: grocery, user: user, price: 4)
+                  GroceryPayment.create(grocery: grocery, user: other_user, price: 4)
 
-              grocery.user_group.user_groups_users.each do |user_group_user|
-                expect(user_group_user.balance).to eq 0.to_money
+                  grocery.user_group.user_groups_users.each do |user_group_user|
+                    expect(user_group_user.balance).to eq 0.to_money
+                  end
+                end
               end
-            end
-          end
 
-          context 'with ample repayment' do
-            it 'it should have the payee at a negative balance' do
-              UserPayment.create(user_group: grocery.user_group, payer: other_user, payee: user, price: 10)
-              balances = {}
-              balances[user.id] = 8.to_money
-              balances[other_user.id] = -8.to_money
+              context 'with unequal pay' do
+                it 'it should determine positive and negative balance' do
+                  GroceryPayment.create(grocery: grocery, user: user, price: 4)
+                  GroceryPayment.create(grocery: grocery, user: other_user, price: 2)
 
-              grocery.user_group.user_groups_users.each do |user_group_user|
-                expect(user_group_user.balance).to eq balances[user_group_user.user_id]
-              end
-            end
-          end
-        end
-      end
+                  balances = {}
+                  balances[user.id] = -1.to_money
+                  balances[other_user.id] = 1.to_money
 
-      context 'without user payments' do
-        context 'with each member contributing' do
-          context 'with equal pay' do
-            it 'should have users at a zero balance' do
-              GroceryPayment.create(grocery: grocery, user: user, price: 4)
-              GroceryPayment.create(grocery: grocery, user: other_user, price: 4)
-
-              grocery.user_group.user_groups_users.each do |user_group_user|
-                expect(user_group_user.balance).to eq 0.to_money
-              end
-            end
-          end
-
-          context 'with unequal pay' do
-            it 'it should determine positive and negative balance' do
-              GroceryPayment.create(grocery: grocery, user: user, price: 4)
-              GroceryPayment.create(grocery: grocery, user: other_user, price: 2)
-
-              balances = {}
-              balances[user.id] = -1.to_money
-              balances[other_user.id] = 1.to_money
-
-              grocery.user_group.user_groups_users.each do |user_group_user|
-                expect(user_group_user.balance).to eq balances[user_group_user.user_id]
+                  grocery.user_group.user_groups_users.each do |user_group_user|
+                    expect(user_group_user.balance).to eq balances[user_group_user.user_id]
+                  end
+                end
               end
             end
           end

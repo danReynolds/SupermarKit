@@ -10,9 +10,10 @@ class UserGroupsUsers < ActiveRecord::Base
 
   def balance
     query = "
-        SELECT SUM(
+        SELECT IFNULL(
+        SUM(
           (CONTRIBUTIONS_WITH_USER.TOTAL_PAYMENT / CONTRIBUTIONS_WITH_USER.CONTRIBUTOR_COUNT) - CONTRIBUTIONS_WITH_USER.PAYMENT
-        ) - (
+        ), 0) - (
           SELECT IFNULL(SUM(user_payments.price_cents), 0) FROM user_payments
           WHERE user_payments.payer_id = #{user.id}
           AND user_payments.user_group_id = #{user_group.id}

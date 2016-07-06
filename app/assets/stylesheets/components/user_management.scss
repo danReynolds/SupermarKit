@@ -1,0 +1,16 @@
+.user-management {
+  @media #{$mobile} {
+    .modal {
+      top: 0 !important;
+      width: 100%;
+    }
+  }
+
+  .modal-content {
+    margin: 2rem;
+
+    .row {
+      margin-top: 2rem;
+    }
+  }
+}

@@ -24,23 +24,6 @@
     }
   }
 
-  .pagination {
-    margin: 0 auto;
-    display: table;
-    padding: 0.5rem 0;
-    width: initial;
-
-    a { color: $sm-dark-gray !important; }
-    li {
-      margin: 0 2px !important;
-      line-height: 1.8rem;
-      vertical-align: middle;
-
-      &:not(:first-child, :last-child) { height: 1.5rem };
-      &.active { background: $sm-green; }
-    }
-  }
-
   .collection-item {
     padding: 0.3rem 1rem;
     position: relative;

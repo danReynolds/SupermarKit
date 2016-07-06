@@ -192,26 +192,28 @@ var ItemList = React.createClass({
     },
 
     renderItems: function() {
-        var displayItems = this.state.modal.selection.reduce(function(acc, item, index) {
-            var requester = this.state.users.filter(function(user) {
-                return user.id === item.requester;
-            })[0];
+        var displayItems = this.itemsForPage(
+            this.state.modal.selection.reduce(function(acc, item, index) {
+                var requester = this.state.users.filter(function(user) {
+                    return user.id === item.requester;
+                })[0];
 
-            if (requester) {
-                acc.push({item: item, requester: requester});
-            }
-            return acc;
-        }.bind(this), []).splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
+                if (requester) {
+                    acc.push({item: item, requester: requester, index: index});
+                }
+                return acc;
+            }.bind(this), [])
+        );
 
-        var itemContent = displayItems.map(function(data, index) {
-            var quantityId = "quantity-" + index;
-            var priceId = "price-" + index;
+        var itemContent = displayItems.map(function(data) {
+            var quantityId = "quantity-" + data.index;
+            var priceId = "price-" + data.index;
             return (
-                <li key={'item-' + index}
-                    ref={'item-' + index}
-                    data-index={index}
+                <li key={'item-' + data.index}
+                    ref={'item-' + data.index}
+                    data-index={data.index}
                     className='collection-item dismissable'>
-                    <div ref={'collapsible-' + index} className='collapsible-header'>
+                    <div ref={'collapsible-' + data.index} className='collapsible-header'>
                         <img src={data.requester.image} />
                         <p>
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
