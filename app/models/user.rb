@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :email, uniqueness: true, presence: true
 
-  has_many :payments
+  has_many :grocery_payments
+  has_many :user_payments
   has_many :requests, class_name: GroceriesItems, foreign_key: :requester_id
   has_many :user_groups_users, class_name: UserGroupsUsers
   has_many :user_groups, through: :user_groups_users

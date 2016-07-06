@@ -85,7 +85,7 @@ describe UserGroupsController, type: :controller do
     end
   end
 
-  describe 'POST accept_invitation' do
+  describe 'PATCH accept_invitation' do
     it 'should accept the invitation and change UserGroupUser state' do
       user = create(:user)
       user2 = controller.current_user
@@ -96,8 +96,31 @@ describe UserGroupsController, type: :controller do
       user_group_user = user_group.user_groups_users.find_by_user_id(user2.id)
 
       expect(user_group_user.state).to eq(UserGroupsUsers::INVITED)
-      post :accept_invitation, id: user_group.id
+      patch :accept_invitation, id: user_group.id
       expect(user_group_user.reload.state).to eq(UserGroupsUsers::ACCEPTED)
+    end
+  end
+
+  describe 'PATCH do_payment' do
+    let(:payee) { create(:user) }
+    let(:group) { create(:user_group, users: [payee, controller.current_user]) }
+    let(:subject) { patch :do_payment, id: group.id, user_group: payment_params }
+    let(:payment_params) {
+      {
+        reason: 'This is a reason',
+        price: 4,
+        payee_id: payee.id
+      }
+    }
+
+    it 'should create the payment with the correct values and users' do
+      expect { subject }.to change(UserPayment, :count).by 1
+      payment = UserPayment.last
+      expect(payment.payer).to eq controller.current_user
+      expect(payment.payee).to eq payee
+      expect(payment.user_group).to eq group
+      expect(payment.price).to eq payment_params[:price].to_money
+      expect(payment.reason).to eq payment_params[:reason]
     end
   end
 end

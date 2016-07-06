@@ -10,33 +10,42 @@ class UserGroupsUsers < ActiveRecord::Base
 
   def balance
     query = "
-      SELECT SUM(
-        (CONTRIBUTIONS_WITH_USER.TOTAL_PAYMENT / CONTRIBUTIONS_WITH_USER.CONTRIBUTOR_COUNT)  - CONTRIBUTIONS_WITH_USER.PAYMENT
-      )
-      FROM
-      (
-        SELECT
-        TOTAL_PAYMENT,
-        CONTRIBUTOR_COUNT,
-        PAYMENT
-        FROM (
-          SELECT payments.grocery_id AS CONTRIBUTOR_GROCERY,
-          COUNT(payments.grocery_id) as CONTRIBUTOR_COUNT,
-          SUM(payments.price_cents) as TOTAL_PAYMENT
-          FROM payments WHERE payments.grocery_id IN (
-            SELECT DISTINCT groceries.id FROM groceries
-            INNER JOIN payments ON groceries.id = payments.grocery_id
-            AND payments.user_id = #{user.id}
-            WHERE groceries.user_group_id = #{user_group.id}
-          )
-          GROUP BY payments.grocery_id
-        ) CONTRIBUTIONS INNER JOIN
+        SELECT IFNULL(
+        SUM(
+          (CONTRIBUTIONS_WITH_USER.TOTAL_PAYMENT / CONTRIBUTIONS_WITH_USER.CONTRIBUTOR_COUNT) - CONTRIBUTIONS_WITH_USER.PAYMENT
+        ), 0) - (
+          SELECT IFNULL(SUM(user_payments.price_cents), 0) FROM user_payments
+          WHERE user_payments.payer_id = #{user.id}
+          AND user_payments.user_group_id = #{user_group.id}
+        ) + (
+          SELECT IFNULL(SUM(user_payments.price_cents), 0) FROM user_payments
+          WHERE user_payments.payee_id = #{user.id}
+          AND user_payments.user_group_id = #{user_group.id}
+        )
+        FROM
         (
-          SELECT payments.grocery_id AS USER_GROCERY,
-          payments.price_cents AS PAYMENT
-          FROM payments WHERE payments.user_id = #{user.id}
-        ) USER_CONTRIBUTIONS ON CONTRIBUTIONS.CONTRIBUTOR_GROCERY = USER_CONTRIBUTIONS.USER_GROCERY
-      ) CONTRIBUTIONS_WITH_USER
+          SELECT
+          TOTAL_PAYMENT,
+          CONTRIBUTOR_COUNT,
+          PAYMENT
+          FROM (
+            SELECT grocery_payments.grocery_id AS CONTRIBUTOR_GROCERY,
+            COUNT(grocery_payments.grocery_id) as CONTRIBUTOR_COUNT,
+            SUM(grocery_payments.price_cents) as TOTAL_PAYMENT
+            FROM grocery_payments WHERE grocery_payments.grocery_id IN (
+              SELECT DISTINCT groceries.id FROM groceries
+              INNER JOIN grocery_payments ON groceries.id = grocery_payments.grocery_id
+              AND grocery_payments.user_id = #{user.id}
+              WHERE groceries.user_group_id = #{user_group.id}
+            )
+            GROUP BY grocery_payments.grocery_id
+          ) CONTRIBUTIONS INNER JOIN
+          (
+            SELECT grocery_payments.grocery_id AS USER_GROCERY,
+            grocery_payments.price_cents AS PAYMENT
+            FROM grocery_payments WHERE grocery_payments.user_id = #{user.id}
+          ) USER_CONTRIBUTIONS ON CONTRIBUTIONS.CONTRIBUTOR_GROCERY = USER_CONTRIBUTIONS.USER_GROCERY
+        ) CONTRIBUTIONS_WITH_USER
     "
     Money.new(ActiveRecord::Base.connection.execute(query).to_a.first.first)
   end

@@ -92,7 +92,7 @@ class GroceriesController < ApplicationController
 
   def do_checkout
     grocery_payment_params[:payments].each do |payment|
-      Payment.create(payment.merge!({ grocery_id: @grocery.id }))
+      GroceryPayment.create(payment.merge!({ grocery_id: @grocery.id }))
     end
     @grocery.finished_at = DateTime.now
 

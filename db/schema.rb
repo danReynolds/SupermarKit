@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160514215334) do
+ActiveRecord::Schema.define(version: 20160706152802) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -53,6 +53,15 @@ ActiveRecord::Schema.define(version: 20160514215334) do
     t.integer "recipe_id",  limit: 4, null: false
   end
 
+  create_table "grocery_payments", force: :cascade do |t|
+    t.integer "grocery_id",  limit: 4
+    t.integer "user_id",     limit: 4
+    t.integer "price_cents", limit: 4
+  end
+
+  add_index "grocery_payments", ["grocery_id"], name: "index_grocery_payments_on_grocery_id", using: :btree
+  add_index "grocery_payments", ["user_id", "grocery_id"], name: "index_grocery_payments_on_user_id_and_grocery_id", unique: true, using: :btree
+
   create_table "grocery_stores", force: :cascade do |t|
     t.string  "name",     limit: 255
     t.decimal "lat",                  precision: 10, scale: 6
@@ -79,15 +88,6 @@ ActiveRecord::Schema.define(version: 20160514215334) do
     t.integer "item_id",   limit: 4, null: false
     t.integer "recipe_id", limit: 4, null: false
   end
-
-  create_table "payments", force: :cascade do |t|
-    t.integer "grocery_id",  limit: 4
-    t.integer "user_id",     limit: 4
-    t.integer "price_cents", limit: 4, default: 0
-  end
-
-  add_index "payments", ["grocery_id"], name: "index_payments_on_grocery_id", using: :btree
-  add_index "payments", ["user_id", "grocery_id"], name: "index_payments_on_user_id_and_grocery_id", unique: true, using: :btree
 
   create_table "recipes", force: :cascade do |t|
     t.string   "name",          limit: 255
@@ -121,6 +121,20 @@ ActiveRecord::Schema.define(version: 20160514215334) do
 
   add_index "user_groups_users", ["user_group_id"], name: "index_user_groups_users_on_user_group_id", using: :btree
   add_index "user_groups_users", ["user_id", "user_group_id"], name: "index_user_groups_users_on_user_id_and_user_group_id", unique: true, using: :btree
+
+  create_table "user_payments", force: :cascade do |t|
+    t.integer  "price_cents",   limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "payer_id",      limit: 4
+    t.integer  "payee_id",      limit: 4
+    t.integer  "user_group_id", limit: 4
+    t.string   "reason",        limit: 255
+  end
+
+  add_index "user_payments", ["payee_id"], name: "index_user_payments_on_payee_id", using: :btree
+  add_index "user_payments", ["payer_id"], name: "index_user_payments_on_payer_id", using: :btree
+  add_index "user_payments", ["user_group_id"], name: "index_user_payments_on_user_group_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                           limit: 255, null: false
