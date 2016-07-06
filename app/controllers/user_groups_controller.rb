@@ -7,17 +7,15 @@ class UserGroupsController < ApplicationController
   end
 
   def show
-    @users = @user_group.user_groups_users.map do |user_group_user|
-      user = user_group_user.user
-      {
-        gravatar_url: user.gravatar_url,
-        name: user.name
-      }.merge!(balance_params(user_group_user.balance.to_f))
-    end
+    @management_data = {
+      modal: '#pay-modal',
+      url: do_payment_user_group_path(@user_group),
+      users: user_payment_data
+    }
   end
 
   def new
-    @user_data = user_data
+    @kit_data = kit_data
     @banner_image = UserGroup::BANNER_IMAGES.sample
   end
 
@@ -31,14 +29,14 @@ class UserGroupsController < ApplicationController
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to new_user_group_grocery_path(@user_group)
     else
-      @user_data = user_data
+      @kit_data = kit_data
       @banner_image = UserGroup::BANNER_IMAGES.sample
       render :new
     end
   end
 
   def edit
-    @user_data = user_data
+    @kit_data = kit_data
   end
 
   def update
@@ -73,27 +71,38 @@ class UserGroupsController < ApplicationController
     end
   end
 
+  def do_payment
+    UserPayment.create!(
+      user_group_params.merge!({
+        payer_id: current_user.id,
+        user_group_id: @user_group.id
+      })
+    )
+    render json: {
+      data: user_payment_data
+    }
+  end
+
 private
   def user_group_params
-    params.require(:user_group).permit(:name, :description, :privacy, :banner)
+    params.require(:user_group).permit(:reason, :payee_id, :price, :name, :description, :privacy, :banner)
   end
 
-  def balance_params(balance)
-    bal = { balance: balance }
-    if balance === 0
-      bal[:icon] = 'trending_flat'
-      bal[:class] = 'zero'
-    elsif balance > 0
-      bal[:icon] = 'call_made'
-      bal[:class] = 'positive'
-    else
-      bal[:class] = 'negative'
-      bal[:icon] = 'call_received'
+  def user_payment_data
+    @user_group.user_groups_users.partition do |user_group_user|
+      user_group_user.user == current_user
+    end.flatten.map do |user_group_user|
+      user = user_group_user.user
+      {
+        id: user.id,
+        image: user.gravatar_url,
+        name: user.name,
+        balance: user_group_user.balance.to_f
+      }
     end
-    bal
   end
 
-  def user_data
+  def kit_data
       {
         title: 'Kit members',
         buttonText: 'Modify',

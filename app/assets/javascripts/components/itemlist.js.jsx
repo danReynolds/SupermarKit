@@ -1,23 +1,15 @@
 var ItemList = React.createClass({
-    mixins: [ModalContainer],
+    mixins: [ModalContainer, Pagination],
     propTypes: {
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
         items: React.PropTypes.object.isRequired,
-        pageSize: React.PropTypes.number,
         recipeLength: React.PropTypes.number
-    },
-
-    getDefaultProps: function() {
-        return {
-            pageSize: 4
-        };
     },
 
     getInitialState: function() {
         return {
             users: this.props.users,
-            pageNumber: 0,
             total: 0
         };
     },
@@ -107,6 +99,8 @@ var ItemList = React.createClass({
             }
         );
         this.saveSelection(updatedModal.selection);
+
+        // Timeout is used for transition sliding animation on removal
         setTimeout(function() {
             this.setState({
                 total: this.state.total - this.totalPrice(item),
@@ -121,30 +115,6 @@ var ItemList = React.createClass({
         this.pageChange(0);
         this.toggleModal();
         this.saveSelection(this.state.modal.selection, this.reloadItems);
-    },
-
-    handlePageChange: function(e) {
-        this.pageChange(parseInt(e.target.getAttribute('data-index')));
-    },
-
-    pageChange: function(index) {
-        this.setState({pageNumber: index});
-    },
-
-    lastPage: function() {
-        return Math.floor((this.state.modal.selection.length - 1) / this.props.pageSize);
-    },
-
-    incrementPage: function() {
-        this.pageChange(
-            this.state.pageNumber === this.lastPage() ? 0 : this.state.pageNumber + 1
-        );
-    },
-
-    decrementPage: function() {
-        this.pageChange(
-            this.state.pageNumber === 0 ? this.lastPage() : this.state.pageNumber - 1
-        );
     },
 
     totalPrice: function(item) {
@@ -215,29 +185,35 @@ var ItemList = React.createClass({
             Materialize.initializeDismissable();
             $('.collapsible').collapsible({ accordion: false });
         }
+
+        if (prevState.modal.selection.length != this.state.modal.selection.length) {
+            this.updatePaginationTotal(this.state.modal.selection.length);
+        }
     },
 
     renderItems: function() {
-        var displayItems = this.state.modal.selection.reduce(function(acc, item, index) {
-            var requester = this.state.users.filter(function(user) {
-                return user.id === item.requester;
-            })[0];
+        var displayItems = this.itemsForPage(
+            this.state.modal.selection.reduce(function(acc, item, index) {
+                var requester = this.state.users.filter(function(user) {
+                    return user.id === item.requester;
+                })[0];
 
-            if (requester) {
-                acc.push({item: item, requester: requester});
-            }
-            return acc;
-        }.bind(this), []).splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
+                if (requester) {
+                    acc.push({item: item, requester: requester, index: index});
+                }
+                return acc;
+            }.bind(this), [])
+        );
 
-        var itemContent = displayItems.map(function(data, index) {
-            var quantityId = "quantity-" + index;
-            var priceId = "price-" + index;
+        var itemContent = displayItems.map(function(data) {
+            var quantityId = "quantity-" + data.index;
+            var priceId = "price-" + data.index;
             return (
-                <li key={'item-' + index}
-                    ref={'item-' + index}
-                    data-index={index}
+                <li key={'item-' + data.index}
+                    ref={'item-' + data.index}
+                    data-index={data.index}
                     className='collection-item dismissable'>
-                    <div ref={'collapsible-' + index} className='collapsible-header'>
+                    <div ref={'collapsible-' + data.index} className='collapsible-header'>
                         <img src={data.requester.image} />
                         <p>
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
@@ -305,40 +281,6 @@ var ItemList = React.createClass({
                    <i className='fa fa-shopping-basket'/>
                    <h3>Your grocery list is empty.</h3>
                </div>;
-    },
-
-    renderPagination: function() {
-        var pages = [];
-        var pageLength = this.lastPage();
-        for (var pageNumber = 0; pageNumber <= pageLength; pageNumber++) {
-            pages.push(
-                <li
-                    key={pageNumber}
-                    className={this.state.pageNumber == pageNumber ? "active" : ""}>
-                    <a
-                        data-index={pageNumber}
-                        onClick={this.handlePageChange}
-                        href="#!">
-                        {pageNumber + 1}
-                    </a>
-                </li>
-            );
-        }
-        return (
-            <ul className='pagination'>
-                <li>
-                    <a href="#!" onClick={this.decrementPage}>
-                        <i className="material-icons">chevron_left</i>
-                    </a>
-                </li>
-                {pages}
-                <li>
-                    <a href="#!" onClick={this.incrementPage}>
-                        <i className="material-icons">chevron_right</i>
-                    </a>
-                </li>
-            </ul>
-        );
     },
 
     render: function() {
