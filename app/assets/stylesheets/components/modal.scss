@@ -1,5 +1,4 @@
 .modal {
-  height: 100%;
   max-height: initial !important;
   overflow: hidden;
 
@@ -7,6 +6,10 @@
     .reveal-controls {
       display: none;
     }
+  }
+
+  @media #{$mobile} {
+    height: 100%;
   }
 
   @media #{$desktop} {
@@ -20,9 +23,8 @@
   }
 
   .modal-footer {
-    position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    margin-bottom: 2rem;
+    padding-right: 2rem;
   }
 }
 
