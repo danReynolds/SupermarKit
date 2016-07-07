@@ -2,4 +2,25 @@
   h1 {
     color: $sm-white;
   }
+
+  .kit-actions {
+    i {
+      font-size: 2rem;
+      color: $sm-light-green;
+    }
+
+    li + li {
+      margin-top: 1rem;
+    }
+
+    .actions {
+      font-size: 1rem;
+    }
+
+    a {
+      margin-left: 1rem;
+      color: $sm-gray !important;
+      &:hover { color: $sm-green !important; }
+    }
+  }
 }

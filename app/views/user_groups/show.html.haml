@@ -3,3 +3,19 @@
   .row
     .col.l6
       = react_component 'UserManagement', @management_data
+    .col.l6
+      .card.kit-actions
+        .card-image
+          = image_tag @user_group.banner.url(:large)
+          %span.card-title #{@user_group.name} Kit
+        .card-content
+          %ul.actions
+            %li.valign-wrapper
+              = icon 'cog'
+              = link_to 'Change Kit Settings', edit_user_group_path(@user_group)
+            %li.valign-wrapper
+              = icon 'shopping-cart'
+              - if @user_group.active_groceries.length.nonzero?
+                = link_to 'View Grocery List', @user_group.active_groceries.first
+              - else
+                = link_to 'Create New Grocery List', new_user_group_grocery_path(@user_group)
