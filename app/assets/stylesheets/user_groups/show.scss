@@ -4,13 +4,17 @@
   }
 
   .kit-actions {
+    margin: 0;
+
     i {
       font-size: 2rem;
       color: $sm-light-green;
     }
 
     li + li {
+      border-top: 1px solid $sm-light-gray;
       margin-top: 1rem;
+      padding: 1.5rem 0 0.5rem 0;
     }
 
     .actions {
