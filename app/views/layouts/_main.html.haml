@@ -7,9 +7,9 @@
         = link_to root_url, class: 'button-collapse', 'data-activates' => 'site-navigation' do
           %i.material-icons menu
 
-        - if (default = current_user.default_group) && default.active_groceries.length.nonzero?
+        - if (default = current_user.default_group)
           %ul.hide-on-med-and-down.left
-            %li= link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first
+            %li= link_to "#{current_user.default_group.name} Kit", current_user.default_group.active_groceries.first || current_user.default_group
 
         %ul.hide-on-med-and-down.right
           %li= link_to 'Kits', user_groups_path

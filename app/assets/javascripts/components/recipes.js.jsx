@@ -72,6 +72,23 @@ var Recipes = React.createClass({
         }
     },
 
+    handleClick: function(e) {
+        var recipe = this.state.suggestedRecipes[parseInt($(e.target).closest('.carousel-item').attr('data-key'))];
+
+        this.setState({
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    open: {$set: true},
+                    loading: {$set: true},
+                    selection: {
+                        $set: this.resultsFormatter({matches: [recipe]}).data
+                    }
+                }
+            )
+        });
+    },
+
     handleSave: function() {
         var _this = this;
         var requests = this.state.modal.selection.reduce(function(acc, selected) {
@@ -143,7 +160,9 @@ var Recipes = React.createClass({
         var carousel_items = this.state.suggestedRecipes.map(function(recipe, index) {
             return (
                 <div
+                    onClick={this.handleClick}
                     key={'carousel-item-' + index}
+                    data-key={index}
                     className='carousel-item'>
                     <a href="#">
                         <img src={recipe.imageUrlsBySize[90].replace('s90', 'l90')} />
