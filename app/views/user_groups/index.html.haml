@@ -30,7 +30,7 @@
                 = link_to 'Join', accept_invitation_user_group_path(group), method: :post, class: 'highlight'
                 %span.badge Invited
               - else
-                = link_to 'Edit', edit_user_group_path(group), class: 'highlight'
+                = link_to 'Manage', user_group_path(group), class: 'highlight'
   .fixed-action-btn
     = link_to new_user_group_path, class: 'btn-floating btn-large waves-effect waves-light' do
       %i.material-icons add
