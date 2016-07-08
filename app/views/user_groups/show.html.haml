@@ -9,7 +9,7 @@
           = image_tag @user_group.banner.url(:large)
           %span.card-title #{@user_group.name} Kit
         .card-content
-          %ul.actions
+          %ul.kit-actions
             %li.valign-wrapper
               = icon 'cog'
               = link_to 'Change Kit Settings', edit_user_group_path(@user_group)
