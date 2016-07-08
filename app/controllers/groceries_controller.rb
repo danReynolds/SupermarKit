@@ -85,7 +85,7 @@ class GroceriesController < ApplicationController
       grocery_id: @grocery.id,
       users: format_users(true),
       url: do_checkout_grocery_path(@grocery),
-      redirect_url: new_user_group_grocery_path(@grocery.user_group),
+      redirect_url: user_group_path(@grocery.user_group),
       estimated_total: @grocery.total_price_or_estimated.to_f
     }
   end
@@ -98,7 +98,7 @@ class GroceriesController < ApplicationController
 
     if @grocery.save!
       head :ok
-      flash[:notice] = "Checkout complete! When you're ready, make a new list."
+      flash[:notice] = "Checkout complete! When you're ready, make a new grocery list."
     end
   end
 

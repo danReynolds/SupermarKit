@@ -21,4 +21,4 @@
               - if @user_group.active_groceries.length.nonzero?
                 = link_to 'View Grocery List', @user_group.active_groceries.first
               - else
-                = link_to 'Create New Grocery List', new_user_group_grocery_path(@user_group)
+                = link_to 'Create Grocery List', new_user_group_grocery_path(@user_group)

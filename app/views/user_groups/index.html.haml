@@ -8,7 +8,7 @@
   - @user_groups.each_slice(3) do |groups|
     .row
       - groups.each do |group|
-        - grocery = group.active_groceries.try(:first) || new_user_group_grocery_path(group)
+        - grocery = group.active_groceries.try(:first) || user_group_path(group)
         - invited = group.user_groups_users.find_by_user_id(current_user.id).state == UserGroupsUsers::INVITED
         .col.l4
           .card.image-wrapper.hoverable
