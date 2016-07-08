@@ -110,13 +110,6 @@ class GroceriesController < ApplicationController
     head :ok
   end
 
-  def recipes
-    ingredients = URI.escape(@grocery.items.pluck(:name).join(','))
-    uri = URI("http://food2fork.com/api/search?key=#{ENV["FOOD2FORK_KEY"]}&q=#{ingredients}")
-    res = Net::HTTP.get(uri)
-    render json: JSON.parse(res)
-  end
-
   def update_store
     if params[:grocery][:store]
       @grocery.grocery_store = GroceryStore.create_with(grocery_store_params[:store])

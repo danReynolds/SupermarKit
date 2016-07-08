@@ -1,0 +1,81 @@
+.payments-card {
+  padding-bottom: 0.5rem;
+
+  .payments {
+    li {
+      box-shadow: none !important;
+      margin: 0;
+      padding: 1rem;
+
+      &+li {
+        border-top: 1px solid $sm-light-gray;
+      }
+    }
+
+    .nested-payment {
+      padding: 0;
+      margin-left: 4rem;
+    }
+  }
+
+  .fa-shopping-basket {
+    color: $sm-green;
+  }
+
+  .fa-user {
+    color: $sm-blue;
+  }
+
+  .left-content {
+    @extend .valign-wrapper;
+
+    @media #{$desktop} {
+      width: 40%;
+    }
+  }
+
+  .right-content {
+    @extend .valign-wrapper;
+  }
+
+  .collapsible-header {
+    padding-right: 0;
+    @extend .valign-wrapper;
+
+    @media #{$mobile} {
+      display: block;
+
+      .price { display: inline-block; }
+    }
+  }
+
+  .label-content {
+    &+.label-content {
+      margin-left: 2rem;
+    }
+
+    p {
+      margin-top: -1.8rem;
+    }
+  }
+
+  .user-payment {
+    .collapsible-header {
+      cursor: auto;
+    }
+
+    .fa-long-arrow-right {
+      margin: 0 1rem;
+      color: $sm-gray;
+    }
+
+    img {
+      margin-right: 1rem;
+    }
+  }
+
+  img {
+    border-radius: 50%;
+    width: 2.5rem;
+  }
+}

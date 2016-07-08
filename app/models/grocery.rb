@@ -14,6 +14,10 @@ class Grocery < ActiveRecord::Base
     end
   end
 
+  def payments_total
+    Money.new(payments.sum(:price_cents))
+  end
+
   def items_without_recipes
     items.includes(:recipes).where(recipes: { id: nil })
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706152802) do
+ActiveRecord::Schema.define(version: 20160708142204) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -54,9 +54,11 @@ ActiveRecord::Schema.define(version: 20160706152802) do
   end
 
   create_table "grocery_payments", force: :cascade do |t|
-    t.integer "grocery_id",  limit: 4
-    t.integer "user_id",     limit: 4
-    t.integer "price_cents", limit: 4
+    t.integer  "grocery_id",  limit: 4
+    t.integer  "user_id",     limit: 4
+    t.integer  "price_cents", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "grocery_payments", ["grocery_id"], name: "index_grocery_payments_on_grocery_id", using: :btree

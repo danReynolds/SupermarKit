@@ -11,23 +11,23 @@ describe Canard::Abilities, 'for :user' do
 
   describe 'user group' do
     context 'should be able to' do
-      it { can([:do_payment, :accept_invitation, :metrics, :read, :update, :create, :destroy, :manage], own_user_group) }
+      it { can([:payments, :do_payment, :accept_invitation, :metrics, :read, :update, :create, :destroy, :manage], own_user_group) }
       it { can([:create], any(:user_group)) }
     end
 
     context 'should not be able to' do
-      it { cant([:do_payment, :read, :update, :destroy, :accept_invitation, :manage], any(:user_group)) }
+      it { cant([:payments, :do_payment, :read, :update, :destroy, :accept_invitation, :manage], any(:user_group)) }
     end
   end
 
   describe 'grocery' do
     context 'should be able to' do
-      it { can([:set_store, :recipes, :checkout, :do_checkout, :email_group, :read, :update, :create, :destroy, :manage], own_grocery) }
+      it { can([:set_store, :checkout, :do_checkout, :email_group, :read, :update, :create, :destroy, :manage], own_grocery) }
       it { can([:create], any(:grocery)) }
     end
 
     context 'should not be able to' do
-      it { cant([:recipes, :checkout, :do_checkout, :email_group, :read, :update, :destroy, :manage], any(:grocery)) }
+      it { cant([:checkout, :do_checkout, :email_group, :read, :update, :destroy, :manage], any(:grocery)) }
     end
   end
 
