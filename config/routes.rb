@@ -40,7 +40,7 @@ Rails.application.routes.draw do
         end
       end
       member do
-        get :metrics
+        get :payments
         patch :accept_invitation
         patch :do_payment
       end

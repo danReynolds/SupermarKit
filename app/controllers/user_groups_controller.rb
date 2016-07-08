@@ -39,6 +39,48 @@ class UserGroupsController < ApplicationController
     @kit_data = kit_data
   end
 
+  def payments
+    grocery_payments = @user_group.finished_groceries.map do |grocery|
+      {
+        date: grocery.created_at.to_i,
+        date_formatted: grocery.created_at.strftime('%A, %d %b %Y %l:%M %p').to_s,
+        id: grocery.id,
+        name: grocery.name,
+        total: grocery.payments_total.format,
+        payments: grocery.payments.map do |payment|
+          {
+            id: payment.id,
+            price: payment.price.format,
+            payer: payment.user.name,
+            image: payment.user.gravatar_url
+          }
+        end
+      }
+    end
+
+    user_payments = @user_group.payments.map do |payment|
+      {
+        date: payment.created_at.to_i,
+        date_formatted: payment.created_at.strftime('%A, %d %b %Y %l:%M %p').to_s,
+        id: payment.id,
+        reason: payment.reason,
+        total: payment.price.format,
+        payee: {
+          name: payment.payee.name,
+          image: payment.payee.gravatar_url
+        },
+        payer: {
+          name: payment.payer.name,
+          image: payment.payer.gravatar_url
+        }
+      }
+    end
+
+    @payment_data = {
+      payments: (grocery_payments + user_payments).sort_by { |payment| payment[:date] }
+    }
+  end
+
   def update
     remaining_users = params[:user_group][:user_ids].split(",")
     removed_users = @user_group.users - remaining_users

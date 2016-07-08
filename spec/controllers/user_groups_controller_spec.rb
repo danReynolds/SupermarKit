@@ -9,6 +9,7 @@ describe UserGroupsController, type: :controller do
   it_should_behave_like 'routes', {
     edit: { id: true },
     show: { id: true },
+    payments: { id: true },
     index: {},
     new: {}
   }

@@ -379,15 +379,4 @@ describe GroceriesController, type: :controller do
       end
     end
   end
-
-  describe 'GET recipes' do
-    it 'should be successful' do
-      stub_request(:get, /food2fork.com/).
-        with(headers: { 'Accept' => '*/*', 'User-Agent' => 'Ruby' }).
-        to_return(status: 200, body: '{}', headers: {})
-
-      get :recipes, id: grocery.id, format: :json
-      expect(response).to be_ok
-    end
-  end
 end
