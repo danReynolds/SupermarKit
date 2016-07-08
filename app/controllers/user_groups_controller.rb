@@ -27,7 +27,7 @@ class UserGroupsController < ApplicationController
        .update_attributes(state: UserGroupsUsers::ACCEPTED)
 
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
-      redirect_to new_user_group_grocery_path(@user_group)
+      redirect_to @user_group, notice: 'Kit created! When you are ready, create your first grocery list.'
     else
       @kit_data = kit_data
       @banner_image = UserGroup::BANNER_IMAGES.sample
