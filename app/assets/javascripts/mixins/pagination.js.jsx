@@ -12,7 +12,8 @@ var Pagination = {
     getInitialState: function() {
         return {
             pageNumber: 0,
-            paginationTotal: 0
+            paginationTotal: 0,
+            paginationAlwaysShow: false
         };
     },
 
@@ -35,6 +36,10 @@ var Pagination = {
     renderPagination: function() {
         var pages = [];
         var pageLength = this.lastPage();
+
+        if (pageLength === 0 && !this.state.paginationAlwaysShow)
+            return;
+
         for (var pageNumber = 0; pageNumber <= pageLength; pageNumber++) {
             pages.push(
                 <li
