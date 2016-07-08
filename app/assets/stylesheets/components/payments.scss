@@ -1,6 +1,16 @@
 .payments-card {
   padding-bottom: 0.5rem;
 
+  .no-payments {
+    padding: 4rem 0 2rem 0;
+    text-align: center;
+
+    i {
+      font-size: 2.5rem;
+      margin-top: 2rem;
+    }
+  }
+
   .payments {
     li {
       box-shadow: none !important;

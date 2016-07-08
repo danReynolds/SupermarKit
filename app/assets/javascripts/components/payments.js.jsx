@@ -100,8 +100,8 @@ var Payments = React.createClass({
     },
 
     render: function() {
-        return (
-            <div className='card payments-card'>
+        if (this.state.payments.length !== 0) {
+            var paymentContent = (
                 <div className='card-content full-width'>
                     <ul
                         data-collapsible='accordion'
@@ -110,6 +110,18 @@ var Payments = React.createClass({
                     </ul>
                     {this.renderPagination()}
                 </div>
+            );
+        } else {
+            var paymentContent = (
+                <div className='card-content no-payments'>
+                    <p>Your Kit does not currently have any payments.</p>
+                    <i className='fa fa-folder-open-o'/>
+                </div>
+            );
+        }
+        return (
+            <div className='card payments-card'>
+                {paymentContent}
             </div>
         );
     }
