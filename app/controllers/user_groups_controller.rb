@@ -82,9 +82,9 @@ class UserGroupsController < ApplicationController
   end
 
   def update
-    remaining_users = params[:user_group][:user_ids].split(",")
+    remaining_users = User.find(params[:user_group][:user_ids].split(","))
     removed_users = @user_group.users - remaining_users
-    @user_group.users = User.find(remaining_users)
+    @user_group.users = remaining_users
 
     removed_users.each do |user|
       if user.default_group == @user_group
