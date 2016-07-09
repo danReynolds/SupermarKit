@@ -81,7 +81,7 @@ var Recipes = React.createClass({
                 {
                     open: {$set: true},
                     loading: {$set: true},
-                    selection: {
+                    selectionForModal: {
                         $set: this.resultsFormatter({matches: [recipe]}).data
                     }
                 }
@@ -145,6 +145,9 @@ var Recipes = React.createClass({
                         {
                             selection: {
                                 $set: response.data
+                            },
+                            selectionForModal: {
+                                $set: []
                             }
                         }
                     )

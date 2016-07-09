@@ -12,6 +12,7 @@ var ModalContainer = {
     getInitialState: function() {
         return {
             modal: {
+                selectionForModal: this.props.selectionForModal || [],
                 selection: this.props.selection || [],
                 open: false,
                 addToSelection: this.addToSelection,
