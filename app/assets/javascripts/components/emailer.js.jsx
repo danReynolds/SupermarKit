@@ -94,7 +94,16 @@ var Emailer = React.createClass({
         }.bind(this));
     },
 
-    handleSave: function() {
-        this.toggleModal();
+    handleSave: function(modalSelection) {
+        this.setState({
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    selection: {
+                        $set: modalSelection
+                    },
+                }
+            )
+        }, this.toggleModalAndLoading);
     }
 });

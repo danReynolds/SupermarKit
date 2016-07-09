@@ -12,7 +12,7 @@ var Payments = React.createClass({
     },
 
     componentDidMount: function() {
-        this.updatePaginationTotal(this.state.payments.length);
+        this.updatePagination(this.state.payments.length);
         $(document).ready(function() {
             $('.collapsible').collapsible({ accordion: false });
         })

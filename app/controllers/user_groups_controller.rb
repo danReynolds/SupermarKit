@@ -93,7 +93,7 @@ class UserGroupsController < ApplicationController
     end
 
     if @user_group.update_attributes(user_group_params)
-      redirect_to user_groups_path
+      redirect_to @user_group
     else
       render action: :edit
     end

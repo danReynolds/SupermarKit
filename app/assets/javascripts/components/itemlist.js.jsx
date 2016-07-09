@@ -111,10 +111,9 @@ var ItemList = React.createClass({
         }.bind(this), 100);
     },
 
-    handleSave: function() {
-        this.pageChange(0);
+    handleSave: function(modalSelection) {
         this.toggleModal();
-        this.saveSelection(this.state.modal.selection, this.reloadItems);
+        this.saveSelection(modalSelection, this.reloadItems);
     },
 
     totalPrice: function(item) {
@@ -189,7 +188,7 @@ var ItemList = React.createClass({
         }
 
         if (prevState.modal.selection.length != this.state.modal.selection.length) {
-            this.updatePaginationTotal(this.state.modal.selection.length);
+            this.updatePagination(this.state.modal.selection.length);
         }
     },
 

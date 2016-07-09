@@ -5,8 +5,6 @@ var Modal = React.createClass({
         results: React.PropTypes.array,
         selection: React.PropTypes.array,
         resultType: React.PropTypes.string.isRequired,
-        addToSelection: React.PropTypes.func.isRequired,
-        removeFromSelection: React.PropTypes.func.isRequired,
         handleSave: React.PropTypes.func.isRequired,
         toggleLoading: React.PropTypes.func.isRequired,
         toggleModal: React.PropTypes.func.isRequired,
@@ -24,7 +22,8 @@ var Modal = React.createClass({
             fields: this.props.input.fields,
             results: [],
             backspaceTarget: null,
-            getResults: _.debounce(this.getResults, 300)
+            getResults: _.debounce(this.getResults, 300),
+            selection: _.clone(this.props.selection)
         };
     },
 
@@ -51,7 +50,7 @@ var Modal = React.createClass({
                 break;
             case this.props.enterTarget:
                 if (this.state.results.length === 0)
-                    this.props.handleSave();
+                    this.handleSave();
                 else
                     this.addToSelection(this.state.scrollTarget);
                     event.preventDefault();
@@ -78,13 +77,24 @@ var Modal = React.createClass({
     handleRemove: function(event) {
         var backspaceTarget;
         if (Number.isInteger(this.state.backspaceTarget) && this.state.backspaceTarget >= 0) {
-            this.props.removeFromSelection(this.state.backspaceTarget);
+            this.removeFromSelection(this.state.backspaceTarget);
             backspaceTarget = this.state.backspaceTarget - 1;
         } else {
-            backspaceTarget = this.props.selection.length - 1;
+            backspaceTarget = this.state.selection.length - 1;
         }
 
         this.setState({ backspaceTarget: backspaceTarget });
+    },
+
+    handleSave: function() {
+        this.props.handleSave(this.state.selection);
+    },
+
+    handleCancel: function() {
+        this.props.toggleModalAndLoading();
+        this.setState({
+            selection: _.clone(this.props.selection)
+        });
     },
 
     addToSelection: function(index) {
@@ -95,6 +105,17 @@ var Modal = React.createClass({
             return acc;
         }.bind(this), {});
 
+        this.setState(
+            React.addons.update(
+                this.state,
+                {
+                    selection: {
+                        $push: [this.state.results[index]]
+                    }
+                }
+            )
+        );
+
         this.setState({
             backspaceTarget: null,
             scrollTarget: 0,
@@ -104,9 +125,18 @@ var Modal = React.createClass({
             }),
             fullField: ''
         });
+    },
 
-        this.props.addToSelection(
-            React.addons.update(this.state.results[index], {$merge: fieldValues})
+    removeFromSelection: function(index) {
+        this.setState(
+            React.addons.update(
+                this.state,
+                {
+                    selection: {
+                        $splice: [[index, 1]]
+                    }
+                }
+            )
         );
     },
 
@@ -141,7 +171,7 @@ var Modal = React.createClass({
 
     getResults: function() {
         var query = this.queryValue();
-        var selected_names = this.props.selection.map(function(selected) {
+        var selected_names = this.state.selection.map(function(selected) {
             return selected.name;
         });
 
@@ -174,24 +204,32 @@ var Modal = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        var self = this;
+        var _this = this;
 
         if (prevState.fields !== this.state.fields) {
             this.state.getResults();
-        } else if (this.props.open !== prevProps.open) {
+        }
+
+        if (this.props.open !== prevProps.open) {
             var modal = $('#' + this.props.id);
             if (this.props.open) {
                 modal.openModal({
                     ready: function() {
-                        self.refs.search.focus();
+                        _this.refs.search.focus();
                     },
                     complete: function() {
-                        self.props.toggleModalAndLoading();
+                        _this.handleCancel();
                     }
                 });
             } else {
                 modal.closeModal();
             }
+        }
+
+        if (prevProps.selection !== this.props.selection) {
+            this.setState({
+                selection: _.clone(this.props.selection)
+            });
         }
     },
 
@@ -232,22 +270,22 @@ var Modal = React.createClass({
                     <Multiselect
                         removable={true}
                         ref="selection"
-                        selection={this.props.selection}
+                        selection={this.state.selection}
                         backspaceTarget={this.state.backspaceTarget}
-                        removeFromSelection={this.props.removeFromSelection}/>
+                        removeFromSelection={this.removeFromSelection}/>
                     <ul className='results-container'>
                         {results}
                     </ul>
                     <div className='reveal-controls'>
                         <a
                             className='waves-effect waves-light btn cancel'
-                            onClick={this.props.toggleModalAndLoading}>
+                            onClick={this.handleCancel}>
                             <i className='material-icons left'>close</i>
                             Cancel
                         </a>
                         <a
                             className='waves-effect waves-light btn'
-                            onClick={this.props.handleSave}>
+                            onClick={this.handleSave}>
                             <i className='material-icons left'>send</i>
                             Update
                         </a>

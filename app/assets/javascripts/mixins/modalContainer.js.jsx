@@ -25,32 +25,6 @@ var ModalContainer = {
         };
     },
 
-    addToSelection: function(selected) {
-        this.setState({
-            modal: React.addons.update(
-                this.state.modal,
-                {
-                    selection: {
-                        $push: [selected]
-                    }
-                }
-            )
-        });
-    },
-
-    removeFromSelection: function(index) {
-        this.setState({
-            modal: React.addons.update(
-                this.state.modal,
-                {
-                    selection: {
-                        $splice: [[index, 1]]
-                    }
-                }
-            )
-        });
-    },
-
     toggleModal: function() {
         this.setState({
             modal: React.addons.update(
