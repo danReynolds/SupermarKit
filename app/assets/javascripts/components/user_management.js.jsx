@@ -45,7 +45,7 @@ var UserManagement = React.createClass({
     },
 
     componentDidMount: function() {
-        this.updatePaginationTotal(this.state.users.length);
+        this.updatePagination(this.state.users.length);
     },
 
     handlePayment: function(e) {

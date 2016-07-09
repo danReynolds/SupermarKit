@@ -17,6 +17,14 @@ var Pagination = {
         };
     },
 
+    componentDidUpdate: function(prevProps, prevState) {
+        if (prevState.paginationTotal !== this.state.paginationTotal) {
+            if (this.state.pageNumber > this.lastPage()) {
+                this.setState({pageNumber: this.lastPage()})
+            }
+        }
+    },
+
     itemsForPage: function(items) {
         return items.splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
     },
@@ -29,7 +37,7 @@ var Pagination = {
         this.setState({pageNumber: index});
     },
 
-    updatePaginationTotal: function(total) {
+    updatePagination: function(total) {
         this.setState({paginationTotal: total});
     },
 

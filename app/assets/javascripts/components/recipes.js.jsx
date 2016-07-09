@@ -89,11 +89,11 @@ var Recipes = React.createClass({
         });
     },
 
-    handleSave: function() {
+    handleSave: function(modalSelection) {
         var _this = this;
-        var requests = this.state.modal.selection.reduce(function(acc, selected) {
+        var requests = modalSelection.reduce(function(acc, selected) {
             if (!selected.url) {
-                acc.push (
+                acc.push(
                     $.getJSON(this.props.modal.recipeUrl.replace('@externalId', selected.externalId))
                 );
             }
@@ -115,7 +115,7 @@ var Recipes = React.createClass({
                 method: 'PATCH',
                 data: JSON.stringify({
                     grocery: {
-                        recipes: _this.state.modal.selection.map(function(selected) {
+                        recipes: modalSelection.map(function(selected) {
                             if (selected.url) {
                                 return {
                                     external_id: selected.externalId
@@ -151,7 +151,7 @@ var Recipes = React.createClass({
                 }, function() {
                     _this.props.updateRecipeLength(_this.state.modal.selection.length);
                     _this.toggleModalAndLoading();
-                })
+                });
             });
         });
     },

@@ -9,11 +9,21 @@ var MultiselectForm = React.createClass({
         modal: React.PropTypes.object.isRequired
     },
 
-    handleSave: function() {
-        document.getElementById(this.props.formElement).value = this.state.modal.selection.map(function(selected) {
+    handleSave: function(modalSelection) {
+        document.getElementById(this.props.formElement).value = modalSelection.map(function(selected) {
             return selected.id;
         }).join(',');
-        this.toggleModal();
+
+        this.setState({
+            modal: React.addons.update(
+                this.state.modal,
+                {
+                    selection: {
+                        $set: modalSelection
+                    },
+                }
+            )
+        }, this.toggleModalAndLoading);
     },
 
     render: function() {
