@@ -45,6 +45,7 @@ gem 'rollbar'
 gem 'dogapi', '>=1.3.0'
 gem 'newrelic_rpm'
 gem 'sentry-raven'
+gem 'tesseract-ocr', git: 'https://github.com/danReynolds/ruby-tesseract-ocr'
 
 group :development do
 	gem 'better_errors'
