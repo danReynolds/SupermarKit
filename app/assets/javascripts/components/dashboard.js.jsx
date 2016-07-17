@@ -1,7 +1,7 @@
 var Dashboard = React.createClass({
     propTypes: {
         manage_url: React.PropTypes.string.isRequired,
-        checkout_url: React.PropTypes.string.isRequired,
+        receipt_url: React.PropTypes.string.isRequired,
         itemList: React.PropTypes.object.isRequired,
         emailer: React.PropTypes.object.isRequired,
         location: React.PropTypes.object.isRequired
@@ -42,7 +42,7 @@ var Dashboard = React.createClass({
                                     <div className='btn-label'>Manage Kit</div>
                                 </li>
                                 <li>
-                                    <a className='btn-floating' href={this.props.checkout_url}>
+                                    <a className='btn-floating' href={this.props.receipt_url}>
                                         <i className='fa fa-shopping-basket'/>
                                     </a>
                                     <div className='btn-label'>Checkout</div>

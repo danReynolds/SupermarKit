@@ -7,7 +7,7 @@ class GroceriesController < ApplicationController
 	def show
     @dashboard = {
       recipeLength: @grocery.recipes.length,
-      checkout_url: checkout_grocery_path(@grocery),
+      receipt_url: receipt_grocery_path(@grocery),
       manage_url: user_group_path(@grocery.user_group),
       itemList: itemlist_params,
       emailer: emailer_params,
@@ -78,6 +78,19 @@ class GroceriesController < ApplicationController
         data: format_recipes
       }
     end
+  end
+
+  def receipt
+    @receipt_data = {
+      token: form_authenticity_token,
+      url: upload_receipt_grocery_path(@grocery),
+      skip_url: checkout_grocery_path(@grocery)
+    }
+  end
+
+  def upload_receipt
+      @grocery.update!({ receipt: params[:file] })
+      head :ok
   end
 
   def checkout

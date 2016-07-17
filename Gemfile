@@ -13,6 +13,7 @@ gem 'underscore-rails'
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails', '~> 4.0.0'
 gem 'coveralls', require: false
+gem 'dropzonejs-rails'
 gem 'dotenv-rails'
 gem 'haml-rails'
 gem 'inline_svg'
