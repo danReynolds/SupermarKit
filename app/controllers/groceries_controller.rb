@@ -89,8 +89,18 @@ class GroceriesController < ApplicationController
   end
 
   def upload_receipt
-      @grocery.update!({ receipt: params[:file] })
-      head :ok
+    #   @grocery.update!({ receipt: params[:file] })
+
+    e = Tesseract::Engine.new do |e|
+      e.path = '/usr/local/share'
+      e.language  = :en
+      e.blacklist = '|'
+    end
+
+    file = open(@grocery.receipt.url(:clean))
+    processed_receipt = e.text_for(file.path).strip.split("\n")
+
+    head :ok
   end
 
   def checkout
