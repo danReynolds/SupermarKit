@@ -3,7 +3,7 @@ class Grocery < ActiveRecord::Base
   has_many :payments, class_name: GroceryPayment
   has_many :items, through: :groceries_items
   has_and_belongs_to_many :recipes
-  has_attached_file :receipt, styles: { large: '600>x800' }
+  has_attached_file :receipt, styles: { clean: { processors: [:text_cleaner] } }
   belongs_to :user_group
   belongs_to :grocery_store
 
