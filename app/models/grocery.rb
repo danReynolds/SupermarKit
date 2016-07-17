@@ -3,9 +3,11 @@ class Grocery < ActiveRecord::Base
   has_many :payments, class_name: GroceryPayment
   has_many :items, through: :groceries_items
   has_and_belongs_to_many :recipes
+  has_attached_file :receipt, styles: { large: '600>x800' }
   belongs_to :user_group
   belongs_to :grocery_store
 
+  validates_attachment :receipt, content_type: { content_type: /\Aimage\/.*\Z/ }
   validates :name, presence: true
 
   def total_price_or_estimated
