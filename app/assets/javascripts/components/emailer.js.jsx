@@ -32,7 +32,7 @@ var Emailer = React.createClass({
                             <textarea
                                 value={this.state.message}
                                 onChange={this.handleChange}
-                                placeholder="Message for Kit members"
+                                placeholder="Additional message to include with your grocery list"
                                 id="textarea1"
                                 className="materialize-textarea">
                             </textarea>
@@ -53,7 +53,7 @@ var Emailer = React.createClass({
             <div className='card emailer'>
                 <div className='card-content full-width dark'>
                     <div className='card-header'>
-                        <h3>Email Members</h3>
+                        <h3>Email List to Members</h3>
                         <i className='fa fa-envelope-o'/>
                     </div>
                     {content}
