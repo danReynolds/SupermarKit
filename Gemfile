@@ -42,6 +42,8 @@ gem 'aws-sdk', '< 2.0'
 gem 'linguistics'
 gem 'geokit-rails'
 gem 'tesseract-ocr', git: 'https://github.com/danReynolds/ruby-tesseract-ocr'
+gem 'dropzonejs-rails'
+gem 'fuzzy_match'
 
 group :development do
 	gem 'better_errors'

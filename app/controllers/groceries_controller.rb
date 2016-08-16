@@ -4,6 +4,8 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :user_group
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
+  DICE_SIMILARITY_THRESHOLD = 0.2
+
 	def show
     @dashboard = {
       recipeLength: @grocery.recipes.length,
@@ -89,18 +91,53 @@ class GroceriesController < ApplicationController
   end
 
   def upload_receipt
-    #   @grocery.update!({ receipt: params[:file] })
+    # @grocery.update!({ receipt: params[:file] })
 
+    # Initialize Tesseract with English, only capital letters
     e = Tesseract::Engine.new do |e|
       e.path = '/usr/local/share'
       e.language  = :en
-      e.blacklist = '|'
+      e.blacklist = [*'a'..'z', '|']
     end
 
+    # Retrieve the cleaned file from Amazon and process its text
     file = open(@grocery.receipt.url(:clean))
     processed_receipt = e.text_for(file.path).strip.split("\n")
 
-    head :ok
+    # Match tesseract captures to items in the grocery list
+    global_matcher = nil
+    matcher = FuzzyMatch.new(@grocery.items, read: :name)
+    captures = processed_receipt.map { |line| line.match(/^((?:[A-Z]+\s)+).*?(\d+\.\d+)/) }.compact.map(&:captures)
+    matches = captures.inject([]) do |acc, capture|
+      match = matcher.find_with_score(capture.first)
+
+      if match.nil? || match[1] < 0.2
+          global_matcher = FuzzyMatch.new(Item.all, read: :name) unless global_matcher
+          match = global_matcher.find_with_score(capture.first)
+      end
+
+      if match
+        item = match[0]
+        acc << {
+          id: item.id,
+          name: item.name,
+          capture: {
+              name: capture[0],
+              price: capture[1]
+          },
+          confidence: match[1]
+        }
+      end
+
+      acc
+    end
+
+    binding.pry
+    render json: {
+        data: {
+            matches: matches
+        }
+    }
   end
 
   def checkout
