@@ -1,12 +1,14 @@
 class GroceriesController < ApplicationController
+  include Matcher
+
   extend HappyPath
   follow_happy_paths
   load_and_authorize_resource :user_group
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
-  DICE_SIMILARITY_THRESHOLD = 0.2
+  TOTAL_KEYWORDS = ['Total', 'Subtotal'].freeze
 
-	def show
+  def show
     @dashboard = {
       recipeLength: @grocery.recipes.length,
       receipt_url: receipt_grocery_path(@grocery),
@@ -91,7 +93,7 @@ class GroceriesController < ApplicationController
   end
 
   def upload_receipt
-    # @grocery.update!({ receipt: params[:file] })
+    @grocery.update!({ receipt: params[:file] })
 
     # Initialize Tesseract with English, only capital letters
     e = Tesseract::Engine.new do |e|
@@ -105,38 +107,36 @@ class GroceriesController < ApplicationController
     processed_receipt = e.text_for(file.path).strip.split("\n")
 
     # Match tesseract captures to items in the grocery list
-    global_matcher = nil
-    matcher = FuzzyMatch.new(@grocery.items, read: :name)
-    captures = processed_receipt.map { |line| line.match(/^((?:[A-Z]+\s)+).*?(\d+\.\d+)/) }.compact.map(&:captures)
-    matches = captures.inject([]) do |acc, capture|
-      match = matcher.find_with_score(capture.first)
+    captures = processed_receipt.map { |line| line.match(/^((?:[A-Z]+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
 
-      if match.nil? || match[1] < 0.2
-          global_matcher = FuzzyMatch.new(Item.all, read: :name) unless global_matcher
-          match = global_matcher.find_with_score(capture.first)
+    match_result = captures.inject({ matches: [], total: 0 }) do |acc, capture|
+      acc.tap do |acc|
+          matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
+
+          # There is a special case for matches to the total price
+          match = matcher.find_match(TOTAL_KEYWORDS)
+
+          if match
+              # Multiple matches for a total keyword favor the largest value
+              acc[:total] = [capture[1].to_f, acc[:total]].max
+          elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
+              item = Item.find_by_name(match.name)
+              acc[:matches] << {
+                  id: item.id,
+                  name: item.name,
+                  capture: {
+                      name: capture[0],
+                      price: capture[1]
+                  },
+                  similarity: match.similarity
+              }
+          end
       end
-
-      if match
-        item = match[0]
-        acc << {
-          id: item.id,
-          name: item.name,
-          capture: {
-              name: capture[0],
-              price: capture[1]
-          },
-          confidence: match[1]
-        }
-      end
-
-      acc
     end
 
     binding.pry
     render json: {
-        data: {
-            matches: matches
-        }
+        data: match_result
     }
   end
 
