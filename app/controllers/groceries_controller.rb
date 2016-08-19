@@ -93,7 +93,7 @@ class GroceriesController < ApplicationController
   end
 
   def upload_receipt
-    @grocery.update!({ receipt: params[:file] })
+    # @grocery.update!({ receipt: params[:file] })
 
     # Initialize Tesseract with English, only capital letters
     e = Tesseract::Engine.new do |e|
@@ -124,17 +124,13 @@ class GroceriesController < ApplicationController
               acc[:matches] << {
                   id: item.id,
                   name: item.name,
-                  capture: {
-                      name: capture[0],
-                      price: capture[1]
-                  },
+                  price: capture[1],
                   similarity: match.similarity
               }
           end
       end
     end
 
-    binding.pry
     render json: {
         data: match_result
     }
