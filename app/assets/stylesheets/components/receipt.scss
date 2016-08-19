@@ -2,4 +2,31 @@
     .dropzone {
         margin: 3rem;
     }
+
+    ul {
+        margin-top: 2rem;
+    }
+
+    .right-content {
+        align-items: baseline;
+        display: flex;
+        margin-left: auto;
+    }
+
+    .confidence {
+        margin-right: 1.5rem;
+
+        &.weak { color: $sm-red; }
+        &.moderate { color: $sm-orange; }
+        &.strong { color: $sm-green; }
+
+        i { font-size: 1.25rem; }
+    }
+
+    .receipt-item {
+        margin: 1rem 0.5rem;
+        padding: 1rem;
+
+        @include list-item-shadow;
+    }
 }
