@@ -8,7 +8,8 @@ var Receipt = React.createClass({
 
     getInitialState: function() {
         return {
-            items: null
+            items: null,
+            loading: false
         }
     },
 
@@ -19,21 +20,27 @@ var Receipt = React.createClass({
                 maxFiles: 1
             }
         );
+
+        dropzone.on('sending', function() {
+            this.setState({ loading: true });
+        }.bind(this));
+
         dropzone.on('success', function(file, response) {
             this.updatePagination(response.data.matches.length);
             this.setState({
                 items: response.data.matches,
-                total: response.data.total
+                total: response.data.total,
+                loading: false
             });
         }.bind(this));
     },
 
     renderUpload: function() {
-        return (
-            <div>
-                <p> Add a picture of your receipt to keep track of exactly what you purchased.
-                    We will analyze your receipt and try to match up pricing information and the total cost to your SupermarKit grocery list.
-                </p>
+        var uploadContent;
+        if (this.state.loading) {
+            uploadContent = <Loader/>
+        } else {
+            uploadContent = (
                 <form
                     id='receipt-upload'
                     action={this.props.url}
@@ -50,6 +57,15 @@ var Receipt = React.createClass({
                         <input name='file' type='file'/>
                     </div>
                 </form>
+            );
+        }
+
+        return (
+            <div>
+                <p> Add a picture of your receipt to keep track of exactly what you purchased.
+                    We will analyze your receipt and try to match up pricing information and the total cost to your SupermarKit grocery list.
+                </p>
+                {uploadContent}
             </div>
 
         );
