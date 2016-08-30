@@ -72,16 +72,21 @@ var Receipt = React.createClass({
     },
 
     renderItems: function() {
-        var itemList = this.itemsForPage(this.state.items.map(function(item, index) {
+        var sortedItems = this.state.items.sort(function(item1, item2) {
+            return item2.similarity - item1.similarity;
+        });
+
+        var itemList = this.itemsForPage(sortedItems.map(function(item, index) {
             return (
                 <li
                     key={index}
                     className='receipt-item valign-wrapper'>
+                    {item.new ? <div className='badge new'>new</div> : null}
                     <p>{item.name}</p>
                     <div className='right-content'>
                         {this.renderConfidence(item)}
-                        <div className='price'>
-                            ${item.price}
+                        <div className='badge price'>
+                            ${item.price.toFixed(2)}
                         </div>
                     </div>
                 </li>

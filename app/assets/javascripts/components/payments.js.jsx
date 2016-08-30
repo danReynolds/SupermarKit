@@ -39,7 +39,7 @@ var Payments = React.createClass({
                             key={paymentIndex +  '-' + nestedPaymentIndex}>
                                 <img src={nestedPayment.image}/>
                                 <p>{nestedPayment.payer} contributed</p>
-                                <div className='price payer'>
+                                <div className='badge price payer'>
                                     {nestedPayment.price}
                                 </div>
                         </li>
