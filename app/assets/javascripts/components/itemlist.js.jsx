@@ -219,7 +219,7 @@ var ItemList = React.createClass({
                         <p>
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
                         </p>
-                        <div className='price'>
+                        <div className='badge price'>
                             ${(data.item.price * data.item.quantity).toFixed(2)}
                         </div>
                     </div>
