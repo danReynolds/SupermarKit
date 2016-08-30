@@ -3,6 +3,7 @@ module Matcher
         include Amatch
 
         SIMILARITY_THRESHOLD = 0.4
+        AGGREGATE_SIMILARITY_THRESHOLD = 0.9
 
         class Match
             attr_accessor :similarity, :name
@@ -17,11 +18,11 @@ module Matcher
             @comparator = Levenshtein.new(pattern)
         end
 
-        def find_match(objects)
+        def find_match(objects, threshold = SIMILARITY_THRESHOLD)
             match = objects.inject({}) do |acc, obj|
                 similarity = @comparator.similar(obj)
                 acc.tap do |acc|
-                    if (acc[:similarity].nil? || acc[:similarity] < similarity) && similarity >= SIMILARITY_THRESHOLD
+                    if (acc[:similarity].nil? || acc[:similarity] < similarity) && similarity >= threshold
                         acc.merge!({
                             similarity: similarity,
                             name: obj

@@ -6,7 +6,7 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :user_group
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
-  TOTAL_KEYWORDS = ['Total', 'Subtotal'].freeze
+  TOTAL_KEYWORDS = ['Total', 'Subtotal', 'Balance'].freeze
 
   def show
     @dashboard = {
@@ -109,10 +109,9 @@ class GroceriesController < ApplicationController
     # Match tesseract captures to items in the grocery list
     captures = processed_receipt.map { |line| line.match(/^((?:[A-Z]+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
 
-    match_result = captures.inject({ matches: [], total: 0 }) do |acc, capture|
+    match_results = captures.inject({ matches: [], total: 0 }) do |acc, capture|
       acc.tap do |acc|
           matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
-
           # There is a special case for matches to the total price
           match = matcher.find_match(TOTAL_KEYWORDS)
 
@@ -120,19 +119,35 @@ class GroceriesController < ApplicationController
               # Multiple matches for a total keyword favor the largest value
               acc[:total] = [capture[1].to_f, acc[:total]].max
           elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
-              item = Item.find_by_name(match.name)
-              acc[:matches] << {
-                  id: item.id,
-                  name: item.name,
-                  price: capture[1],
-                  similarity: match.similarity
-              }
+              # Aggregate duplicate items together
+
+              aggregate_match = acc[:matches].detect { |existing_match| existing_match[:name] == match.name }
+              if aggregate_match
+                  aggregate_match.merge!({ price: aggregate_match[:price] += capture[1].to_f })
+              else
+                  acc[:matches] << {
+                      name: match.name,
+                      price: capture[1].to_f,
+                      similarity: match.similarity
+                  }
+              end
           end
       end
     end
 
+    # Add new items and update existing items with the determined prices
+    match_results[:matches].each do |match|
+        item = Item.find_or_create_by(name: match[:name])
+        unless @grocery.items.find_by_id(item.id)
+            @grocery.items << item
+            match.merge!({ new: true })
+        end
+        item.grocery_item(@grocery).update!(price: match[:price], requester: current_user)
+        match.merge!({ id: item.id })
+    end
+
     render json: {
-        data: match_result
+      data: match_results
     }
   end
 
@@ -153,7 +168,7 @@ class GroceriesController < ApplicationController
     @grocery.finished_at = DateTime.now
 
     if @grocery.save!
-      head :ok
+        head :ok
       flash[:notice] = "Checkout complete! When you're ready, make a new grocery list."
     end
   end
@@ -177,7 +192,6 @@ class GroceriesController < ApplicationController
     else
       @grocery.update_attribute(:grocery_store, nil)
     end
-
     head :ok
   end
 
