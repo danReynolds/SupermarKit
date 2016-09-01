@@ -1,20 +1,25 @@
 var Checkout = React.createClass({
     propTypes: {
+        grocery_id: React.PropTypes.number.isRequired,
         users: React.PropTypes.array.isRequired,
-        estimated_total: React.PropTypes.number.isRequired
+        total: React.PropTypes.number.isRequired,
+        redirect_url: React.PropTypes.string.isRequired,
+        uploader_id: React.PropTypes.number
     },
 
     getInitialState: function() {
         return {
             users: this.props.users.map(function(user) {
+                var uploader_id = this.props.uploader_id;
+                var contribution = uploader_id && user.id === uploader_id ? this.props.total : 0;
                 return Object.assign(
                     user,
                     {
                         contributed: true,
-                        contribution: 0
+                        contribution: contribution
                     }
                 )
-            })
+            }.bind(this))
         };
     },
 
@@ -154,7 +159,7 @@ var Checkout = React.createClass({
                             </div>
                             <div className='totals'>
                                 <div className='total'>Total: ${total}</div>
-                            <div className='estimated-total'>Estimated Total: ${this.props.estimated_total}</div>
+                            <div className='estimated-total'>Estimated Total: ${this.props.total}</div>
                             </div>
                         </div>
                         <div className='card-action'>
