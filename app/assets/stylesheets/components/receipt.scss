@@ -13,6 +13,12 @@
         margin-left: auto;
     }
 
+    .total {
+        font-size: 2rem;
+        text-align: right;
+        margin: 1.5rem 0.5rem 0 0;
+    }
+
     .confidence {
         margin-right: 1.5rem;
 
@@ -23,11 +29,10 @@
         i { font-size: 1.25rem; }
     }
 
-
-  .new {
-      margin-left: 0;
-      margin-right: 0.75rem;
-  }
+    .new {
+        margin-left: 0;
+        margin-right: 0.75rem;
+    }
 
     .receipt-item {
         margin: 1rem 0.5rem;

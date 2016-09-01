@@ -39,6 +39,7 @@ Rails.application.routes.draw do
           patch :update_store
           post :email_group
           post :upload_receipt
+          post :confirm_receipt
         end
       end
       member do

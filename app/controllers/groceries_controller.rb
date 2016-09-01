@@ -6,7 +6,7 @@ class GroceriesController < ApplicationController
   load_and_authorize_resource :user_group
   load_and_authorize_resource :grocery, through: :user_group, shallow: true
 
-  TOTAL_KEYWORDS = ['Total', 'Subtotal', 'Balance'].freeze
+  TOTAL_KEYWORDS = ['Total', 'Subtotal', 'Balance', 'Debit tend'].freeze
 
   def show
     @dashboard = {
@@ -27,12 +27,12 @@ class GroceriesController < ApplicationController
     else
       render :new
     end
-	end
+  end
 
-	def edit
-	end
+  def edit
+  end
 
-	def update_items
+  def update_items
     items = params[:grocery][:items] || []
     @grocery.items.delete(@grocery.items - items.map { |item| Item.accessible_by(current_ability).find_by_id(item[:id]) })
     items.each do |item|
@@ -48,7 +48,7 @@ class GroceriesController < ApplicationController
     if @grocery.update!(grocery_params)
       head :ok
     end
-	end
+  end
 
   def update_recipes
     params[:grocery][:recipes] ||= []
@@ -88,7 +88,8 @@ class GroceriesController < ApplicationController
     @receipt_data = {
       token: form_authenticity_token,
       url: upload_receipt_grocery_path(@grocery),
-      skip_url: checkout_grocery_path(@grocery)
+      confirm_url: confirm_receipt_grocery_path(@grocery),
+      checkout_url: checkout_grocery_path(@grocery)
     }
   end
 
@@ -96,7 +97,7 @@ class GroceriesController < ApplicationController
     # @grocery.update!({ receipt: params[:file] })
 
     # Initialize Tesseract with English, only capital letters
-    e = Tesseract::Engine.new do |e|
+    engine = Tesseract::Engine.new do |e|
       e.path = '/usr/local/share'
       e.language  = :en
       e.blacklist = [*'a'..'z', '|']
@@ -104,13 +105,12 @@ class GroceriesController < ApplicationController
 
     # Retrieve the cleaned file from Amazon and process its text
     file = open(@grocery.receipt.url(:clean))
-    processed_receipt = e.text_for(file.path).strip.split("\n")
+    processed_receipt = engine.text_for(file.path).strip.split("\n")
 
     # Match tesseract captures to items in the grocery list
     captures = processed_receipt.map { |line| line.match(/^((?:[A-Z]+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
-
-    match_results = captures.inject({ matches: [], total: 0 }) do |acc, capture|
-      acc.tap do |acc|
+    match_results = captures.inject({ matches: [], total: 0 }) do |matches, capture|
+      matches.tap do |acc|
           matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
           # There is a special case for matches to the total price
           match = matcher.find_match(TOTAL_KEYWORDS)
@@ -137,17 +137,26 @@ class GroceriesController < ApplicationController
 
     # Add new items and update existing items with the determined prices
     match_results[:matches].each do |match|
-        item = Item.find_or_create_by(name: match[:name])
-        unless @grocery.items.find_by_id(item.id)
-            @grocery.items << item
-            match.merge!({ new: true })
-        end
-        item.grocery_item(@grocery).update!(price: match[:price], requester: current_user)
-        match.merge!({ id: item.id })
+      match.merge!({ new: true }) if @grocery.items.where(name: match[:name]).length.zero?
     end
 
     render json: {
       data: match_results
+    }
+  end
+
+  def confirm_receipt
+    params[:matches].each do |match|
+        item = Item.find_or_create_by(name: match[:name])
+        unless @grocery.items.find_by_id(item.id)
+            @grocery.items << item
+            item.grocery_item(@grocery).update!(requester: current_user)
+        end
+        item.grocery_item(@grocery).update!(price: match[:price])
+    end
+
+    render json: {
+      data: { uploader_id: current_user.id }
     }
   end
 
@@ -157,7 +166,8 @@ class GroceriesController < ApplicationController
       users: format_users(true),
       url: do_checkout_grocery_path(@grocery),
       redirect_url: user_group_path(@grocery.user_group),
-      estimated_total: @grocery.total_price_or_estimated.to_f
+      total: params[:total].try(:to_f) || @grocery.total_price_or_estimated.to_f,
+      uploader_id: params[:uploader_id].try(:to_i)
     }
   end
 
@@ -168,7 +178,7 @@ class GroceriesController < ApplicationController
     @grocery.finished_at = DateTime.now
 
     if @grocery.save!
-        head :ok
+      head :ok
       flash[:notice] = "Checkout complete! When you're ready, make a new grocery list."
     end
   end
