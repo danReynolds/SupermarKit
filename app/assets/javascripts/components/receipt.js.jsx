@@ -3,12 +3,13 @@ var Receipt = React.createClass({
 
     propTypes: {
         url: React.PropTypes.string.isRequired,
-        skip_url: React.PropTypes.string.isRequired
+        checkout_url: React.PropTypes.string.isRequired,
+        confirm_url: React.PropTypes.string.isRequired
     },
 
     getInitialState: function() {
         return {
-            items: null,
+            matches: null,
             loading: false
         }
     },
@@ -28,7 +29,7 @@ var Receipt = React.createClass({
         dropzone.on('success', function(file, response) {
             this.updatePagination(response.data.matches.length);
             this.setState({
-                items: response.data.matches,
+                matches: response.data.matches,
                 total: response.data.total,
                 loading: false
             });
@@ -71,12 +72,18 @@ var Receipt = React.createClass({
         );
     },
 
-    renderItems: function() {
-        var sortedItems = this.state.items.sort(function(item1, item2) {
+    renderMatches: function() {
+        var total = this.state.total;
+        var totalContent;
+        var sortedItems = this.state.matches.sort(function(item1, item2) {
             return item2.similarity - item1.similarity;
         });
 
-        var itemList = this.itemsForPage(sortedItems.map(function(item, index) {
+        if (total) {
+            totalContent = <div className='total'>Total: ${total}</div>
+        }
+
+        var matchesList = this.itemsForPage(sortedItems.map(function(item, index) {
             return (
                 <li
                     key={index}
@@ -96,13 +103,14 @@ var Receipt = React.createClass({
         return (
             <div>
                 <p>
-                    We have looked over your receipt and have determined the following prices for items.
+                    We have looked over your receipt and have determined the following prices for matches.
                     These prices will be used to help estimate the cost of item for your next grocery trip.
                 </p>
                 <ul>
-                    {itemList}
+                    {matchesList}
                 </ul>
                 {this.renderPagination()}
+                {totalContent}
             </div>
         );
     },
@@ -135,19 +143,33 @@ var Receipt = React.createClass({
         );
     },
 
+    confirmReceipt: function() {
+        $.ajax({
+            method: 'POST',
+            data: JSON.stringify({
+                matches: this.state.matches
+            }),
+            contentType: 'application/json',
+            url: this.props.confirm_url
+        }).then(function(response) {
+            var uploader_id = response.data.uploader_id;
+            window.location = `${this.props.checkout_url}?uploader_id=${uploader_id}&total=${this.state.total}`
+        }.bind(this))
+    },
+
     render: function() {
-        if (this.state.items) {
-            var confirmButton = <a className='btn' href={this.props.confirm_url}>Confirm</a>;
+        if (this.state.matches) {
+            var confirmButton = <a className='btn' onClick={this.confirmReceipt}>Confirm</a>;
         }
 
         return (
             <div className='card'>
                 <div className='card-content'>
                     <h3>Track Receipts</h3>
-                    {this.state.items ? this.renderItems() : this.renderUpload()}
+                    {this.state.matches ? this.renderMatches() : this.renderUpload()}
                     <a
                         className='btn cancel'
-                        href={this.props.skip_url}>
+                        href={this.props.checkout_url}>
                         Skip
                     </a>
                     {confirmButton}
