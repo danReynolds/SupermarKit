@@ -8,13 +8,17 @@
         .card
           .card-content
             .row
-              .col.l12
-                %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
-                %h3 Update Kit
+              %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
+              %h3 Update Kit
+              .col.l6
                 .inputs
                   = f.input :name, input_html: { class: 'input-field' }
-                  = f.input :description, input_html: { class: 'input-field' }
                   = f.input :user_ids, as: :hidden
+                  = f.input :description, input_html: { class: 'input-field' }
+              .col.l6
+                %p.default-group Set this Kit as your default to feature it in the menu.
+                = check_box_tag :default_group, true, current_user.default_group == @user_group, class: 'filled-in'
+                = label_tag :default_group, 'Default Kit'
     .row
       .col.l8.offset-l2
         .card

@@ -52,7 +52,7 @@ class UserGroupsController < ApplicationController
             id: payment.id,
             price: payment.price.format,
             payer: payment.user.name,
-            image: payment.user.gravatar_url
+            image: payment.user.gravatar_url,
           }
         end
       }
@@ -92,7 +92,13 @@ class UserGroupsController < ApplicationController
       end
     end
 
-    if @user_group.update_attributes(user_group_params)
+    if params[:default_group]
+      current_user.update_attribute(:default_group, @user_group)
+    elsif current_user.default_group == @user_group
+      current_user.update_attribute(:default_group, nil)
+    end
+
+    if @user_group.update!(user_group_params)
       redirect_to @user_group
     else
       render action: :edit
