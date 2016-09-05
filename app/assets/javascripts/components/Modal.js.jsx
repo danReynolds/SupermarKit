@@ -40,7 +40,9 @@ var Modal = React.createClass({
     },
 
     handleKeyPress: function(event) {
-        var change;
+        var change
+        var target = this.state.scrollTarget;
+        var length = this.state.results.length;
         switch(event.keyCode) {
             case this.props.changeTargetUp:
                 change = -1;
@@ -62,7 +64,8 @@ var Modal = React.createClass({
             default:
                 return;
         }
-        this.setState({ scrollTarget: (this.state.scrollTarget + change) % this.state.results.length });
+        target = (target + change < 0) ? length - 1 : (target + change) % length;
+        this.setState({scrollTarget: target});
     },
 
     handleChange: function(event) {
