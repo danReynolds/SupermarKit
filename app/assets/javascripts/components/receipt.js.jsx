@@ -75,6 +75,16 @@ var Receipt = React.createClass({
     renderMatches: function() {
         var total = this.state.total;
         var totalContent;
+
+        if (this.state.matches.length === 0) {
+            return (
+                <p>
+                    We were not able to find any matches after analyzing your receipt.
+                    You can try uploading a clearer image and we will try to make our software better.
+                </p>
+            )
+        }
+
         var sortedItems = this.state.matches.sort(function(item1, item2) {
             return item2.similarity - item1.similarity;
         });
