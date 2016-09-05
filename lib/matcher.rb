@@ -2,7 +2,7 @@ module Matcher
     class Matcher
         include Amatch
 
-        SIMILARITY_THRESHOLD = 0.4
+        SIMILARITY_THRESHOLD = 0.45
         AGGREGATE_SIMILARITY_THRESHOLD = 0.9
 
         class Match

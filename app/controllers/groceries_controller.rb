@@ -95,43 +95,41 @@ class GroceriesController < ApplicationController
 
   def upload_receipt
     # @grocery.update!({ receipt: params[:file] })
-
+    binding.pry
     # Initialize Tesseract with English, only capital letters
     engine = Tesseract::Engine.new do |e|
       e.path = '/usr/local/share'
       e.language  = :en
-      e.blacklist = [*'a'..'z', '|']
+      e.blacklist = ['|']
     end
 
     # Retrieve the cleaned file from Amazon and process its text
-    file = open(@grocery.receipt.url(:clean))
+    file = open(@grocery.receipt.url)
     processed_receipt = engine.text_for(file.path).strip.split("\n")
 
     # Match tesseract captures to items in the grocery list
-    captures = processed_receipt.map { |line| line.match(/^((?:[A-Z]+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
+    captures = processed_receipt.map { |line| line.match(/((?:\w+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
     match_results = captures.inject({ matches: [], total: 0 }) do |matches, capture|
       matches.tap do |acc|
-          matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
-          # There is a special case for matches to the total price
-          match = matcher.find_match(TOTAL_KEYWORDS)
-
-          if match
-              # Multiple matches for a total keyword favor the largest value
-              acc[:total] = [capture[1].to_f, acc[:total]].max
-          elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
-              # Aggregate duplicate items together
-
-              aggregate_match = acc[:matches].detect { |existing_match| existing_match[:name] == match.name }
-              if aggregate_match
-                  aggregate_match.merge!({ price: aggregate_match[:price] += capture[1].to_f })
-              else
-                  acc[:matches] << {
-                      name: match.name,
-                      price: capture[1].to_f,
-                      similarity: match.similarity
-                  }
-              end
+        matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
+        # There is a special case for matches to the total price
+        match = matcher.find_match(TOTAL_KEYWORDS)
+        if match
+          # Multiple matches for a total keyword favor the largest value
+          acc[:total] = [capture[1].to_f, acc[:total]].max
+        elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
+          # Aggregate duplicate items together
+          aggregate_match = acc[:matches].detect { |existing_match| existing_match[:name] == match.name }
+          if aggregate_match
+            aggregate_match.merge!({ price: aggregate_match[:price] += capture[1].to_f })
+          else
+            acc[:matches] << {
+              name: match.name,
+              price: capture[1].to_f,
+              similarity: match.similarity
+            }
           end
+        end
       end
     end
 
@@ -146,13 +144,13 @@ class GroceriesController < ApplicationController
   end
 
   def confirm_receipt
-    params[:matches].each do |match|
-        item = Item.find_or_create_by(name: match[:name])
-        unless @grocery.items.find_by_id(item.id)
-            @grocery.items << item
-            item.grocery_item(@grocery).update!(requester: current_user)
-        end
-        item.grocery_item(@grocery).update!(price: match[:price])
+    grocery_confirm_receipt_params[:matches].each do |match|
+      item = Item.find_or_create_by(name: match[:name])
+      unless @grocery.items.find_by_id(item.id)
+        @grocery.items << item
+        item.grocery_item(@grocery).update!(requester: current_user)
+      end
+      item.grocery_item(@grocery).update!(price: match[:price])
     end
 
     render json: {
@@ -205,7 +203,7 @@ class GroceriesController < ApplicationController
     head :ok
   end
 
-private
+  private
 
   def itemlist_params
     {
@@ -343,15 +341,19 @@ private
   end
 
   def grocery_params
-      params.require(:grocery).permit(:name, :description)
+    params.require(:grocery).permit(:name, :description)
   end
 
   def grocery_item_params
-      params.require(:grocery).permit(items: [:id, :quantity, :price])
+    params.require(:grocery).permit(items: [:id, :quantity, :price])
   end
 
   def grocery_payment_params
     params.require(:grocery).permit(payments: [:user_id, :price])
+  end
+
+  def grocery_confirm_receipt_params
+    params.require(:grocery).permit(matches: [:name, :price])
   end
 
   def grocery_recipe_params

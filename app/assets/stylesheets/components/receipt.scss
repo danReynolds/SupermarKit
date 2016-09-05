@@ -1,43 +1,43 @@
 .groceries-receipt {
-    .dropzone {
-        margin: 3rem;
-    }
+  .dropzone {
+    margin: 3rem;
+  }
 
-    ul {
-        margin-top: 2rem;
-    }
+  ul {
+    margin-top: 2rem;
+  }
 
-    .right-content {
-        align-items: baseline;
-        display: flex;
-        margin-left: auto;
-    }
+  .right-content {
+    align-items: baseline;
+    display: flex;
+    margin-left: auto;
+  }
 
-    .total {
-        font-size: 2rem;
-        text-align: right;
-        margin: 1.5rem 0.5rem 0 0;
-    }
+  .total {
+    font-size: 2rem;
+    margin: 1.5rem .5rem 0 0;
+    text-align: right;
+  }
 
-    .confidence {
-        margin-right: 1.5rem;
+  .confidence {
+    margin-right: 1.5rem;
 
-        &.weak { color: $sm-red; }
-        &.moderate { color: $sm-orange; }
-        &.strong { color: $sm-green; }
+    &.weak { color: $sm-red; }
+    &.moderate { color: $sm-orange; }
+    &.strong { color: $sm-green; }
 
-        i { font-size: 1.25rem; }
-    }
+    i { font-size: 1.25rem; }
+  }
 
-    .new {
-        margin-left: 0;
-        margin-right: 0.75rem;
-    }
+  .new {
+    margin-left: 0;
+    margin-right: .75rem;
+  }
 
-    .receipt-item {
-        margin: 1rem 0.5rem;
-        padding: 1rem;
+  .receipt-item {
+    @include list-item-shadow;
 
-        @include list-item-shadow;
-    }
+    margin: 1rem .5rem;
+    padding: 1rem;
+  }
 }
