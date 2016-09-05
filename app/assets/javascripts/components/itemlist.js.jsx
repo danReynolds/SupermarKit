@@ -4,7 +4,7 @@ var ItemList = React.createClass({
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
         items: React.PropTypes.object.isRequired,
-        recipeLength: React.PropTypes.number
+        recipes: React.PropTypes.number
     },
 
     getInitialState: function() {
@@ -180,7 +180,7 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (prevProps.recipeLength !== this.props.recipeLength) {
+        if (prevProps.recipes !== this.props.recipes) {
             this.reloadItems();
         } else if (this.state.modal.loading !== prevState.modal.loading && this.state.modal.selection.length) {
             Materialize.initializeDismissable();
