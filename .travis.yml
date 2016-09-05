@@ -3,6 +3,10 @@ rvm:
   - 2.2.2
 env:
   - RAILS_ENV=test
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install libleptonica-dev
+  - sudo apt-get install libleptonica-dev
 before_script:
   - "mysql -e 'create database my_app_test;'"
   - "cp ./.travis.database.yml ./config/database.yml"
