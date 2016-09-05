@@ -9,7 +9,8 @@ describe GroceriesController, type: :controller do
   let(:user_group_id) { user_group.id }
   it_should_behave_like 'routes', {
     new: { user_group_id: true },
-    show: { id: true }
+    show: { id: true },
+    receipt: { id: true }
   }
 
   describe 'POST create' do
@@ -37,6 +38,145 @@ describe GroceriesController, type: :controller do
       it 'should render new template' do
         grocery_params[:name] = ""
         expect(subject).to render_template :new
+      end
+    end
+  end
+
+  describe 'POST upload_receipt' do
+    let(:subject) { post :upload_receipt, id: grocery.id }
+    let(:processed_receipt) {
+      [
+        'BACON 54545845454 4.45',
+        'LEMON 3.25',
+        'BREAD 3.20'
+      ].join("\n")
+    }
+
+    before :each do
+      file = double('file')
+      allow(file).to receive(:path) {}
+      allow_any_instance_of(GroceriesController).to receive(:open).and_return(file)
+      allow_any_instance_of(Tesseract::Engine).to receive(:text_for).and_return(processed_receipt)
+    end
+
+    context 'with matching item on list' do
+      it 'should prioritize list items' do
+        expected_matches = [{ name: 'Breed', price: 3.2 }].map(&:stringify_keys)
+        Item.create(name: 'Bread')
+        grocery.items << Item.create(name: 'Breed')
+
+        subject
+        results = JSON.parse(response.body)['data']
+
+        expect(results['total']).to eq 0
+        expect(results['matches'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
+      end
+    end
+
+    context 'without matching item on list' do
+      it 'should fallback to all items' do
+        expected_matches = [{ name: 'Breed', price: 3.2, new: true }].map(&:stringify_keys)
+        Item.create(name: 'Breed')
+
+        subject
+        results = JSON.parse(response.body)['data']
+
+        expect(results['total']).to eq 0
+        expect(results['matches'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
+      end
+    end
+
+    context 'with a total keyword' do
+      let(:processed_receipt) {
+        [
+          "#{GroceriesController::TOTAL_KEYWORDS.first.upcase} 4.45"
+        ].join('\n')
+      }
+
+      it 'should prioritize matching the total keywords' do
+        expected_matches = []
+        Item.create(name: GroceriesController::TOTAL_KEYWORDS.first)
+
+        subject
+        results = JSON.parse(response.body)['data']
+
+        expect(results['total']).to eq 4.45
+        expect(results['matches'].map! { |match| match.slice('name', 'price') }).to eq expected_matches
+      end
+    end
+
+    context 'with multiple total keywords' do
+      let(:processed_receipt) {
+        [
+          "#{GroceriesController::TOTAL_KEYWORDS.first.upcase} 4.45",
+          "#{GroceriesController::TOTAL_KEYWORDS.last.upcase} 10.40"
+        ].join("\n")
+      }
+
+      it 'should select the highest value total keyword' do
+        expected_matches = []
+        Item.create(name: GroceriesController::TOTAL_KEYWORDS.first)
+
+        subject
+        results = JSON.parse(response.body)['data']
+
+        expect(results['total']).to eq 10.40
+        expect(results['matches'].map! { |match| match.slice('name', 'price') }).to eq expected_matches
+      end
+    end
+  end
+
+  describe 'POST confirm_reciept' do
+    let(:subject) { patch :confirm_receipt, id: grocery.id, grocery: grocery_params }
+    let(:grocery_params) {
+      {
+        matches: [
+          {
+            name: 'Bacon',
+            price: 4.00
+          }
+        ]
+      }
+    }
+
+    it "should return the uploader's id as the payer" do
+      subject
+      expect(JSON.parse(response.body)).to eq({
+        data: {
+          uploader_id: controller.current_user.id
+        }
+      }.with_indifferent_access)
+    end
+
+    context 'with an existing item' do
+      let (:name) { 'Bacon' }
+      let(:item) { create(:item, name: name) }
+      context 'with the item on the grocery list' do
+        it 'should set the price of the item to the match price' do
+          grocery.items << item
+          subject
+          expect(item.grocery_item(grocery).price).to eq 4.00.to_money
+        end
+      end
+
+      context 'with the item not on the grocery list' do
+        it 'should add the item to the list with the correct price' do
+          expect(grocery.items.find_by_id(item.id)).to eq nil
+          subject
+          expect(item.grocery_item(grocery).price).to eq 4.00.to_money
+          expect(grocery.items.find_by_name(name)).to eq item
+        end
+      end
+    end
+
+    context 'without an existing item' do
+      it 'should create the item and add it to the grocery list with the correct price' do
+        name = 'Bacon'
+        expect(Item.find_by_name(name)).to eq nil
+        subject
+        item = Item.find_by_name(name)
+        expect(item.grocery_item(grocery).price).to eq 4.00.to_money
+        expect(grocery.items.find_by_name(name)).to eq item
       end
     end
   end
@@ -116,17 +256,9 @@ describe GroceriesController, type: :controller do
 
   describe 'PATCH update_items' do
     let(:grocery_params) {
-      {
-        name: "#{grocery.name} updated"
-      }
+        { name: grocery.name }
     }
     subject { patch :update_items, id: grocery.id, grocery: grocery_params }
-
-    it 'should update the grocery fields' do
-      subject
-      old_name = grocery.name
-      expect(grocery.reload.name).to eq "#{old_name} updated"
-    end
 
     it 'should remove unspecified items' do
       expect(grocery.items).to_not be_empty
