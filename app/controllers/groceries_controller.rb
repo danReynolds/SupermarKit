@@ -94,8 +94,8 @@ class GroceriesController < ApplicationController
   end
 
   def upload_receipt
-    # @grocery.update!({ receipt: params[:file] })
-    binding.pry
+    @grocery.update!({ receipt: params[:file] })
+
     # Initialize Tesseract with English, only capital letters
     engine = Tesseract::Engine.new do |e|
       e.path = '/usr/local/share'
