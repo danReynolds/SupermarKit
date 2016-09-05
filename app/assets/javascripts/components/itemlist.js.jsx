@@ -4,7 +4,7 @@ var ItemList = React.createClass({
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
         items: React.PropTypes.object.isRequired,
-        recipes: React.PropTypes.number
+        recipes: React.PropTypes.array
     },
 
     getInitialState: function() {
