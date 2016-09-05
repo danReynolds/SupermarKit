@@ -147,7 +147,9 @@ var Receipt = React.createClass({
         $.ajax({
             method: 'POST',
             data: JSON.stringify({
-                matches: this.state.matches
+                grocery: {
+                    matches: this.state.matches
+                }
             }),
             contentType: 'application/json',
             url: this.props.confirm_url
