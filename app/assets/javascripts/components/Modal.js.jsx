@@ -175,7 +175,7 @@ var Modal = React.createClass({
     getResults: function() {
         var query = this.queryValue();
         var selected_names = this.state.selection.map(function(selected) {
-            return selected.name;
+            return selected.name.toLowerCase();
         });
 
         if (query && query.length >= this.props.minLength) {
@@ -183,10 +183,10 @@ var Modal = React.createClass({
                 var results = this.props.resultsFormatter ? this.props.resultsFormatter(res) : res;
 
                 var displayedResults = results.data.filter(function(result) {
-                    return !selected_names.includes(result.name);
+                    return !selected_names.includes(result.name.toLowerCase());
                 });
 
-                if (this.props.addUnmatchedQuery && displayedResults.length === 0 && !selected_names.includes(query)) {
+                if (this.props.addUnmatchedQuery && !selected_names.includes(query.toLowerCase())) {
                     displayedResults.push({
                         name: query,
                         description: 'Add new'
