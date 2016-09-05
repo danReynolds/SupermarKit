@@ -77,7 +77,7 @@ class UserGroupsController < ApplicationController
     end
 
     @payment_data = {
-      payments: (grocery_payments + user_payments).sort_by { |payment| payment[:date] }
+      payments: (grocery_payments + user_payments).sort_by { |payment| payment[:date] }.reverse
     }
   end
 

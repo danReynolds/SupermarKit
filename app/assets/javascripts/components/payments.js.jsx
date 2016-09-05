@@ -7,8 +7,12 @@ var Payments = React.createClass({
 
     getInitialState: function() {
         return {
-            payments: this.props.payments
+            payments: this.props.payments,
         }
+    },
+
+    componentWillMount: function() {
+        this.setState({pageSize: 10})
     },
 
     componentDidMount: function() {
