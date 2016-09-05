@@ -36,16 +36,16 @@ var Dashboard = React.createClass({
                             </a>
                             <ul>
                                 <li>
+                                    <div className='btn-label'>Manage Kit</div>
                                     <a className='btn-floating' href={this.props.manage_url}>
                                         <i className='fa fa-users'/>
                                     </a>
-                                    <div className='btn-label'>Manage Kit</div>
                                 </li>
                                 <li>
+                                    <div className='btn-label'>Checkout</div>
                                     <a className='btn-floating' href={this.props.checkout_url}>
                                         <i className='fa fa-shopping-basket'/>
                                     </a>
-                                    <div className='btn-label'>Checkout</div>
                                 </li>
                             </ul>
                         </div>
