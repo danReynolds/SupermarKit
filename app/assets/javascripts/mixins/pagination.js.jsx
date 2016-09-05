@@ -1,16 +1,7 @@
 var Pagination = {
-    propTypes: {
-        pageSize: React.PropTypes.number
-    },
-
-    getDefaultProps: function() {
-        return {
-            pageSize: 4
-        };
-    },
-
     getInitialState: function() {
         return {
+            pageSize: 4,
             pageNumber: 0,
             paginationTotal: 0,
             paginationAlwaysShow: false
@@ -26,7 +17,7 @@ var Pagination = {
     },
 
     itemsForPage: function(items) {
-        return items.splice(this.props.pageSize * this.state.pageNumber, this.props.pageSize);
+        return items.splice(this.state.pageSize * this.state.pageNumber, this.state.pageSize);
     },
 
     handlePageChange: function(e) {
@@ -80,7 +71,7 @@ var Pagination = {
     },
 
     lastPage: function() {
-        return Math.floor((this.state.paginationTotal - 1) / this.props.pageSize);
+        return Math.floor((this.state.paginationTotal - 1) / this.state.pageSize);
     },
 
     incrementPage: function() {
