@@ -77,7 +77,7 @@ class UserGroupsController < ApplicationController
     end
 
     @payment_data = {
-      payments: (grocery_payments + user_payments).sort_by { |payment| payment[:date] }
+      payments: (grocery_payments + user_payments).sort_by { |payment| payment[:date] }.reverse
     }
   end
 
@@ -92,7 +92,13 @@ class UserGroupsController < ApplicationController
       end
     end
 
-    if @user_group.update_attributes(user_group_params)
+    if params[:default_group]
+      current_user.update_attribute(:default_group, @user_group)
+    elsif current_user.default_group == @user_group
+      current_user.update_attribute(:default_group, nil)
+    end
+
+    if @user_group.update!(user_group_params)
       redirect_to @user_group
     else
       render action: :edit

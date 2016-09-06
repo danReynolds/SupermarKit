@@ -40,7 +40,9 @@ var Modal = React.createClass({
     },
 
     handleKeyPress: function(event) {
-        var change;
+        var change
+        var target = this.state.scrollTarget;
+        var length = this.state.results.length;
         switch(event.keyCode) {
             case this.props.changeTargetUp:
                 change = -1;
@@ -62,7 +64,8 @@ var Modal = React.createClass({
             default:
                 return;
         }
-        this.setState({ scrollTarget: (this.state.scrollTarget + change) % this.state.results.length });
+        target = (target + change < 0) ? length - 1 : (target + change) % length;
+        this.setState({scrollTarget: target});
     },
 
     handleChange: function(event) {
@@ -172,7 +175,7 @@ var Modal = React.createClass({
     getResults: function() {
         var query = this.queryValue();
         var selected_names = this.state.selection.map(function(selected) {
-            return selected.name;
+            return selected.name.toLowerCase();
         });
 
         if (query && query.length >= this.props.minLength) {
@@ -180,10 +183,10 @@ var Modal = React.createClass({
                 var results = this.props.resultsFormatter ? this.props.resultsFormatter(res) : res;
 
                 var displayedResults = results.data.filter(function(result) {
-                    return !selected_names.includes(result.name);
+                    return !selected_names.includes(result.name.toLowerCase());
                 });
 
-                if (this.props.addUnmatchedQuery && displayedResults.length === 0 && !selected_names.includes(query)) {
+                if (this.props.addUnmatchedQuery && !selected_names.includes(query.toLowerCase())) {
                     displayedResults.push({
                         name: query,
                         description: 'Add new'

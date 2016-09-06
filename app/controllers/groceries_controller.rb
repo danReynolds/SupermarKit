@@ -6,7 +6,6 @@ class GroceriesController < ApplicationController
 
 	def show
     @dashboard = {
-      recipeLength: @grocery.recipes.length,
       checkout_url: checkout_grocery_path(@grocery),
       manage_url: user_group_path(@grocery.user_group),
       itemList: itemlist_params,

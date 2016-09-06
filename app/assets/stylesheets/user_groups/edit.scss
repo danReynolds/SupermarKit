@@ -1,4 +1,7 @@
 .user-groups-edit {
-  .inputs { margin-top: 2rem; }
   img { max-height: 300px; }
+
+  input[type='checkbox'] + label {
+    margin-top: 1rem;
+  }
 }

@@ -4,7 +4,7 @@ var ItemList = React.createClass({
         users: React.PropTypes.array.isRequired,
         grocery: React.PropTypes.object.isRequired,
         items: React.PropTypes.object.isRequired,
-        recipeLength: React.PropTypes.number
+        recipes: React.PropTypes.array
     },
 
     getInitialState: function() {
@@ -101,6 +101,7 @@ var ItemList = React.createClass({
         this.saveSelection(updatedModal.selection);
 
         // Timeout is used for transition sliding animation on removal
+
         setTimeout(function() {
             this.setState({
                 total: this.state.total - this.totalPrice(item),
@@ -108,7 +109,7 @@ var ItemList = React.createClass({
             }, function() {
                 $('.collection-item').css('transform', 'none');
             }.bind(this));
-        }.bind(this), 100);
+        }.bind(this), 90);
     },
 
     handleSave: function(modalSelection) {
@@ -180,7 +181,7 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (prevProps.recipeLength !== this.props.recipeLength) {
+        if (prevProps.recipes !== this.props.recipes) {
             this.reloadItems();
         } else if (this.state.modal.loading !== prevState.modal.loading && this.state.modal.selection.length) {
             Materialize.initializeDismissable();
