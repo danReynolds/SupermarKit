@@ -101,7 +101,6 @@ var ItemList = React.createClass({
         this.saveSelection(updatedModal.selection);
 
         // Timeout is used for transition sliding animation on removal
-
         setTimeout(function() {
             this.setState({
                 total: this.state.total - this.totalPrice(item),
