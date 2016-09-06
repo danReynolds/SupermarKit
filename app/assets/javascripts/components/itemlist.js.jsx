@@ -108,7 +108,7 @@ var ItemList = React.createClass({
             }, function() {
                 $('.collection-item').css('transform', 'none');
             }.bind(this));
-        }.bind(this), 100);
+        }.bind(this), 90);
     },
 
     handleSave: function(modalSelection) {
