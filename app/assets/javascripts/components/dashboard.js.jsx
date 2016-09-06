@@ -9,13 +9,13 @@ var Dashboard = React.createClass({
 
     getInitialState: function() {
         return {
-            recipeLength: this.props.recipeLength || 0
+            recipes: this.props.recipes.selection
         };
     },
 
-    updateRecipeLength: function(recipeLength) {
+    updateRecipes: function(recipes) {
         this.setState({
-            recipeLength: recipeLength
+            recipes: recipes
         });
     },
 
@@ -25,10 +25,10 @@ var Dashboard = React.createClass({
                 <div className='row'>
                     <div className='col l6 dashboard-card'>
                         <ItemList
-                            recipeLength={this.state.recipeLength}
+                            recipes={this.state.recipes}
                             {...this.props.itemList}/>
                         <Recipes
-                            updateRecipeLength={this.updateRecipeLength}
+                            updateRecipes={this.updateRecipes}
                             {...this.props.recipes}/>
                         <div className='fixed-action-btn'>
                             <a className='btn-floating btn-large'>
@@ -36,16 +36,16 @@ var Dashboard = React.createClass({
                             </a>
                             <ul>
                                 <li>
+                                    <div className='btn-label'>Manage Kit</div>
                                     <a className='btn-floating' href={this.props.manage_url}>
                                         <i className='fa fa-users'/>
                                     </a>
-                                    <div className='btn-label'>Manage Kit</div>
                                 </li>
                                 <li>
+                                    <div className='btn-label'>Checkout</div>
                                     <a className='btn-floating' href={this.props.checkout_url}>
                                         <i className='fa fa-shopping-basket'/>
                                     </a>
-                                    <div className='btn-label'>Checkout</div>
                                 </li>
                             </ul>
                         </div>

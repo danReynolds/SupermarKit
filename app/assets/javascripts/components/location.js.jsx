@@ -1,8 +1,15 @@
 var Location = React.createClass({
     getDefaultProps: function() {
         return {
-            zoomLevel: 15
+            zoomLevel: 15,
+            radius: 500
         };
+    },
+
+    getInitialState: function() {
+        return {
+            location: null
+        }
     },
 
     saveLocation: function() {
@@ -29,6 +36,8 @@ var Location = React.createClass({
                     store: store
                 }
             })
+        }).then(function(result) {
+            Materialize.toast('Shopping location updated.', 1000)
         });
     },
 
@@ -66,20 +75,32 @@ var Location = React.createClass({
         map.setZoom(this.props.zoomLevel);
     },
 
-    componentDidMount: function() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: new google.maps.LatLng(0, 0),
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false,
-            zoom: 1
-        });
+    setupSearch: function(map, nearby) {
+        var coords = this.state.coords;
+        service = new google.maps.places.PlacesService(map);
 
-        this.setState({
-            map: map
-        });
-
-        if (this.props.place_id) {
-            service = new google.maps.places.PlacesService(map);
+        if (nearby) {
+            // Use their current coordinates to get the closest store
+            service.nearbySearch({
+                location: coords,
+                radius: this.props.radius,
+                type: ['grocery_or_supermarket'] // deprecated Feb 2017
+            }, function(places, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    if (places.length !== 0) {
+                        var place = places[0];
+                        var placeLocation = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
+                        map.setCenter(placeLocation);
+                        this.placeMarkers(places, map);
+                        this.setState({
+                            store: place
+                        });
+                        $('#pac-input').val(place.name + ', ' + place.vicinity);
+                    }
+                }
+            }.bind(this));
+        } else if (this.props.place_id) {
+            // Otherwise use their assigned place
             service.getDetails({
                 placeId: this.props.place_id
             }, function(place, status) {
@@ -95,9 +116,18 @@ var Location = React.createClass({
             }.bind(this));
         }
 
+        if (coords && !this.props.place_id) {
+            var latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
+            var bounds = {
+                bounds: new google.maps.Circle({
+                    center: latLng, radius: this.props.radius
+                }).getBounds()
+            };
+        }
+
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
+        var searchBox = new google.maps.places.SearchBox(input, bounds);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
@@ -156,6 +186,46 @@ var Location = React.createClass({
         }.bind(this));
     },
 
+    componentDidMount: function() {
+        var _this = this;
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: new google.maps.LatLng(0, 0),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false,
+            zoom: 1
+        });
+
+        this.setState({
+            map: map
+        });
+
+        var options = {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        };
+
+        // Otherwise default to the closest grocery store
+        navigator.geolocation.getCurrentPosition(function(response) {
+            var coords = response.coords;
+            var mapCoords = {
+                lat: coords.latitude,
+                lng: coords.longitude
+            };
+            _this.setState({coords: mapCoords}, function() {
+                // Set it to their assigned place if it exists
+                if (this.props.place_id) {
+                    _this.setupSearch(map);
+                } else {
+                    _this.setupSearch(map, true);
+                }
+            });
+        },
+        function (error) {
+            _this.setupSearch(map);
+        }, options);
+    },
+
     render: function() {
         return (
             <div className='card location'>
@@ -175,7 +245,7 @@ var Location = React.createClass({
                         <a
                             onClick={this.saveLocation}
                             className='waves-effect waves-light btn'>
-                            Set location
+                            Save this location
                             </a>
                         <a
                             onClick={this.getDirections}

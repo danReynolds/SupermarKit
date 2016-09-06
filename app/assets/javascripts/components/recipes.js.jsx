@@ -2,7 +2,7 @@ var Recipes = React.createClass({
     mixins: [ModalContainer, RecipeHelper],
 
     propTypes: {
-        updateRecipeLength: React.PropTypes.func
+        updateRecipes: React.PropTypes.func
     },
 
     getInitialState: function() {
@@ -152,7 +152,7 @@ var Recipes = React.createClass({
                         }
                     )
                 }, function() {
-                    _this.props.updateRecipeLength(_this.state.modal.selection.length);
+                    _this.props.updateRecipes(_this.state.modal.selection);
                     _this.toggleModalAndLoading();
                 });
             });

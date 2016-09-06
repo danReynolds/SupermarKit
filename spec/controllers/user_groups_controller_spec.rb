@@ -71,7 +71,55 @@ describe UserGroupsController, type: :controller do
     let(:user1) { create(:user) }
     let(:user2) { create(:user) }
     let(:group) { create(:user_group, users: [user1, user2, controller.current_user]) }
-    let(:subject) { patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}"} }
+    let(:subject) { patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}" }, default_group: default_group  }
+    let(:default_group) { false }
+
+    context 'currently default group' do
+      before :each do
+        controller.current_user.update_attribute(:default_group, group)
+      end
+
+      context 'setting not default group' do
+        it 'should set the default group to nil' do
+          expect(controller.current_user.default_group).to eq group
+          subject
+          expect(controller.current_user.default_group).to eq nil
+        end
+      end
+
+      context 'setting default group' do
+        let(:default_group) { true }
+        it 'should keep the default group the same' do
+          expect(controller.current_user.default_group).to eq group
+          subject
+          expect(controller.current_user.default_group).to eq group
+        end
+      end
+    end
+
+    context 'currently not group' do
+      before :each do
+        @other_group = create(:user_group)
+        controller.current_user.update_attribute(:default_group, @other_group)
+      end
+
+      context 'setting not default group' do
+        it 'should not change the default group' do
+          expect(controller.current_user.default_group).to eq @other_group
+          subject
+          expect(controller.current_user.default_group).to eq @other_group
+        end
+      end
+
+      context 'setting default group' do
+        let(:default_group) { true }
+        it 'should update the default group to the current group' do
+          expect(controller.current_user.default_group).to eq @other_group
+          subject
+          expect(controller.current_user.default_group).to eq group
+        end
+      end
+    end
 
     it 'replaces users with new ones' do
       subject

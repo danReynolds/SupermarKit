@@ -11,12 +11,22 @@
     bottom: 5%;
     right: 5%;
     text-align: center;
-    width: 5rem;
+    width: 9rem;
 
     &:hover {
       .btn-label {
         opacity: 1;
       }
+    }
+
+    ul {
+      transform: translate(-36%, 0);
+    }
+
+    li {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
 
     .btn-floating {
@@ -33,10 +43,11 @@
 
     .btn-label {
       color: $sm-white;
-      margin-top: 0.5rem;
+      margin: 0 0.5rem 0 0;
       opacity: 0;
       transition: opacity 1s;
+      padding: 5px;
+      background: $sm-dark-blue-green;
     }
   }
-
 }
