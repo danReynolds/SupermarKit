@@ -52,7 +52,7 @@ class UserGroupsController < ApplicationController
             id: payment.id,
             price: payment.price.format,
             payer: payment.user.name,
-            image: payment.user.gravatar_url,
+            image: payment.user.gravatar_url
           }
         end
       }

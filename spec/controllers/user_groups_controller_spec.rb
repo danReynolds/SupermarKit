@@ -71,7 +71,7 @@ describe UserGroupsController, type: :controller do
     let(:user1) { create(:user) }
     let(:user2) { create(:user) }
     let(:group) { create(:user_group, users: [user1, user2, controller.current_user]) }
-    let(:subject) { patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}"}, default_group: default_group  }
+    let(:subject) { patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}" }, default_group: default_group  }
     let(:default_group) { false }
 
     context 'currently default group' do
