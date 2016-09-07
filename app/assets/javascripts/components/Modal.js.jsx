@@ -181,12 +181,15 @@ var Modal = React.createClass({
         if (query && query.length >= this.props.minLength) {
             $.getJSON(this.props.queryUrl + query, function(res) {
                 var results = this.props.resultsFormatter ? this.props.resultsFormatter(res) : res;
-
                 var displayedResults = results.data.filter(function(result) {
                     return !selected_names.includes(result.name.toLowerCase());
                 });
 
-                if (this.props.addUnmatchedQuery && !selected_names.includes(query.toLowerCase())) {
+                var exactMatch = results.data.some(function(result) {
+                    return result.name.toLowerCase() === query.toLowerCase();
+                });
+
+                if (this.props.addUnmatchedQuery && !exactMatch) {
                     displayedResults.push({
                         name: query,
                         description: 'Add new'
