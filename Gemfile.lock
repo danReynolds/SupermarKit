@@ -311,6 +311,8 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     role_model (0.8.2)
+    rollbar (2.12.0)
+      multi_json
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -341,6 +343,8 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sentry-raven (1.2.3)
+      faraday (>= 0.7.6, < 0.10.x)
     sexp_processor (4.6.0)
     simple_form (3.1.0)
       actionpack (~> 4.0)
@@ -438,9 +442,11 @@ DEPENDENCIES
   puma
   rails (= 4.2.3)
   react-rails (~> 1.5.0)
+  rollbar
   rspec-rails
   sass-rails
   sdoc (~> 0.4.0)
+  sentry-raven
   simple_form
   sorcery
   spring

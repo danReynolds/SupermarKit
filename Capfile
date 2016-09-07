@@ -1,4 +1,7 @@
 require 'capistrano/datadog'
+require 'dotenv'
+Dotenv.load
+
 set :datadog_api_key, ENV['DATA_DOG_KEY']
 
 # Load DSL and Setup Up Stages
