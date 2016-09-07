@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
 
   def auto_complete
     items = @grocery.user_group.privacy_items.select(:id, :description, :name)
-      .with_name(params[:q]).order('LENGTH(name) ASC').limit(5)
+      .with_name(params[:q]).order('LENGTH(items.name) ASC').limit(5)
 
     render json: {
       data: items.map do |item|
