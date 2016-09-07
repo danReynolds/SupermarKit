@@ -102,6 +102,19 @@ RSpec.describe ItemsController, type: :controller do
       expect(data.first['name']).to eq item.name
     end
 
+    it 'should always return the exact match' do
+      items = %w[breads breadst breadliest breading breader bread].map do |name|
+        item = Item.create(name: name)
+        item.tap do |i|
+          grocery.items << item
+        end
+      end
+      item = items.last
+
+      get :auto_complete, grocery_id: grocery, q: item.name
+      expect(data.map { |i| i['id'] }).to include(item.id)
+    end
+
     describe 'scope by privacy' do
       context 'public kit' do
         it 'returns other public group items' do
