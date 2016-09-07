@@ -41,6 +41,11 @@ gem 'aws-sdk', '< 2.0'
 gem 'linguistics'
 gem 'geokit-rails'
 
+group :production do
+	gem 'newrelic_rpm'
+	gem 'dogapi', '>=1.3.0'
+end
+
 group :development do
 	gem 'better_errors'
 	gem 'binding_of_caller'

@@ -1,0 +1,137 @@
+[34m
+* Installing apt-transport-https
+[0m
+Sorry, try again.
+Ign:1 http://dl.google.com/linux/chrome/deb stable InRelease
+Get:2 http://dl.google.com/linux/chrome/deb stable Release [1,189 B]
+Hit:3 http://us.archive.ubuntu.com/ubuntu xenial InRelease
+Get:4 http://security.ubuntu.com/ubuntu xenial-security InRelease [94.5 kB]
+Get:5 http://ppa.launchpad.net/numix/ppa/ubuntu xenial InRelease [17.5 kB]
+Get:6 http://dl.google.com/linux/chrome/deb stable Release.gpg [916 B]
+Get:7 http://us.archive.ubuntu.com/ubuntu xenial-updates InRelease [95.7 kB]
+Ign:8 http://repo.vivaldi.com/stable/deb stable InRelease
+Hit:9 http://repository.spotify.com stable InRelease
+Ign:10 http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04  InRelease
+Get:11 http://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1,335 B]
+Hit:12 http://repo.vivaldi.com/stable/deb stable Release
+Hit:14 http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04  Release
+Hit:15 http://ppa.launchpad.net/oranchelo/oranchelo-icon-theme/ubuntu xenial InRelease
+Hit:16 http://ppa.launchpad.net/varlesh-l/papirus-pack/ubuntu xenial InRelease
+Get:17 http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04  Release.gpg [481 B]
+Hit:18 http://us.archive.ubuntu.com/ubuntu xenial-backports InRelease
+Get:19 http://ppa.launchpad.net/numix/ppa/ubuntu xenial/main amd64 Packages [2,280 B]
+Ign:17 http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04  Release.gpg
+Get:20 http://ppa.launchpad.net/numix/ppa/ubuntu xenial/main i386 Packages [2,280 B]
+Get:21 http://us.archive.ubuntu.com/ubuntu xenial-updates/main amd64 Packages [383 kB]
+Get:22 http://us.archive.ubuntu.com/ubuntu xenial-updates/main i386 Packages [379 kB]
+Get:23 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 Packages [41.1 kB]
+Get:24 http://us.archive.ubuntu.com/ubuntu xenial-updates/main amd64 DEP-11 Metadata [299 kB]
+Get:25 http://us.archive.ubuntu.com/ubuntu xenial-updates/main DEP-11 64x64 Icons [188 kB]
+Get:26 http://us.archive.ubuntu.com/ubuntu xenial-updates/universe amd64 Packages [324 kB]
+Get:27 http://security.ubuntu.com/ubuntu xenial-security/universe i386 Packages [41.0 kB]
+Get:28 http://us.archive.ubuntu.com/ubuntu xenial-updates/universe i386 Packages [320 kB]
+Get:29 http://security.ubuntu.com/ubuntu xenial-security/universe amd64 DEP-11 Metadata [2,265 B]
+Get:30 http://security.ubuntu.com/ubuntu xenial-security/universe DEP-11 64x64 Icons [4,105 B]
+Get:31 http://us.archive.ubuntu.com/ubuntu xenial-updates/universe amd64 DEP-11 Metadata [101 kB]
+Get:32 http://us.archive.ubuntu.com/ubuntu xenial-updates/universe DEP-11 64x64 Icons [93.1 kB]
+Fetched 2,392 kB in 6s (378 kB/s)
+Reading package lists...
+W: GPG error: http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04  Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 5A7D1D38BEB6D886
+W: The repository 'http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04  Release' is not signed.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+apt-transport-https is already the newest version (1.2.12~ubuntu16.04.1).
+apt-transport-https set to manually installed.
+The following packages were automatically installed and are no longer required:
+  gyp libjs-inherits libjs-node-uuid libjs-underscore libuv1 libuv1-dev
+  linux-headers-4.4.0-21 linux-headers-4.4.0-21-generic linux-headers-4.4.0-31
+  linux-headers-4.4.0-31-generic linux-image-4.4.0-21-generic
+  linux-image-4.4.0-31-generic linux-image-extra-4.4.0-21-generic
+  linux-image-extra-4.4.0-31-generic linux-signed-image-4.4.0-21-generic
+  linux-signed-image-4.4.0-31-generic python-pkg-resources
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 20 not upgraded.
+[34m
+* Installing APT package sources for Datadog
+[0m
+Executing: /tmp/tmp.wZrFqTedD8/gpg.1.sh --recv-keys
+--keyserver
+hkp://keyserver.ubuntu.com:80
+C7A7DA52
+gpg: requesting key C7A7DA52 from hkp server keyserver.ubuntu.com
+gpg: key C7A7DA52: public key "Datadog Packages <package@datadoghq.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+[34m
+* Installing the Datadog Agent package
+[0m
+Ign:1 https://apt.datadoghq.com stable InRelease
+Get:2 https://apt.datadoghq.com stable Release [1,804 B]
+Get:3 https://apt.datadoghq.com stable Release.gpg [490 B]
+Get:4 https://apt.datadoghq.com stable/main amd64 Packages [7,945 B]
+Get:5 https://apt.datadoghq.com stable/main i386 Packages [7,939 B]
+Fetched 18.2 kB in 0s (29.7 kB/s)
+Reading package lists...
+W: https://apt.datadoghq.com/dists/stable/Release.gpg: Signature by key 935F5A436A5A6E8788F0765B226AE980C7A7DA52 uses weak digest algorithm (SHA1)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following packages were automatically installed and are no longer required:
+  gyp libjs-inherits libjs-node-uuid libjs-underscore libuv1 libuv1-dev
+  linux-headers-4.4.0-21 linux-headers-4.4.0-21-generic linux-headers-4.4.0-31
+  linux-headers-4.4.0-31-generic linux-image-4.4.0-21-generic
+  linux-image-4.4.0-31-generic linux-image-extra-4.4.0-21-generic
+  linux-image-extra-4.4.0-31-generic linux-signed-image-4.4.0-21-generic
+  linux-signed-image-4.4.0-31-generic python-pkg-resources
+Use 'sudo apt autoremove' to remove them.
+The following NEW packages will be installed:
+  datadog-agent
+0 upgraded, 1 newly installed, 0 to remove and 20 not upgraded.
+Need to get 53.9 MB of archives.
+After this operation, 176 MB of additional disk space will be used.
+Get:1 https://apt.datadoghq.com stable/main amd64 datadog-agent amd64 1:5.8.5-1 [53.9 MB]
+Fetched 53.9 MB in 15s (3,404 kB/s)
+Selecting previously unselected package datadog-agent.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 379615 files and directories currently installed.)
+Preparing to unpack .../datadog-agent_1%3a5.8.5-1_amd64.deb ...
+Prepare Datadog Agent keys rotation
+  Add the new 'Datadog, Inc <package@datadoghq.com>' key to the list of APT trusted keys. ... OK
+find: ‘/opt/datadog-agent/agent’: No such file or directory
+Unpacking datadog-agent (1:5.8.5-1) ...
+Processing triggers for systemd (229-4ubuntu7) ...
+Processing triggers for ureadahead (0.100.0-19) ...
+ureadahead will be reprofiled on next reboot
+Setting up datadog-agent (1:5.8.5-1) ...
+Registering service datadog-agent
+Enabling service datadog-agent
+Creating dd-agent group
+Creating dd-agent user
+Please supply a configuration file at /etc/dd-agent/datadog.conf or in the directory where the Agent is currently deployed.
+W: --force-yes is deprecated, use one of the options starting with --allow instead.
+[34m
+* Adding your API key to the Agent configuration: /etc/dd-agent/datadog.conf
+[0m
+[34m* Starting the Agent...
+[0m
+[32m
+Your Agent has started up for the first time. We're currently verifying that
+data is being submitted. You should see your Agent show up in Datadog shortly
+at:
+
+    https://app.datadoghq.com/infrastructure[0m
+
+Waiting for metrics.................................[32m
+
+Your Agent is running and functioning properly. It will continue to run in the
+background and submit metrics to Datadog.
+
+If you ever want to stop the Agent, run:
+
+    sudo /etc/init.d/datadog-agent stop
+
+And to run it again run:
+
+    sudo /etc/init.d/datadog-agent start
+
+[0m
