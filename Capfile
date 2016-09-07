@@ -1,3 +1,6 @@
+require 'capistrano/datadog'
+set :datadog_api_key, ENV['DATADOG_KEY']
+
 # Load DSL and Setup Up Stages
 require 'capistrano/setup'
 require 'capistrano/deploy'
