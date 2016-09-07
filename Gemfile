@@ -9,11 +9,11 @@ gem 'capistrano-rails',   require: false
 gem 'capistrano-rvm',     require: false
 gem 'capistrano',         require: false
 gem 'capistrano3-puma',   require: false
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'underscore-rails'
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails', '~> 4.0.0'
 gem 'coveralls', require: false
-gem 'dotenv-rails'
 gem 'haml-rails'
 gem 'inline_svg'
 gem 'premailer-rails'
@@ -40,11 +40,10 @@ gem 'paperclip'
 gem 'aws-sdk', '< 2.0'
 gem 'linguistics'
 gem 'geokit-rails'
-
-group :production do
-	gem 'newrelic_rpm'
-	gem 'dogapi', '>=1.3.0'
-end
+gem 'rollbar'
+gem 'dogapi', '>=1.3.0'
+gem 'newrelic_rpm'
+gem 'sentry-raven'
 
 group :development do
 	gem 'better_errors'
