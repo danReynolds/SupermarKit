@@ -80,6 +80,11 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Handle exception routing
+  config.exceptions_app = Proc.new do |env|
+    ErrorsController.action(:show).call(env)
+  end
+
   config.paperclip_defaults = {
     storage: :s3,
     s3_credentials: {
