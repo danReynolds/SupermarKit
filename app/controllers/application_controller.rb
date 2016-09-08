@@ -8,4 +8,9 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to user_groups_path, alert: exception.message
   end
+
+  def not_authenticated
+    flash[:notice] ||= 'You must be logged in to view this page.'
+    redirect_to login_path
+  end
 end
