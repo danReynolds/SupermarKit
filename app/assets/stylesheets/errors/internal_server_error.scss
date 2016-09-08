@@ -1,0 +1,13 @@
+.internal-server-error {
+  .banana {
+    animation: banana 2s infinite alternate;
+    @keyframes banana {
+      0% {
+        fill: $sm-yellow;
+      }
+      100% {
+        fill: $sm-red;
+      }
+    }
+  }
+}
