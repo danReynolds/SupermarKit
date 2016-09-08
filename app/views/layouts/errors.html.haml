@@ -1,0 +1,10 @@
+= stylesheet_link_tag 'application', media: 'all'
+
+.container.application-errors
+  .row
+    .col.l8.offset-l2
+      .card
+        .card-content
+          %h1= @status_code
+          = yield
+          %p Details for nerds: #{@exception}

@@ -1,0 +1,13 @@
+.not-found {
+  .shop {
+    animation: shop 2s infinite alternate;
+    @keyframes shop {
+      0% {
+        fill: $sm-green;
+      }
+      100% {
+        fill: $sm-blue;
+      }
+    }
+  }
+}

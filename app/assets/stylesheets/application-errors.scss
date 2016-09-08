@@ -1,0 +1,22 @@
+.application-errors {
+  text-align: center;
+
+  h1 {
+    margin: 0 0 1rem;
+  }
+
+  .card {
+    .card-content {
+      padding: 3rem;
+    }
+
+    p {
+      margin-top: 0.5rem;
+    }
+  }
+
+
+  svg {
+    @include size(10rem)
+  }
+}
