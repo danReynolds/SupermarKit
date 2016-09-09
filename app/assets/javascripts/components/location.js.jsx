@@ -245,7 +245,7 @@ var Location = React.createClass({
                         <a
                             onClick={this.saveLocation}
                             className='waves-effect waves-light btn'>
-                            Save this location
+                            Save location
                             </a>
                         <a
                             onClick={this.getDirections}
