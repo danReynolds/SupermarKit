@@ -20,11 +20,11 @@ class UserGroupsController < ApplicationController
   end
 
   def create
+    @user_group.user_ids = user_group_params[:user_ids].split(',') << current_user.id
     if @user_group.save
-      @user_group.users << (User.find(params[:user_group][:user_ids].split(",")) << current_user)
       @user_group.user_groups_users
        .find_by_user_id(current_user.id)
-       .update_attributes(state: UserGroupsUsers::ACCEPTED)
+       .update_attribute(:state, UserGroupsUsers::ACCEPTED)
 
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to @user_group, notice: 'Kit created! When you are ready, create your first grocery list.'
@@ -82,9 +82,10 @@ class UserGroupsController < ApplicationController
   end
 
   def update
-    remaining_users = User.find(params[:user_group][:user_ids].split(","))
+    update_params = update_user_group_params
+    update_params[:user_ids] = update_params[:user_ids].split(',')
+    remaining_users = User.find(update_params[:user_ids])
     removed_users = @user_group.users - remaining_users
-    @user_group.users = remaining_users
 
     removed_users.each do |user|
       if user.default_group == @user_group
@@ -98,7 +99,7 @@ class UserGroupsController < ApplicationController
       current_user.update_attribute(:default_group, nil)
     end
 
-    if @user_group.update!(user_group_params)
+    if @user_group.update!(update_params)
       redirect_to @user_group
     else
       render action: :edit
@@ -121,7 +122,7 @@ class UserGroupsController < ApplicationController
 
   def do_payment
     UserPayment.create!(
-      user_group_params.merge!({
+      user_group_payment_params.merge!({
         payer_id: current_user.id,
         user_group_id: @user_group.id
       })
@@ -133,13 +134,20 @@ class UserGroupsController < ApplicationController
 
 private
   def user_group_params
-    params.require(:user_group).permit(:reason, :payee_id, :price, :name, :description, :privacy, :banner)
+    params.require(:user_group).permit(:name, :description, :privacy, :banner, :user_ids)
+  end
+
+  def user_group_payment_params
+    params.require(:user_group).permit(:payee_id, :reason, :price)
+  end
+
+  def update_user_group_params
+    params.require(:user_group).permit(:name, :description, :banner, :user_ids)
   end
 
   def user_payment_data
-    @user_group.user_groups_users.partition do |user_group_user|
-      user_group_user.user == current_user
-    end.flatten.map do |user_group_user|
+    user_groups_users = @user_group.user_groups_users
+    user_groups_users.where(user: current_user).union(user_groups_users).map do |user_group_user|
       user = user_group_user.user
       {
         id: user.id,
