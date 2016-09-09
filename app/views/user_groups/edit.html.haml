@@ -13,7 +13,7 @@
               .col.l6
                 .inputs
                   = f.input :name, input_html: { class: 'input-field' }
-                  = f.input :user_ids, as: :hidden
+                  = f.input :user_ids, as: :hidden, input_html: { value: @user_group.user_ids.join(',') }
                   = f.input :description, input_html: { class: 'input-field' }
               .col.l6
                 %p.default-group Set this Kit as your default to feature it in the menu.

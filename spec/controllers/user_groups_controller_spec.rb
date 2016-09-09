@@ -16,8 +16,8 @@ describe UserGroupsController, type: :controller do
 
   describe 'POST create' do
     let(:user_group_params) { attributes_for(:user_group) }
-    let(:subject) { post :create, user_group: user_group_params.merge!(user_ids: "#{group_member.id}") }
-    let(:group_member) { create(:user) }
+    let(:subject) { post :create, user_group: user_group_params.merge!(user_ids: "#{group_members.map(&:id).join(',')}") }
+    let(:group_members) { create_list(:user, 3) }
     let(:new_group) { UserGroup.last }
 
     context 'with valid params' do
@@ -27,7 +27,7 @@ describe UserGroupsController, type: :controller do
 
       it 'adds specified and current user to group' do
         subject
-        expect(new_group.users).to contain_exactly(group_member, controller.current_user)
+        expect(new_group.users).to match_array(group_members + [controller.current_user])
       end
 
       context 'without a default group' do
