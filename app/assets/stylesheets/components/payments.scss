@@ -1,5 +1,10 @@
 .payments-card {
-  padding-bottom: 0.5rem;
+  padding: 0.5rem 0;
+
+  ul {
+    border-top: none;
+    margin: 0 auto;
+  }
 
   .no-payments {
     padding: 4rem 0 2rem 0;

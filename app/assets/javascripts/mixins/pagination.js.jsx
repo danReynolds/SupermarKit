@@ -34,12 +34,12 @@ var Pagination = {
 
     renderPagination: function() {
         var pages = [];
-        var pageLength = this.lastPage();
+        var lastPage = this.lastPage();
 
-        if (pageLength === 0 && !this.state.paginationAlwaysShow)
+        if (lastPage === 0 && !this.state.paginationAlwaysShow)
             return;
 
-        for (var pageNumber = 0; pageNumber <= pageLength; pageNumber++) {
+        for (var pageNumber = 0; pageNumber <= lastPage; pageNumber++) {
             pages.push(
                 <li
                     key={pageNumber}
