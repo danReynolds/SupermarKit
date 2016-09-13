@@ -1,6 +1,5 @@
 .modal {
   max-height: initial !important;
-  overflow: hidden;
 
   @media screen and (max-height: 400px) {
     .reveal-controls {
@@ -47,9 +46,13 @@
   }
 
   .reveal-controls {
+    background: $sm-off-white;
+    padding: 1rem;
+    text-align: right;
+    right: 0.5rem;
+    bottom: 0.5rem;
     position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    width: 100%;
   }
 
   .input-field { height: 100%; }
@@ -58,9 +61,14 @@
   .selection-container { margin: 0 !important; }
 
   .results-container {
-    max-height: 22rem;
+    position: relative;
+    // Total size of the elements for the modal excluding the results container
+    height: calc(100vh - 225px);
     @media #{$desktop} {
-       max-height: 13.2rem;
+      height: 19.8rem;
+    }
+    @media #{$keyboard} {
+      height: calc(100vh - 126px);
     }
     overflow: auto;
   }
