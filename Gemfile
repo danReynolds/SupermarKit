@@ -9,11 +9,12 @@ gem 'capistrano-rails',   require: false
 gem 'capistrano-rvm',     require: false
 gem 'capistrano',         require: false
 gem 'capistrano3-puma',   require: false
-gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'underscore-rails'
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails', '~> 4.0.0'
 gem 'coveralls', require: false
+gem 'dropzonejs-rails'
+gem 'dotenv-rails'
 gem 'haml-rails'
 gem 'inline_svg'
 gem 'premailer-rails'
@@ -44,6 +45,15 @@ gem 'rollbar'
 gem 'dogapi', '>=1.3.0'
 gem 'newrelic_rpm'
 gem 'sentry-raven'
+gem 'amatch'
+
+if ENV["LOCAL_ENVIRONMENT"] == "development"
+	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
+else
+	TESSERACT_GEM = 'https://github.com/meh/ruby-tesseract-ocr.git'
+end
+
+gem 'tesseract-ocr', git: TESSERACT_GEM
 
 group :development do
 	gem 'better_errors'

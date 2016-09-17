@@ -69,9 +69,7 @@ var UserManagement = React.createClass({
                 }
             })
         }).done(function(response) {
-            this.setState({
-                users: response.data
-            });
+            this.setState({ users: response.data });
         }.bind(this));
     },
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708142204) do
+ActiveRecord::Schema.define(version: 20160717142747) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -24,14 +24,18 @@ ActiveRecord::Schema.define(version: 20160708142204) do
   add_index "authentications", ["user_id"], name: "index_authentications_on_user_id", using: :btree
 
   create_table "groceries", force: :cascade do |t|
-    t.string   "name",             limit: 255
-    t.string   "description",      limit: 255
+    t.string   "name",                 limit: 255
+    t.string   "description",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "owner_id",         limit: 4
-    t.integer  "user_group_id",    limit: 4
+    t.integer  "owner_id",             limit: 4
+    t.integer  "user_group_id",        limit: 4
     t.datetime "finished_at"
-    t.integer  "grocery_store_id", limit: 4
+    t.integer  "grocery_store_id",     limit: 4
+    t.string   "receipt_file_name",    limit: 255
+    t.string   "receipt_content_type", limit: 255
+    t.integer  "receipt_file_size",    limit: 4
+    t.datetime "receipt_updated_at"
   end
 
   add_index "groceries", ["grocery_store_id"], name: "index_groceries_on_grocery_store_id", using: :btree

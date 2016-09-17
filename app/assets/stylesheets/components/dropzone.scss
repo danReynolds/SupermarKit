@@ -1,0 +1,11 @@
+.dropzone {
+  border: 2px dashed $sm-green;
+
+  p { text-align: center; }
+
+  i {
+      font-size: 2rem;
+      color: $sm-green;
+      margin-top: 1rem;
+  }
+}
