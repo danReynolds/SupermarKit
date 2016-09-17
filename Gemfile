@@ -45,8 +45,15 @@ gem 'rollbar'
 gem 'dogapi', '>=1.3.0'
 gem 'newrelic_rpm'
 gem 'sentry-raven'
-gem 'tesseract-ocr', git: 'https://github.com/danReynolds/ruby-tesseract-ocr'
 gem 'amatch'
+
+if ENV["RAILS_ENV"] == "development"
+	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
+else
+	TESSERACT_GEM = 'https://github.com/meh/ruby-tesseract-ocr.git'
+end
+
+gem 'tesseract-ocr', git: TESSERACT_GEM
 
 group :development do
 	gem 'better_errors'
