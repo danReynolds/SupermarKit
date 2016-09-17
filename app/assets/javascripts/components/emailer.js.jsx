@@ -41,7 +41,7 @@ var Emailer = React.createClass({
                     <div className='card-action wide'>
                         <a
                             onClick={this.deliverEmail}
-                            className='waves-effect waves-light btn'>
+                            className='btn'>
                             <i className='material-icons left'>send</i>
                             Send
                         </a>

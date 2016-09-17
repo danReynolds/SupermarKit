@@ -36,7 +36,7 @@ var Multiselect = React.createClass({
         if (this.props.buttonText) {
             var button = <a
                             onClick={this.props.toggleModal}
-                            className="btn-floating btn-large waves-effect waves-light">
+                            className="btn-floating">
                             <i className="material-icons">{this.props.buttonText}</i>
                         </a>;
         }

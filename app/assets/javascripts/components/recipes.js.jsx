@@ -238,7 +238,7 @@ var Recipes = React.createClass({
                     {content}
                     <a
                         onClick={this.toggleModalAndLoading}
-                        className="btn-floating btn-large waves-effect waves-light">
+                        className="btn-floating">
                         <i className="material-icons">search</i>
                     </a>
                 </div>

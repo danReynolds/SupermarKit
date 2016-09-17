@@ -3,5 +3,5 @@ a {
   cursor: pointer;
   text-transform: none !important;
   &.highlight, &:hover { color: $sm-green !important; }
-  &.dark { color: $sm-dark-gray !important; }
+  &.dark:not(.btn) { color: $sm-dark-gray !important; }
 }

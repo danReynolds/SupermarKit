@@ -246,7 +246,7 @@ var ItemList = React.createClass({
                                     value={data.item.price} />
                             </div>
                             <a
-                                className='waves-effect waves-light btn'
+                                className='btn'
                                 onClick={this.handleItemUpdate}>
                                 Update
                             </a>
@@ -304,7 +304,7 @@ var ItemList = React.createClass({
                         <a
                             onClick={this.toggleModalAndLoading}
                             href={"#" + this.props.modal.id}
-                            className="btn-floating btn-large waves-effect waves-light">
+                            className="btn-floating">
                             <i className="material-icons">add</i>
                         </a>
                     </div>

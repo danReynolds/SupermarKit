@@ -1,14 +1,10 @@
-.btn {
+@mixin shared-button-styles {
+  @extend .waves-effect;
+  @extend .waves-light;
+
   background: $sm-green;
   color: $sm-white !important;
-  margin-top: 0.5rem;
   text-transform: none;
-
-  &.secondary {
-    $button-color: $sm-gray;
-    background: $button-color;
-    &:hover { background: lighten($button-color, 10%); }
-  }
 
   &.cancel {
     $button-color: $sm-red;
@@ -16,15 +12,67 @@
     &:hover { background: lighten($button-color, 10%); }
   }
 
+  &.dark {
+    $button-color: $sm-dark-blue-green;
+    background: $button-color;
+    &:hover { background: darken($button-color, 5%); }
+  }
+
+  &.light {
+    $accent-color: $sm-dark-blue-green;
+    $primary-color: $sm-light-gray;
+    background: $primary-color;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
+
+    i {
+      color: $accent-color;
+    }
+  }
+
   &:hover {
     color: $sm-white !important;
     background: darken($sm-green, 10%);
   }
+}
+
+.btn {
+  @include shared-button-styles;
+  margin-top: 0.5rem;
+  padding: 0 1.25rem;
 
   .file-field & {
     height: auto !important;
     line-height: 36px !important;
   }
+}
+
+.btn-floating {
+  @include shared-button-styles;
+  @include size(50px);
+  background: $sm-green;
+
+  i {
+    line-height: 50px;
+    position: absolute;
+    left: 0;
+  }
+
+  &.btn-small {
+    @include size(40px);
+
+    i { line-height: 40px; }
+  }
+}
+
+.btn-label {
+  color: $sm-white;
+  margin: 0 0.5rem 0 0;
+  opacity: 0;
+  padding: 5px;
+  border-radius: 2px;
 }
 
 .btn + .btn { margin-left: 1rem; }
