@@ -6,8 +6,8 @@ GIT
       sass (~> 3.3)
 
 GIT
-  remote: https://github.com/ortutay/ruby-tesseract-ocr.git
-  revision: 74a4042a07da0f8bf54d06ff01a1647bbdeeac92
+  remote: https://github.com/meh/ruby-tesseract-ocr.git
+  revision: e0180d793cda4ad487364504df099ecbd5e30b28
   specs:
     tesseract-ocr (0.1.8)
       call-me
