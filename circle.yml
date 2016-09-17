@@ -2,5 +2,5 @@ dependencies:
   pre:
     - sudo apt-get update
     - sudo apt-get install libleptonica-dev libtesseract-dev
-    - mkdir /usr/share/tessdata
-    - curl -L https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata > /usr/local/share/tessdata/eng.traineddata 
+    - sudo mkdir /usr/share/tessdata
+    - sudo curl -L https://github.com/tesseract-ocr/tessdata/raw/master/eng.traineddata > /usr/local/share/tessdata/eng.traineddata
