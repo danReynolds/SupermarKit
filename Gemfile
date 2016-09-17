@@ -42,7 +42,14 @@ gem 'aws-sdk', '< 2.0'
 gem 'linguistics'
 gem 'geokit-rails'
 gem 'amatch'
-gem 'tesseract-ocr'
+
+if ENV["RAILS_ENV"] == "development"
+	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
+else
+	TESSERACT_GEM = 'https://github.com/meh/ruby-tesseract-ocr.git'
+end
+
+gem 'tesseract-ocr', git: TESSERACT_GEM
 
 group :development do
 	gem 'better_errors'
