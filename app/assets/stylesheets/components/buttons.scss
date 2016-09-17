@@ -6,6 +6,11 @@
   color: $sm-white !important;
   text-transform: none;
 
+  &:hover {
+    color: $sm-white !important;
+    background: darken($sm-green, 10%);
+  }
+
   &.cancel {
     $button-color: $sm-red;
     background: $button-color;
@@ -22,19 +27,16 @@
     $accent-color: $sm-dark-blue-green;
     $primary-color: $sm-light-gray;
     background: $primary-color;
+    color: $accent-color !important;
 
     &:hover {
-      background: darken($primary-color, 10%);
+      background: darken($primary-color, 5%);
+      color: $accent-color !important;
     }
 
     i {
       color: $accent-color;
     }
-  }
-
-  &:hover {
-    color: $sm-white !important;
-    background: darken($sm-green, 10%);
   }
 }
 
