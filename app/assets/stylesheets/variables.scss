@@ -22,6 +22,7 @@ $sm-yellow:                   #fff933;
 // Media Queries
 // =========================
 
-$mobile: "(max-width: 480px)";
-$tablet: "(min-width: 480px) and (max-width: 1024px)";
-$desktop: "(min-width: 1024px)";
+$mobile: '(max-width: 480px)';
+$tablet: '(min-width: 480px) and (max-width: 1024px)';
+$desktop: '(min-width: 1024px)';
+$keyboard: '(max-height: 400px)';

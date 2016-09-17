@@ -262,7 +262,7 @@ var ItemList = React.createClass({
         }.bind(this));
 
         return (
-            <ul className='collection collapsible popout data-collapsible="accordion'>
+            <ul className='collection collapsible popout data-collapsible="accordion"'>
                 {itemContent}
                 <div className="bottom-row">
                     <span>
