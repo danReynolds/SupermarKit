@@ -41,8 +41,8 @@ gem 'paperclip'
 gem 'aws-sdk', '< 2.0'
 gem 'linguistics'
 gem 'geokit-rails'
-gem 'tesseract-ocr', git: 'https://github.com/danReynolds/ruby-tesseract-ocr'
 gem 'amatch'
+gem 'tesseract-ocr'
 
 group :development do
 	gem 'better_errors'
@@ -51,6 +51,7 @@ end
 
 group :test do
 	gem 'webmock'
+	gem 'tesseract-ocr'
 end
 
 group :development, :test do
