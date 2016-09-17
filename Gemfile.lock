@@ -15,6 +15,16 @@ GIT
     materialize-sass (0.97.5)
       sass (~> 3.3)
 
+GIT
+  remote: https://github.com/meh/ruby-tesseract-ocr.git
+  revision: e0180d793cda4ad487364504df099ecbd5e30b28
+  specs:
+    tesseract-ocr (0.1.8)
+      call-me
+      ffi-extra
+      ffi-inline
+      iso-639
+
 GEM
   remote: https://rubygems.org/
   specs:
