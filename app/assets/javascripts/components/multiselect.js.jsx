@@ -42,8 +42,8 @@ var Multiselect = React.createClass({
         }
 
         return (
-            <div className='multiselect' ref='root'>
-                <div className='selection-container valign-wrapper'>
+            <div className='multiselect'>
+                <div className='selection-container valign-wrapper' ref='container'>
                     {selection}
                 </div>
                 {button}
@@ -51,9 +51,19 @@ var Multiselect = React.createClass({
         );
     },
 
+    scrollToBottom: function() {
+        var node = ReactDOM.findDOMNode(this.refs.container);
+        node.scrollTop = node.scrollHeight;
+    },
+
     componentDidUpdate: function(prevProps, prevState) {
         if (this.props.selection !== prevProps.selection) {
             this.setState({ selection: this.props.selection });
+            this.scrollToBottom();
+        }
+
+        if (prevProps.backspaceTarget !== this.props.backspaceTarget) {
+            this.scrollToBottom();
         }
     }
 });

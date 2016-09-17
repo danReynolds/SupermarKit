@@ -43,6 +43,8 @@ var Modal = React.createClass({
         var change
         var target = this.state.scrollTarget;
         var length = this.state.results.length;
+        var newTarget;
+
         switch(event.keyCode) {
             case this.props.changeTargetUp:
                 change = -1;
@@ -64,8 +66,10 @@ var Modal = React.createClass({
             default:
                 return;
         }
-        target = (target + change < 0) ? length - 1 : (target + change) % length;
-        this.setState({scrollTarget: target});
+        newTarget = target + change;
+        if (newTarget > 0 && newTarget < length) {
+            this.setState({ scrollTarget: newTarget });
+        }
     },
 
     handleChange: function(event) {
@@ -211,9 +215,15 @@ var Modal = React.createClass({
 
     componentDidUpdate: function(prevProps, prevState) {
         var _this = this;
+        var target = this.state.scrollTarget;
 
         if (prevState.fields !== this.state.fields) {
             this.state.getResults();
+        }
+
+        if (prevState.scrollTarget !== target) {
+            var results = ReactDOM.findDOMNode(this.refs.results);
+            results.scrollTop = ReactDOM.findDOMNode(this.refs[`result-${target}`]).offsetTop;
         }
 
         if (this.props.open !== prevProps.open) {
@@ -245,14 +255,17 @@ var Modal = React.createClass({
         var pagination;
 
         var results = this.state.results.map(function(result, index) {
+            var identifier = 'result-' + index;
             return React.createElement(this[self.props.resultType], {
-                    key: "result-" + index,
-                    resultIndex: index,
-                    handleAdd: self.handleAdd,
-                    result: result,
-                    scrollTarget: self.state.scrollTarget
-                });
+                key: identifier,
+                ref: identifier,
+                resultIndex: index,
+                handleAdd: self.handleAdd,
+                result: result,
+                scrollTarget: self.state.scrollTarget
+            });
         });
+
         return (
             <div id={this.props.id} className='modal bottom-sheet'>
                 <div className='modal-reveal'>
@@ -279,7 +292,7 @@ var Modal = React.createClass({
                         selection={this.state.selection}
                         backspaceTarget={this.state.backspaceTarget}
                         removeFromSelection={this.removeFromSelection}/>
-                    <ul className='results-container'>
+                    <ul className='results-container' ref='results'>
                         {results}
                     </ul>
                     <div className='reveal-controls'>
