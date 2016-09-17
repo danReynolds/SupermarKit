@@ -32,11 +32,14 @@ Rails.application.routes.draw do
         member do
           get :recipes
           get :checkout
+          get :receipt
           patch :do_checkout
           patch :update_items
           patch :update_recipes
           patch :update_store
           post :email_group
+          post :upload_receipt
+          post :confirm_receipt
         end
       end
       member do

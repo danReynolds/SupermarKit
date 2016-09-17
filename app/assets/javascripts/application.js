@@ -10,6 +10,7 @@
 //= require react
 //= require underscore
 //= require react_ujs
+//= require dropzone
 
 // =============================
 // Page Scripts
@@ -22,3 +23,7 @@
 //= require_tree ./pages
 //= require_tree ./user_groups
 //= require_tree ./groceries
+
+$(document).ready(function() {
+    Dropzone.autoDiscover = false;
+});

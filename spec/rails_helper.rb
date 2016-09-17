@@ -29,7 +29,7 @@ module Sorcery
   module TestHelpers
     module Rails
       def basic_user(user, password)
-        page.driver.post(user_sessions_url, { username: user, password: password}) 
+        page.driver.post(user_sessions_url, { username: user, password: password })
       end
     end
   end
