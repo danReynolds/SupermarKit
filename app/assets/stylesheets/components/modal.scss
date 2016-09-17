@@ -23,8 +23,12 @@
   }
 
   .modal-footer {
-    margin-bottom: 2rem;
-    padding-right: 2rem;
+    margin: 1rem;
+
+    .btn {
+      float: none;
+      &.btn { margin-left: 1rem; }
+    }
   }
 }
 

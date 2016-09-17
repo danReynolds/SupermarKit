@@ -244,12 +244,12 @@ var Location = React.createClass({
                     <div className='card-action wide'>
                         <a
                             onClick={this.saveLocation}
-                            className='waves-effect waves-light btn'>
+                            className='btn'>
                             Save location
                             </a>
                         <a
                             onClick={this.getDirections}
-                            className='waves-effect waves-light btn'>
+                            className='btn'>
                             Directions
                             </a>
                     </div>

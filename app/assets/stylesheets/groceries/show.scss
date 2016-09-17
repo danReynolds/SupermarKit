@@ -28,26 +28,5 @@
       justify-content: flex-end;
       align-items: center;
     }
-
-    .btn-floating {
-      background: $sm-dark-blue-green;
-    }
-
-    .btn-large {
-      background: $sm-dark-blue-green;
-
-      &:hover {
-        background: darken($sm-blue, 10%);
-      }
-    }
-
-    .btn-label {
-      color: $sm-white;
-      margin: 0 0.5rem 0 0;
-      opacity: 0;
-      transition: opacity 1s;
-      padding: 5px;
-      background: $sm-dark-blue-green;
-    }
   }
 }

@@ -31,19 +31,20 @@ var Dashboard = React.createClass({
                             updateRecipes={this.updateRecipes}
                             {...this.props.recipes}/>
                         <div className='fixed-action-btn'>
-                            <a className='btn-floating btn-large'>
+                            <a className='btn-floating btn-large light'>
                                 <i className='large material-icons'>mode_edit</i>
                             </a>
                             <ul>
                                 <li>
                                     <div className='btn-label'>Manage Kit</div>
-                                    <a className='btn-floating' href={this.props.manage_url}>
+                                    <a className='btn-floating btn-small' href={this.props.manage_url}>
                                         <i className='fa fa-users'/>
                                     </a>
                                 </li>
                                 <li>
+
                                     <div className='btn-label'>Checkout</div>
-                                    <a className='btn-floating' href={this.props.checkout_url}>
+                                    <a className='btn-floating btn-small' href={this.props.checkout_url}>
                                         <i className='fa fa-shopping-basket'/>
                                     </a>
                                 </li>

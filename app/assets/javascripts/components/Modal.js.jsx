@@ -284,13 +284,13 @@ var Modal = React.createClass({
                     </ul>
                     <div className='reveal-controls'>
                         <a
-                            className='waves-effect waves-light btn cancel'
+                            className='btn cancel'
                             onClick={this.handleCancel}>
                             <i className='material-icons left'>close</i>
                             Cancel
                         </a>
                         <a
-                            className='waves-effect waves-light btn'
+                            className='btn'
                             onClick={this.handleSave}>
                             <i className='material-icons left'>send</i>
                             Update

@@ -15,12 +15,14 @@ var RecipeResult = React.createClass({
     render: function() {
         var resultClass = 'valign-wrapper recipe-result' + (this.props.resultIndex === this.props.scrollTarget ? ' target' : "");
         var instructionsLink;
-        
+
         if (this.props.result.url) {
             instructionsLink = (
                 <a
+                    className='btn dark'
                     onClick={this.handleClick}
                     target='_blank'
+                    rel='noopener'
                     href={this.props.result.url}>
                     View
                 </a>

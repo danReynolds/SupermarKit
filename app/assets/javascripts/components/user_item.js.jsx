@@ -1,5 +1,4 @@
 var UserItem = React.createClass({
-
     propTypes: {
         index: React.PropTypes.number.isRequired,
         modalTrigger: React.PropTypes.func.isRequired,
@@ -20,6 +19,7 @@ var UserItem = React.createClass({
         if (this.props.index) {
             var payContent = (
                 <a
+                    className='btn'
                     data-index={this.props.index}
                     onClick={this.handleClick}
                     href='#!'>
