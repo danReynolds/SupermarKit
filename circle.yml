@@ -1,3 +1,2 @@
 dependencies:
   pre:
-    - sudo apt-get update; sudo apt-get install libleptonica-dev libtesseract-dev
