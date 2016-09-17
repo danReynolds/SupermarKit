@@ -14,7 +14,7 @@ gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails', '~> 4.0.0'
 gem 'coveralls', require: false
 gem 'dropzonejs-rails'
-gem 'dotenv-rails'
+gem 'dotenv-rails', require: 'dotenv/rails-now'
 gem 'haml-rails'
 gem 'inline_svg'
 gem 'premailer-rails'
@@ -47,7 +47,7 @@ gem 'newrelic_rpm'
 gem 'sentry-raven'
 gem 'amatch'
 
-if ENV["RAILS_ENV"] == "development"
+if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
 else
 	TESSERACT_GEM = 'https://github.com/meh/ruby-tesseract-ocr.git'
