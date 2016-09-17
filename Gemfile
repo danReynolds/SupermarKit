@@ -55,6 +55,7 @@ end
 
 group :test do
 	gem 'webmock'
+	gem 'tesseract-ocr'
 end
 
 group :development, :test do
