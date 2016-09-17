@@ -49,6 +49,14 @@ namespace :puma do
   before :start, :make_dirs
 end
 
+namespace :setup do
+  task :tesseract do
+    on roles(:app) do
+      execute "bash /home/deploy/apps/SupermarKit/current/scripts/tesseract.sh"
+    end
+  end
+end
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
