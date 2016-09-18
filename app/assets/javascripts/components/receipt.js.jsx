@@ -15,6 +15,16 @@ var Receipt = React.createClass({
     },
 
     componentDidMount: function() {
+        this.setupDropzone();
+    },
+
+    componentDidUpdate: function(prevProps, prevState) {
+        if (this.state.matches && this.state.matches.length === 0 && !this.state.loading) {
+            this.setupDropzone();
+        }
+    },
+
+    setupDropzone: function() {
         var dropzone = new Dropzone(
             '#receipt-upload',
             {
@@ -38,6 +48,8 @@ var Receipt = React.createClass({
 
     renderUpload: function() {
         var uploadContent;
+        var uploadText;
+
         if (this.state.loading) {
             uploadContent = <Loader/>
         } else {
@@ -61,11 +73,24 @@ var Receipt = React.createClass({
             );
         }
 
-        return (
-            <div>
+        if (this.state.matches) {
+            uploadText = (
+                <p>
+                We were not able to find any matches after analyzing your receipt.
+                You can try uploading a clearer image and we will try to make our software better.
+                </p>
+            );
+        } else {
+            uploadText = (
                 <p> Add a picture of your receipt to keep track of exactly what you purchased.
                     We will analyze your receipt and try to match up pricing information and the total cost to your SupermarKit grocery list.
                 </p>
+            );
+        }
+
+        return (
+            <div>
+                {uploadText}
                 {uploadContent}
             </div>
 
@@ -75,15 +100,6 @@ var Receipt = React.createClass({
     renderMatches: function() {
         var total = this.state.total;
         var totalContent;
-
-        if (this.state.matches.length === 0) {
-            return (
-                <p>
-                    We were not able to find any matches after analyzing your receipt.
-                    You can try uploading a clearer image and we will try to make our software better.
-                </p>
-            )
-        }
 
         var sortedItems = this.state.matches.sort(function(item1, item2) {
             return item2.similarity - item1.similarity;
@@ -170,6 +186,8 @@ var Receipt = React.createClass({
     },
 
     render: function() {
+        var matches = this.state.matches;
+
         if (this.state.matches) {
             var confirmButton = <a className='btn' onClick={this.confirmReceipt}>Confirm</a>;
         }
@@ -178,7 +196,7 @@ var Receipt = React.createClass({
             <div className='card'>
                 <div className='card-content'>
                     <h3>Track Receipts</h3>
-                    {this.state.matches ? this.renderMatches() : this.renderUpload()}
+                    {matches && matches.length ? this.renderMatches() : this.renderUpload()}
                     <a
                         className='btn cancel'
                         href={this.props.checkout_url}>
