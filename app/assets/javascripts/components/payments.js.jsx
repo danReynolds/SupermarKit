@@ -61,7 +61,7 @@ var Payments = React.createClass({
                             <div className='right-content'>
                                 {this.renderLabel(payment.date_formatted, 'Date:', 'date-' + paymentIndex)}
                             </div>
-                            <div className='price'>
+                            <div className='badge price'>
                                 {payment.total}
                             </div>
                         </div>
@@ -93,7 +93,7 @@ var Payments = React.createClass({
                                 {this.renderLabel(payment.date_formatted, 'Date:', 'date-' + paymentIndex)}
                                 {reasonContent}
                             </div>
-                            <div className='price'>
+                            <div className='badge price'>
                                 {payment.total}
                             </div>
                         </div>
