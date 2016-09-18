@@ -44,11 +44,12 @@ describe GroceriesController, type: :controller do
 
   describe 'POST upload_receipt' do
     let(:subject) { post :upload_receipt, id: grocery.id }
+    # Add additional text at the end of items to test the regex
     let(:processed_receipt) {
       [
         'BACON 54545845454 4.45',
         'LEMON 3.25',
-        'BREAD 3.20'
+        'BREAD 545458454544 3.20'
       ].join("\n")
     }
 
@@ -126,7 +127,7 @@ describe GroceriesController, type: :controller do
     end
   end
 
-  describe 'POST confirm_reciept' do
+  describe 'POST confirm_receipt' do
     let(:subject) { patch :confirm_receipt, id: grocery.id, grocery: grocery_params }
     let(:grocery_params) {
       {

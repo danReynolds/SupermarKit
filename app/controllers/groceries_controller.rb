@@ -106,9 +106,8 @@ class GroceriesController < ApplicationController
     # Retrieve the cleaned file from Amazon and process its text
     file = open(@grocery.receipt.url)
     processed_receipt = engine.text_for(file.path).strip.split("\n")
-
     # Match tesseract captures to items in the grocery list
-    captures = processed_receipt.map { |line| line.match(/((?:\w+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
+    captures = processed_receipt.map { |line| line.match(/((?:[A-za-z]+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
     match_results = captures.inject({ matches: [], total: 0 }) do |matches, capture|
       matches.tap do |acc|
         matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
@@ -119,6 +118,7 @@ class GroceriesController < ApplicationController
           acc[:total] = [capture[1].to_f, acc[:total]].max
         elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
           # Aggregate duplicate items together
+
           aggregate_match = acc[:matches].detect { |existing_match| existing_match[:name] == match.name }
           if aggregate_match
             aggregate_match.merge!({ price: aggregate_match[:price] += capture[1].to_f })
