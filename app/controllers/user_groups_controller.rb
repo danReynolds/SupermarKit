@@ -42,8 +42,8 @@ class UserGroupsController < ApplicationController
   def payments
     grocery_payments = @user_group.finished_groceries.map do |grocery|
       {
-        date: grocery.created_at.to_i,
-        date_formatted: grocery.created_at.strftime('%A, %d %b %Y %l:%M %p').to_s,
+        date: grocery.finished_at.to_i,
+        date_formatted: grocery.finished_at.strftime('%A, %d %b %Y %l:%M %p').to_s,
         id: grocery.id,
         name: grocery.name,
         total: grocery.payments_total.format,

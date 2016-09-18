@@ -8,7 +8,7 @@
         .card
           .card-content
             .row
-              %span{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
+              %div{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
               %h3 Update Kit
               .col.l6
                 .inputs

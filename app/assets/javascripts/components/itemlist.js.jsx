@@ -267,9 +267,9 @@ var ItemList = React.createClass({
                 <div className="bottom-row">
                     <span>
                         Estimated Total:
-                        <span className="price">
+                        <div className="badge price">
                             ${this.state.total.toFixed(2)}
-                        </span>
+                        </div>
                     </span>
                 </div>
                 {this.renderPagination()}

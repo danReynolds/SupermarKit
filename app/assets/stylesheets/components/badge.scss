@@ -1,18 +1,21 @@
 .badge {
     background: $sm-green;
+    color: $sm-white;
     border-radius: 2px;
     height: 28px;
     line-height: 2;
     margin-left: auto;
     margin-right: 0.3rem;
     padding: 0 5px;
+    position: inherit;
 
     &.price {
-        background: $sm-light-gray;
+      background: $sm-light-gray;
+      color: $sm-gray;
     }
 
-    &.new {
-        background: $sm-blue;
-        color: $sm-white;
+    &.secondary {
+      background: $sm-blue;
+      color: $sm-white;
     }
 }
