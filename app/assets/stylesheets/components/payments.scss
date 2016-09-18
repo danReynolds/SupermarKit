@@ -20,7 +20,7 @@
     li {
       box-shadow: none !important;
       margin: 0;
-      padding: 1rem;
+      padding: 0.5rem 1rem;
 
       &+li {
         border-top: 1px solid $sm-light-gray;
@@ -34,11 +34,11 @@
   }
 
   .fa-shopping-basket {
-    color: $sm-green;
+    color: $sm-gray;
   }
 
   .fa-user {
-    color: $sm-blue;
+    color: $sm-dark-green;
   }
 
   .left-content {
@@ -61,6 +61,12 @@
       display: block;
 
       .price { display: inline-block; }
+    }
+  }
+
+  .collapsible-body {
+    p {
+      padding: 1.25rem;
     }
   }
 
