@@ -4,7 +4,7 @@ gem 'active_record_union'
 gem 'bourbon'
 gem 'canard', '0.4.2.pre'
 gem 'capistrano-bundler', require: false
-gem 'capistrano-rails-console'
+gem 'capistrano-rails-console', require: false
 gem 'capistrano-rails',   require: false
 gem 'capistrano-rvm',     require: false
 gem 'capistrano',         require: false
