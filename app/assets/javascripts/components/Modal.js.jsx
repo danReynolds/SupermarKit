@@ -67,7 +67,7 @@ var Modal = React.createClass({
                 return;
         }
         newTarget = target + change;
-        if (newTarget > 0 && newTarget < length) {
+        if (newTarget >= 0 && newTarget < length) {
             this.setState({ scrollTarget: newTarget });
         }
     },
