@@ -27,9 +27,50 @@
       }
     }
 
+    h2 {
+      margin: 0 0 1rem 0.5rem;
+    }
+
+    .collapsible-body {
+      margin-left: 4rem;
+    }
+
+    .grocery-information {
+      margin: 2rem 0;
+
+      @media #{$desktop} {
+        display: flex;
+        align-items: center;
+      }
+
+      a {
+        margin-top: 1rem;
+      }
+
+      .col + .col {
+        @media #{$desktop} {
+          text-align: right;
+        }
+      }
+    }
+
+    .item-container {
+      display: flex;
+      flex-wrap: wrap;
+      height: 20rem;
+      overflow: auto;
+
+      @media #{$desktop} {
+        height: initial;
+      }
+    }
+
+    .chip {
+      margin: 0.5rem;
+    }
+
     .nested-payment {
       padding: 0;
-      margin-left: 4rem;
     }
   }
 
