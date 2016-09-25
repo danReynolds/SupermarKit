@@ -255,7 +255,7 @@ var ItemList = React.createClass({
                     <div
                         onClick={this.handleRemove}
                         className="remove">
-                        <i className='fa fa-close'/>
+                        <i className='fa fa-trash'/>
                     </div>
                 </li>
             );
