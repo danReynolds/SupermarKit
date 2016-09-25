@@ -221,7 +221,7 @@ var Modal = React.createClass({
             this.state.getResults();
         }
 
-        if (prevState.scrollTarget !== target) {
+        if (prevState.scrollTarget !== target && this.state.results.length) {
             var results = ReactDOM.findDOMNode(this.refs.results);
             results.scrollTop = ReactDOM.findDOMNode(this.refs[`result-${target}`]).offsetTop;
         }
