@@ -1,0 +1,10 @@
+food_categories:
+  - 'Korean'
+  - 'American'
+  - 'Italian'
+  - 'Chinese'
+  - 'Mediterranean'
+  - 'Dessert'
+  - 'Breakfast'
+  - 'Lunch'
+  - 'Barbecue'

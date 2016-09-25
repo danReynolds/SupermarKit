@@ -281,17 +281,7 @@ class GroceriesController < ApplicationController
       suggestedReciperHeader: 'Suggested Recipes',
       modal: {
         id: 'recipes',
-        category: [
-          'Korean',
-          'American',
-          'Italian',
-          'Chinese',
-          'Mediterranean',
-          'Dessert',
-          'Breakfast',
-          'Lunch',
-          'Barbecue'
-        ].sample,
+        category: CONFIGURABLES[:food_categories].sample,
         recipeUrl: "https://api.yummly.com/v1/api/recipe/@externalId?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}",
         queryUrl: "https://api.yummly.com/v1/api/recipes?_app_id=#{ENV['YUMMLY_APP_ID']}&_app_key=#{ENV['YUMMLY_APP_KEY']}&requirePictures=true&q=",
         updateUrl: update_recipes_grocery_path(@grocery),
