@@ -41,12 +41,20 @@ class UserGroupsController < ApplicationController
 
   def payments
     grocery_payments = @user_group.finished_groceries.map do |grocery|
+      receipt = grocery.receipt.url if grocery.receipt.file?
       {
         date: grocery.finished_at.to_i,
         date_formatted: grocery.finished_at.strftime('%A, %d %b %Y %l:%M %p').to_s,
         id: grocery.id,
         name: grocery.name,
+        receipt: receipt,
         total: grocery.payments_total.format,
+        items: grocery.items.map do |item|
+          {
+            name: item[:name],
+            price: item.grocery_item(grocery).price.format(symbol: false)
+          }
+        end,
         payments: grocery.payments.map do |payment|
           {
             id: payment.id,
