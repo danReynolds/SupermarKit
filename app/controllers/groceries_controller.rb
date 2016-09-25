@@ -226,18 +226,9 @@ class GroceriesController < ApplicationController
           queryField: 'query',
           delimiter: '\s*',
           fields: [
-            {
-              name: 'quantity',
-              regex: '([0-9]*)?'
-            },
-            {
-              name: 'query',
-              regex: '(.*?)'
-            },
-            {
-              name: 'price',
-              regex: '(?:for \$([0-9]*))?'
-            }
+            { name: 'quantity', regex: '([0-9]*)?' },
+            { name: 'query', regex: '(.*?)' },
+            { name: 'price', regex: '(?:for \$([0-9]*))?' }
           ]
         }
       }

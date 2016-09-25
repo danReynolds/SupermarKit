@@ -31,11 +31,11 @@
     @media #{$desktop} {
       &:hover:not(.active) {
         .collapsible-header {
-          width: 95%;
+          width: 96%;
           transition: width .2s ease-in;
         }
         .remove {
-          width: 5%;
+          width: 7%;
           opacity: 1;
           transition: opacity .2s ease-in;
         }
@@ -54,8 +54,6 @@
 
   .remove {
     width: 0;
-    background: $sm-green;
-    color: $sm-white;
     cursor: pointer;
     display: inline-block;
     font-size: 1.2rem;
@@ -69,6 +67,11 @@
     vertical-align: middle;
     transition: none;
     transition-property: opacity;
+
+    i {
+      font-size: 1.5rem;
+      line-height: 2.5;
+    }
   }
 
   .collapsible-header {
