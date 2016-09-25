@@ -33,9 +33,34 @@ var Payments = React.createClass({
         );
     },
 
+    renderItems: (payment) => {
+        var groceryItems = payment.items.map((item, index) => {
+            let identifier = `grocery-${payment.id}-item-${index}`;
+            return (
+                <Chip
+                    key={identifier}
+                    index={index}
+                    label={`${item.name} - ${item.price}`}
+                />
+            );
+        });
+
+        return (
+            <div className='items'>
+                <h2>Items</h2>
+                <div className='row'>
+                    <div className='col l12 item-container'>
+                        {groceryItems}
+                    </div>
+                </div>
+            </div>
+        )
+    },
+
     renderPayments: function() {
         return this.itemsForPage(this.state.payments.map(function(payment, paymentIndex) {
             if (payment.payments) {
+                var receiptContent;
                 var groceryPayments = payment.payments.map(function(nestedPayment, nestedPaymentIndex) {
                     return (
                         <li
@@ -49,6 +74,34 @@ var Payments = React.createClass({
                         </li>
                     );
                 });
+
+                if (payment.receipt) {
+                    receiptContent = (
+                        <a
+                            className='btn'
+                            target='_blank'
+                            rel='noopener'
+                            href={payment.receipt}>
+                            View Receipt
+                        </a>
+                    );
+                }
+
+                var collapsibleBody = (
+                    <div className='collapsible-body'>
+                        <ul>
+                            {groceryPayments}
+                        </ul>
+                        <div className='row grocery-information'>
+                            <div className='col l10'>
+                                {payment.items.length ? this.renderItems(payment) : null}
+                            </div>
+                            <div className='col l2'>
+                                {receiptContent}
+                            </div>
+                        </div>
+                    </div>
+                );
                 return (
                     <li
                         className='grocery-payment'
@@ -65,11 +118,7 @@ var Payments = React.createClass({
                                 {payment.total}
                             </div>
                         </div>
-                        <div className='collapsible-body'>
-                            <ul>
-                                {groceryPayments}
-                            </ul>
-                        </div>
+                        {collapsibleBody}
                     </li>
                 );
             } else {
