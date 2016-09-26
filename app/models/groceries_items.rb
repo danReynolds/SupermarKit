@@ -10,6 +10,8 @@ class GroceriesItems < ActiveRecord::Base
 
   CLOSEST_STORE_THRESHOLD = 10
 
+  validates :units, inclusion: { in: UNIT_TYPES }
+
   # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item
   def estimated_price
@@ -38,6 +40,16 @@ class GroceriesItems < ActiveRecord::Base
 
   def price_or_estimated
     Money.new(price.nonzero? ? price : estimated_price)
+  end
+
+  def display_name
+    quantity_display = quantity.en.numwords
+    if units
+      unit = Unit.new(units).units
+      name = "#{quantity_display} #{unit} of #{item.name}"
+    else
+      name = "#{quantity.en.numwords} #{item.name.en.plural(quantity)}"
+    end
   end
 
 private

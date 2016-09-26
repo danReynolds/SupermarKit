@@ -46,6 +46,7 @@ gem 'dogapi', '>=1.3.0'
 gem 'newrelic_rpm'
 gem 'sentry-raven'
 gem 'amatch'
+gem 'ruby-units'
 
 if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'

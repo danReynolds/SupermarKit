@@ -27,7 +27,6 @@ var Recipes = React.createClass({
                 function() {
                     $(document).ready(function() {
                         $('.carousel').carousel({
-                            height: 300,
                             full_width: true,
                             time_constant: 100
                         });

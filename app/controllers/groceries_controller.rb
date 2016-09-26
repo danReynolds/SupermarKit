@@ -213,7 +213,10 @@ class GroceriesController < ApplicationController
         url: update_items_grocery_path(@grocery)
       },
       items: {
-        url: grocery_items_path(@grocery)
+        url: grocery_items_path(@grocery),
+        unit_types: UNIT_TYPES.inject({}) do |acc, unit|
+          acc.tap { acc[unit] = nil }
+        end
       },
       users: format_users,
       modal: {

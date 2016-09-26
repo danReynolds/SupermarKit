@@ -1,0 +1,7 @@
+.autocomplete-content {
+  position: absolute;
+  span:not(.highlight) {
+
+    color: $sm-green;
+  }
+}
