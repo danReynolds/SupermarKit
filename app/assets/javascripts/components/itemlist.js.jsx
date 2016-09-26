@@ -21,7 +21,15 @@ var ItemList = React.createClass({
     handleItemFieldChange: function(e) {
         var index = this.getSelectedIndex(e);
         var field = e.target.getAttribute('data-field');
-        var value = parseFloat(e.target.value);
+        var target = e.target;
+        var value =  target.value;
+
+        if (target.type === 'number') {
+            value = parseFloat(value);
+            if (!Number.isFinite(value)) {
+                value = null;
+            }
+        }
 
         this.setState({
             modal: React.addons.update(
@@ -29,7 +37,7 @@ var ItemList = React.createClass({
                 {
                     selection: {
                         [index]: {
-                            [field]: {$set: Number.isFinite(value) ? value : null}
+                            [field]: {$set: value}
                         }
                     }
                 }
@@ -48,7 +56,6 @@ var ItemList = React.createClass({
 
     updateItem: function(index) {
         var item = this.state.modal.selection[index];
-
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -58,7 +65,8 @@ var ItemList = React.createClass({
                     groceries_items_attributes: {
                         id: item.grocery_item_id,
                         quantity: item.quantity,
-                        price: item.price
+                        price: item.price,
+                        units: item.units
                     }
                 }
             }),
@@ -120,6 +128,12 @@ var ItemList = React.createClass({
         return parseFloat(item.price) * parseFloat(item.quantity);
     },
 
+    initializeAutocomplete: function(unit_types) {
+        var inputs = $('input.autocomplete');
+        inputs.autocomplete({data: unit_types});
+        inputs.on('change', this.handleItemFieldChange);
+    },
+
     saveSelection: function(selection, callback) {
         $.ajax({
             method: 'PATCH',
@@ -130,7 +144,8 @@ var ItemList = React.createClass({
                             name: item.name,
                             id: item.id,
                             quantity: item.quantity,
-                            price: item.price
+                            price: item.price,
+                            units: item.units
                         }
                     })
                 }
@@ -185,6 +200,7 @@ var ItemList = React.createClass({
         } else if (this.state.modal.loading !== prevState.modal.loading && this.state.modal.selection.length) {
             Materialize.initializeDismissable();
             $('.collapsible').collapsible({ accordion: false });
+            this.initializeAutocomplete(this.props.items.unit_types);
         }
 
         if (prevState.modal.selection.length != this.state.modal.selection.length) {
@@ -209,6 +225,7 @@ var ItemList = React.createClass({
         var itemContent = displayItems.map(function(data) {
             var quantityId = "quantity-" + data.index;
             var priceId = "price-" + data.index;
+            var unitsId = "units-" + data.index;
             return (
                 <li key={'item-' + data.index}
                     ref={'item-' + data.index}
@@ -217,7 +234,7 @@ var ItemList = React.createClass({
                     <div ref={'collapsible-' + data.index} className='collapsible-header'>
                         <img src={data.requester.image} />
                         <p>
-                            <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
+                            <strong>{data.requester.name}</strong> wants <strong>{data.item.display_name}</strong>
                         </p>
                         <div className='badge price'>
                             ${(data.item.price * data.item.quantity).toFixed(2)}
@@ -244,6 +261,16 @@ var ItemList = React.createClass({
                                     data-field="price"
                                     step="any"
                                     value={data.item.price} />
+                            </div>
+                            <div className="col l3 s3">
+                                <label htmlFor={unitsId}>Units</label>
+                                <input
+                                    className='autocomplete'
+                                    onChange={this.handleItemFieldChange}
+                                    id={unitsId}
+                                    type="text"
+                                    data-field="units"
+                                    value={data.item.units} />
                             </div>
                             <a
                                 className='btn'

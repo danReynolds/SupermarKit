@@ -17,7 +17,7 @@ class ItemsController < ApplicationController
       render json: {
         data: {
           previous_item_values: previous_item_values,
-          updated_item_values: format_item(grocery_item.reload).slice(:price, :quantity, :quantity_formatted)
+          updated_item_values: format_item(grocery_item.reload).slice(:price, :quantity, :display_name)
         },
         status: :ok
       }
@@ -57,7 +57,8 @@ private
       description: grocery_item.item.description.to_s,
       grocery_item_id: grocery_item.id,
       quantity: grocery_item.quantity,
-      quantity_formatted: "#{grocery_item.quantity.en.numwords} #{grocery_item.item.name.en.plural(grocery_item.quantity)}",
+      units: grocery_item.units,
+      display_name: grocery_item.display_name,
       price: grocery_item.price_or_estimated.format(symbol: false),
       url: item_path(grocery_item.item.id),
       requester: grocery_item.requester_id
@@ -71,8 +72,10 @@ private
       groceries_items_attributes: [
         :price,
         :price_cents,
-        :id, :quantity,
-        :grocery_id
+        :id,
+        :quantity,
+        :grocery_id,
+        :units
       ]
     )
   end
