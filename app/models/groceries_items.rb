@@ -46,7 +46,7 @@ class GroceriesItems < ActiveRecord::Base
     quantity_display = quantity.en.numwords
     if units
       unit = Unit.new(units).units
-      name = "#{quantity_display} #{unit} of #{item.name}"
+      name = "#{quantity_display} #{unit.en.pluralize(quantity)} of #{item.name}"
     else
       name = "#{quantity.en.numwords} #{item.name.en.plural(quantity)}"
     end
