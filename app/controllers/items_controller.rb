@@ -12,14 +12,14 @@ class ItemsController < ApplicationController
 
   def update
     grocery_item = @item.grocery_item(@grocery)
-    previous_item_values = format_item(grocery_item).slice(:price, :quantity)
+    previous_item_values = format_item(grocery_item).slice(:price, :quantity, :units)
     if @item.update_attributes(item_params)
       render json: {
         data: {
           previous_item_values: previous_item_values,
-          updated_item_values: format_item(grocery_item.reload).slice(:price, :quantity, :display_name)
-        },
-        status: :ok
+          updated_item_values: format_item(grocery_item.reload)
+            .slice(:price, :quantity, :display_name, :units)
+        }
       }
     else
       render nothing: true, status: :internal_server_error

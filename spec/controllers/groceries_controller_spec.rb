@@ -275,7 +275,8 @@ describe GroceriesController, type: :controller do
               id: item.id,
               name: item.name,
               quantity: item.grocery_item(grocery).quantity + 1,
-              price: item.grocery_item(grocery).price + 1.to_money
+              price: item.grocery_item(grocery).price + 1.to_money,
+              units: 'cup'
             }
           end
         })
@@ -289,12 +290,13 @@ describe GroceriesController, type: :controller do
         end
       end
 
-      it 'should update the quantity and price' do
+      it 'should update item quantity, price, units' do
         subject
         grocery.items.each_with_index do |item, i|
           grocery_item = item.grocery_item(grocery)
           expect(grocery_item.price).to eq grocery_params[:items][i][:price]
           expect(grocery_item.quantity).to eq grocery_params[:items][i][:quantity]
+          expect(grocery_item.units).to eq grocery_params[:items][i][:units]
         end
       end
 
@@ -309,12 +311,14 @@ describe GroceriesController, type: :controller do
           {
             name: 'new item',
             price: 2,
-            quantity: 3
+            quantity: 3,
+            units: 'cup'
           },
           {
             name: 'new item2',
             price: 1,
-            quantity: 2
+            quantity: 2,
+            units: 'tablespoon'
           }
         ]
       }
@@ -333,6 +337,7 @@ describe GroceriesController, type: :controller do
           expect(item.name).to eq item_params[i][:name].capitalize
           expect(grocery_item.price).to eq item_params[i][:price]
           expect(grocery_item.quantity).to eq item_params[i][:quantity]
+          expect(grocery_item.units).to eq item_params[i][:units]
           expect(grocery_item.requester).to eq controller.current_user
         end
       end

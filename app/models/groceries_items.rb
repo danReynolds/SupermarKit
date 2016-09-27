@@ -10,7 +10,7 @@ class GroceriesItems < ActiveRecord::Base
 
   CLOSEST_STORE_THRESHOLD = 10
 
-  validates :units, inclusion: { in: UNIT_TYPES }
+  validates :units, inclusion: { in: UNIT_TYPES }, allow_nil: true
 
   # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item

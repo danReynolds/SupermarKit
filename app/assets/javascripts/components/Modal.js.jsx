@@ -117,7 +117,7 @@ var Modal = React.createClass({
                 this.state,
                 {
                     selection: {
-                        $push: [this.state.results[index]]
+                        $push: [{...this.state.results[index], ...fieldValues}]
                     }
                 }
             )
