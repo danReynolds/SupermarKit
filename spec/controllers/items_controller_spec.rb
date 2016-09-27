@@ -35,7 +35,8 @@ RSpec.describe ItemsController, type: :controller do
           groceries_items_attributes: {
             id: grocery_item.id,
             quantity: grocery_item.quantity + 1,
-            price: grocery_item.price.to_i + 1
+            price: grocery_item.price.to_i + 1,
+            units: 'cup'
           }
         }
       }
@@ -61,16 +62,17 @@ RSpec.describe ItemsController, type: :controller do
         grocery_item.reload
         expect(grocery_item.price.to_i).to eq valid_params[:item][:groceries_items_attributes][:price]
         expect(grocery_item.quantity).to eq valid_params[:item][:groceries_items_attributes][:quantity]
+        expect(grocery_item.units).to eq valid_params[:item][:groceries_items_attributes][:units]
       end
 
       it 'should successfully return the old and updated values' do
         expect(subject).to be_ok
         expect(JSON.parse(response.body)['data']['previous_item_values'])
           .to eq controller.send(:format_item, grocery_item)
-          .slice(:price, :quantity).with_indifferent_access
+          .slice(:price, :quantity, :units).with_indifferent_access
         expect(JSON.parse(response.body)['data']['updated_item_values'])
           .to eq controller.send(:format_item, grocery_item.reload)
-          .slice(:price, :quantity, :quantity_formatted).with_indifferent_access
+          .slice(:price, :quantity, :display_name, :units).with_indifferent_access
       end
     end
 
