@@ -34,22 +34,27 @@ class GroceriesItems < ActiveRecord::Base
     most_common_price(groceries_items)
   end
 
-  def total_price_or_estimated
-    quantity * price_or_estimated
-  end
-
   def price_or_estimated
     Money.new(price.nonzero? ? price : estimated_price)
   end
 
   def display_name
-    quantity_display = quantity.en.numwords
+    if quantity == quantity.floor
+      quantity_display = quantity.to_i.en.numwords
+    else
+      quantity_display = quantity.en.numwords
+    end
+
     if units
       unit = Unit.new(units).units
       name = "#{quantity_display} #{unit.en.pluralize(quantity)} of #{item.name}"
     else
       name = "#{quantity.en.numwords} #{item.name.en.plural(quantity)}"
     end
+  end
+
+  def to_unit
+    Unit.new("#{quantity} #{units}")
   end
 
 private

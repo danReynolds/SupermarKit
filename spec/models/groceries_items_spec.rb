@@ -52,28 +52,6 @@ RSpec.describe GroceriesItems, type: :model do
     end
   end
 
-  describe '#total_price' do
-    let(:item) { create(:item) }
-    let(:grocery) { create(:grocery, items: [item]) }
-    let(:grocery_item) { item.grocery_item(grocery) }
-
-    context 'with price' do
-      it 'should return the quantity times the price' do
-        grocery_item.update({ price_cents: 500, quantity: 2 })
-        expect(grocery_item.total_price_or_estimated.fractional).to eq 1000
-      end
-    end
-
-    context 'without price' do
-      it 'should return the quantity times the price using the estimated price' do
-        other_grocery = create(:grocery, items: [item])
-        grocery_item.update({ quantity: 2 })
-        item.grocery_item(other_grocery).update_attribute(:price_cents, 100)
-        expect(grocery_item.total_price_or_estimated.fractional).to eq 200
-      end
-    end
-  end
-
   describe '#price_or_estimated' do
     let(:item) { create(:item) }
     let(:grocery) { create(:grocery, items: [item]) }

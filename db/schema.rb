@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160925205555) do
+ActiveRecord::Schema.define(version: 20160928070855) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -42,10 +42,10 @@ ActiveRecord::Schema.define(version: 20160925205555) do
   add_index "groceries", ["user_group_id"], name: "index_groceries_on_user_group_id", using: :btree
 
   create_table "groceries_items", force: :cascade do |t|
-    t.integer "item_id",      limit: 4,               null: false
-    t.integer "grocery_id",   limit: 4,               null: false
-    t.integer "quantity",     limit: 4,   default: 1
-    t.integer "price_cents",  limit: 4,   default: 0
+    t.integer "item_id",      limit: 4,                                          null: false
+    t.integer "grocery_id",   limit: 4,                                          null: false
+    t.decimal "quantity",                 precision: 16, scale: 2, default: 1.0
+    t.integer "price_cents",  limit: 4,                            default: 0
     t.integer "requester_id", limit: 4
     t.string  "units",        limit: 255
   end

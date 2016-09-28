@@ -13,8 +13,4 @@ class Item < ActiveRecord::Base
   def grocery_item(grocery)
     groceries_items.find_by_grocery_id(grocery.id)
   end
-
-  def total_price_or_estimated(grocery)
-    grocery_item(grocery).total_price_or_estimated
-  end
 end
