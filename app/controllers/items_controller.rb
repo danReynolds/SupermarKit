@@ -13,12 +13,24 @@ class ItemsController < ApplicationController
   def update
     grocery_item = @item.grocery_item(@grocery)
     previous_item_values = format_item(grocery_item).slice(:price, :quantity, :units)
+    previous_unit = grocery_item.to_unit
+    updated_quantity = item_params[:groceries_items_attributes][:quantity].to_f
+
     if @item.update_attributes(item_params)
+      next_unit = grocery_item.reload.to_unit
+
+      # Convert quantity if compatible units and quantity unchanged
+      if (updated_quantity == previous_item_values[:quantity] && previous_unit.compatible?(next_unit))
+        grocery_item.update_attribute(
+          :quantity,
+          previous_unit.convert_to(next_unit.units).scalar.to_f
+        )
+      end
+
       render json: {
         data: {
           previous_item_values: previous_item_values,
-          updated_item_values: format_item(grocery_item.reload)
-            .slice(:price, :quantity, :display_name, :units)
+          updated_item_values: format_item(grocery_item.reload).slice(:price, :quantity, :display_name, :units)
         }
       }
     else
@@ -46,17 +58,18 @@ private
     @grocery.items.select(:id, :name, :description).inject({total: 0, items: []}) do |acc, item|
       grocery_item = GroceriesItems.find_by_item_id_and_grocery_id(item.id, @grocery.id)
       acc[:items] << format_item(grocery_item)
-      acc.tap { |acc| acc[:total] += grocery_item.total_price_or_estimated.to_f }
+      acc.tap { |a| a[:total] += grocery_item.price_or_estimated.to_f }
     end
   end
 
   def format_item(grocery_item)
+    quantity = grocery_item.quantity
     {
       id: grocery_item.item.id,
       name: grocery_item.item.name,
       description: grocery_item.item.description.to_s,
       grocery_item_id: grocery_item.id,
-      quantity: grocery_item.quantity,
+      quantity: quantity == quantity.floor ? quantity.to_i : quantity.to_f,
       units: grocery_item.units,
       display_name: grocery_item.display_name,
       price: grocery_item.price_or_estimated.format(symbol: false),

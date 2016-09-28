@@ -74,6 +74,10 @@ var ItemList = React.createClass({
             contentType: 'application/json',
             url: item.url
         }).done(function(response) {
+            let {
+                previous_item_values,
+                updated_item_values
+            } = response.data
             this.setState(
                 React.addons.update(
                     this.state,
@@ -81,12 +85,12 @@ var ItemList = React.createClass({
                         modal: {
                             selection: {
                                 [index]: {
-                                    $merge: response.data.updated_item_values
+                                    $merge: updated_item_values
                                 }
                             }
                         },
                         total: {
-                            $set: this.state.total + this.totalPrice(item) - this.totalPrice(response.data.previous_item_values)
+                            $set: this.state.total + parseFloat(item.price) - parseFloat(previous_item_values.price)
                         }
                     }
                 )
@@ -122,10 +126,6 @@ var ItemList = React.createClass({
     handleSave: function(modalSelection) {
         this.toggleModal();
         this.saveSelection(modalSelection, this.reloadItems);
-    },
-
-    totalPrice: function(item) {
-        return parseFloat(item.price) * parseFloat(item.quantity);
     },
 
     initializeAutocomplete: function(unit_types) {
@@ -237,7 +237,7 @@ var ItemList = React.createClass({
                             <strong>{data.requester.name}</strong> wants <strong>{data.item.display_name}</strong>
                         </p>
                         <div className='badge price'>
-                            ${(data.item.price * data.item.quantity).toFixed(2)}
+                            ${parseFloat(data.item.price).toFixed(2)}
                         </div>
                     </div>
                     <div  className='collapsible-body'>
@@ -253,7 +253,7 @@ var ItemList = React.createClass({
                                     value={data.item.quantity} />
                             </div>
                             <div className="col s4">
-                                <label htmlFor={priceId}>Price per item</label>
+                                <label htmlFor={priceId}>Price</label>
                                 <input
                                     onChange={this.handleItemFieldChange}
                                     id={priceId}

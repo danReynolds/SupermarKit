@@ -17,7 +17,7 @@ RSpec.describe ItemsController, type: :controller do
       subject
       returned_total = JSON.parse(response.body)['data']['total']
       expected_total = grocery.items.inject(0) do |acc, item|
-        acc + item.grocery_item(grocery).total_price_or_estimated.to_f
+        acc + item.grocery_item(grocery).price_or_estimated.to_f
       end
 
       expect(returned_total).to eq expected_total
