@@ -49,10 +49,6 @@ class GroceriesItems < ActiveRecord::Base
     end
   end
 
-  def to_unit
-    Unit.new("#{quantity} #{units}")
-  end
-
 private
 
   def most_common_price(groceries_items)

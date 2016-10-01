@@ -72,4 +72,51 @@ RSpec.describe GroceriesItems, type: :model do
       end
     end
   end
+
+  describe '#display_name' do
+    let(:item) { create(:item, name: 'Bacon') }
+    let(:grocery) { create(:grocery, items: [item]) }
+    let(:grocery_item) { item.grocery_item(grocery) }
+
+    before :each do
+      grocery_item.update!({
+        quantity: 2.5,
+        units: 'gram'
+      })
+    end
+
+    context 'with units' do
+      context 'with nonzero decimal places' do
+        it 'should use the unit syntax with a decimal number' do
+          expect(grocery_item.display_name).to eq 'two point five grams of Bacon'
+        end
+      end
+
+      context 'with zero decimal places' do
+        it 'should use the unit syntax without a decimal number' do
+          grocery_item.update_attribute(:quantity, 2)
+          expect(grocery_item.display_name).to eq 'two grams of Bacon'
+        end
+      end
+    end
+
+    context 'without units' do
+      before :each do
+        grocery_item.update_attribute(:units, nil)
+      end
+
+      context 'with nonzero decimal places' do
+        it 'should use the no-unit syntax with a decimal number' do
+          expect(grocery_item.display_name).to eq 'two point five Bacon'
+        end
+      end
+
+      context 'with zero decimal places' do
+        it 'should use the no-unit syntax without a decimal number' do
+          grocery_item.update_attribute(:quantity, 2)
+          expect(grocery_item.display_name).to eq 'two Bacon'
+        end
+      end
+    end
+  end
 end
