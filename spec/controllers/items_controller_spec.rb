@@ -66,7 +66,6 @@ RSpec.describe ItemsController, type: :controller do
       end
 
       it 'should successfully return the old and updated values' do
-        expect(subject).to be_ok
         expect(JSON.parse(response.body)['data']['previous_item_values'])
           .to eq controller.send(:format_item, grocery_item)
           .slice(:price, :quantity, :units).with_indifferent_access
