@@ -115,7 +115,7 @@ var ItemList = React.createClass({
         // Timeout is used for transition sliding animation on removal
         setTimeout(function() {
             this.setState({
-                total: this.state.total - this.totalPrice(item),
+                total: (this.state.total - this.item.price).toFixed(2),
                 modal: updatedModal
             }, function() {
                 $('.collection-item').css('transform', 'none');
@@ -136,6 +136,8 @@ var ItemList = React.createClass({
 
     saveSelection: function(selection, callback) {
         $.ajax({
+            contentType: 'application/json',
+            url: this.props.grocery.url,
             method: 'PATCH',
             data: JSON.stringify({
                 grocery: {
@@ -149,9 +151,7 @@ var ItemList = React.createClass({
                         }
                     })
                 }
-            }),
-            contentType: 'application/json',
-            url: this.props.grocery.url
+            })
         }).done(callback);
     },
 
@@ -252,7 +252,7 @@ var ItemList = React.createClass({
                                     step="any"
                                     value={data.item.quantity} />
                             </div>
-                            <div className="col s4">
+                            <div className="col s3">
                                 <label htmlFor={priceId}>Price</label>
                                 <input
                                     onChange={this.handleItemFieldChange}
