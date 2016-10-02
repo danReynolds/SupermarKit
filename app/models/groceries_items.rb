@@ -6,11 +6,10 @@ class GroceriesItems < ActiveRecord::Base
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
   validates_uniqueness_of :grocery_id, scope: :item_id
+  validates :units, inclusion: { in: UNIT_TYPES }, allow_blank: true
   monetize :price_cents
 
   CLOSEST_STORE_THRESHOLD = 10
-
-  validates :units, inclusion: { in: UNIT_TYPES }, allow_blank: true
 
   # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item

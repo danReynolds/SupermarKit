@@ -90,6 +90,7 @@ var Recipes = React.createClass({
 
     handleSave: function(modalSelection) {
         var _this = this;
+        var additionalRecipeData = {};
         var requests = modalSelection.reduce(function(acc, selected) {
             if (!selected.url) {
                 acc.push(
@@ -99,15 +100,16 @@ var Recipes = React.createClass({
             return acc;
         }.bind(this), []);
 
-        $.when.apply( $, requests).then(function(response) {
-            var missingRecipeUrls = {};
-
+        $.when.apply($, requests).then(function(response) {
             if (requests.length === 1) {
                 arguments = [arguments];
             }
             $.each(arguments, function(index, response) {
                 recipe = response[0];
-                missingRecipeUrls[recipe.id] = recipe.source.sourceRecipeUrl;
+                additionalRecipeData[recipe.id] = {
+                    url: recipe.source.sourceRecipeUrl,
+                    ingredientLines: recipe.ingredientLines
+                };
             });
 
             $.ajax({
@@ -126,10 +128,8 @@ var Recipes = React.createClass({
                                     rating: selected.rating,
                                     timeInSeconds: selected.timeInSeconds,
                                     external_id: selected.externalId,
-                                    url: missingRecipeUrls[selected.externalId],
-                                    items: selected.ingredients.map(function(ingredient) {
-                                        return {name: ingredient};
-                                    })
+                                    items: selected.ingredients,
+                                    ...additionalRecipeData[recipe.id]
                                 };
                             }
                         })

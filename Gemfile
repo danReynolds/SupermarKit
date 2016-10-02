@@ -47,6 +47,7 @@ gem 'newrelic_rpm'
 gem 'sentry-raven'
 gem 'amatch'
 gem 'ruby-units'
+gem 'ingreedy', git: 'https://github.com/danReynolds/ingreedy.git'
 
 if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
