@@ -115,7 +115,7 @@ var ItemList = React.createClass({
         // Timeout is used for transition sliding animation on removal
         setTimeout(function() {
             this.setState({
-                total: (this.state.total - this.item.price).toFixed(2),
+                total: this.state.total - item.price,
                 modal: updatedModal
             }, function() {
                 $('.collection-item').css('transform', 'none');

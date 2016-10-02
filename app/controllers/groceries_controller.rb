@@ -60,29 +60,72 @@ class GroceriesController < ApplicationController
   def update_recipes
     params[:grocery][:recipes] ||= []
     recipes = grocery_recipe_params[:recipes].map do |recipe_params|
-      recipe = Recipe.find_by_external_id(recipe_params[:external_id]) || Recipe.new(recipe_params.except(:items))
+      items = recipe_params.delete(:items)
 
+      parsed_lines = recipe_params.delete(:ingredientLines).map do |line|
+        # Remove trailing instructions for the item to improve match similarity
+        ingredient_information = line.split(',').first
+        begin
+          Ingreedy.parse(ingredient_information)
+        rescue Ingreedy::ParseFailed
+          Ingreedy::Parser::Result.new.tap do |result|
+            result.ingredient = ingredient_information
+          end
+        end
+      end
+
+      recipe = Recipe.find_by_external_id(recipe_params[:external_id]) || Recipe.new(recipe_params)
       if recipe.new_record?
-        recipe.items = recipe_params[:items].map do |item|
-          Item.find_or_create_by(name: item[:name])
+        items.each do |name|
+          item = Item.find_or_create_by(name: name)
+          parsed_fields = {
+            item: item,
+            recipe: recipe
+          }
+
+          # Find the ingredients line including units and amount with the same
+          # that matches the exact item name returned separately from the API
+          result = Matcher.new(item.name)
+            .find_match(parsed_lines, 0, :ingredient).result
+
+          # If there is a container, such as "1 15.5 oz can of spinach"
+          # we want to capture the container amount, 15.5 ounces
+          if result.container_amount
+            parsed_fields.merge!({
+              units: result.container_unit,
+              quantity: result.container_amount
+            })
+          else
+            parsed_fields.merge!({
+              units: result.unit,
+              quantity: result.amount
+            })
+          end
+          ItemsRecipes.create!(parsed_fields)
         end
         recipe.save!
       end
       recipe
     end
-    new_items = (recipes - @grocery.recipes).flat_map(&:items)
-    removed_items = (@grocery.recipes - recipes).flat_map(&:items)
 
-    @grocery.recipes = recipes
+    # Add the items from the new recipes to the grocery list
+    (recipes - @grocery.recipes).each do |recipe|
+        recipe.items_recipes.each do |item_recipe|
+          GroceriesItems.create!(
+            grocery: @grocery,
+            item: item_recipe.item,
+            requester: current_user,
+            quantity: item_recipe.quantity,
+            units: item_recipe.units
+          )
+        end
+    end
+
+    # Remove the old items
+    removed_items = (@grocery.recipes - recipes).flat_map(&:items)
     @grocery.items.delete(removed_items)
 
-    new_items.each do |item|
-      GroceriesItems.create(
-        grocery: @grocery,
-        item: item,
-        requester: current_user
-      )
-    end
+    @grocery.recipes = recipes
 
     if @grocery.save!
       render json: {
@@ -126,7 +169,7 @@ class GroceriesController < ApplicationController
         elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
           # Aggregate duplicate items together
 
-          aggregate_match = acc[:matches].detect { |existing_match| existing_match[:name] == match.name }
+          aggregate_match = acc[:matches].detect { |existing_match| existing_match[:name] == match.result }
           if aggregate_match
             aggregate_match.merge!({ price: aggregate_match[:price] += capture[1].to_f })
           else
@@ -356,9 +399,8 @@ class GroceriesController < ApplicationController
         :image_url,
         :rating,
         :timeInSeconds,
-        {
-          items: [:name]
-        }
+        ingredientLines: [],
+        items: []
       ]
     })
   end
