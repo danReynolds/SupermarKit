@@ -1,4 +1,5 @@
 class GroceriesItems < ActiveRecord::Base
+  include FractionalNumberToWords
   belongs_to :requester, class_name: User
   belongs_to :item
   belongs_to :grocery
@@ -38,13 +39,11 @@ class GroceriesItems < ActiveRecord::Base
   end
 
   def display_name
-    quantity_display = (quantity == quantity.floor ? quantity.to_i : quantity).en.numwords
-
+    quantity_words = frac_numwords(quantity)
     if units.present?
-      unit = Unit.new(units).units
-      name = "#{quantity_display} #{unit.en.pluralize(quantity)} of #{item.name}"
+      "#{quantity_words} #{Unit.new(units).units.en.pluralize(quantity.floor)} of #{item.name}"
     else
-      name = "#{quantity_display} #{item.name}"
+      "#{quantity_words} #{item.name}"
     end
   end
 

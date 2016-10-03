@@ -184,6 +184,7 @@ GEM
       ffi (>= 0.4.0)
     font-awesome-sass (4.5.0)
       sass (>= 3.2)
+    fractional (1.2.0)
     gems (0.8.3)
     gemsurance (0.6.0)
       bundler (~> 1.2)
@@ -473,6 +474,7 @@ DEPENDENCIES
   dropzonejs-rails
   factory_girl_rails
   font-awesome-sass (~> 4.5.0)
+  fractional
   gemsurance
   geokit-rails
   haml-rails
