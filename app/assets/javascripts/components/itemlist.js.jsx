@@ -78,6 +78,7 @@ var ItemList = React.createClass({
                 previous_item_values,
                 updated_item_values
             } = response.data
+
             this.setState(
                 React.addons.update(
                     this.state,
@@ -90,7 +91,7 @@ var ItemList = React.createClass({
                             }
                         },
                         total: {
-                            $set: this.state.total + parseFloat(item.price) - parseFloat(previous_item_values.price)
+                            $set: this.state.total + updated_item_values.price - previous_item_values.price
                         }
                     }
                 )

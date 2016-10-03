@@ -61,21 +61,22 @@ class GroceriesController < ApplicationController
     params[:grocery][:recipes] ||= []
     recipes = grocery_recipe_params[:recipes].map do |recipe_params|
       items = recipe_params.delete(:items)
+      ingredient_lines = recipe_params.delete(:ingredientLines)
+      recipe = Recipe.find_by_external_id(recipe_params[:external_id]) || Recipe.new(recipe_params)
 
-      parsed_lines = recipe_params.delete(:ingredientLines).map do |line|
-        # Remove trailing instructions for the item to improve match similarity
-        ingredient_information = line.split(',').first
-        begin
-          Ingreedy.parse(ingredient_information)
-        rescue Ingreedy::ParseFailed
-          Ingreedy::Parser::Result.new.tap do |result|
-            result.ingredient = ingredient_information
+      if recipe.new_record?
+        parsed_lines = ingredient_lines.map do |line|
+          # Remove trailing instructions for the item to improve match similarity
+          ingredient_information = line.split(',').first
+          begin
+            Ingreedy.parse(ingredient_information)
+          rescue Ingreedy::ParseFailed
+            Ingreedy::Parser::Result.new.tap do |result|
+              result.ingredient = ingredient_information
+            end
           end
         end
-      end
 
-      recipe = Recipe.find_by_external_id(recipe_params[:external_id]) || Recipe.new(recipe_params)
-      if recipe.new_record?
         items.each do |name|
           item = Item.find_or_create_by(name: name)
           parsed_fields = {
@@ -85,22 +86,17 @@ class GroceriesController < ApplicationController
 
           # Find the ingredients line including units and amount with the same
           # that matches the exact item name returned separately from the API
-          result = Matcher.new(item.name)
-            .find_match(parsed_lines, 0, :ingredient).result
+          result = Matcher.new(item.name).find_match(parsed_lines, 0, :ingredient).result
 
           # If there is a container, such as "1 15.5 oz can of spinach"
           # we want to capture the container amount, 15.5 ounces
-          if result.container_amount
-            parsed_fields.merge!({
-              units: result.container_unit,
-              quantity: result.container_amount
-            })
-          else
-            parsed_fields.merge!({
-              units: result.unit,
-              quantity: result.amount
-            })
-          end
+          parsed_fields.merge!({
+            units: result.container_unit || result.unit,
+            quantity: result.container_amount || result.amount || 1
+          })
+          # Quantity might have been specified as a range, take average
+          quantity = parsed_fields[:quantity]
+          parsed_fields[:quantity] = quantity.sum / quantity.size.to_f if quantity.kind_of?(Array)
           ItemsRecipes.create!(parsed_fields)
         end
         recipe.save!

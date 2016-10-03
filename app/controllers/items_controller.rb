@@ -12,18 +12,21 @@ class ItemsController < ApplicationController
 
   def update
     grocery_item = @item.grocery_item(@grocery)
-    previous_item_values = format_item(grocery_item).slice(:price, :quantity, :units)
+    previous_item_values = {
+      price: grocery_item.price_or_estimated.format(symbol: false).to_f
+    }
 
     if @item.update_attributes(item_params)
+      quantity = grocery_item.reload.quantity
       render json: {
         data: {
           previous_item_values: previous_item_values,
-          updated_item_values: format_item(grocery_item.reload).slice(
-            :price,
-            :quantity,
-            :display_name,
-            :units
-          )
+          updated_item_values: {
+            quantity: quantity == quantity.floor ? quantity.to_i : quantity.to_f,
+            units: grocery_item.units,
+            display_name: grocery_item.display_name,
+            price: grocery_item.price_or_estimated.format(symbol: false).to_f
+          }
         }
       }
     else

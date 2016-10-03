@@ -77,4 +77,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'spring'
+	gem 'quiet_assets'
+	gem 'bullet'
+	gem 'gemsurance'
+	gem 'rack-mini-profiler'
 end
