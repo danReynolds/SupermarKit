@@ -40,10 +40,11 @@ class GroceriesItems < ActiveRecord::Base
 
   def display_name
     quantity_words = frac_numwords(quantity)
+    name = item.name.en.pluralize(quantity.floor)
     if units.present?
-      "#{quantity_words} #{Unit.new(units).units.en.pluralize(quantity.floor)} of #{item.name}"
+      "#{quantity_words} #{Unit.new(units).units.en.pluralize(quantity.floor)} of #{name}"
     else
-      "#{quantity_words} #{item.name}"
+      "#{quantity_words} #{name}"
     end
   end
 
