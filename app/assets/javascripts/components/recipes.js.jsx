@@ -65,7 +65,9 @@ var Recipes = React.createClass({
                     ingredients: recipe.ingredients,
                     rating: recipe.rating,
                     timeInSeconds: recipe.totalTimeInSeconds,
-                    externalId: recipe.id
+                    externalId: recipe.id,
+                    flavors: recipe.flavors,
+                    course: recipe.attributes.course,
                 };
             }.bind(this))
         }
