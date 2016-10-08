@@ -1,7 +1,7 @@
 module FractionalNumberToWords
   FRACTIONAL_PHRASES = {
-    (1/4) => 'a quarter',
-    (1/2) => 'a half',
+    (1/4) => 'quarter',
+    (1/2) => 'half',
     (3/4) => 'three quarter'
   }.freeze
 
@@ -9,7 +9,8 @@ module FractionalNumberToWords
     return FRACTIONAL_PHRASES[fraction] if FRACTIONAL_PHRASES[fraction]
     numerator_phrase = fraction.numerator.en.numwords
     denominator_phrase = fraction.denominator.en.ordinate.pluralize(fraction.numerator)
-    return "#{numerator_phrase} #{denominator_phrase}"
+
+    "#{numerator_phrase} #{denominator_phrase}"
   end
 
   def frac_numwords(number)
@@ -21,7 +22,7 @@ module FractionalNumberToWords
     elsif (whole_number = fractional.first).kind_of?(Fixnum)
       whole_number.en.numwords
     else
-      fractional_part_to_words(fractional.first)
+      fractional_part_to_words(fractional.first).en.indef_article
     end
   end
 end
