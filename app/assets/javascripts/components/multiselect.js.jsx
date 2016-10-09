@@ -12,7 +12,14 @@ var Multiselect = React.createClass({
     getDefaultProps: function() {
         return {
             selection: [],
-            removable: false
+            removable: false,
+            expandable: true,
+        }
+    },
+
+    getInitialState: function() {
+        return {
+            expanded: false,
         }
     },
 
@@ -20,7 +27,13 @@ var Multiselect = React.createClass({
         this.props.removeFromSelection(parseInt(event.target.closest('.chip').getAttribute('data-id')));
     },
 
+    toggleExpanded: function() {
+        this.setState({ expanded: !this.state.expanded });
+    },
+
     render: function() {
+        const { expanded } = this.state;
+        let expandableContent;
         var selection = this.props.selection.map(function(selected, index) {
             return (
                 <Chip
@@ -34,19 +47,33 @@ var Multiselect = React.createClass({
         }.bind(this));
 
         if (this.props.buttonText) {
-            var button = <a
-                            onClick={this.props.toggleModal}
-                            className="btn-floating">
-                            <i className="material-icons">{this.props.buttonText}</i>
-                        </a>;
+            var button = (
+                <a
+                    onClick={this.props.toggleModal}
+                    className="btn-floating">
+                    <i className="material-icons">{this.props.buttonText}</i>
+                </a>
+            );
+        }
+
+        if (this.props.expandable) {
+            const expandableClass = this.state.expanded ? 'compress' : 'expand'
+            expandableContent = (
+                <i
+                    className={`toggle fa fa-${expandableClass}`}
+                    onClick={this.toggleExpanded}/>
+            )
         }
 
         return (
             <div className='multiselect'>
-                <div className='selection-container valign-wrapper' ref='container'>
+                <div
+                    className={`selection-container valign-wrapper ${expanded ? 'expanded' : null}`}
+                    ref='container'>
                     {selection}
                 </div>
                 {button}
+                {expandableContent}
             </div>
         );
     },
