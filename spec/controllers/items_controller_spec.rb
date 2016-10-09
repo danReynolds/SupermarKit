@@ -41,55 +41,35 @@ RSpec.describe ItemsController, type: :controller do
         }
       }
     }
-    let(:invalid_params) {
-      {
-        grocery_id: grocery.id,
-        id: item.id,
-        item: {
-          groceries_items_attributes: {
-            id: grocery_item.id,
-            quantity: "invalid"
-          }
-        }
-      }
-    }
+    subject { patch :update, valid_params, format: :json }
 
-    context 'when valid' do
-      subject { patch :update, valid_params, format: :json }
-
-      it 'should update the item' do
-        subject
-        grocery_item.reload
-        expect(grocery_item.price.to_i).to eq valid_params[:item][:groceries_items_attributes][:price]
-        expect(grocery_item.quantity).to eq valid_params[:item][:groceries_items_attributes][:quantity]
-        expect(grocery_item.units).to eq valid_params[:item][:groceries_items_attributes][:units]
-      end
-
-      it 'should successfully return the old and updated values' do
-        subject
-        expect(JSON.parse(response.body)['data']['previous_item_values'])
-          .to eq controller.send(:format_item, grocery_item)
-          .slice(:price).with_indifferent_access
-        expect(JSON.parse(response.body)['data']['updated_item_values'])
-          .to eq controller.send(:format_item, grocery_item.reload)
-          .slice(:price, :quantity, :display_name, :units).with_indifferent_access
-      end
+    it 'should update the item' do
+      subject
+      grocery_item.reload
+      groceries_items_params = valid_params[:item][:groceries_items_attributes]
+      expect(grocery_item.price.to_i).to eq groceries_items_params[:price]
+      expect(grocery_item.quantity).to eq groceries_items_params[:quantity]
+      expect(grocery_item.units).to eq groceries_items_params[:units]
     end
 
-    context 'when invalid' do
-      subject { patch :update, invalid_params, format: :json }
+    it 'should accept units with any of their possible values' do
+      groceries_items_params = valid_params[:item][:groceries_items_attributes]
+      groceries_items_params[:units] = 'cups'
+      subject
+      grocery_item.reload
+      expect(grocery_item.price.to_i).to eq groceries_items_params[:price]
+      expect(grocery_item.quantity).to eq groceries_items_params[:quantity]
+      expect(grocery_item.units).to eq 'cup'
+    end
 
-      it 'should not update the item' do
-        subject
-
-        previous_price = grocery_item.price
-        previous_quantity = grocery_item.quantity
-        grocery_item.reload
-
-        expect(response).to have_http_status :internal_server_error
-        expect(grocery_item.price).to eq previous_price
-        expect(grocery_item.quantity).to eq previous_quantity
-      end
+    it 'should successfully return the old and updated values' do
+      subject
+      expect(JSON.parse(response.body)['data']['previous_item_values'])
+        .to eq controller.send(:format_item, grocery_item)
+        .slice(:price).with_indifferent_access
+      expect(JSON.parse(response.body)['data']['updated_item_values'])
+        .to eq controller.send(:format_item, grocery_item.reload)
+        .slice(:price, :quantity, :display_name, :units).with_indifferent_access
     end
   end
 
