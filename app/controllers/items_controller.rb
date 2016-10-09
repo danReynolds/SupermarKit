@@ -16,22 +16,23 @@ class ItemsController < ApplicationController
       price: grocery_item.price_or_estimated.format(symbol: false).to_f
     }
 
-    if @item.update_attributes(item_params)
-      quantity = grocery_item.reload.quantity
-      render json: {
-        data: {
-          previous_item_values: previous_item_values,
-          updated_item_values: {
-            quantity: quantity == quantity.floor ? quantity.to_i : quantity.to_f,
-            units: grocery_item.units,
-            display_name: grocery_item.display_name,
-            price: grocery_item.price_or_estimated.format(symbol: false).to_f
-          }
+    if unit = groceries_items_params[:units]
+      params[:item][:groceries_items_attributes][:units] = Unit.new(unit).units
+    end
+
+    @item.update!(item_params)
+    quantity = grocery_item.reload.quantity
+    render json: {
+      data: {
+        previous_item_values: previous_item_values,
+        updated_item_values: {
+          quantity: quantity == quantity.floor ? quantity.to_i : quantity.to_f,
+          units: grocery_item.units,
+          display_name: grocery_item.display_name,
+          price: grocery_item.price_or_estimated.format(symbol: false).to_f
         }
       }
-    else
-      render nothing: true, status: :internal_server_error
-    end
+    }
   end
 
   def auto_complete
@@ -87,6 +88,17 @@ private
         :grocery_id,
         :units
       ]
+    )
+  end
+
+  def groceries_items_params
+    params.require(:item).require(:groceries_items_attributes).permit(
+      :price,
+      :price_cents,
+      :id,
+      :quantity,
+      :grocery_id,
+      :units
     )
   end
 end
