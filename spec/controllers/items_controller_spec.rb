@@ -69,7 +69,7 @@ RSpec.describe ItemsController, type: :controller do
         subject
         expect(JSON.parse(response.body)['data']['previous_item_values'])
           .to eq controller.send(:format_item, grocery_item)
-          .slice(:price, :quantity, :units).with_indifferent_access
+          .slice(:price).with_indifferent_access
         expect(JSON.parse(response.body)['data']['updated_item_values'])
           .to eq controller.send(:format_item, grocery_item.reload)
           .slice(:price, :quantity, :display_name, :units).with_indifferent_access
