@@ -282,6 +282,7 @@ class GroceriesController < ApplicationController
           delimiter: '\s*',
           fields: [
             { name: 'quantity', regex: '([0-9]*)?' },
+            { name: 'units', regex: '(?:(.*) of)?' },
             { name: 'query', regex: '(.*?)' },
             { name: 'price', regex: '(?:for \$([0-9]*))?' }
           ]
