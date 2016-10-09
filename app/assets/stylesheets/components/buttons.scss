@@ -43,7 +43,7 @@
 .btn {
   @include shared-button-styles;
   margin-top: 0.5rem;
-  padding: 0 1.25rem;
+  padding: 0 1rem;
 
   .file-field & {
     height: auto !important;

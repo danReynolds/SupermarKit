@@ -9,9 +9,11 @@ var Pagination = {
     },
 
     componentDidUpdate: function(prevProps, prevState) {
-        if (prevState.paginationTotal !== this.state.paginationTotal) {
+        const { state } = this;
+        if (prevState.paginationTotal !== state.paginationTotal) {
             const lastPage = this.lastPage();
-            if (this.state.pageNumber >= lastPage) {
+            if (state.pageNumber >= lastPage
+                || state.paginationTotal > prevState.paginationTotal) {
                 this.setState({ pageNumber: lastPage })
             }
         }

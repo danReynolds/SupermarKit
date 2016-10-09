@@ -206,8 +206,8 @@ var ItemList = React.createClass({
             this.initializeAutocomplete(this.props.items.unit_types);
         }
 
-        if (prevState.modal.selection.length != this.state.modal.selection.length) {
-            this.updatePagination(this.state.modal.selection.length);
+        if (prevState.modal.selection.length != modal.selection.length) {
+            this.updatePagination(modal.selection.length);
         }
     },
 
