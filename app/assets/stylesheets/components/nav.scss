@@ -22,8 +22,14 @@ nav {
 }
 
 .side-nav {
+  width: 250px;
+
   li {
-    padding-left: 0.5rem;
+    padding-left: 2rem;
+  }
+
+  i {
+    margin-right: 1rem !important;
   }
 
   a {

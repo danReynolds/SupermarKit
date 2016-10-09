@@ -1,5 +1,5 @@
 .recipe-result {
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
 
   p {
     margin: 0 0 3px 0 !important;
@@ -21,9 +21,12 @@
     margin-left: auto;
   }
 
+  .description {
+    width: 50%;
+  }
+
   img {
     border-radius: 50%;
-    width: 6rem;
-    height: 6rem !important;
+    @include size(5rem);
   }
 }
