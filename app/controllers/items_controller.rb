@@ -16,10 +16,6 @@ class ItemsController < ApplicationController
       price: grocery_item.price_or_estimated.format(symbol: false).to_f
     }
 
-    if (unit = groceries_items_params[:units]).present?
-      params[:item][:groceries_items_attributes][:units] = Unit.new(unit).units
-    end
-
     @item.update!(item_params)
     grocery_item.reload
     render json: {
