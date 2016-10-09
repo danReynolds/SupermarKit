@@ -10,9 +10,7 @@ var Pagination = {
 
     componentDidUpdate: function(prevProps, prevState) {
         if (prevState.paginationTotal !== this.state.paginationTotal) {
-            if (this.state.pageNumber > this.lastPage()) {
-                this.setState({pageNumber: this.lastPage()})
-            }
+            this.setState({pageNumber: this.lastPage()})
         }
     },
 
@@ -43,7 +41,7 @@ var Pagination = {
             pages.push(
                 <li
                     key={pageNumber}
-                    className={this.state.pageNumber == pageNumber ? "active" : ""}>
+                    className={this.state.pageNumber === pageNumber ? 'active' : ''}>
                     <a
                         data-index={pageNumber}
                         onClick={this.handlePageChange}

@@ -12,11 +12,11 @@
     box-shadow: 0 0 1px $sm-gray;
     flex-direction: row;
     flex-wrap: wrap;
-    height: 5rem;
     margin: 2rem 0;
     overflow: auto;
     padding: 1rem;
     width: 100%;
+    height: 5rem;
 
     .fa-close {
       cursor: pointer;

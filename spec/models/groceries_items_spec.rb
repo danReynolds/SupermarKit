@@ -52,28 +52,6 @@ RSpec.describe GroceriesItems, type: :model do
     end
   end
 
-  describe '#total_price' do
-    let(:item) { create(:item) }
-    let(:grocery) { create(:grocery, items: [item]) }
-    let(:grocery_item) { item.grocery_item(grocery) }
-
-    context 'with price' do
-      it 'should return the quantity times the price' do
-        grocery_item.update({ price_cents: 500, quantity: 2 })
-        expect(grocery_item.total_price_or_estimated.fractional).to eq 1000
-      end
-    end
-
-    context 'without price' do
-      it 'should return the quantity times the price using the estimated price' do
-        other_grocery = create(:grocery, items: [item])
-        grocery_item.update({ quantity: 2 })
-        item.grocery_item(other_grocery).update_attribute(:price_cents, 100)
-        expect(grocery_item.total_price_or_estimated.fractional).to eq 200
-      end
-    end
-  end
-
   describe '#price_or_estimated' do
     let(:item) { create(:item) }
     let(:grocery) { create(:grocery, items: [item]) }
@@ -91,6 +69,88 @@ RSpec.describe GroceriesItems, type: :model do
         other_grocery = create(:grocery, items: [item])
         item.grocery_item(other_grocery).update_attribute(:price_cents, 500)
         expect(grocery_item.price_or_estimated.fractional).to eq 500
+      end
+    end
+  end
+
+  describe '#display_name' do
+    let(:item) { create(:item, name: 'Bacon') }
+    let(:grocery) { create(:grocery, items: [item]) }
+    let(:grocery_item) { item.grocery_item(grocery) }
+
+    context 'whole number' do
+      context 'with units' do
+        before :each do
+          grocery_item.update_attribute(:units, 'gram')
+        end
+
+        context 'without pluralization' do
+          it 'should display a singular whole number' do
+            expect(grocery_item.display_name).to eq 'one gram of Bacon'
+          end
+        end
+
+        context 'with pluralization' do
+          it 'should display a plural whole number' do
+            grocery_item.update_attribute(:quantity, 100)
+            expect(grocery_item.display_name).to eq 'one hundred grams of Bacon'
+          end
+        end
+      end
+
+      context 'without units' do
+        context 'without pluralization' do
+          it 'should display a singular whole number' do
+            expect(grocery_item.display_name).to eq 'one Bacon'
+          end
+        end
+
+        context 'with pluralization' do
+          it 'should display a plural whole number' do
+            grocery_item.update_attribute(:quantity, 100)
+            expect(grocery_item.display_name).to eq 'one hundred Bacons'
+          end
+        end
+      end
+    end
+
+    context 'fractional number' do
+      before :each do
+        grocery_item.update_attribute(:quantity, 0.5)
+      end
+
+      context 'with units' do
+        before :each do
+          grocery_item.update_attribute(:units, 'cup')
+        end
+        it 'should display a singular fractional number' do
+          expect(grocery_item.display_name).to eq 'a half cup of Bacon'
+        end
+      end
+
+      context 'without units' do
+        it 'should display a singular fractional number' do
+          expect(grocery_item.display_name).to eq 'a half Bacon'
+        end
+      end
+    end
+
+    context 'mixed number' do
+      before :each do
+        grocery_item.update_attribute(:quantity, 1.5)
+      end
+
+      context 'with units' do
+        it 'should display a plural mixed number' do
+          grocery_item.update_attribute(:units, 'cup')
+          expect(grocery_item.display_name).to eq 'one and a half cups of Bacon'
+        end
+      end
+
+      context 'without units' do
+        it 'should display a plural mixed number' do
+          expect(grocery_item.display_name).to eq 'one and a half Bacons'
+        end
       end
     end
   end

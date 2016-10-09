@@ -1,19 +1,26 @@
 GIT
-  remote: https://github.com/danReynolds/materialize-sass.git
-  revision: 0ea9a1eb93181a8b4bccae63b0f9cd83a7a72b6f
-  specs:
-    materialize-sass (0.97.5)
-      sass (~> 3.3)
-
-GIT
-  remote: https://github.com/meh/ruby-tesseract-ocr.git
-  revision: e0180d793cda4ad487364504df099ecbd5e30b28
+  remote: git@github.com:danReynolds/ruby-tesseract-ocr.git
+  revision: 332c503b9af3fe41a3514b43cd065cb80cb3ee96
   specs:
     tesseract-ocr (0.1.8)
       call-me
       ffi-extra
       ffi-inline
       iso-639
+
+GIT
+  remote: https://github.com/danReynolds/ingreedy.git
+  revision: 9476ec6a44f8af34aeed682bd6a4807790dec2d0
+  specs:
+    ingreedy (0.0.9)
+      parslet (~> 1.7.0, >= 1.7.0)
+
+GIT
+  remote: https://github.com/danReynolds/materialize-sass.git
+  revision: 21a48e02da09e438088ebdd64286107dea8f7fd9
+  specs:
+    materialize-sass (0.97.7)
+      sass (~> 3.3)
 
 GEM
   remote: https://rubygems.org/
@@ -77,10 +84,14 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    blankslate (3.1.3)
     bourbon (4.2.6)
       sass (~> 3.4)
       thor (~> 0.19)
     builder (3.2.2)
+    bullet (5.4.2)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (5.0.0)
       columnize (= 0.9.0)
     call-me (0.0.2.3)
@@ -173,11 +184,18 @@ GEM
       ffi (>= 0.4.0)
     font-awesome-sass (4.5.0)
       sass (>= 3.2)
+    fractional (1.2.0)
+    gems (0.8.3)
+    gemsurance (0.6.0)
+      bundler (~> 1.2)
+      gems (~> 0.8)
+      git (~> 1.2)
     geokit (1.9.0)
       multi_json (>= 1.3.2)
     geokit-rails (2.1.0)
       geokit (~> 1.5)
       rails (>= 3.0)
+    git (1.3.0)
     git-version-bump (0.15.1)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
@@ -274,6 +292,8 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (= 0.3.0)
+    parslet (1.7.1)
+      blankslate (>= 2.0, <= 4.0)
     premailer (1.8.6)
       css_parser (>= 1.3.6)
       htmlentities (>= 4.0.0)
@@ -291,10 +311,14 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     puma (3.6.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
     rack-contrib (1.4.0)
       git-version-bump (~> 0.15)
       rack (~> 1.4)
+    rack-mini-profiler (0.10.1)
+      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.3)
@@ -356,6 +380,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    ruby-units (2.0.1)
     ruby_parser (3.7.0)
       sexp_processor (~> 4.1)
     safe_yaml (1.0.4)
@@ -415,6 +440,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
+    uniform_notifier (1.10.0)
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -431,6 +457,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bourbon
+  bullet
   canard (= 0.4.2.pre)
   capistrano
   capistrano-bundler
@@ -447,9 +474,12 @@ DEPENDENCIES
   dropzonejs-rails
   factory_girl_rails
   font-awesome-sass (~> 4.5.0)
+  fractional
+  gemsurance
   geokit-rails
   haml-rails
   happy_path
+  ingreedy!
   inline_svg
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.1.1)
@@ -469,10 +499,13 @@ DEPENDENCIES
   pry-byebug
   pry-stack_explorer
   puma
+  quiet_assets
+  rack-mini-profiler
   rails (= 4.2.3)
   react-rails (~> 1.5.0)
   rollbar
   rspec-rails
+  ruby-units
   sass-rails
   sdoc (~> 0.4.0)
   sentry-raven

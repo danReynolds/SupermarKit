@@ -11,9 +11,11 @@ class Grocery < ActiveRecord::Base
   validates :name, presence: true
 
   def total_price_or_estimated
-    items.inject(Money.new(0)) do |acc, i|
-      acc += i.total_price_or_estimated(self)
-    end
+    Money.new(
+      groceries_items.inject(0) do |acc, grocery_item|
+        acc += grocery_item.price_or_estimated
+      end
+    )
   end
 
   def payments_total

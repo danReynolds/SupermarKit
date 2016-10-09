@@ -46,6 +46,9 @@ gem 'dogapi', '>=1.3.0'
 gem 'newrelic_rpm'
 gem 'sentry-raven'
 gem 'amatch'
+gem 'ruby-units'
+gem 'fractional'
+gem 'ingreedy', git: 'https://github.com/danReynolds/ingreedy.git'
 
 if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
@@ -75,4 +78,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'spring'
+	gem 'quiet_assets'
+	gem 'bullet'
+	gem 'gemsurance'
+	gem 'rack-mini-profiler'
 end
