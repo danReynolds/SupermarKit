@@ -74,6 +74,28 @@ describe GroceriesController, type: :controller do
       end
     end
 
+    context 'with duplicate matching items on list' do
+      let(:processed_receipt) {
+        [
+          'BACON 54545845454 4.45',
+          'BACON 54545845454 4.45',
+          'LEMON 3.25',
+          'BREAD 545458454544 3.20'
+        ].join("\n")
+      }
+
+      it 'should aggregate the cost to a single item' do
+        expected_matches = [{ name: 'Bacon', price: 8.90, new: true }].map(&:stringify_keys)
+        Item.create(name: 'Bacon')
+
+        subject
+        results = JSON.parse(response.body)['data']
+
+        expect(results['total']).to eq 0
+        expect(results['matches'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
+      end
+    end
+
     context 'without matching item on list' do
       it 'should fallback to all items' do
         expected_matches = [{ name: 'Breed', price: 3.2, new: true }].map(&:stringify_keys)
