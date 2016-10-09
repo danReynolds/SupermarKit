@@ -154,8 +154,8 @@ private
   end
 
   def user_payment_data
-    user_groups_users = @user_group.user_groups_users
-    user_groups_users.where(user: current_user).union(user_groups_users).map do |user_group_user|
+    @user_group.user_groups_users.includes(:user)
+      .partition { |u| u.user == current_user }.flatten.map do |user_group_user|
       user = user_group_user.user
       {
         id: user.id,

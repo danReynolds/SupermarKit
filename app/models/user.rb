@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
   has_many :requests, class_name: GroceriesItems, foreign_key: :requester_id
   has_many :user_groups_users, class_name: UserGroupsUsers
   has_many :user_groups, through: :user_groups_users
-  has_many :items, through: :user_groups
   has_many :groceries, through: :user_groups
+  has_many :friends, -> { uniq }, through: :user_groups, source: :users
   belongs_to :default_group, class_name: 'UserGroup', foreign_key: :user_group_default_id
 
   acts_as_user roles: :admin

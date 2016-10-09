@@ -49,7 +49,6 @@ gem 'amatch'
 gem 'ruby-units'
 gem 'fractional'
 gem 'ingreedy', git: 'https://github.com/danReynolds/ingreedy.git'
-
 if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
 else
@@ -58,16 +57,13 @@ end
 
 gem 'tesseract-ocr', git: TESSERACT_GEM
 
-group :development do
-	gem 'better_errors'
-	gem 'binding_of_caller'
-end
-
 group :test do
 	gem 'webmock'
 end
 
 group :development, :test do
+	gem 'better_errors'
+	gem 'binding_of_caller'
 	gem 'meta_request'
 	gem 'stackprof'
   gem 'pry'
