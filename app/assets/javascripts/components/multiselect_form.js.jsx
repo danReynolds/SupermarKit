@@ -36,6 +36,7 @@ var MultiselectForm = React.createClass({
                 <div>
                     {title}
                     <Multiselect
+                        expandable={false}
                         toggleModal={this.toggleModal}
                         buttonText={this.props.buttonText}
                         selection={this.state.modal.selection}/>
