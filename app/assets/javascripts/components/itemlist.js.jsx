@@ -196,9 +196,11 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
+        const { modal } = this.state;
         if (prevProps.recipes !== this.props.recipes) {
             this.reloadItems();
-        } else if (this.state.modal.loading !== prevState.modal.loading && this.state.modal.selection.length) {
+        } else if (this.state.pageNumber !== prevState.pageNumber ||
+            (modal.loading !== prevState.modal.loading && modal.selection.length)) {
             Materialize.initializeDismissable();
             $('.collapsible').collapsible({ accordion: false });
             this.initializeAutocomplete(this.props.items.unit_types);

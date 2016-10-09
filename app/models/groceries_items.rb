@@ -12,6 +12,11 @@ class GroceriesItems < ActiveRecord::Base
 
   CLOSEST_STORE_THRESHOLD = 10
 
+  def units=(value)
+    value = Unit.new(value).units if value.present?
+    super(value)
+  end
+
   # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item
   def estimated_price

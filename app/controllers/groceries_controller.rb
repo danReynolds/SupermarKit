@@ -50,7 +50,7 @@ class GroceriesController < ApplicationController
           item_params.slice(:quantity, :price, :units)
             .merge!({
               requester_id: grocery_item.requester_id || current_user.id,
-              units: item_params[:units] && Unit.new(item_params[:units]).units
+              units: item_params[:units]
             })
         )
       end
