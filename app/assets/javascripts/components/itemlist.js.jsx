@@ -21,7 +21,15 @@ var ItemList = React.createClass({
     handleItemFieldChange: function(e) {
         var index = this.getSelectedIndex(e);
         var field = e.target.getAttribute('data-field');
-        var value = parseFloat(e.target.value);
+        var target = e.target;
+        var value =  target.value;
+
+        if (target.type === 'number') {
+            value = parseFloat(value);
+            if (!Number.isFinite(value)) {
+                value = null;
+            }
+        }
 
         this.setState({
             modal: React.addons.update(
@@ -29,7 +37,7 @@ var ItemList = React.createClass({
                 {
                     selection: {
                         [index]: {
-                            [field]: {$set: Number.isFinite(value) ? value : null}
+                            [field]: {$set: value}
                         }
                     }
                 }
@@ -48,7 +56,6 @@ var ItemList = React.createClass({
 
     updateItem: function(index) {
         var item = this.state.modal.selection[index];
-
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -58,7 +65,8 @@ var ItemList = React.createClass({
                     groceries_items_attributes: {
                         id: item.grocery_item_id,
                         quantity: item.quantity,
-                        price: item.price
+                        price: item.price,
+                        units: item.units
                     }
                 }
             }),
@@ -66,6 +74,11 @@ var ItemList = React.createClass({
             contentType: 'application/json',
             url: item.url
         }).done(function(response) {
+            let {
+                previous_item_values,
+                updated_item_values
+            } = response.data
+
             this.setState(
                 React.addons.update(
                     this.state,
@@ -73,12 +86,12 @@ var ItemList = React.createClass({
                         modal: {
                             selection: {
                                 [index]: {
-                                    $merge: response.data.updated_item_values
+                                    $merge: updated_item_values
                                 }
                             }
                         },
                         total: {
-                            $set: this.state.total + this.totalPrice(item) - this.totalPrice(response.data.previous_item_values)
+                            $set: this.state.total + updated_item_values.price - previous_item_values.price
                         }
                     }
                 )
@@ -103,7 +116,7 @@ var ItemList = React.createClass({
         // Timeout is used for transition sliding animation on removal
         setTimeout(function() {
             this.setState({
-                total: this.state.total - this.totalPrice(item),
+                total: this.state.total - item.price,
                 modal: updatedModal
             }, function() {
                 $('.collection-item').css('transform', 'none');
@@ -116,12 +129,16 @@ var ItemList = React.createClass({
         this.saveSelection(modalSelection, this.reloadItems);
     },
 
-    totalPrice: function(item) {
-        return parseFloat(item.price) * parseFloat(item.quantity);
+    initializeAutocomplete: function(unit_types) {
+        var inputs = $('input.autocomplete');
+        inputs.autocomplete({data: unit_types});
+        inputs.on('change', this.handleItemFieldChange);
     },
 
     saveSelection: function(selection, callback) {
         $.ajax({
+            contentType: 'application/json',
+            url: this.props.grocery.url,
             method: 'PATCH',
             data: JSON.stringify({
                 grocery: {
@@ -130,13 +147,12 @@ var ItemList = React.createClass({
                             name: item.name,
                             id: item.id,
                             quantity: item.quantity,
-                            price: item.price
+                            price: item.price,
+                            units: item.units
                         }
                     })
                 }
-            }),
-            contentType: 'application/json',
-            url: this.props.grocery.url
+            })
         }).done(callback);
     },
 
@@ -180,11 +196,14 @@ var ItemList = React.createClass({
     },
 
     componentDidUpdate: function(prevProps, prevState) {
+        const { modal } = this.state;
         if (prevProps.recipes !== this.props.recipes) {
             this.reloadItems();
-        } else if (this.state.modal.loading !== prevState.modal.loading && this.state.modal.selection.length) {
+        } else if (this.state.pageNumber !== prevState.pageNumber ||
+            (modal.loading !== prevState.modal.loading && modal.selection.length)) {
             Materialize.initializeDismissable();
             $('.collapsible').collapsible({ accordion: false });
+            this.initializeAutocomplete(this.props.items.unit_types);
         }
 
         if (prevState.modal.selection.length != this.state.modal.selection.length) {
@@ -209,6 +228,7 @@ var ItemList = React.createClass({
         var itemContent = displayItems.map(function(data) {
             var quantityId = "quantity-" + data.index;
             var priceId = "price-" + data.index;
+            var unitsId = "units-" + data.index;
             return (
                 <li key={'item-' + data.index}
                     ref={'item-' + data.index}
@@ -217,10 +237,10 @@ var ItemList = React.createClass({
                     <div ref={'collapsible-' + data.index} className='collapsible-header'>
                         <img src={data.requester.image} />
                         <p>
-                            <strong>{data.requester.name}</strong> wants <strong>{data.item.quantity_formatted}</strong>
+                            <strong>{data.requester.name}</strong> wants <strong>{data.item.display_name}</strong>
                         </p>
                         <div className='badge price'>
-                            ${(data.item.price * data.item.quantity).toFixed(2)}
+                            ${parseFloat(data.item.price).toFixed(2)}
                         </div>
                     </div>
                     <div  className='collapsible-body'>
@@ -235,8 +255,8 @@ var ItemList = React.createClass({
                                     step="any"
                                     value={data.item.quantity} />
                             </div>
-                            <div className="col s4">
-                                <label htmlFor={priceId}>Price per item</label>
+                            <div className="col s3">
+                                <label htmlFor={priceId}>Price</label>
                                 <input
                                     onChange={this.handleItemFieldChange}
                                     id={priceId}
@@ -244,6 +264,16 @@ var ItemList = React.createClass({
                                     data-field="price"
                                     step="any"
                                     value={data.item.price} />
+                            </div>
+                            <div className="col l3 s3">
+                                <label htmlFor={unitsId}>Units</label>
+                                <input
+                                    className='autocomplete'
+                                    onChange={this.handleItemFieldChange}
+                                    id={unitsId}
+                                    type="text"
+                                    data-field="units"
+                                    value={data.item.units} />
                             </div>
                             <a
                                 className='btn'

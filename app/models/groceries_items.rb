@@ -1,4 +1,5 @@
 class GroceriesItems < ActiveRecord::Base
+  include FractionalNumberToWords
   belongs_to :requester, class_name: User
   belongs_to :item
   belongs_to :grocery
@@ -6,9 +7,15 @@ class GroceriesItems < ActiveRecord::Base
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
   validates_uniqueness_of :grocery_id, scope: :item_id
+  validates :units, inclusion: { in: UNIT_TYPES }, allow_blank: true
   monetize :price_cents
 
   CLOSEST_STORE_THRESHOLD = 10
+
+  def units=(value)
+    value = Unit.new(value).units if value.present?
+    super(value)
+  end
 
   # Determines the price for the grocery item based on the most common non-zero
   # price at the closest grocery that has that item
@@ -32,12 +39,17 @@ class GroceriesItems < ActiveRecord::Base
     most_common_price(groceries_items)
   end
 
-  def total_price_or_estimated
-    quantity * price_or_estimated
-  end
-
   def price_or_estimated
     Money.new(price.nonzero? ? price : estimated_price)
+  end
+
+  def display_name
+    quantity_words = frac_numwords(quantity)
+    if units.present?
+      "#{quantity_words} #{Unit.new(units).units.en.pluralize(quantity.ceil)} of #{item.name}"
+    else
+      "#{quantity_words} #{item.name.en.pluralize(quantity.ceil)}"
+    end
   end
 
 private
