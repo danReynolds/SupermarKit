@@ -62,6 +62,16 @@ RSpec.describe ItemsController, type: :controller do
       expect(grocery_item.units).to eq 'cup'
     end
 
+    it 'should accept an empty units value' do
+      groceries_items_params = valid_params[:item][:groceries_items_attributes]
+      groceries_items_params[:units] = ''
+      subject
+      grocery_item.reload
+      expect(grocery_item.price.to_i).to eq groceries_items_params[:price]
+      expect(grocery_item.quantity).to eq groceries_items_params[:quantity]
+      expect(grocery_item.units).to eq ''
+    end
+
     it 'should successfully return the old and updated values' do
       subject
       expect(JSON.parse(response.body)['data']['previous_item_values'])
