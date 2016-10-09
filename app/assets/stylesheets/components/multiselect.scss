@@ -19,6 +19,10 @@
     width: 100%;
     height: 5.3rem;
 
+    &.expanded {
+      height: initial;
+    }
+
     .fa-close {
       cursor: pointer;
       float: right;
@@ -26,6 +30,14 @@
       line-height: 33px;
       padding-left: 8px;
     }
+  }
+
+  .toggle {
+    position: absolute;
+    right: 2rem;
+    top: 2.25rem;
+    font-size: 1.25rem;
+    cursor: pointer;
   }
 
   .active { background: $sm-green; }

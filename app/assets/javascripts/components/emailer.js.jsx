@@ -23,6 +23,7 @@ var Emailer = React.createClass({
                 <div>
                     <div className='email-users'>
                         <Multiselect
+                            expandable={false}
                             buttonText={this.props.buttonText}
                             toggleModal={this.toggleModal}
                             selection={this.state.modal.selection}/>
