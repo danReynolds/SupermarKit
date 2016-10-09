@@ -18,7 +18,7 @@ module FractionalNumberToWords
 
     if fractional.length == 2
       whole_number, fraction = fractional
-      "#{whole_number.en.numwords} and #{fractional_part_to_words(fraction)}"
+      "#{whole_number.en.numwords} and a #{fractional_part_to_words(fraction)}"
     elsif (whole_number = fractional.first).kind_of?(Fixnum)
       whole_number.en.numwords
     else

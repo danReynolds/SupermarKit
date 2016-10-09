@@ -19,11 +19,11 @@ module Matcher
         end
 
         def find_match(objects, threshold = SIMILARITY_THRESHOLD, key = nil)
-            match = objects.inject({ similarity: 0 }) do |acc, obj|
+            match = objects.inject(Hash.new) do |acc, obj|
               similarity = key ? @comparator.similar(obj.send(key)) : @comparator.similar(obj)
 
                 acc.tap do |acc|
-                    if (acc[:similarity] < similarity) && similarity >= threshold
+                    if (acc[:similarity].nil? || acc[:similarity] < similarity) && similarity >= threshold
                         acc.merge!({
                             similarity: similarity,
                             result: obj

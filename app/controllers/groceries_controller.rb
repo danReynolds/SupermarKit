@@ -84,16 +84,18 @@ class GroceriesController < ApplicationController
             recipe: recipe
           }
 
-          # Find the ingredients line including units and amount with the same
-          # that matches the exact item name returned separately from the API
-          result = Matcher.new(item.name).find_match(parsed_lines, 0, :ingredient).result
+          # Find the ingredients line including units and amount that matches
+          # the exact item name returned separately from the API
+          result = Matcher.new(item.name)
+            .find_match(parsed_lines, 0, :ingredient).result
 
           # If there is a container, such as "1 15.5 oz can of spinach"
-          # we want to capture the container amount, 15.5 ounces
+          # we want to capture the container amount, 15.5 oz
           parsed_fields.merge!({
             units: result.container_unit || result.unit,
             quantity: result.container_amount || result.amount || 1
           })
+
           # Quantity might have been specified as a range, take average
           quantity = parsed_fields[:quantity]
           parsed_fields[:quantity] = quantity.sum / quantity.size.to_f if quantity.kind_of?(Array)
@@ -153,7 +155,9 @@ class GroceriesController < ApplicationController
     file = open(@grocery.receipt.url)
     processed_receipt = engine.text_for(file.path).strip.split("\n")
     # Match tesseract captures to items in the grocery list
-    captures = processed_receipt.map { |line| line.match(/((?:[A-za-z]+\s)+).*?(\d*\.\d+)/) }.compact.map(&:captures)
+    captures = processed_receipt
+      .map { |line| line.match(/((?:[A-za-z]+\s)+).*?(\d*\.\d+)/) }
+      .compact.map(&:captures)
     match_results = captures.inject({ matches: [], total: 0 }) do |matches, capture|
       matches.tap do |acc|
         matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
@@ -164,13 +168,12 @@ class GroceriesController < ApplicationController
           acc[:total] = [capture[1].to_f, acc[:total]].max
         elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
           # Aggregate duplicate items together
-
           aggregate_match = acc[:matches].detect { |existing_match| existing_match[:name] == match.result }
           if aggregate_match
             aggregate_match.merge!({ price: aggregate_match[:price] += capture[1].to_f })
           else
             acc[:matches] << {
-              name: match.name,
+              name: match.result,
               price: capture[1].to_f,
               similarity: match.similarity
             }

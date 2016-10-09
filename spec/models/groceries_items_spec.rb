@@ -78,43 +78,78 @@ RSpec.describe GroceriesItems, type: :model do
     let(:grocery) { create(:grocery, items: [item]) }
     let(:grocery_item) { item.grocery_item(grocery) }
 
-    before :each do
-      grocery_item.update!({
-        quantity: 2.5,
-        units: 'gram'
-      })
-    end
+    context 'whole number' do
+      context 'with units' do
+        before :each do
+          grocery_item.update_attribute(:units, 'gram')
+        end
 
-    context 'with units' do
-      context 'with nonzero decimal places' do
-        it 'should use the unit syntax with a decimal number' do
-          expect(grocery_item.display_name).to eq 'two point five grams of Bacon'
+        context 'without pluralization' do
+          it 'should display a singular whole number' do
+            expect(grocery_item.display_name).to eq 'one gram of Bacon'
+          end
+        end
+
+        context 'with pluralization' do
+          it 'should display a plural whole number' do
+            grocery_item.update_attribute(:quantity, 100)
+            expect(grocery_item.display_name).to eq 'one hundred grams of Bacon'
+          end
         end
       end
 
-      context 'with zero decimal places' do
-        it 'should use the unit syntax without a decimal number' do
-          grocery_item.update_attribute(:quantity, 2)
-          expect(grocery_item.display_name).to eq 'two grams of Bacon'
+      context 'without units' do
+        context 'without pluralization' do
+          it 'should display a singular whole number' do
+            expect(grocery_item.display_name).to eq 'one Bacon'
+          end
+        end
+
+        context 'with pluralization' do
+          it 'should display a plural whole number' do
+            grocery_item.update_attribute(:quantity, 100)
+            expect(grocery_item.display_name).to eq 'one hundred Bacons'
+          end
         end
       end
     end
 
-    context 'without units' do
+    context 'fractional number' do
       before :each do
-        grocery_item.update_attribute(:units, nil)
+        grocery_item.update_attribute(:quantity, 0.5)
       end
 
-      context 'with nonzero decimal places' do
-        it 'should use the no-unit syntax with a decimal number' do
-          expect(grocery_item.display_name).to eq 'two point five Bacon'
+      context 'with units' do
+        before :each do
+          grocery_item.update_attribute(:units, 'cup')
+        end
+        it 'should display a singular fractional number' do
+          expect(grocery_item.display_name).to eq 'a half cup of Bacon'
         end
       end
 
-      context 'with zero decimal places' do
-        it 'should use the no-unit syntax without a decimal number' do
-          grocery_item.update_attribute(:quantity, 2)
-          expect(grocery_item.display_name).to eq 'two Bacon'
+      context 'without units' do
+        it 'should display a singular fractional number' do
+          expect(grocery_item.display_name).to eq 'a half Bacon'
+        end
+      end
+    end
+
+    context 'mixed number' do
+      before :each do
+        grocery_item.update_attribute(:quantity, 1.5)
+      end
+
+      context 'with units' do
+        it 'should display a plural mixed number' do
+          grocery_item.update_attribute(:units, 'cup')
+          expect(grocery_item.display_name).to eq 'one and a half cups of Bacon'
+        end
+      end
+
+      context 'without units' do
+        it 'should display a plural mixed number' do
+          expect(grocery_item.display_name).to eq 'one and a half Bacons'
         end
       end
     end
