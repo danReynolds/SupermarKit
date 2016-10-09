@@ -347,7 +347,7 @@ class GroceriesController < ApplicationController
   end
 
   def format_users(balance = false)
-    @grocery.user_group.user_groups_users.map do |user_group_user, h|
+    @grocery.user_group.user_groups_users.includes(:user).map do |user_group_user, h|
       user_data = {
         id: user_group_user.user_id,
         name: user_group_user.user.name,

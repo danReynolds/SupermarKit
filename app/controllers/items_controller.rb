@@ -48,7 +48,7 @@ class ItemsController < ApplicationController
 
 private
   def items_data
-    @grocery.groceries_items.inject({ total: 0, items: [] }) do |acc, grocery_item|
+    @grocery.groceries_items.includes(:item).inject({ total: 0, items: [] }) do |acc, grocery_item|
       acc.tap do |a|
         a[:items] << format_item(grocery_item)
         a[:total] += grocery_item.price_or_estimated.to_f
@@ -57,17 +57,17 @@ private
   end
 
   def format_item(grocery_item)
-    quantity = grocery_item.quantity
+    item = grocery_item.item
     {
-      id: grocery_item.item.id,
-      name: grocery_item.item.name,
-      description: grocery_item.item.description.to_s,
+      id: item.id,
+      name: item.name,
+      description: item.description.to_s,
       grocery_item_id: grocery_item.id,
-      quantity: quantity == quantity.floor ? quantity.to_i : quantity.to_f,
+      quantity: grocery_item.quantity.to_f,
       units: grocery_item.units,
       display_name: grocery_item.display_name,
       price: grocery_item.price_or_estimated.format(symbol: false).to_f,
-      url: item_path(grocery_item.item.id),
+      url: item_path(item.id),
       requester: grocery_item.requester_id
     }
   end
