@@ -15,8 +15,9 @@
     margin: 2rem 0;
     overflow: auto;
     padding: 1rem;
+    padding-top: 0.45rem;
     width: 100%;
-    height: 5rem;
+    height: 5.3rem;
 
     .fa-close {
       cursor: pointer;
@@ -28,5 +29,7 @@
   }
 
   .active { background: $sm-green; }
-  .chip { margin: 0.4rem !important; }
+  .chip {
+    margin: 1.25rem 0.5rem 0.5rem !important;
+  }
 }
