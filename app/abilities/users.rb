@@ -1,7 +1,7 @@
 Canard::Abilities.for(:user) do
   can [:read, :auto_complete],                   User
   can :manage,                                   user
-  can :view_email,                               User,                          id: @user.user_groups.flat_map(&:user_ids).uniq
+  can :view_email,                               User,                          id: @user.friends.ids
 
   can :create,                                   Grocery
   can :manage,                                   Grocery,                       user_group_id: @user.user_group_ids
