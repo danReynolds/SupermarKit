@@ -1,6 +1,7 @@
 nav {
   background: $sm-dark-blue-green;
   transition: background 0.2s linear;
+  z-index: 999;
 
   &.top {
     background: none;
@@ -21,12 +22,12 @@ nav {
   }
 }
 
+.navigation {
+  z-index: initial;
+}
+
 .side-nav {
   width: 250px;
-
-  li {
-    padding-left: 2rem;
-  }
 
   i {
     margin-right: 1rem !important;
@@ -36,6 +37,7 @@ nav {
     display: flex;
     align-items: center;
     padding: 0;
+    padding-left: 2rem;
   }
 
   i {
