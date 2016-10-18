@@ -1,0 +1,29 @@
+%link{:type => "text/css", :rel => "stylesheet", :href => 'emails/send_grocery_list'}
+%link{href: "https://fonts.googleapis.com/icon?family=Material+Icons", rel: "stylesheet", type: "text/css"}
+%link{href: "https://fonts.googleapis.com/css?family=Oxygen:400,300", rel: "stylesheet", type: "text/css"}
+
+%h1=@grocery.name
+
+%ul
+  - if @valid_recipes.length.nonzero?
+    %h2 Recipe List
+    - @valid_recipes.sort_by(&:name).each do |recipe|
+      %li
+        #{recipe.name}
+        %ul
+          - recipe.items.sort_by(&:name).each do |item|
+            - if @grocery_item = item.grocery_item(@grocery)
+              %p
+                %strong=@grocery_item.display_name
+                for #{@grocery_item.price.format}
+              = check_box_tag :buy
+  %h2 Grocery List
+  - @grocery.items_without_recipes.sort_by(&:name).each do |item|
+    - @grocery_item = item.grocery_item(@grocery)
+    %li
+      %p
+        %strong=@grocery_item.display_name
+        for #{@grocery_item.price.format}
+      = check_box_tag :buy
+
+%p Estimated total: #{@grocery.total_price_or_estimated.format}
