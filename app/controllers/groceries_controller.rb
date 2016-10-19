@@ -111,7 +111,7 @@ class GroceriesController < ApplicationController
 
     # Add the items from the new recipes to the grocery list
     (recipes - @grocery.recipes).each do |recipe|
-        recipe.items_recipes.each do |item_recipe|
+        recipe.items_recipes.where.not(item: @grocery.items).each do |item_recipe|
           GroceriesItems.create!(
             grocery: @grocery,
             item: item_recipe.item,
