@@ -218,7 +218,7 @@ describe GroceriesController, type: :controller do
       }
     }
 
-    it "should remove old recipe items and add new ones" do
+    it 'should remove old recipe items and add new ones' do
       other_recipe = create(:recipe, :with_items)
       grocery.recipes << other_recipe
       grocery.items << other_recipe.items
@@ -271,6 +271,13 @@ describe GroceriesController, type: :controller do
       it 'should not create an item if one by that name already exists' do
         grocery_params[:recipes].last[:items].each do |item_name|
           create(:item, name: item_name)
+        end
+        expect { subject }.to_not change(Item, :count)
+      end
+
+      it 'should not add an item to a list if it is already on the list' do
+        grocery_params[:recipes].last[:items].each do |item_name|
+          grocery.items << create(:item, name: item_name)
         end
         expect { subject }.to_not change(Item, :count)
       end
