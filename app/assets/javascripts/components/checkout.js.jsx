@@ -32,7 +32,7 @@ var Checkout = React.createClass({
     },
 
     handleContribution: function(e) {
-        this.updateContribution(this.getIndex(e), parseInt(e.target.value));
+        this.updateContribution(this.getIndex(e), parseFloat(e.target.value));
     },
 
     handleSubmit: function(e) {
@@ -112,7 +112,7 @@ var Checkout = React.createClass({
                             disabled={!user.contributed}
                             id={userPayment}
                             onChange={this.handleContribution}
-                            value={user.contribution}
+                            value={user.contribution || ''}
                             type='number'>
                         </input>
                     </div>

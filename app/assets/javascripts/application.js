@@ -11,6 +11,7 @@
 //= require underscore
 //= require react_ujs
 //= require dropzone
+//= require moment
 
 // =============================
 // Page Scripts
