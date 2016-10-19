@@ -25,3 +25,5 @@ config/secrets.yml
 /cookbooks
 /receipts
 .sass-lint.yml
+*.log
+.vagrant/
