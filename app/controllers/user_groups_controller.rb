@@ -40,11 +40,10 @@ class UserGroupsController < ApplicationController
   end
 
   def payments
-    grocery_payments = @user_group.finished_groceries.map do |grocery|
+    grocery_payments = @user_group.finished_groceries.includes(:items).map do |grocery|
       receipt = grocery.receipt.url if grocery.receipt.file?
       {
-        date: grocery.finished_at.to_i,
-        date_formatted: grocery.finished_at.strftime('%A, %d %b %Y %l:%M %p').to_s,
+        date: grocery.finished_at,
         id: grocery.id,
         name: grocery.name,
         receipt: receipt,
@@ -55,7 +54,7 @@ class UserGroupsController < ApplicationController
             price: item.grocery_item(grocery).price.format(symbol: false)
           }
         end,
-        payments: grocery.payments.map do |payment|
+        payments: grocery.payments.includes(:user).map do |payment|
           {
             id: payment.id,
             price: payment.price.format,
@@ -66,10 +65,9 @@ class UserGroupsController < ApplicationController
       }
     end
 
-    user_payments = @user_group.payments.map do |payment|
+    user_payments = @user_group.payments.includes(:payee, :payer).map do |payment|
       {
-        date: payment.created_at.to_i,
-        date_formatted: payment.created_at.strftime('%A, %d %b %Y %l:%M %p').to_s,
+        date: payment.created_at,
         id: payment.id,
         reason: payment.reason,
         total: payment.price.format,
@@ -85,7 +83,8 @@ class UserGroupsController < ApplicationController
     end
 
     @payment_data = {
-      payments: (grocery_payments + user_payments).sort_by { |payment| payment[:date] }.reverse
+      payments: (grocery_payments + user_payments)
+        .sort_by { |payment| payment[:date].to_f }.reverse
     }
   end
 

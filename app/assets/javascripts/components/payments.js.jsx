@@ -59,6 +59,8 @@ var Payments = React.createClass({
 
     renderPayments: function() {
         return this.itemsForPage(this.state.payments.map(function(payment, paymentIndex) {
+            var date = moment(payment.date).format('dddd, MMMM Do YYYY')
+
             if (payment.payments) {
                 var receiptContent;
                 var groceryPayments = payment.payments.map(function(nestedPayment, nestedPaymentIndex) {
@@ -102,6 +104,7 @@ var Payments = React.createClass({
                         </div>
                     </div>
                 );
+
                 return (
                     <li
                         className='grocery-payment'
@@ -112,7 +115,7 @@ var Payments = React.createClass({
                                 {this.renderLabel(payment.name, 'Name:', 'payment-' + paymentIndex)}
                             </div>
                             <div className='right-content'>
-                                {this.renderLabel(payment.date_formatted, 'Date:', 'date-' + paymentIndex)}
+                                {this.renderLabel(date, 'Date:', 'date-' + paymentIndex)}
                             </div>
                             <div className='badge price'>
                                 {payment.total}
@@ -139,7 +142,7 @@ var Payments = React.createClass({
                                 <p>{payment.payee.name}</p>
                             </div>
                             <div className='right-content'>
-                                {this.renderLabel(payment.date_formatted, 'Date:', 'date-' + paymentIndex)}
+                                {this.renderLabel(date, 'Date:', 'date-' + paymentIndex)}
                                 {reasonContent}
                             </div>
                             <div className='badge price'>
