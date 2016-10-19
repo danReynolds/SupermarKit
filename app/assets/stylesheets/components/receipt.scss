@@ -1,6 +1,9 @@
 .groceries-receipt {
   .dropzone {
     margin: 3rem;
+    @media #{$mobile} {
+      margin: 3rem 0;
+    }
   }
 
   ul {
