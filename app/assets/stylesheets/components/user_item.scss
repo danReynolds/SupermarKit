@@ -36,12 +36,21 @@
 
   .balance-section {
     @extend .valign-wrapper;
+    @media #{$mobile} {
+      font-size: 1rem;
+    }
   }
 
   .contribution-checkbox {
     @media #{$mobile} {
       padding-left: 20px;
       margin-left: auto;
+    }
+  }
+
+  i {
+    @media #{$mobile} {
+      font-size: 1rem;
     }
   }
 
