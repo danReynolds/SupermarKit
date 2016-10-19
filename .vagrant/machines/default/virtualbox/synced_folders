@@ -1,1 +1,0 @@
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/dan/coding/personal/softgroceries","disabled":false,"__vagrantfile":true},"v-csc-21a9b147d":{"id":"v-csc-21a9b147d","guestpath":"/tmp/vagrant-chef/0100cbf2dffef9c7edd54fd2828e5381/cookbooks","hostpath":"/home/dan/coding/personal/softgroceries/cookbooks","disabled":false,"__vagrantfile":true}}}
