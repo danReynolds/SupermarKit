@@ -12,7 +12,7 @@ class Grocery < ActiveRecord::Base
 
   def total_price_or_estimated
     Money.new(
-      groceries_items.inject(0) do |acc, grocery_item|
+      groceries_items.includes(:item).inject(0) do |acc, grocery_item|
         acc += grocery_item.price_or_estimated
       end
     )
