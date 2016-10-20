@@ -107,7 +107,7 @@ var Checkout = React.createClass({
                     data-index={index}>
                     <UserItemContent user={user}/>
                     <div className='input-field'>
-                        <label htmlFor={userPayment}>Contribution</label>
+                        <label htmlFor={userPayment}>Amount</label>
                         <input
                             disabled={!user.contributed}
                             id={userPayment}
