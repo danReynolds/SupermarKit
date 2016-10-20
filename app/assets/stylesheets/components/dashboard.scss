@@ -1,7 +1,7 @@
 .dashboard {
   @media #{$mobile} {
-    .col + .col {
-      padding-bottom: 7rem;
+    .dashboard-card + .dashboard-card {
+      padding-bottom: 6rem;
     }
   }
 
@@ -18,7 +18,7 @@
   }
 
   .fixed-action-btn {
-    bottom: 5%;
+    bottom: 3%;
     right: 2%;
     text-align: center;
     width: 10rem;
