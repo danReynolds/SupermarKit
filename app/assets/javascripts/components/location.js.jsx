@@ -146,7 +146,7 @@ var Location = React.createClass({
             } else if (places.length === 1) {
                 this.setState({
                     store: places[0]
-                });
+                }, this.saveLocation);
             }
 
             // Clear out the old markers.
@@ -192,7 +192,13 @@ var Location = React.createClass({
             center: new google.maps.LatLng(0, 0),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false,
-            zoom: 1
+            zoom: 1,
+            zoomControlOptions: {
+              position: google.maps.ControlPosition.RIGHT_CENTER
+            },
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_CENTER
+            }
         });
 
         this.setState({
@@ -239,20 +245,14 @@ var Location = React.createClass({
                         id='pac-input'
                         className='controls'
                         type='text'
-                        placeholder='Search for shopping location'/>
-                    <div id='map'></div>
-                    <div className='card-action wide'>
-                        <a
-                            onClick={this.saveLocation}
-                            className='btn'>
-                            Save location
-                            </a>
-                        <a
-                            onClick={this.getDirections}
-                            className='btn'>
-                            Directions
-                            </a>
-                    </div>
+                        placeholder='Search for shopping location'
+                    />
+                    <div id='map'/>
+                    <a
+                        onClick={this.getDirections}
+                        className='btn-floating'>
+                        <i className='fa fa-map'/>
+                    </a>
                 </div>
             </div>
         );

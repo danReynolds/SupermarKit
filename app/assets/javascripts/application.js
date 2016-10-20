@@ -23,7 +23,6 @@
 //= require_tree ./helpers
 //= require_tree ./pages
 //= require_tree ./user_groups
-//= require_tree ./groceries
 
 $(document).ready(function() {
     Dropzone.autoDiscover = false;
