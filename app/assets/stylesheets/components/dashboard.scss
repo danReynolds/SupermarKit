@@ -1,5 +1,52 @@
 .dashboard {
+  @media #{$mobile} {
+    .col + .col {
+      padding-bottom: 7rem;
+    }
+  }
+
   .card {
     margin-bottom: 2rem;
+  }
+
+  @media #{$mobile} {
+    .dashboard-card {
+      .card {
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  .fixed-action-btn {
+    bottom: 5%;
+    right: 2%;
+    text-align: center;
+    width: 10rem;
+
+    @media #{$mobile} {
+      right: -3%;
+    }
+
+    .btn-label {
+      background: rgba($sm-black, .4);
+      border-radius: 2px;
+    }
+
+    &:hover {
+      .btn-label {
+        transition: opacity .25s ease-in;
+        opacity: 1;
+      }
+    }
+
+    ul {
+      transform: translate(-36%, 0);
+    }
+
+    li {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
   }
 }
