@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002181928) do
+ActiveRecord::Schema.define(version: 20161028075636) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -107,6 +107,12 @@ ActiveRecord::Schema.define(version: 20161002181928) do
     t.integer  "rating",        limit: 4
     t.integer  "timeInSeconds", limit: 4
     t.string   "external_id",   limit: 255
+  end
+
+  create_table "slack_bots", force: :cascade do |t|
+    t.string  "api_token",     limit: 255
+    t.integer "user_group_id", limit: 4
+    t.string  "format",        limit: 255
   end
 
   create_table "user_groups", force: :cascade do |t|
