@@ -12,7 +12,8 @@ var ModalContainer = {
     getInitialState: function() {
         return {
             modal: {
-                selectionForModal: this.props.selectionForModal || [],
+                // Used to open the modal with pre-selected unsaved items
+                openWithSelection: this.props.openWithSelection || [],
                 selection: this.props.selection || [],
                 open: false,
                 addToSelection: this.addToSelection,
