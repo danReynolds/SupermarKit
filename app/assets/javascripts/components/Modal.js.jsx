@@ -242,9 +242,9 @@ var Modal = React.createClass({
             }
         }
 
-        if (prevProps.selection !== this.props.selection || prevProps.selectionForModal !== this.props.selectionForModal) {
+        if (prevProps.selection !== this.props.selection || prevProps.openWithSelection !== this.props.openWithSelection) {
             this.setState({
-                selection: _.clone(this.props.selection.concat(this.props.selectionForModal))
+                selection: _.clone(this.props.selection.concat(this.props.openWithSelection))
             });
         }
     },
