@@ -37,6 +37,7 @@ class UserGroupsController < ApplicationController
 
   def edit
     @kit_data = kit_data
+    @manage_data = manage_data
   end
 
   def payments
@@ -89,6 +90,7 @@ class UserGroupsController < ApplicationController
   end
 
   def update
+    raise
     update_params = update_user_group_params
     update_params[:user_ids] = update_params[:user_ids].split(',')
     remaining_users = User.find(update_params[:user_ids])
@@ -165,10 +167,32 @@ private
     end
   end
 
+  def manage_data
+    {
+      members: kit_data,
+      banner: @user_group.banner.url(:standard),
+      url: user_group_path(@user_group),
+      kitUpdate: {
+        name: @user_group.name,
+        description: @user_group.description,
+        default_group: current_user.default_group == @user_group,
+        badge: @user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary',
+        privacyDisplay: @user_group.privacy.humanize
+      },
+      integrations: [
+        {
+          name: 'Slack',
+          id: 'slack',
+          message_types: SlackMessage::MESSAGE_TYPES,
+          api_key: @user_group.slack_bot.try(:api_key)
+        }
+      ]
+    }
+  end
+
   def kit_data
       {
         title: 'Kit members',
-        buttonText: 'Modify',
         formElement: 'user_group_user_ids',
         buttonText: 'person',
         selection: @user_group.users.map do |user|

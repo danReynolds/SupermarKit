@@ -1,0 +1,22 @@
+.integrations {
+  .card-content {
+    padding: 0;
+  }
+
+  .integrations-content {
+    padding: 1.5rem 3rem;
+  }
+
+  .tabs {
+    margin-bottom: 1rem;
+    @extend .z-depth-1;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .collapsible-body {
+    padding-bottom: 1rem;
+  }
+}

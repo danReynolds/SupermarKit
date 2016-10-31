@@ -1,8 +1,9 @@
 .collapsible {
-  box-shadow: none;
-  .collapsible-header, .collapsible-body {
+  &.plain { box-shadow: none; }
+  
+  .collapsible-header,
+  .collapsible-body {
     border-bottom: none;
-
     p {
       line-height: 2;
     }
