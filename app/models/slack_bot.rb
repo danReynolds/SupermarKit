@@ -1,30 +1,32 @@
 class SlackBot < ActiveRecord::Base
   belongs_to :user_group
+  has_many :slack_messages
 
   after_initialize :setup_client
   attr_accessor :client
 
-  CONTRIBUTORS = 'contributors'.freeze
-  RECIPIENTS = 'recipients'.freeze
-  TITLE = 'title'.freeze
-
-  INTERPOLATED_FIELDS = [
-    CONTRIBUTORS,
-    RECIPIENTS,
-    TITLE
-  ]
+  CHANNEL = "general"
 
   def setup_client
     @client = Slack::Web::Client.new(token: api_token)
-    @client.chat_postMessage(channel: '#general', text: 'hello world', as_user: true)
   end
 
-  def send_checkout_message(grocery)
+  def send_message(type, *args)
+    fields = SlackMessage::MESSAGE_TYPES[type][:fields]
+    message = slack_messages.find_by_message_type(type)
+    self.send(type, fields, message, *args)
+  end
+
+  private
+
+  def send_checkout_message(fields, message, grocery)
     field_data = { recipients: [], contributors: [] }
     grocery.payments.includes(:user).inject(field_data) do |field_values, payment|
       name = payment.user.name
       field_values.tap do |fv|
-        fv[:contributors] << "#{name} paid #{payment.price.format}" if payment.price.nonzero?
+        if payment.price.nonzero?
+          fv[:contributors] << "#{name} paid #{payment.price.format}"
+        end
         fv[:recipients] << name
       end
     end
@@ -36,10 +38,10 @@ class SlackBot < ActiveRecord::Base
     }
 
     @client.chat_postMessage(
-      channel: '#general',
+      channel: "##{CHANNEL}",
       as_user: true,
-      text: INTERPOLATED_FIELDS.inject(format) do |message, field|
-        message.gsub(/{#{field}}/, formatted_fields[field.to_sym])
+      text: fields.inject(message.format) do |format, field|
+        format.gsub(/{#{field}}/, formatted_fields[field.to_sym])
       end
     )
   end

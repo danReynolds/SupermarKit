@@ -1,46 +1,48 @@
-:coffee
-  @users = #{@users.to_json}
-
 .container.user-groups-edit
-  = simple_form_for @user_group do |f|
-    .row
-      .col.l8.offset-l2
-        .card
-          .card-content
-            .row
-              %div{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
-              %h3 Update Kit
-              .col.l6
-                .inputs
-                  = f.input :name, input_html: { class: 'input-field' }
-                  = f.input :user_ids, as: :hidden, input_html: { value: @user_group.user_ids.join(',') }
-                  = f.input :description, input_html: { class: 'input-field' }
-              .col.l6
-                %p.default-group Set this Kit as your default to feature it in the menu.
-                = check_box_tag :default_group, true, current_user.default_group == @user_group, class: 'filled-in'
-                = label_tag :default_group, 'Default Kit'
-    .row
-      .col.l8.offset-l2
-        .card
-          .card-image
-            = image_tag @user_group.banner.url(:standard)
-            %span.card-title Kit banner
-          .card-content
-            %p Add a custom image to your kit for you and your members to see.
-          .card-action
-            .input-field.file-field
-              .btn
-                %span File
-                = f.input :banner, label: false, as: :file
-              .file-path-wrapper
-                %input.file-path.validate
-
-  .row
-    .col.l8.offset-l2.s12
-      .card
-        .card-content
-          .row
-            .col.l12.s12
-              = react_component 'MultiselectForm', @kit_data
-        .card-action
-          = link_to 'Update', 'javascript:;', class: 'btn submit-group-form'
+  = react_component 'Manage', @manage_data
+  -# = simple_form_for @user_group do |f|
+  -#   .row
+  -#     .col.l6
+  -#       .card
+  -#         .card-content
+  -#           .row
+  -#             %div{ class: (@user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary') }= @user_group.privacy.humanize
+  -#             %h3 Update Kit
+  -#             .col.l6
+  -#               .inputs
+  -#                 = f.input :name, input_html: { class: 'input-field' }
+  -#                 = f.input :user_ids, as: :hidden, input_html: { value: @user_group.user_ids.join(',') }
+  -#                 = f.input :description, input_html: { class: 'input-field' }
+  -#             .col.l6
+  -#               %p.default-group Set this Kit as your default to feature it in the menu.
+  -#               = check_box_tag :default_group, true, current_user.default_group == @user_group, class: 'filled-in'
+  -#               = label_tag :default_group, 'Default Kit'
+  -#       .card
+  -#         .card-image
+  -#           = image_tag @user_group.banner.url(:standard)
+  -#           %span.card-title Kit banner
+  -#         .card-content
+  -#           %p Add a custom image to your kit for you and your members to see.
+  -#         .card-action
+  -#           .input-field.file-field
+  -#             .btn
+  -#               %span File
+  -#               = f.input :banner, label: false, as: :file
+  -#             .file-path-wrapper
+  -#               %input.file-path.validate
+  -#
+  -#     .col.l6
+  -#       .card
+  -#         .card-content
+  -#           .row
+  -#             .col.l12
+  -#               = react_component 'MultiselectForm', @kit_data
+  -#         .card-action
+  -#           = link_to 'Update', 'javascript:;', class: 'btn submit-group-form'
+  -#       .card
+  -#         .card-content.full-width.dark
+  -#           .card-header
+  -#             %h3 Integrations
+  -#           .row
+  -#             .col.l12
+                = react_component 'Integrations', @integration_data
