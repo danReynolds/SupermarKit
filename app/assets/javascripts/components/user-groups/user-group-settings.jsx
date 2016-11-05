@@ -1,4 +1,4 @@
-const KitUpdate = ({
+const UserGroupSettings = ({
     badge,
     privacyDisplay,
     name,
@@ -17,7 +17,7 @@ const KitUpdate = ({
     }
 
     return (
-        <div className='card kit-update'>
+        <div className='card user-group-settings'>
             <div className='card-content'>
                 <div className='row'>
                     <div className={badge}>
@@ -66,7 +66,7 @@ const KitUpdate = ({
     );
 };
 
-KitUpdate.propTypes = {
+UserGroupSettings.propTypes = {
     badge: React.PropTypes.string,
     privacyDisplay: React.PropTypes.string,
     name: React.PropTypes.string,

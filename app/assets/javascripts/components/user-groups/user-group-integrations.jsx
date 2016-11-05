@@ -1,4 +1,4 @@
-class Integrations extends React.Component {
+class UserGroupIntegrations extends React.Component {
     constructor(props) {
         super(props);
 
@@ -98,7 +98,7 @@ class Integrations extends React.Component {
                     </div>
                     <div className='row'>
                         <div className='col l12'>
-                            <div className='integrations'>
+                            <div className='user-group-integrations'>
                                 {this.renderIntegrationTabs()}
                                 {this.renderIntegrationContent()}
                             </div>
@@ -110,7 +110,7 @@ class Integrations extends React.Component {
     }
 }
 
-Integrations.propTypes = {
+UserGroupIntegrations.propTypes = {
     integrations: React.PropTypes.object.isRequired,
     onSlackMessageChange: React.PropTypes.func,
     onSlackFieldChange: React.PropTypes.func,

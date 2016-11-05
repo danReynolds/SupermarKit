@@ -1,26 +1,26 @@
 const { update } = React.addons;
 
-const KitManagement = React.createClass({
+const UserGroupEdit = React.createClass({
     mixins: [ModalContainer],
 
     propTypes: {
         url: React.PropTypes.string,
-        integrations: React.PropTypes.object,
-        kitUpdate: React.PropTypes.object,
-        kitBanner: React.PropTypes.object,
+        userGroupIntegrations: React.PropTypes.object,
+        userGroupSettings: React.PropTypes.object,
+        userGroupBanner: React.PropTypes.object,
         modal: React.PropTypes.object,
         form: React.PropTypes.object,
     },
 
     getInitialState: function() {
         const {
-            kitUpdate,
-            integrations,
+            userGroupSettings,
+            userGroupIntegrations,
         } = this.props;
 
         return {
-            kitUpdate,
-            integrations,
+            userGroupSettings,
+            userGroupIntegrations,
         };
     },
 
@@ -39,12 +39,12 @@ const KitManagement = React.createClass({
         const { url } = this.props;
         const {
             bannerFile,
-            kitUpdate: {
+            userGroupSettings: {
                 name,
                 description,
                 default_group,
             },
-            integrations: {
+            userGroupIntegrations: {
                 slack: {
                     api_token,
                     message_types,
@@ -59,7 +59,9 @@ const KitManagement = React.createClass({
         form.append('user_group[name]', name);
         form.append('user_group[description]', description);
         form.append('user_group[user_ids]', selection.map(selected => selected.id));
-        form.append('default_group', default_group);
+        if (default_group) {
+            form.append('default_group', default_group);
+        }
         if (bannerFile) {
             form.append('user_group[banner]', bannerFile);
         }
@@ -89,10 +91,10 @@ const KitManagement = React.createClass({
         })
     },
 
-    onKitUpdateChange: function(field, value) {
+    onUserGroupSettingsChange: function(field, value) {
         this.setState(
             update(this.state, {
-                kitUpdate: {
+                userGroupSettings: {
                     [field]: { $set: value }
                 },
             })
@@ -102,7 +104,7 @@ const KitManagement = React.createClass({
     onSlackMessageChange: function(index, field, value) {
         this.setState(
             update(this.state, {
-                integrations: {
+                userGroupIntegrations: {
                     slack: {
                         message_types: {
                             [index]: {
@@ -118,7 +120,7 @@ const KitManagement = React.createClass({
     onSlackFieldChange: function(field, value) {
         this.setState(
             update(this.state, {
-                integrations: {
+                userGroupIntegrations: {
                     slack: {
                         [field]: { $set: value }
                     }
@@ -134,24 +136,24 @@ const KitManagement = React.createClass({
 
     render: function() {
         const {
-            kitBanner,
+            userGroupBanner,
             multiselect,
         } = this.props;
         const {
             modal: { selection },
-            kitUpdate,
-            integrations,
+            userGroupSettings,
+            userGroupIntegrations,
         } = this.state;
         return (
-            <div className='kit-management'>
+            <div className='user-group-edit'>
                 <div className='row'>
                     <div className='col l6'>
-                        <KitUpdate
-                            {...kitUpdate}
-                            onChange={this.onKitUpdateChange}
+                        <UserGroupSettings
+                            {...userGroupSettings}
+                            onChange={this.onUserGroupSettingsChange}
                         />
-                        <KitBanner
-                            {...kitBanner}
+                        <UserGroupBanner
+                            {...userGroupBanner}
                             onFileChange={this.onFileChange}
                         />
                     </div>
@@ -164,10 +166,10 @@ const KitManagement = React.createClass({
                                 selection={selection}
                             />
                         </Card>
-                        <Integrations
+                        <UserGroupIntegrations
                             onSlackMessageChange={this.onSlackMessageChange}
                             onSlackFieldChange={this.onSlackFieldChange}
-                            integrations={integrations}
+                            integrations={userGroupIntegrations}
                         />
                     </div>
                 </div>
