@@ -52,7 +52,7 @@ gem 'ingreedy', git: 'https://github.com/danReynolds/ingreedy.git'
 gem 'momentjs-rails'
 gem 'slack-ruby-client'
 
-if true
+if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
 else
 	TESSERACT_GEM = 'https://github.com/meh/ruby-tesseract-ocr.git'
