@@ -71,10 +71,36 @@ describe UserGroupsController, type: :controller do
     let(:user1) { create(:user) }
     let(:user2) { create(:user) }
     let(:group) { create(:user_group, users: [user1, user2, controller.current_user]) }
-    let(:subject) { patch :update, id: group, user_group: { user_ids: "#{controller.current_user.id},#{user2.id}" }, default_group: default_group  }
     let(:default_group) { false }
+    let(:integration_params) {
+      {
+        slack: {
+          api_token: 'this is an api token',
+          message_types: {
+            send_checkout_message: {
+              enabled: true,
+              format: 'Alfred, for {title} {recipients} were gifted.'
+            }
+          }
+        }
+      }
+    }
+    let(:user_group_params) {
+      {
+        name: 'Test Name',
+        description: 'Test description',
+        user_ids: "#{controller.current_user.id},#{user2.id}"
+      }
+    }
+    let(:subject) {
+      patch :update,
+      id: group,
+      user_group: user_group_params,
+      default_group: default_group,
+      integrations: integration_params.to_json.to_s
+    }
 
-    context 'currently default group' do
+    context 'current default group' do
       before :each do
         controller.current_user.update_attribute(:default_group, group)
       end
@@ -97,7 +123,7 @@ describe UserGroupsController, type: :controller do
       end
     end
 
-    context 'currently not group' do
+    context 'currently not default group' do
       before :each do
         @other_group = create(:user_group)
         controller.current_user.update_attribute(:default_group, @other_group)
@@ -121,19 +147,85 @@ describe UserGroupsController, type: :controller do
       end
     end
 
-    it 'replaces users with new ones' do
+    context 'with existing slackbot' do
+      before :each do
+        @slackbot = create(:slack_bot, user_group: group)
+      end
+
+      context 'updating with an api token' do
+        it 'should update the bot to use the new api token' do
+          subject
+          expect(@slackbot.reload.api_token).to eq 'this is an api token'
+        end
+
+        context 'with existing messages' do
+          before :each do
+            @slackbot.slack_messages << create(:slack_message)
+          end
+
+          it 'should update the slackbot messages' do
+            subject
+            message = @slackbot.reload.slack_messages.first
+            expect(message.format).to eq 'Alfred, for {title} {recipients} were gifted.'
+            expect(message.enabled).to eq true
+          end
+        end
+      end
+
+      context 'updating without an api token' do
+        it 'should remove the bot and all slack messages' do
+          integration_params[:slack][:api_token] = nil
+          subject
+          expect(group.reload.slack_bot).to eq nil
+          expect(group.slack_messages).to be_empty
+        end
+      end
+    end
+
+    context 'without existing slackbot' do
+      context 'updating with an api token' do
+        it 'should create a new slack bot with that token' do
+          subject
+          expect(group.reload.slack_bot.api_token).to eq 'this is an api token'
+        end
+
+        it 'should create slack messages' do
+          subject
+          message = group.reload.slack_messages.first
+          expect(message.format).to eq 'Alfred, for {title} {recipients} were gifted.'
+          expect(message.enabled).to eq true
+        end
+      end
+
+      context 'without an api token' do
+        it 'should not create a slackbot' do
+          integration_params[:slack][:api_token] = nil
+          subject
+          expect(group.reload.slack_bot).to eq nil
+        end
+      end
+    end
+
+    it 'should update the user group fields' do
+      subject
+      group.reload
+      expect(group.name).to eq 'Test Name'
+      expect(group.description).to eq 'Test description'
+    end
+
+    it 'should replace users with new ones' do
       subject
       expect(group.reload.users).to contain_exactly(controller.current_user, user2)
     end
 
-    it 'makes removed users with that group as a default have no default' do
+    it 'should make removed users with that group as a default have no default' do
       user1.update_attribute(:default_group, group)
       expect(user1.default_group).to eq group
       subject
       expect(user1.reload.default_group).to eq nil
     end
 
-    it 'keeps remaining users with that group as a default have that default' do
+    it 'should keep remaining users with that group as a default have that default' do
       user2.update_attribute(:default_group, group)
       expect(user2.default_group).to eq group
       subject
