@@ -1,48 +1,51 @@
 class Integrations extends React.Component {
     constructor(props) {
         super(props);
+
+        this.onAPIChange = this.onAPIChange.bind(this);
     }
 
-    renderSlackIntegration(integration) {
-        const { message_types, api_key, id } = integration;
+    onAPIChange(e) {
+        const { onSlackFieldChange } = this.props;
+        const { target: { value } } = e;
+        onSlackFieldChange('api_token', value);
+    }
+
+    renderSlackIntegration(id, integration) {
+        const { message_types, api_token } = integration;
+        const { onSlackMessageChange } = this.props;
+        const apiId = 'slack-api-key';
         return (
             <div
                 key={id}
                 className={`${id}-integration`}
             >
                 <p>
-                    Configure a Slack integration to notify
-                    your channel when supported events happen on SupermarKit.
+                    Set your Slack API key and enable events to receive in your
+                    team's channel from SupermarKit.
                 </p>
+                <label htmlFor={apiId}>API Key</label>
+                <input
+                    type='text'
+                    id={apiId}
+                    value={api_token}
+                    onChange={this.onAPIChange}
+                />
+                <label htmlFor={id}>Events</label>
                 <ul
                     id={id}
                     className='collapsible'
                     data-collapsible='accordion'
                     >
-                    {Object.keys(message_types).map((key, index) => {
-                        const {
-                            name,
-                            fields,
-                            exampleInput,
-                            exampleFields,
-                            description,
-                            id,
-                        } = message_types[key];
+                    {message_types.map((message_type, index) => {
+                        const { name: messageName } = message_type;
                         return (
-                            <li key={id}>
-                                <div className='collapsible-header'>
-                                    <strong>{name}</strong>
-                                </div>
-                                <div className='collapsible-body'>
-                                    <SlackMessage
-                                        id={id}
-                                        message={exampleInput}
-                                        fields={fields}
-                                        description={description}
-                                        exampleFields={exampleFields}
-                                        />
-                                </div>
-                            </li>
+                            <SlackMessage
+                                key={index}
+                                index={index}
+                                onSlackMessageChange={onSlackMessageChange}
+                                {...message_type}
+                            />
                         );
                     })}
                 </ul>
@@ -54,11 +57,10 @@ class Integrations extends React.Component {
         const { integrations } = this.props;
         return (
             <div className='integrations-content'>
-                {integrations.map(integration => {
-                    const { name } = integration;
-                    switch (name) {
+                {Object.keys(integrations).map(key => {
+                    switch (key) {
                         default:
-                            return this.renderSlackIntegration(integration);
+                            return this.renderSlackIntegration(key,integrations[key]);
                     };
                 })}
             </div>
@@ -67,14 +69,14 @@ class Integrations extends React.Component {
 
     renderIntegrationTabs() {
         const { integrations } = this.props
-        const tabs = integrations.map((integration, index) => {
-            const { name, id } = integration;
+        const tabs = Object.keys(integrations).map(key => {
+            const { name } = integrations[key];
             return (
                 <li
-                    key={id}
+                    key={key}
                     className='tab'>
-                    <a className='dark' href={id}>
-                        <i className={`fa fa-${id}`} />
+                    <a className='dark' href={key}>
+                        <i className={`fa fa-${key}`} />
                         {name}
                     </a>
                 </li>
@@ -109,5 +111,7 @@ class Integrations extends React.Component {
 }
 
 Integrations.propTypes = {
-    integrations: React.PropTypes.array.isRequired,
+    integrations: React.PropTypes.object.isRequired,
+    onSlackMessageChange: React.PropTypes.func,
+    onSlackFieldChange: React.PropTypes.func,
 }

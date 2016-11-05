@@ -1,5 +1,15 @@
 .slack-message {
-  padding: 0 2rem;
+  padding: 0 1rem;
+
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin: 6px 0 0 auto;
+      padding-left: 24px;
+    }
+  }
 
   p { padding: 0; }
 }

@@ -1,7 +1,7 @@
-const KitBanner = ({ banner, onFileChange }) => (
-    <div className='card'>
+const KitBanner = ({ url, onFileChange }) => (
+    <div className='card kit-banner'>
         <div className='card-image'>
-            <img src={banner} />
+            <img src={url} />
             <span className='card-title'>Kit banner</span>
         </div>
         <div className='card-content'>
