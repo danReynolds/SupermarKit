@@ -15,7 +15,7 @@ class UserGroupsController < ApplicationController
   end
 
   def new
-    @kit_data = kit_data
+    @new_data = new_data
     @banner_image = UserGroup::BANNER_IMAGES.sample
   end
 
@@ -29,14 +29,14 @@ class UserGroupsController < ApplicationController
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to @user_group, notice: 'Kit created! When you are ready, create your first grocery list.'
     else
-      @kit_data = kit_data
+      @new_data = new_data
       @banner_image = UserGroup::BANNER_IMAGES.sample
       render :new
     end
   end
 
   def edit
-    @manage_data = manage_data
+    @edit_data = edit_data
   end
 
   def payments
@@ -125,8 +125,16 @@ class UserGroupsController < ApplicationController
       slackbot.destroy if slackbot
     end
 
-    @user_group.update!(update_params)
-    head :ok
+    if @user_group.update(update_params)
+      head :ok
+    else
+      error_data =  {
+        errors: @user_group.errors.messages.map do |field, error|
+          "#{field}: #{error.first}"
+        end
+      }
+      render status: :internal_server_error, json: error_data
+    end
   end
 
   def accept_invitation
@@ -186,7 +194,7 @@ private
     end
   end
 
-  def manage_data
+  def edit_data
     {
       url: user_group_path(@user_group),
       modal: modal_data,

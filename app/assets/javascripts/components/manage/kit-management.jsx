@@ -81,9 +81,12 @@ const KitManagement = React.createClass({
             contentType: false,
             processData: false,
             data: form,
-        }).done(function(response) {
+        }).done(response => {
             window.location = url;
-        });
+        }).error(response => {
+            const { responseJSON: { errors } } = response;
+            Materialize.toast(errors.join('\n'), 1000);
+        })
     },
 
     onKitUpdateChange: function(field, value) {
