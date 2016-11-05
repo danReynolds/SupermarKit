@@ -194,6 +194,36 @@ private
     end
   end
 
+  def new_data
+    {
+      title: 'Kit members',
+      formElement: 'user_group_user_ids',
+      buttonText: 'person',
+      selection: @user_group.users.map do |user|
+        {
+          name: user.name,
+          id: user.id,
+          image: user.gravatar_url
+        }
+      end,
+      modal: {
+        id: 'change-members',
+        queryUrl: auto_complete_users_path(image: true, q: ''),
+        resultType: 'UserResult',
+        input: {
+          placeholder: 'Add friends to your Kit',
+          queryField: 'query',
+          fields: [
+            {
+              name: 'query',
+              regex: '(.*)'
+            }
+          ]
+        }
+      }
+    }
+  end
+
   def edit_data
     {
       url: user_group_path(@user_group),
@@ -202,7 +232,7 @@ private
         buttonText: 'person'
       },
       userGroupBanner: {
-        url: @user_group.banner.url(:standard)
+        url: view_context.image_path(@user_group.banner.url(:standard))
       },
       userGroupSettings: {
         name: @user_group.name,
