@@ -198,23 +198,20 @@ private
     {
       url: user_group_path(@user_group),
       modal: modal_data,
-      form: {
-        name: 'user_group'
-      },
       multiselect: {
         buttonText: 'person'
       },
-      kitBanner: {
+      userGroupBanner: {
         url: @user_group.banner.url(:standard)
       },
-      kitUpdate: {
+      userGroupSettings: {
         name: @user_group.name,
         description: @user_group.description,
         default_group: current_user.default_group == @user_group,
         badge: @user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary',
         privacyDisplay: @user_group.privacy.humanize
       },
-      integrations: {
+      userGroupIntegrations: {
         slack: slack_data
       }
     }

@@ -1,5 +1,5 @@
-const KitBanner = ({ url, onFileChange }) => (
-    <div className='card kit-banner'>
+const UserGroupBanner = ({ url, onFileChange }) => (
+    <div className='card user-group-banner'>
         <div className='card-image'>
             <img src={url} />
             <span className='card-title'>Kit banner</span>
@@ -25,7 +25,7 @@ const KitBanner = ({ url, onFileChange }) => (
     </div>
 );
 
-KitBanner.propTypes = {
+UserGroupBanner.propTypes = {
     banner: React.PropTypes.string,
     onFileChange: React.PropTypes.func,
 };
