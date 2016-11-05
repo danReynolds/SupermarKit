@@ -36,7 +36,6 @@ class UserGroupsController < ApplicationController
   end
 
   def edit
-    @kit_data = kit_data
     @manage_data = manage_data
   end
 
@@ -90,7 +89,6 @@ class UserGroupsController < ApplicationController
   end
 
   def update
-    raise
     update_params = update_user_group_params
     update_params[:user_ids] = update_params[:user_ids].split(',')
     remaining_users = User.find(update_params[:user_ids])
@@ -108,11 +106,27 @@ class UserGroupsController < ApplicationController
       current_user.update_attribute(:default_group, nil)
     end
 
-    if @user_group.update!(update_params)
-      redirect_to @user_group
+    integrations = JSON.parse(params[:integrations]).with_indifferent_access
+    slack = integrations[:slack]
+    api_token = slack[:api_token]
+    slackbot = @user_group.slack_bot
+
+    if api_token
+      slackbot ||= SlackBot.create(user_group: @user_group)
+      slackbot.slack_messages = slack[:message_types].map do |type, message_params|
+        message = slackbot.slack_messages.find_or_create_by(message_type: type)
+
+        message.tap do |updated_message|
+          message.update!(message_params)
+        end
+      end
+      slackbot.update!(api_token: api_token)
     else
-      render action: :edit
+      slackbot.destroy if slackbot
     end
+
+    @user_group.update!(update_params)
+    head :ok
   end
 
   def accept_invitation
@@ -151,7 +165,12 @@ private
   end
 
   def update_user_group_params
-    params.require(:user_group).permit(:name, :description, :banner, :user_ids)
+    params.require(:user_group).permit(
+      :name,
+      :description,
+      :banner,
+      :user_ids,
+    )
   end
 
   def user_payment_data
@@ -169,9 +188,17 @@ private
 
   def manage_data
     {
-      members: kit_data,
-      banner: @user_group.banner.url(:standard),
       url: user_group_path(@user_group),
+      modal: modal_data,
+      form: {
+        name: 'user_group'
+      },
+      multiselect: {
+        buttonText: 'person'
+      },
+      kitBanner: {
+        url: @user_group.banner.url(:standard)
+      },
       kitUpdate: {
         name: @user_group.name,
         description: @user_group.description,
@@ -179,44 +206,51 @@ private
         badge: @user_group.privacy == UserGroup::PUBLIC ? 'badge' : 'badge secondary',
         privacyDisplay: @user_group.privacy.humanize
       },
-      integrations: [
-        {
-          name: 'Slack',
-          id: 'slack',
-          message_types: SlackMessage::MESSAGE_TYPES,
-          api_key: @user_group.slack_bot.try(:api_key)
-        }
-      ]
+      integrations: {
+        slack: slack_data
+      }
     }
   end
 
-  def kit_data
-      {
-        title: 'Kit members',
-        formElement: 'user_group_user_ids',
-        buttonText: 'person',
-        selection: @user_group.users.map do |user|
-          {
-            name: user.name,
-            id: user.id,
-            image: user.gravatar_url
-          }
-        end,
-        modal: {
-          id: 'change-members',
-          queryUrl: auto_complete_users_path(image: true, q: ''),
-          resultType: 'UserResult',
-          input: {
-            placeholder: 'Add friends to your Kit',
-            queryField: 'query',
-            fields: [
-              {
-                name: 'query',
-                regex: '(.*)'
-              }
-            ]
-          }
+  def slack_data
+    slack_messages = @user_group.slack_messages
+    {
+      api_token: @user_group.slack_bot.try(:api_token),
+      name: 'Slack',
+      message_types: CONFIGURABLES[:slack_messages].map do |message_data|
+        message_data.tap do |message|
+          if slack_message = slack_messages.find_by_message_type(message_data[:id])
+            message.merge!(slack_message.as_json
+              .with_indifferent_access.slice(:format, :enabled))
+          end
+          message[:enabled] ||= false
+        end
+      end
+    }
+  end
+
+  def modal_data
+    {
+      id: 'change-members',
+      queryUrl: auto_complete_users_path(image: true, q: ''),
+      resultType: 'UserResult',
+      selection: @user_group.users.map do |user|
+        {
+          name: user.name,
+          id: user.id,
+          image: user.gravatar_url
         }
+      end,
+      input: {
+        placeholder: 'Add friends to your Kit',
+        queryField: 'query',
+        fields: [
+          {
+            name: 'query',
+            regex: '(.*)'
+          }
+        ]
       }
+    }
   end
 end

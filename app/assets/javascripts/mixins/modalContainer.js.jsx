@@ -14,7 +14,7 @@ var ModalContainer = {
             modal: {
                 // Used to open the modal with pre-selected unsaved items
                 openWithSelection: this.props.openWithSelection || [],
-                selection: this.props.selection || [],
+                selection: this.props.modal.selection || this.props.selection || [],
                 open: false,
                 addToSelection: this.addToSelection,
                 removeFromSelection: this.removeFromSelection,

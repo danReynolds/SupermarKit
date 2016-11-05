@@ -40,6 +40,16 @@
   }
 }
 
+.fixed-action-btn {
+  bottom: 4%;
+  right: 4%;
+  text-align: center;
+
+  @media #{$mobile} {
+    right: -3%;
+  }
+}
+
 .btn {
   @include shared-button-styles;
   margin-top: 0.5rem;

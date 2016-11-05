@@ -2,53 +2,75 @@ class SlackMessage extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            message: props.message,
-        };
-
-        this.onMessageChange = this.onMessageChange.bind(this);
+        this.onFormatChange = this.onFormatChange.bind(this);
+        this.onEnabledChange = this.onEnabledChange.bind(this);
     }
 
-    onMessageChange(e) {
-        this.setState({ message: e.target.value });
+    onFormatChange(e) {
+        const { target: { value } } = e;
+        const { onSlackMessageChange, index } = this.props;
+        onSlackMessageChange(index, 'format', value);
+    }
+
+    onEnabledChange() {
+        const { onSlackMessageChange, index, enabled } = this.props;
+        onSlackMessageChange(index, 'enabled', !enabled);
     }
 
     renderMessageOutput() {
-        const { message } = this.state;
-        const { fields, exampleFields } = this.props;
+        const { fields, exampleFields, format } = this.props;
 
         return fields.reduce((acc, field) => (
             acc.replace(`{${field}}`, exampleFields[field])
-        ), message);
+        ), format);
     }
 
     render() {
-        const { id, description } = this.props;
-        const { message } = this.state;
+        const { index, description, format, name, enabled } = this.props;
+        const messageId = `message-${index}`;
+        const descriptionId = `description-${index}`;
+        const formatId = `format-${index}`;
+        const enabledId = `enabled-${index}`;
         return (
-            <div className='slack-message'>
-                <label htmlFor={id}>Description</label>
-                <p id={`description-${id}`}>{description}</p>
-                <label htmlFor={id}>Message Format</label>
-                <input
-                    onChange={this.onMessageChange}
-                    id={id}
-                    type='text'
-                    value={message}
-                />
-                <label htmlFor={id}>Message Output</label>
-                <p className={`message-output-${id}`}>
-                    {this.renderMessageOutput()}
-                </p>
-            </div>
+            <li className='slack-message'>
+                <div className='collapsible-header'>
+                    <strong>{name}</strong>
+                    <input
+                        id={enabledId}
+                        type='checkbox'
+                        checked={enabled}
+                        className='filled-in'
+                        onChange={this.onEnabledChange}
+                    />
+                    <label htmlFor={enabledId}/>
+                </div>
+                <div className='collapsible-body'>
+                    <label htmlFor={descriptionId}>Description</label>
+                    <p id={descriptionId}>{description}</p>
+                    <label htmlFor={messageId}>Message Format</label>
+                    <input
+                        onChange={this.onFormatChange}
+                        id={messageId}
+                        type='text'
+                        value={format}
+                    />
+                <label htmlFor={formatId}>Message Output</label>
+                    <p className={formatId}>
+                        {this.renderMessageOutput()}
+                    </p>
+                </div>
+            </li>
         );
     }
 }
 
 SlackMessage.propTypes = {
-    message: React.PropTypes.string,
-    id: React.PropTypes.string,
+    index: React.PropTypes.number,
+    name: React.PropTypes.string,
     fields: React.PropTypes.array,
     exampleFields: React.PropTypes.object,
     description: React.PropTypes.string,
+    format: React.PropTypes.string,
+    onSlackMessageChange: React.PropTypes.func,
+    enabled: React.PropTypes.bool,
 };

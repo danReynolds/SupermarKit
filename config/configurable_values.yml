@@ -8,3 +8,18 @@ food_categories:
   - 'Breakfast'
   - 'Lunch'
   - 'Barbecue'
+
+slack_messages:
+  -
+    id: 'send_checkout_message'
+    name: 'Send Checkout Message'
+    fields:
+      - contributors
+      - recipients
+      - title
+    description: 'Message sent on checkout with payment information.'
+    format: 'Hello, for {title} {contributors} for {recipients}.'
+    exampleFields:
+      contributors: 'Luke paid $45'
+      recipients: 'Vader'
+      title: 'The new death star'
