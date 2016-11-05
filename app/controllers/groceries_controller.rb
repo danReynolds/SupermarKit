@@ -228,6 +228,10 @@ class GroceriesController < ApplicationController
     @grocery.finished_at = DateTime.now
 
     if @grocery.save!
+      if slackbot = @grocery.user_group.slack_bot
+        slackbot.send_message('send_checkout_message', @grocery)
+      end
+
       head :ok
       flash[:notice] = "Checkout complete! When you're ready, make a new grocery list."
     end

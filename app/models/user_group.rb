@@ -5,7 +5,9 @@ class UserGroup < ActiveRecord::Base
   has_many :groceries
   has_many :payments, class_name: UserPayment
   has_many :user_defaults, class_name: 'User', foreign_key: :user_group_default_id
+  has_many :slack_messages, through: :slack_bot
   has_attached_file :banner, styles: { large: '800x600>', standard: '600x450>' }, default_url: 'user_groups/default2.jpg'
+  has_one :slack_bot
 
   validates_attachment :banner, content_type: { content_type: /\Aimage\/.*\Z/ }
   validates :name, presence: true
