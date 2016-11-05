@@ -50,6 +50,7 @@ gem 'ruby-units'
 gem 'fractional'
 gem 'ingreedy', git: 'https://github.com/danReynolds/ingreedy.git'
 gem 'momentjs-rails'
+gem 'slack-ruby-client'
 
 if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
