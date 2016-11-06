@@ -3,6 +3,10 @@
 
   .card-image img {
     height: 20rem;
+
+    @media #{$mobile} {
+      height: 15rem;
+    }
   }
 
   .card-content, .card-action {
