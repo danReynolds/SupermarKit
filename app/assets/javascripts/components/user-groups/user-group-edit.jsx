@@ -145,7 +145,7 @@ const UserGroupEdit = React.createClass({
             userGroupIntegrations,
         } = this.state;
         return (
-            <div className='user-group-edit'>
+            <div className='user-groups-edit'>
                 <div className='row'>
                     <div className='col l6'>
                         <UserGroupSettings

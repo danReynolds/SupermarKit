@@ -17,6 +17,8 @@
   }
 
   .payments {
+    box-shadow: none;
+
     li {
       box-shadow: none !important;
       margin: 0;
@@ -36,7 +38,7 @@
     }
 
     .grocery-information {
-      margin: 2rem 0;
+      margin: 1rem 0;
 
       @media #{$desktop} {
         display: flex;
@@ -57,7 +59,7 @@
     .item-container {
       display: flex;
       flex-wrap: wrap;
-      height: 20rem;
+      max-height: 20rem;
       overflow: auto;
 
       @media #{$desktop} {
