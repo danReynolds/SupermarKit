@@ -21,7 +21,7 @@ class UserGroupsController < ApplicationController
 
   def create
     @user_group.user_ids = user_group_params[:user_ids].split(',') << current_user.id
-    if @user_group.save
+    if @user_group.save!
       @user_group.user_groups_users
        .find_by_user_id(current_user.id)
        .update_attribute(:state, UserGroupsUsers::ACCEPTED)

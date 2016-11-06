@@ -27,7 +27,7 @@
                   = link_to 'your Kit.', edit_user_group_path(group), class: :highlight
             .card-action
               - if invited
-                = link_to 'Join', accept_invitation_user_group_path(group), method: :post, class: 'highlight'
+                = link_to 'Join', accept_invitation_user_group_path(group), method: :patch, class: 'highlight'
                 %span.badge Invited
               - else
                 = link_to 'Manage', user_group_path(group), class: 'highlight'
