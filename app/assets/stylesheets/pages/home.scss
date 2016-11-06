@@ -1,4 +1,8 @@
 .homepage {
+  h1 { font-size: 2.5rem; }
+  p { font-size: 1.25rem; }
+  .container { padding-top: 0 }
+
   #signup {
     background-image: linear-gradient(rgba($sm-light-green, 0.9), rgba($sm-blue-green, 0.75)), image-url("homepage/elevator-background.jpg");
     text-align: center;
@@ -7,10 +11,12 @@
 
     form { margin-top: 2.5rem; }
     input { color: $sm-white; }
+
     li {
       list-style-type: none;
       margin-left: 0.25rem;
     }
+
     h2 {
       color: $sm-white;
       margin-top: 0;
@@ -55,7 +61,9 @@
 
     @media #{$mobile} {
       padding: 4rem 0;
-      text-align: center;
+
+      h1 { text-align: center; }
+      img { width: 100% !important; }
 
       .valign-wrapper {
         display: block;
@@ -66,38 +74,35 @@
       }
     }
 
-    img {
-      border-radius: 4px;
-      box-shadow: 0 0 1px $sm-gray;
-      @media #{$mobile} { width: 100%; }
-    }
-
     h1 { color: $sm-gray; }
 
-    &#grocery-section {
-      padding: 3rem 0;
-      img { height: 30rem; }
+    &.kits {
+      img {
+        width: 75%;
+        @extend .z-depth-1;
+      }
+    }
+
+    &.lists {
+      background-image: linear-gradient(rgba($sm-dark-blue-green, 0.9), rgba($sm-mid-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
+      h1, p { color: $sm-white; }
 
       @media #{$mobile} {
         img { height: auto; }
       }
     }
 
-    &#kit-section {
-      background-image: linear-gradient(rgba($sm-dark-blue-green, 0.9), rgba($sm-mid-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
-      h1, p { color: $sm-white; }
+    &.payments {
+      padding: 10rem 0;
+      img {
+        width: 100%;
+        @extend .z-depth-1;
+      }
     }
 
-    &#finish-section {
-      overflow: hidden;
-      height: 45rem;
-      img { width: 100%; }
-      @media #{$mobile} { height: 40rem; }
-    }
-
-    &#elevator-section {
+    &.signup {
       background: linear-gradient($sm-mid-blue-green, $sm-dark-green);
-      padding: 8rem 0;
+      padding: 12rem 0;
       h1, p { color: $sm-white; }
     }
   }
