@@ -3,57 +3,71 @@
     .container
       %h1 SupermarKit
       .svg-images
-        = inline_svg "svgs/shop.svg", id: 'shop-svg'
+        = inline_svg 'svgs/shop.svg', id: 'shop-svg'
         %span +
-        = inline_svg "svgs/groceries.svg", id: 'groceries-svg'
+        = inline_svg 'svgs/groceries.svg', id: 'groceries-svg'
         %span =
-        = inline_svg "svgs/serve.svg", id: 'serve-svg'
+        = inline_svg 'svgs/serve.svg', id: 'serve-svg'
       %h2 The formula for grocery shopping should be simple.
 
       = simple_form_for :user, url: new_user_path, method: :get do |f|
-        %ul
-          %li
-            = f.input :name, label: false, input_html: { placeholder: 'Name' }
-          %li
-            = f.input :email, label: false, input_html: { placeholder: 'Email' }
-          %li
-            = f.button :submit, 'Sign up'
-  .section#grocery-section
+        = f.button :submit, 'Sign up'
+
+  .section.kits
+    .container
+      .row.valign-wrapper
+        .col.l6
+          = image_tag 'homepage/kits.png'
+        .col.l6
+          %h1 Kits
+          %p
+            Kits are groups of people who shop together. You can create
+            different kits for your family members, co-workers and special
+            events.
+          %p
+            Kit members can send emails, make payments, manage grocery lists
+            add recipes and track receipts all within their Kit.
+
+
+  .section.lists
     .container
       .row.valign-wrapper
         .col.l4.offset-l1
-          %h1 It starts with lists.
-          %p You've been making them for years and we can help with that. SupermarKit grocery lists remember what you have bought in the past and make it easy to add those grocery items again.
-          %p Items are being shared from many grocery lists across SupermarKit, so if there is an item that you want to add to your list, it should already have reviews and an estimated price.
+          %h1 Lists
+          %p
+            Collaborate with everyone in your Kit to prepare your grocery list
+            that includes details like the units, amounts and prices for the
+            items on your list.
+          %p
+            Your list estimates item prices and the total cost for your list
+            based on our pricing information and your shopping location.
+          %p
+            You can search for recipes and instantly add of the ingredients
+            you will need to your grocery list.
         .col.l6
-          = image_tag 'homepage/lists.png'
+          = image_tag 'homepage/list.gif'
 
-  .section#kit-section
+  .section.payments
     .container
-      .row.valign-wrapper
-        .col.l4.s6.offset-s3.center-align
-          = image_tag 'homepage/kit.png'
-        .col.l8
-          %h1 Add some Kits.
-          %p A Kit is a box that holds all of the grocery lists for a group of people on SupermarKit.
-          %p You can have as many kits as you need, making it easy to maintain separate lists for your family and your roommates or for any events that you want to keep track of on their own.
-          %p With separate lists for different groups of people, you don't have to worry about confusing who you're buying for.
+      .row
+        .col.l6
+          = image_tag 'homepage/payment.gif'
+        .col.l4.offset-l1
+          %h1 Payments
+          %p
+            Payments can be sent to another Kit member at any time and you can
+            split the cost of your grocery list when you checkout.
+          %p
+            Scan your receipts to automatically enter the total cost of your
+            grocery list and keep a record of your shopping transaction.
 
-  .section#finish-section
+  .section.signup
     .container.center-align
       .row
         .col.l8.offset-l2
-          %h1 Put it all together.
-          %p Once you have put your shopping cart together and gone through checkout, it is important to make sure that what you purchased accurately reflects what you put on your list.
-          %p When you finish your list we make it easy for you to remove any items that you forgot to or decided not to buy. You can then move those items over to your next shopping trip's list which we will make automatically for you.
-      .row
-        .col.l8.offset-l2
-          = image_tag 'homepage/carry-over.png'
+          %h1 Join the Community
+          %p
+            SupermarKit is completely free to use and there are no advertisements.
+            Give us a try and see if we can help make your grocery shopping easier.
 
-  .section#elevator-section
-    .container.center-align
-      .row
-        .col.l12
-          %h1 And make something useful.
-          %p Give SupermarKit a try and see if it can make your grocery shopping easier.
           = link_to 'Sign up', new_user_path, class: 'btn'
