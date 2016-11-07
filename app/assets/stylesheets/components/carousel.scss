@@ -1,5 +1,18 @@
 .carousel {
-  height: 300px !important;
+  img {
+    height: 350px;
+    object-fit: cover;
+  }
+
+  .indicators {
+    bottom: 1.5rem;
+  }
+
+  .indicator-item {
+    background: $sm-dark-blue-green !important;
+
+    &.active { background: $sm-green !important; }
+  }
 
   .carousel-item {
     min-height: initial !important;
