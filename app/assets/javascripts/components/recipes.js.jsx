@@ -28,7 +28,8 @@ var Recipes = React.createClass({
                     $(document).ready(function() {
                         $('.carousel').carousel({
                             full_width: true,
-                            time_constant: 100
+                            time_constant: 100,
+                            indicators: true,
                         });
                     });
                 }
@@ -48,7 +49,7 @@ var Recipes = React.createClass({
                 $('.carousel').carousel({
                     full_width: true,
                     time_constant: 100,
-                    height: 300
+                    indicators: true,
                 });
             } else {
                 this.getSuggestedRecipes();
