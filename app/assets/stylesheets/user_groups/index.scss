@@ -11,5 +11,17 @@
 
   img { max-height: 180px; }
 
-  .card { margin-top: 2rem; }
+  .card {
+    margin-top: 2rem;
+  }
+
+  .card-action {
+    display: flex;
+
+    .badge {
+      color: $sm-white;
+      margin-left: auto;
+      line-height: 1.75;
+    }
+  }
 }
