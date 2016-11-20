@@ -1,20 +1,26 @@
 var Pagination = {
+    firstPage: 'firstPage',
+    lastPage: 'lastPage',
+
     getInitialState: function() {
         return {
             pageSize: 4,
             pageNumber: 0,
             paginationTotal: 0,
-            paginationAlwaysShow: false
+            paginationAlwaysShow: false,
+            defaultPage: this.lastPage,
         };
     },
 
     componentDidUpdate: function(prevProps, prevState) {
         const { state } = this;
         if (prevState.paginationTotal !== state.paginationTotal) {
-            const lastPage = this.lastPage();
-            if (state.pageNumber >= lastPage
-                || state.paginationTotal > prevState.paginationTotal) {
-                this.setState({ pageNumber: lastPage })
+            const { defaultPage, pageNumber } = this.state;
+            const lastPageNumber = this.lastPageNumber();
+
+            if (defaultPage === this.lastPage && (pageNumber > lastPageNumber
+                || state.paginationTotal > prevState.paginationTotal)) {
+                this.setState({ pageNumber: lastPageNumber })
             }
         }
     },
@@ -37,7 +43,7 @@ var Pagination = {
 
     renderPagination: function() {
         var pages = [];
-        var lastPage = this.lastPage();
+        var lastPage = this.lastPageNumber();
 
         if (lastPage === 0 && !this.state.paginationAlwaysShow)
             return;
@@ -73,19 +79,19 @@ var Pagination = {
         );
     },
 
-    lastPage: function() {
+    lastPageNumber: function() {
         return Math.floor((this.state.paginationTotal - 1) / this.state.pageSize);
     },
 
     incrementPage: function() {
         this.pageChange(
-            this.state.pageNumber === this.lastPage() ? 0 : this.state.pageNumber + 1
+            this.state.pageNumber === this.lastPageNumber() ? 0 : this.state.pageNumber + 1
         );
     },
 
     decrementPage: function() {
         this.pageChange(
-            this.state.pageNumber === 0 ? this.lastPage() : this.state.pageNumber - 1
+            this.state.pageNumber === 0 ? this.lastPageNumber() : this.state.pageNumber - 1
         );
     }
 };
