@@ -12,7 +12,7 @@ var Payments = React.createClass({
     },
 
     componentWillMount: function() {
-        this.setState({pageSize: 10})
+        this.setState({pageSize: 10, defaultPage: this.firstPage })
     },
 
     componentDidMount: function() {
@@ -90,7 +90,7 @@ var Payments = React.createClass({
                 }
 
                 var collapsibleBody = (
-                    <div className='collapsible-body'>
+                    <div>
                         <ul>
                             {groceryPayments}
                         </ul>
@@ -106,10 +106,11 @@ var Payments = React.createClass({
                 );
 
                 return (
-                    <li
+                    <Collapsible
                         className='grocery-payment'
-                        key={paymentIndex}>
-                        <div className='collapsible-header'>
+                        key={paymentIndex}
+                    >
+                        <div>
                             <div className='left-content'>
                                 <i className='fa fa-shopping-basket'/>
                                 {this.renderLabel(payment.name, 'Name:', 'payment-' + paymentIndex)}
@@ -122,7 +123,7 @@ var Payments = React.createClass({
                             </div>
                         </div>
                         {collapsibleBody}
-                    </li>
+                    </Collapsible>
                 );
             } else {
                 if (payment.reason) {
