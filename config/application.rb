@@ -20,6 +20,12 @@ module Softgroceries
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.react.addons = true # defaults to false
+
+    # plugin for allowing static class properties
+    config.react.jsx_transform_options = {
+      optional: ['es7.classProperties']
+    }
+
     config.autoload_paths += %W(#{config.root}/lib)
   end
 end
