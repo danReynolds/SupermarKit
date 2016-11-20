@@ -32,8 +32,8 @@ class SlackMessage extends React.Component {
         const formatId = `format-${index}`;
         const enabledId = `enabled-${index}`;
         return (
-            <li className='slack-message'>
-                <div className='collapsible-header'>
+            <Collapsible className='slack-message'>
+                <div>
                     <strong>{name}</strong>
                     <input
                         id={enabledId}
@@ -44,7 +44,7 @@ class SlackMessage extends React.Component {
                     />
                     <label htmlFor={enabledId}/>
                 </div>
-                <div className='collapsible-body'>
+                <div>
                     <label htmlFor={descriptionId}>Description</label>
                     <p id={descriptionId}>{description}</p>
                     <label htmlFor={messageId}>Message Format</label>
@@ -59,7 +59,7 @@ class SlackMessage extends React.Component {
                         {this.renderMessageOutput()}
                     </p>
                 </div>
-            </li>
+            </Collapsible>
         );
     }
 }
