@@ -32,11 +32,7 @@ class UserGroupIntegrations extends React.Component {
                     onChange={this.onAPIChange}
                 />
                 <label htmlFor={id}>Events</label>
-                <ul
-                    id={id}
-                    className='collapsible'
-                    data-collapsible='accordion'
-                    >
+                <CollapsibleWrapper id={id}>
                     {message_types.map((message_type, index) => {
                         const { name: messageName } = message_type;
                         return (
@@ -48,7 +44,7 @@ class UserGroupIntegrations extends React.Component {
                             />
                         );
                     })}
-                </ul>
+                </CollapsibleWrapper>
             </div>
         )
     }

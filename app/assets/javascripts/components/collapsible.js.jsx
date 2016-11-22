@@ -27,6 +27,7 @@ class Collapsible extends React.Component {
 
     return (
       <li
+        ref={collapsible => { this.collapsible = collapsible; }}
         className={className}
         key={key}
       >
