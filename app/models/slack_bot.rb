@@ -13,12 +13,30 @@ class SlackBot < ActiveRecord::Base
 
   def send_message(type, *args)
     message = slack_messages.find_by_message_type(type)
-    self.send(type, message, *args)
+    self.send(type, message.format, *args)
+  end
+
+  def enabled?(type)
+    slack_messages.find_by_message_type(type).present?
   end
 
   private
 
-  def send_checkout_message(message, grocery)
+  def post_message(format, formatted_fields)
+    @client.chat_postMessage(
+      channel: "##{CHANNEL}",
+      as_user: true,
+      text: formatted_fields.keys.inject(format) do |message, field|
+        message.gsub(/{#{field}}/, formatted_fields[field.to_sym])
+      end
+    )
+  end
+
+  def send_grocery_receipt(format, grocery)
+    post_message(format, { url: grocery.receipt.url })
+  end
+
+  def send_checkout_message(format, grocery)
     field_data = { recipients: [], contributors: [] }
     grocery.payments.includes(:user).inject(field_data) do |field_values, payment|
       name = payment.user.name
@@ -36,12 +54,6 @@ class SlackBot < ActiveRecord::Base
       recipients: field_data[:recipients].join(', ')
     }
 
-    @client.chat_postMessage(
-      channel: "##{CHANNEL}",
-      as_user: true,
-      text: formatted_fields.keys.inject(message.format) do |format, field|
-        format.gsub(/{#{field}}/, formatted_fields[field.to_sym])
-      end
-    )
+    post_message(format, formatted_fields)
   end
 end
