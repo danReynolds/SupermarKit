@@ -23,3 +23,12 @@ slack_messages:
       contributors: 'Luke paid $45'
       recipients: 'Vader'
       title: 'The new death star'
+  -
+    id: 'send_grocery_receipt'
+    name: 'Send Grocery Receipt'
+    fields:
+      - url
+    description: 'Message sent on checkout with a link to the uploaded grocery receipt.a'
+    format: 'I have attached the link to your uploaded grocery receipt here: {url}.'
+    exampleFields:
+      url: 'https://linktoreceipt.com'
