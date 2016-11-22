@@ -1,5 +1,9 @@
 .slack-message {
-  padding: 0 1rem;
+  margin: 0 1rem;
+
+    &+.slack-message {
+      border-top: 1px solid $sm-gray;
+    }
 
   .collapsible-header {
     display: flex;

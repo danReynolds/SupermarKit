@@ -229,7 +229,13 @@ class GroceriesController < ApplicationController
 
     if @grocery.save!
       if slackbot = @grocery.user_group.slack_bot
-        slackbot.send_message('send_checkout_message', @grocery)
+        if (slackbot.enabled?(SlackMessage::SEND_CHECKOUT_MESSAGE))
+          slackbot.send_message(SlackMessage::SEND_CHECKOUT_MESSAGE, @grocery)
+        end
+
+        if (@grocery.receipt.present? && slackbot.enabled?(SlackMessage::SEND_GROCERY_RECEIPT))
+          slackbot.send_message(SlackMessage::SEND_GROCERY_RECEIPT, @grocery)
+        end
       end
 
       head :ok
