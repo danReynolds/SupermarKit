@@ -160,11 +160,9 @@ var Payments = React.createClass({
         if (this.state.payments.length !== 0) {
             var paymentContent = (
                 <div className='card-content full-width'>
-                    <ul
-                        data-collapsible='accordion'
-                        className='collapsible payments'>
+                    <CollapsibleWrapper>
                         {this.renderPayments()}
-                    </ul>
+                    </CollapsibleWrapper>
                     {this.renderPagination()}
                 </div>
             );
