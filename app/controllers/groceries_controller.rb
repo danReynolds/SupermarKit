@@ -40,7 +40,7 @@ class GroceriesController < ApplicationController
 
     items = all_item_params.map do |item_params|
       existing_items.find_or_create_by(
-        name: item_params[:name].capitalize
+        name: formatted_name(item_params[:name])
       ).tap do |item|
         grocery_item = existing_grocery_items.find_or_create_by(
           item: item,
@@ -381,6 +381,10 @@ class GroceriesController < ApplicationController
         url: recipe.url
       }
     end
+  end
+
+  def formatted_name(item)
+    item.en.singularize.capitalize
   end
 
   def find_items(ids)

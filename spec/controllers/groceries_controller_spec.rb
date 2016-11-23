@@ -256,7 +256,7 @@ describe GroceriesController, type: :controller do
           name: 'new recipe',
           url: 'http://newrecipe.com',
           items: [
-            'Ground pepper',
+            'Ground peppers',
             'Potato',
             'Tomato'
           ],
@@ -378,6 +378,14 @@ describe GroceriesController, type: :controller do
         { name: grocery.name }
     }
     subject { patch :update_items, id: grocery.id, grocery: grocery_params }
+
+    it 'should singularize and capitalize the names of items added' do
+      grocery_params.merge!({
+        items: [{ name: 'tomatoes' }]
+      })
+      subject
+      expect(grocery.reload.items.last.name).to eq 'Tomato'
+    end
 
     it 'should remove unspecified items' do
       expect(grocery.items).to_not be_empty
