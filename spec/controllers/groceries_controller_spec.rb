@@ -256,7 +256,7 @@ describe GroceriesController, type: :controller do
           name: 'new recipe',
           url: 'http://newrecipe.com',
           items: [
-            'Ground peppers',
+            'Ground pepper',
             'Potato',
             'Tomato'
           ],
