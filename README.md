@@ -22,4 +22,3 @@ vagrant up
 And visit localhost:4000 in your browser.
 
 Happy developing!
-
