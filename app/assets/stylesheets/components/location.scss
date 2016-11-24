@@ -1,4 +1,7 @@
 .location {
+  &.loading {
+    .map-wrapper { display: none; }
+  }
   #map {
     height: 22rem;
     width: 100%;
