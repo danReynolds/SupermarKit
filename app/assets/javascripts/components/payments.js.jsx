@@ -59,7 +59,7 @@ var Payments = React.createClass({
 
     renderPayments: function() {
         return this.itemsForPage(this.state.payments.map(function(payment, paymentIndex) {
-            var date = moment(payment.date).format('dddd, MMMM Do YYYY')
+            var date = moment(payment.date).format('MMMM Do, YYYY')
 
             if (payment.payments) {
                 var receiptContent;
@@ -160,7 +160,7 @@ var Payments = React.createClass({
         if (this.state.payments.length !== 0) {
             var paymentContent = (
                 <div className='card-content full-width'>
-                    <CollapsibleWrapper>
+                    <CollapsibleWrapper className='payments'>
                         {this.renderPayments()}
                     </CollapsibleWrapper>
                     {this.renderPagination()}
