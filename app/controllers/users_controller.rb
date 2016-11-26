@@ -24,6 +24,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def default_group
+    @user_group = UserGroup.find(params[:user_group])
+    authorize! :read, @user_group
+
+    @user.default_group = @user_group
+    if @user.save!
+      redirect_to @user_group, notice: "#{@user_group.name} is now your default Kit."
+    end
+  end
+
   def create
     if @user.save
       redirect_to(root_path, notice: 'Welcome to Supermarkit! We have sent you a confirmation email to get started.')

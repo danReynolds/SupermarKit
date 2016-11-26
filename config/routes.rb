@@ -46,6 +46,7 @@ Rails.application.routes.draw do
         get :payments
         patch :accept_invitation
         patch :do_payment
+        patch :leave
       end
     end
   end

@@ -11,12 +11,15 @@ describe Canard::Abilities, 'for :user' do
 
   describe 'user group' do
     context 'should be able to' do
-      it { can([:payments, :do_payment, :accept_invitation, :metrics, :read, :update, :create, :destroy, :manage], own_user_group) }
+      it { can([:payments, :do_payment, :accept_invitation, :read, :manage, :destroy, :leave], own_user_group) }
+      it { can([:payments, :do_payment, :accept_invitation, :read, :update, :manage, :destroy], own_owned_user_group) }
       it { can([:create], any(:user_group)) }
     end
 
     context 'should not be able to' do
-      it { cant([:payments, :do_payment, :read, :update, :destroy, :accept_invitation, :manage], any(:user_group)) }
+      it { cant([:payments, :do_payment, :read, :update, :destroy, :accept_invitation, :manage, :leave], any(:user_group)) }
+      it { cant([:update], own_user_group) }
+      it { cant([:leave], own_owned_user_group) }
     end
   end
 
