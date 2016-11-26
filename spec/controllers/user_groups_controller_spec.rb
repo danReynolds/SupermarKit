@@ -7,7 +7,6 @@ describe UserGroupsController, type: :controller do
 
   let(:id) { user_group }
   it_should_behave_like 'routes', {
-    edit: { id: true },
     show: { id: true },
     payments: { id: true },
     index: {},
@@ -70,7 +69,7 @@ describe UserGroupsController, type: :controller do
   describe 'PATCH update' do
     let(:user1) { create(:user) }
     let(:user2) { create(:user) }
-    let(:group) { create(:user_group, users: [user1, user2, controller.current_user]) }
+    let(:group) { create(:user_group, owner: controller.current_user, users: [user1, user2, controller.current_user]) }
     let(:default_group) { false }
     let(:integration_params) {
       {
@@ -269,6 +268,21 @@ describe UserGroupsController, type: :controller do
       expect(payment.user_group).to eq group
       expect(payment.price).to eq payment_params[:price].to_money
       expect(payment.reason).to eq payment_params[:reason]
+    end
+  end
+
+  describe 'PATCH leave' do
+    let(:user) { controller.current_user }
+
+    before :each do
+      @user_group = create(:user_group)
+      user.user_groups << @user_group
+    end
+
+    it 'should remove the user from the user group' do
+      (user.user_groups).should include(@user_group)
+      patch :leave, id: @user_group
+      (user.reload.user_groups).should_not include(@user_group)
     end
   end
 end

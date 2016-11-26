@@ -151,6 +151,11 @@ class UserGroupsController < ApplicationController
     end
   end
 
+  def leave
+    @user_group.users.delete(current_user)
+    redirect_to user_groups_path, notice: "You have been removed from #{@user_group.name}'s Kit"
+  end
+
   def do_payment
     UserPayment.create!(
       user_group_payment_params.merge!({

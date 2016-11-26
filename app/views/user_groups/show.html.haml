@@ -10,15 +10,25 @@
           %span.card-title #{@user_group.name} Kit
         .card-content
           %ul.kit-actions
-            %li.valign-wrapper
-              = icon 'cog'
-              = link_to 'Change Kit Settings', edit_user_group_path(@user_group)
-            %li.valign-wrapper
+            - if can? :update, @user_group
+              %li
+                = icon 'cog'
+                = link_to 'Change Kit Settings', edit_user_group_path(@user_group)
+            - else
+              - unless current_user.default_group == @user_group
+                %li
+                  = icon 'fa fa-check-circle'
+                  = link_to 'Set as Default', default_group_user_path(current_user, user_group: @user_group), method: :patch
+            %li
               = icon 'folder'
               = link_to 'Payment History', payments_user_group_path(@user_group)
-            %li.valign-wrapper
+            %li
               = icon 'shopping-cart'
               - if @user_group.active_groceries.length.nonzero?
                 = link_to 'View Grocery List', @user_group.active_groceries.first
               - else
                 = link_to 'Create Grocery List', new_user_group_grocery_path(@user_group)
+            - unless can? :update, @user_group
+              %li
+                = icon 'fa fa-sign-out'
+                = link_to 'Leave Kit', leave_user_group_path(@user_group), method: :patch
