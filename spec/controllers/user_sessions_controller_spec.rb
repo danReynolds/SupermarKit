@@ -28,6 +28,7 @@ describe UserSessionsController, type: :controller do
   end
 
   describe 'DELETE destroy' do
+    include_context 'basic user'
     subject { delete :destroy }
 
     it 'should log the user out' do
