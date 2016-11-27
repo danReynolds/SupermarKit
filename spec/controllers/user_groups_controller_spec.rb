@@ -213,7 +213,7 @@ describe UserGroupsController, type: :controller do
 
     context 'when leaving kit' do
       it 'should redirect to the kits index' do
-        user_group_params[:user_ids] = "#{user2.id}"
+        user_group_params[:user_ids] = user2.id.to_s
         subject
         expect(JSON.parse(response.body)['redirect_url']).to eq user_groups_path
       end
@@ -221,7 +221,7 @@ describe UserGroupsController, type: :controller do
 
     context 'when not leaving kit' do
       it 'should redirect to the kits show' do
-        user_group_params[:user_ids] = "#{controller.current_user.id}"
+        user_group_params[:user_ids] = controller.current_user.id.to_s
         subject
         expect(JSON.parse(response.body)['redirect_url']).to eq user_group_path(group)
       end
