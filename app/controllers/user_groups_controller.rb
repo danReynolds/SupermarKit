@@ -129,10 +129,12 @@ class UserGroupsController < ApplicationController
 
     if @user_group.update(update_params)
       flash[:notice] = 'Kit successfully updated.'
-      if can? :manage, @user_group
+      @current_ability = nil
+
+      if can? :read, @user_group
         render json: { redirect_url: user_group_path(@user_group) }
       else
-        render json: user_groups_path
+        render json: { redirect_url: user_groups_path }
       end
     else
       error_data = {
