@@ -153,6 +153,8 @@ class UserGroupsController < ApplicationController
 
   def leave
     @user_group.users.delete(current_user)
+    current_user.update_attribute(:default_group, nil) if current_user.default_group == @user_group
+
     redirect_to user_groups_path, notice: "You have been removed from #{@user_group.name}'s Kit"
   end
 
