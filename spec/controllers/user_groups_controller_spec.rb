@@ -24,6 +24,11 @@ describe UserGroupsController, type: :controller do
         expect { subject }.to change(UserGroup, :count).by(1)
       end
 
+      it 'assigns the creator as the owner' do
+        subject
+        expect(new_group.reload.owner).to eq controller.current_user
+      end
+
       it 'adds specified and current user to group' do
         subject
         expect(new_group.users).to match_array(group_members + [controller.current_user])

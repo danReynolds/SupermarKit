@@ -103,7 +103,7 @@ const UserGroupEdit = React.createClass({
             processData: false,
             data: form,
         }).done(response => {
-            window.location = url;
+            window.location = response.redirect_url;
         }).error(response => {
             const { responseJSON: { errors } } = response;
             Materialize.toast(errors.join('\n'), 1000);
