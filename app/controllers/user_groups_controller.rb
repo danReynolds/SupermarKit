@@ -21,6 +21,8 @@ class UserGroupsController < ApplicationController
 
   def create
     @user_group.user_ids = user_group_params[:user_ids].split(',') << current_user.id
+    @user_group.owner = current_user
+
     if @user_group.save
       @user_group.user_groups_users
        .find_by_user_id(current_user.id)
@@ -126,9 +128,14 @@ class UserGroupsController < ApplicationController
     end
 
     if @user_group.update(update_params)
-      head :ok
+      flash[:notice] = 'Kit successfully updated.'
+      if can? :manage, @user_group
+        render json: { redirect_url: user_group_path(@user_group) }
+      else
+        render json: user_groups_path
+      end
     else
-      error_data =  {
+      error_data = {
         errors: @user_group.errors.messages.map do |field, error|
           "#{field}: #{error.first}"
         end
@@ -264,9 +271,9 @@ private
       api_token: @user_group.slack_bot.try(:api_token),
       name: 'Slack',
       message_types: CONFIGURABLES[:slack_messages].map do |message_data|
-        message_data.tap do |message|
+        message_data.dup.tap do |message|
           if slack_message = slack_messages.find_by_message_type(message_data[:id])
-            message.merge!(slack_message.as_json
+            message.merge(slack_message.as_json
               .with_indifferent_access.slice(:format, :enabled))
           end
           message[:enabled] ||= false
