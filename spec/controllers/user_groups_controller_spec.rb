@@ -7,7 +7,6 @@ describe UserGroupsController, type: :controller do
 
   let(:id) { user_group }
   it_should_behave_like 'routes', {
-    edit: { id: true },
     show: { id: true },
     payments: { id: true },
     index: {},
@@ -23,6 +22,11 @@ describe UserGroupsController, type: :controller do
     context 'with valid params' do
       it 'creates the new group' do
         expect { subject }.to change(UserGroup, :count).by(1)
+      end
+
+      it 'assigns the creator as the owner' do
+        subject
+        expect(new_group.reload.owner).to eq controller.current_user
       end
 
       it 'adds specified and current user to group' do
@@ -70,7 +74,7 @@ describe UserGroupsController, type: :controller do
   describe 'PATCH update' do
     let(:user1) { create(:user) }
     let(:user2) { create(:user) }
-    let(:group) { create(:user_group, users: [user1, user2, controller.current_user]) }
+    let(:group) { create(:user_group, owner: controller.current_user, users: [user1, user2, controller.current_user]) }
     let(:default_group) { false }
     let(:integration_params) {
       {
@@ -89,7 +93,8 @@ describe UserGroupsController, type: :controller do
       {
         name: 'Test Name',
         description: 'Test description',
-        user_ids: "#{controller.current_user.id},#{user2.id}"
+        user_ids: "#{controller.current_user.id},#{user2.id}",
+        owner_id: user1.id,
       }
     }
     let(:subject) {
@@ -213,6 +218,12 @@ describe UserGroupsController, type: :controller do
       expect(group.description).to eq 'Test description'
     end
 
+    it 'should update the owner of the group' do
+      expect(group.owner).to eq controller.current_user
+      subject
+      expect(group.reload.owner).to eq user1
+    end
+
     it 'should replace users with new ones' do
       subject
       expect(group.reload.users).to contain_exactly(controller.current_user, user2)
@@ -269,6 +280,29 @@ describe UserGroupsController, type: :controller do
       expect(payment.user_group).to eq group
       expect(payment.price).to eq payment_params[:price].to_money
       expect(payment.reason).to eq payment_params[:reason]
+    end
+  end
+
+  describe 'PATCH leave' do
+    let(:user) { controller.current_user }
+    subject { patch :leave, id: @user_group }
+
+    before :each do
+      @user_group = create(:user_group)
+      user.user_groups << @user_group
+      user.update_attribute(:default_group, @user_group)
+    end
+
+    it 'should reset the default group if left group is default' do
+      expect(user.reload.default_group).to eq @user_group
+      subject
+      expect(user.reload.default_group).to eq nil
+    end
+
+    it 'should remove the user from the user group' do
+      (user.user_groups).should include(@user_group)
+      subject
+      (user.reload.user_groups).should_not include(@user_group)
     end
   end
 end
