@@ -8,6 +8,7 @@ const UserGroupEdit = React.createClass({
         userGroupIntegrations: React.PropTypes.object,
         userGroupSettings: React.PropTypes.object,
         userGroupBanner: React.PropTypes.object,
+        userGroupTransfer: React.PropTypes.object,
         modal: React.PropTypes.object,
         form: React.PropTypes.object,
     },
@@ -16,21 +17,35 @@ const UserGroupEdit = React.createClass({
         const {
             userGroupSettings,
             userGroupIntegrations,
+            userGroupTransfer,
         } = this.props;
 
         return {
             userGroupSettings,
             userGroupIntegrations,
+            userGroupTransfer,
         };
     },
 
     handleSave: function(modalSelection) {
-        const { modal: { toggleModal } } = this.state;
+        const {
+            modal: { toggleModal },
+            userGroupTransfer: { owner },
+        } = this.state;
+        let newOwner = owner;
+
+        if (!modalSelection.find(selected => selected.id === owner)) {
+            newOwner = modalSelection.length ? modalSelection[0].id : null
+        }
+
         this.setState(
             update(this.state, {
                 modal: {
                     selection: { $set: modalSelection }
-                }
+                },
+                userGroupTransfer: {
+                    owner: { $set: newOwner }
+                },
             }
         ), toggleModal);
     },
@@ -50,6 +65,9 @@ const UserGroupEdit = React.createClass({
                     message_types,
                 }
             },
+            userGroupTransfer: {
+                owner,
+            },
             modal: {
                 selection
             },
@@ -57,6 +75,7 @@ const UserGroupEdit = React.createClass({
 
         const form = new FormData();
         form.append('user_group[name]', name);
+        form.append('user_group[owner_id]', owner);
         form.append('user_group[description]', description);
         form.append('user_group[user_ids]', selection.map(selected => selected.id));
         if (default_group) {
@@ -84,7 +103,7 @@ const UserGroupEdit = React.createClass({
             processData: false,
             data: form,
         }).done(response => {
-            window.location = url;
+            window.location = response.redirect_url;
         }).error(response => {
             const { responseJSON: { errors } } = response;
             Materialize.toast(errors.join('\n'), 1000);
@@ -117,6 +136,16 @@ const UserGroupEdit = React.createClass({
         )
     },
 
+    onTransferOwnership: function(value) {
+        this.setState(
+            update(this.state, {
+                userGroupTransfer: {
+                    owner: { $set: value }
+                }
+            })
+        )
+    },
+
     onSlackFieldChange: function(field, value) {
         this.setState(
             update(this.state, {
@@ -141,6 +170,7 @@ const UserGroupEdit = React.createClass({
         } = this.props;
         const {
             modal: { selection },
+            userGroupTransfer: { owner },
             userGroupSettings,
             userGroupIntegrations,
         } = this.state;
@@ -166,6 +196,11 @@ const UserGroupEdit = React.createClass({
                                 selection={selection}
                             />
                         </Card>
+                        <UserGroupTransfer
+                            onChange={this.onTransferOwnership}
+                            selectedOption={owner}
+                            options={selection}
+                        />
                         <UserGroupIntegrations
                             onSlackMessageChange={this.onSlackMessageChange}
                             onSlackFieldChange={this.onSlackFieldChange}
