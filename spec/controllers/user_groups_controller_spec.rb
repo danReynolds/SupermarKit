@@ -280,15 +280,23 @@ describe UserGroupsController, type: :controller do
 
   describe 'PATCH leave' do
     let(:user) { controller.current_user }
+    subject { patch :leave, id: @user_group }
 
     before :each do
       @user_group = create(:user_group)
       user.user_groups << @user_group
+      user.update_attribute(:default_group, @user_group)
+    end
+
+    it 'should reset the default group if left group is default' do
+      expect(user.reload.default_group).to eq @user_group
+      subject
+      expect(user.reload.default_group).to eq nil
     end
 
     it 'should remove the user from the user group' do
       (user.user_groups).should include(@user_group)
-      patch :leave, id: @user_group
+      subject
       (user.reload.user_groups).should_not include(@user_group)
     end
   end
