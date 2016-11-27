@@ -8,13 +8,8 @@ var Location = React.createClass({
 
     getInitialState: function() {
         return {
-            location: null,
-            loading: true,
+            location: null
         }
-    },
-
-    toggleLoading: function() {
-        this.setState({ loading: !this.state.loading });
     },
 
     saveLocation: function() {
@@ -80,27 +75,11 @@ var Location = React.createClass({
         map.setZoom(this.props.zoomLevel);
     },
 
-    setupSearch: function(map) {
-        const { place_id } = this.props;
-        const { coords } = this.state;
+    setupSearch: function(map, nearby) {
+        var coords = this.state.coords;
         service = new google.maps.places.PlacesService(map);
 
-        if (place_id) {
-            // Use their assigned place to setup the store
-            service.getDetails({
-                placeId: place_id
-            }, function(place, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    var placeLocation = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
-                    map.setCenter(placeLocation);
-                    this.placeMarkers([place], map);
-                    this.setState({
-                        store: place
-                    });
-                    $('#pac-input').val(place.name + ', ' + place.vicinity);
-                }
-            }.bind(this));
-        } else if (coords) {
+        if (nearby) {
             // Use their current coordinates to get the closest store
             service.nearbySearch({
                 location: coords,
@@ -113,12 +92,31 @@ var Location = React.createClass({
                         var placeLocation = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
                         map.setCenter(placeLocation);
                         this.placeMarkers(places, map);
-                        this.setState({ store: place });
+                        this.setState({
+                            store: place
+                        });
                         $('#pac-input').val(place.name + ', ' + place.vicinity);
                     }
                 }
             }.bind(this));
+        } else if (this.props.place_id) {
+            // Otherwise use their assigned place
+            service.getDetails({
+                placeId: this.props.place_id
+            }, function(place, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    var placeLocation = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
+                    map.setCenter(placeLocation);
+                    this.placeMarkers([place], map);
+                    this.setState({
+                        store: place
+                    });
+                    $('#pac-input').val(place.name + ', ' + place.vicinity);
+                }
+            }.bind(this));
+        }
 
+        if (coords && !this.props.place_id) {
             var latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
             var bounds = {
                 bounds: new google.maps.Circle({
@@ -138,6 +136,8 @@ var Location = React.createClass({
         });
 
         var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
         searchBox.addListener('places_changed', function() {
             var places = searchBox.getPlaces();
 
@@ -184,7 +184,6 @@ var Location = React.createClass({
             map.fitBounds(bounds);
             map.setZoom(this.props.zoomLevel);
         }.bind(this));
-        this.toggleLoading();
     },
 
     componentDidMount: function() {
@@ -212,14 +211,20 @@ var Location = React.createClass({
           maximumAge: 0
         };
 
+        // Otherwise default to the closest grocery store
         navigator.geolocation.getCurrentPosition(function(response) {
             var coords = response.coords;
             var mapCoords = {
                 lat: coords.latitude,
                 lng: coords.longitude
             };
-            _this.setState({ coords: mapCoords }, function() {
-                _this.setupSearch(map);
+            _this.setState({coords: mapCoords}, function() {
+                // Set it to their assigned place if it exists
+                if (this.props.place_id) {
+                    _this.setupSearch(map);
+                } else {
+                    _this.setupSearch(map, true);
+                }
             });
         },
         function (error) {
@@ -228,33 +233,26 @@ var Location = React.createClass({
     },
 
     render: function() {
-        const { loading } = this.state;
-        const mapContent = (
-            <div className='map-wrapper'>
-                <input
-                    ref='search'
-                    id='pac-input'
-                    className='controls'
-                    type='text'
-                    placeholder='Search for shopping location'
-                    />
-                <div id='map'/>
-                <a
-                    onClick={this.getDirections}
-                    className='btn-floating'>
-                    <i className='fa fa-map'/>
-                </a>
-            </div>
-        );
         return (
-            <div className={`card location ${loading ? 'loading' : ''}`}>
+            <div className='card location'>
                 <div className='card-content full-width dark'>
                     <div className='card-header'>
                         <h3>Shopping Location</h3>
                         <i className='fa fa-map-marker'/>
                     </div>
-                    {loading ? <Loader /> : null}
-                    {mapContent}
+                    <input
+                        ref='search'
+                        id='pac-input'
+                        className='controls'
+                        type='text'
+                        placeholder='Search for shopping location'
+                    />
+                    <div id='map'/>
+                    <a
+                        onClick={this.getDirections}
+                        className='btn-floating'>
+                        <i className='fa fa-map'/>
+                    </a>
                 </div>
             </div>
         );
