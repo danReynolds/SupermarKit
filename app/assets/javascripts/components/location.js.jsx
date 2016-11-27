@@ -8,8 +8,8 @@ var Location = React.createClass({
 
     getInitialState: function() {
         return {
-            location: null
-        }
+            location: null,
+        };
     },
 
     saveLocation: function() {
@@ -75,11 +75,27 @@ var Location = React.createClass({
         map.setZoom(this.props.zoomLevel);
     },
 
-    setupSearch: function(map, nearby) {
-        var coords = this.state.coords;
+    setupSearch: function(map) {
+        const { coords } = this.state;
+        const { place_id } = this.props;
         service = new google.maps.places.PlacesService(map);
 
-        if (nearby) {
+        if (place_id) {
+           // Use their assigned place
+           service.getDetails({
+               placeId: place_id
+           }, function(place, status) {
+               if (status === google.maps.places.PlacesServiceStatus.OK) {
+                   var placeLocation = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
+                   map.setCenter(placeLocation);
+                   this.placeMarkers([place], map);
+                   this.setState({
+                       store: place
+                   });
+                   $('#pac-input').val(place.name + ', ' + place.vicinity);
+               }
+           }.bind(this));
+       } else {
             // Use their current coordinates to get the closest store
             service.nearbySearch({
                 location: coords,
@@ -99,30 +115,15 @@ var Location = React.createClass({
                     }
                 }
             }.bind(this));
-        } else if (this.props.place_id) {
-            // Otherwise use their assigned place
-            service.getDetails({
-                placeId: this.props.place_id
-            }, function(place, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    var placeLocation = new google.maps.LatLng(place.geometry.location.A, place.geometry.location.F);
-                    map.setCenter(placeLocation);
-                    this.placeMarkers([place], map);
-                    this.setState({
-                        store: place
-                    });
-                    $('#pac-input').val(place.name + ', ' + place.vicinity);
-                }
-            }.bind(this));
-        }
 
-        if (coords && !this.props.place_id) {
-            var latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
-            var bounds = {
-                bounds: new google.maps.Circle({
-                    center: latLng, radius: this.props.radius
-                }).getBounds()
-            };
+            if (coords) {
+                var latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
+                var bounds = {
+                    bounds: new google.maps.Circle({
+                        center: latLng, radius: this.props.radius
+                    }).getBounds()
+                };
+            }
         }
 
         // Create the search box and link it to the UI element.
@@ -211,20 +212,14 @@ var Location = React.createClass({
           maximumAge: 0
         };
 
-        // Otherwise default to the closest grocery store
         navigator.geolocation.getCurrentPosition(function(response) {
             var coords = response.coords;
             var mapCoords = {
                 lat: coords.latitude,
                 lng: coords.longitude
             };
-            _this.setState({coords: mapCoords}, function() {
-                // Set it to their assigned place if it exists
-                if (this.props.place_id) {
-                    _this.setupSearch(map);
-                } else {
-                    _this.setupSearch(map, true);
-                }
+            _this.setState({ coords: mapCoords }, function() {
+                _this.setupSearch(map);
             });
         },
         function (error) {
