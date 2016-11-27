@@ -2,3 +2,9 @@
   border: 2px solid $sm-dark-gray;
   background-color: $sm-mid-blue-green;
 }
+
+input[type=radio] + label:after {
+  $primary-color: $sm-light-green;
+  background-color: $primary-color !important;
+  border-color: $primary-color !important;
+}

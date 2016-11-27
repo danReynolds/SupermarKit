@@ -88,7 +88,8 @@ describe UserGroupsController, type: :controller do
       {
         name: 'Test Name',
         description: 'Test description',
-        user_ids: "#{controller.current_user.id},#{user2.id}"
+        user_ids: "#{controller.current_user.id},#{user2.id}",
+        owner_id: user1.id,
       }
     }
     let(:subject) {
@@ -210,6 +211,12 @@ describe UserGroupsController, type: :controller do
       group.reload
       expect(group.name).to eq 'Test Name'
       expect(group.description).to eq 'Test description'
+    end
+
+    it 'should update the owner of the group' do
+      expect(group.owner).to eq controller.current_user
+      subject
+      expect(group.reload.owner).to eq user1
     end
 
     it 'should replace users with new ones' do

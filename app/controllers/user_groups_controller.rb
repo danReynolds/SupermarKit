@@ -183,6 +183,7 @@ private
       :description,
       :banner,
       :user_ids,
+      :owner_id,
     )
   end
 
@@ -236,6 +237,9 @@ private
       multiselect: {
         buttonText: 'person'
       },
+      userGroupTransfer: {
+        owner: @user_group.owner.id,
+      },
       userGroupBanner: {
         url: view_context.image_path(@user_group.banner.url(:standard))
       },
@@ -282,7 +286,7 @@ private
         }
       end,
       input: {
-        placeholder: 'Add friends to your Kit',
+        placeholder: 'Change who is in your Kit',
         queryField: 'query',
         fields: [
           {
