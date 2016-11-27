@@ -12,7 +12,7 @@ module AbilitiesHelper
 
   shared_context 'own objects' do
     let(:own_user_group) { create(:user_group, users: [user, related_user]) }
-    let(:own_owned_user_group) { create(:user_group, users: [user, related_user], owner: user)}
+    let(:own_owned_user_group) { create(:user_group, users: [user, related_user], owner: user) }
     let(:own_grocery) { create(:grocery, user_group: own_user_group) }
     let(:own_item) { create(:item) }
     let(:related_user) { create(:user) }
