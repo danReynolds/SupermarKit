@@ -47,11 +47,10 @@ class GroceriesController < ApplicationController
           grocery: @grocery
         )
         grocery_item.update!(
-          item_params.slice(:quantity, :price, :units)
-            .merge!({
-              requester_id: grocery_item.requester_id || current_user.id,
-              units: item_params[:units]
-            })
+          item_params.slice(:quantity, :price, :units).merge({
+            requester_id: grocery_item.requester_id || current_user.id,
+            units: item_params[:units]
+          }).to_h
         )
       end
     end
@@ -164,9 +163,9 @@ class GroceriesController < ApplicationController
     match_results = captures.inject({ matches: [], total: 0 }) do |matches, capture|
       matches.tap do |acc|
         matcher = Matcher.new(capture.first.strip!.downcase.capitalize)
+
         # There is a special case for matches to the total price
-        match = matcher.find_match(TOTAL_KEYWORDS)
-        if match
+        if match = matcher.find_match(TOTAL_KEYWORDS)
           # Multiple matches for a total keyword favor the largest value
           acc[:total] = [capture[1].to_f, acc[:total]].max
         elsif match = matcher.find_match(@grocery.items.pluck(:name)) || matcher.find_match(Item.all.pluck(:name))
@@ -223,7 +222,7 @@ class GroceriesController < ApplicationController
 
   def do_checkout
     grocery_payment_params[:payments].each do |payment|
-      GroceryPayment.create(payment.merge!({ grocery_id: @grocery.id }))
+      GroceryPayment.create(payment.merge({ grocery_id: @grocery.id }).to_h)
     end
     @grocery.finished_at = DateTime.now
 

@@ -129,6 +129,9 @@ class UserGroupsController < ApplicationController
 
     if @user_group.update(update_params)
       flash[:notice] = 'Kit successfully updated.'
+
+      # Evict cache entry for user's abilities
+      current_user.reload
       @current_ability = nil
 
       if can? :read, @user_group
@@ -169,10 +172,10 @@ class UserGroupsController < ApplicationController
 
   def do_payment
     UserPayment.create!(
-      user_group_payment_params.merge!({
+      user_group_payment_params.merge({
         payer_id: current_user.id,
         user_group_id: @user_group.id
-      })
+      }.to_h)
     )
     render json: {
       data: user_payment_data

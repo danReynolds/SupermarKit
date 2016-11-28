@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.3.0'
 
 gem 'active_record_union'
 gem 'bourbon'
@@ -11,17 +12,15 @@ gem 'capistrano',         require: false
 gem 'capistrano3-puma',   require: false
 gem 'underscore-rails'
 gem 'codeclimate-test-reporter', group: :test, require: nil
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 gem 'coveralls', require: false
 gem 'dropzonejs-rails'
 gem 'dotenv-rails'
 gem 'haml-rails'
 gem 'inline_svg'
-gem 'premailer-rails'
 gem 'font-awesome-sass', '~> 4.5.0'
 gem 'happy_path'
 gem 'jbuilder', '~> 2.0'
-gem 'jquery-datatables-rails', '~> 3.1.1'
 gem 'jquery-rails'
 gem 'maildown'
 gem 'materialize-sass', git: 'https://github.com/danReynolds/materialize-sass.git'
@@ -30,7 +29,6 @@ gem 'mysql2'
 gem 'neat'
 gem 'nokogiri'
 gem 'puma'
-gem 'rails', '4.2.3'
 gem 'react-rails', '~> 1.5.0'
 gem 'sass-rails'
 gem 'sdoc', '~> 0.4.0',          group: :doc
@@ -67,7 +65,6 @@ end
 group :development, :test do
 	gem 'better_errors'
 	gem 'binding_of_caller'
-	gem 'meta_request'
 	gem 'stackprof'
   gem 'pry'
   gem 'pry-stack_explorer'
@@ -77,7 +74,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
   gem 'spring'
-	gem 'quiet_assets'
 	gem 'bullet'
 	gem 'gemsurance'
 	gem 'rack-mini-profiler'

@@ -1,4 +1,4 @@
-class GroceriesItems < ActiveRecord::Base
+class GroceriesItems < ApplicationRecord
   include FractionalNumberToWords
   belongs_to :requester, class_name: User
   belongs_to :item

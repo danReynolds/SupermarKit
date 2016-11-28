@@ -20,7 +20,7 @@ describe GroceriesController, type: :controller do
         description: 'Test'
       }
     }
-    subject { post :create, grocery: grocery_params, user_group_id: user_group }
+    subject { post :create, params: { grocery: grocery_params, user_group_id: user_group } }
 
     context 'grocery is valid' do
       it 'should create a new grocery' do
@@ -33,17 +33,10 @@ describe GroceriesController, type: :controller do
         expect(controller.current_user.default_group).to eq user_group
       end
     end
-
-    context 'grocery is invalid' do
-      it 'should render new template' do
-        grocery_params[:name] = ""
-        expect(subject).to render_template :new
-      end
-    end
   end
 
   describe 'POST upload_receipt' do
-    let(:subject) { post :upload_receipt, id: grocery.id }
+    let(:subject) { post :upload_receipt, params: { id: grocery.id } }
     # Add additional text at the end of items to test the regex
     let(:processed_receipt) {
       [
@@ -150,7 +143,7 @@ describe GroceriesController, type: :controller do
   end
 
   describe 'POST confirm_receipt' do
-    let(:subject) { patch :confirm_receipt, id: grocery.id, grocery: grocery_params }
+    let(:subject) { patch :confirm_receipt, params: { id: grocery.id, grocery: grocery_params } }
     let(:grocery_params) {
       {
         matches: [
@@ -206,7 +199,7 @@ describe GroceriesController, type: :controller do
 
   describe 'PATCH update_recipes' do
     let(:recipe) { create(:recipe, :with_items) }
-    let(:subject) { patch :update_recipes, id: grocery.id, grocery: grocery_params }
+    let(:subject) { patch :update_recipes, params: { id: grocery.id, grocery: grocery_params } }
     let(:grocery_params) {
       {
         name: "#{grocery.name} updated",
@@ -377,7 +370,7 @@ describe GroceriesController, type: :controller do
     let(:grocery_params) {
         { name: grocery.name }
     }
-    subject { patch :update_items, id: grocery.id, grocery: grocery_params }
+    subject { patch :update_items, params: { id: grocery.id, grocery: grocery_params } }
 
     it 'should singularize and capitalize the names of items added' do
       grocery_params.merge!({
@@ -401,7 +394,7 @@ describe GroceriesController, type: :controller do
               id: item.id,
               name: item.name,
               quantity: item.grocery_item(grocery).quantity + 1,
-              price: item.grocery_item(grocery).price + 1.to_money,
+              price: (item.grocery_item(grocery).price + 1.to_money).to_f,
               units: 'cup'
             }
           end
@@ -471,7 +464,7 @@ describe GroceriesController, type: :controller do
   end
 
   describe 'PATCH do_checkout' do
-    subject { patch :do_checkout, params }
+    subject { patch :do_checkout, params: params }
     let (:payments) { [] }
     let(:params) {
       {
@@ -547,11 +540,9 @@ describe GroceriesController, type: :controller do
 
         grocery.user_group.users.each_with_index do |user, i|
           expect(payment_double).to receive(:create).with(
-            hash_including(
-              'grocery_id': grocery.id,
-              'user_id': user.id.to_s,
-              'price': params[:grocery][:payments][i][:price].to_s
-            )
+            'grocery_id': grocery.id,
+            'user_id': user.id,
+            'price': params[:grocery][:payments][i][:price]
           )
         end
 
@@ -577,11 +568,9 @@ describe GroceriesController, type: :controller do
 
         grocery.user_group.users.first(1).each_with_index do |user, i|
           expect(payment_double).to receive(:create).with(
-            hash_including(
-              'grocery_id': grocery.id,
-              'user_id': user.id.to_s,
-              'price': params[:grocery][:payments][i][:price].to_s
-            )
+            'grocery_id': grocery.id,
+            'user_id': user.id,
+            'price': params[:grocery][:payments][i][:price]
           )
         end
 
@@ -602,14 +591,15 @@ describe GroceriesController, type: :controller do
     end
 
     subject {
-      post :email_group,
-      id: grocery.id,
-      grocery: {
-        email: {
-          user_ids: @users.first(2).map do |user|
-            user.id
-          end,
-          message: 'test message'
+      post :email_group, params: {
+        id: grocery.id,
+        grocery: {
+          email: {
+            user_ids: @users.first(2).map do |user|
+              user.id
+            end,
+            message: 'test message'
+          }
         }
       }
     }
@@ -626,7 +616,7 @@ describe GroceriesController, type: :controller do
     let(:store) { create(:grocery_store) }
     let(:subject) {
       patch :update_store,
-      params
+      params: params
     }
     let(:params) {
       {
@@ -683,7 +673,7 @@ describe GroceriesController, type: :controller do
     context 'when invalid params' do
       it 'should render an error' do
         params[:grocery][:store][:place_id] = nil
-        expect(subject).to have_http_status(:internal_server_error)
+        expect(subject).to have_http_status :internal_server_error
       end
     end
   end

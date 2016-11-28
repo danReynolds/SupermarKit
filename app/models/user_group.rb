@@ -1,7 +1,7 @@
-class UserGroup < ActiveRecord::Base
+class UserGroup < ApplicationRecord
   has_many :user_groups_users, class_name: UserGroupsUsers
   has_many :users, through: :user_groups_users
-  has_many :items, -> { uniq }, through: :groceries
+  has_many :items, -> { distinct }, through: :groceries
   has_many :groceries
   has_many :payments, class_name: UserPayment
   has_many :user_defaults, class_name: User, foreign_key: :user_group_default_id

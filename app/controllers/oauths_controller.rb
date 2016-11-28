@@ -1,6 +1,6 @@
 class OauthsController < ApplicationController
   skip_authorization_check
-  skip_before_filter :require_login
+  skip_before_action :require_login, raise: false
 
   def oauth
     login_at(auth_params[:provider])

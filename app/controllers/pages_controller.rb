@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   skip_authorization_check
-  skip_before_filter :require_login
+  skip_before_action :require_login, raise: false
 
   def home
     group = current_user.try(:default_group)

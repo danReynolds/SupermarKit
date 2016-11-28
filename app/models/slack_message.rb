@@ -1,4 +1,4 @@
-class SlackMessage < ActiveRecord::Base
+class SlackMessage < ApplicationRecord
   SEND_CHECKOUT_MESSAGE = 'send_checkout_message'.freeze
   SEND_GROCERY_RECEIPT = 'send_grocery_receipt'.freeze
 

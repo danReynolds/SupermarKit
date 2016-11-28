@@ -24,6 +24,12 @@ RSpec.configure do |config|
   require 'webmock/rspec'
   WebMock.disable_net_connect!(allow_localhost: true)
 
+  # Temporarily set the content type so that params are parsed as JSON, unresolved
+  # issue here: https://github.com/rspec/rspec-rails/issues/1668
+  config.before(:each, type: :controller) do
+    request.content_type = 'application/json'
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
