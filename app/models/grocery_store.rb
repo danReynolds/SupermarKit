@@ -1,4 +1,4 @@
-class GroceryStore < ActiveRecord::Base
+class GroceryStore < ApplicationRecord
   validates_presence_of :lat, :lng, :name, :place_id
 
   has_many :groceries

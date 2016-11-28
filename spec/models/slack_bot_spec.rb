@@ -7,21 +7,21 @@ RSpec.describe User, type: :model do
 
   describe '#setup_client' do
     it "should create a new slack client with the the bot's api token" do
-      Slack::Web::Client.stub(:new)
+      allow(Slack::Web::Client).to receive(:new)
       @slack_bot.setup_client
-      Slack::Web::Client.should have_received(:new).with(token: @slack_bot.api_token)
+      expect(Slack::Web::Client).to have_received(:new).with(token: @slack_bot.api_token)
     end
   end
 
   describe '#send_message' do
     it 'should call the message of the given type with the remaining arguments' do
-      @slack_bot.stub(:send_grocery_receipt)
+      allow(@slack_bot).to receive(:send_grocery_receipt)
       grocery = instance_double('Grocery')
       type = SlackMessage::SEND_GROCERY_RECEIPT
 
       @slack_bot.send_message(SlackMessage::SEND_GROCERY_RECEIPT, grocery)
 
-      @slack_bot.should have_received(:send_grocery_receipt).with(
+      expect(@slack_bot).to have_received(:send_grocery_receipt).with(
         @slack_bot.slack_messages.find_by_message_type(type).format,
         grocery
       )
@@ -60,12 +60,11 @@ RSpec.describe User, type: :model do
         { test: 'working example', substitution: 'the tests passing' }
       )
       expect(WebMock).to have_requested(:post, url).with(
-        body: {
-          as_user: "true",
+        body: hash_including({
+          as_user: 'true',
           channel: '#general',
-          text: 'This is a working example of the tests passing',
-          token: ''
-        }
+          text: 'This is a working example of the tests passing'
+        })
       )
     end
   end
@@ -75,19 +74,19 @@ RSpec.describe User, type: :model do
       url = 'https://test.com'
       format = @slack_bot.slack_messages
         .find_by_message_type(SlackMessage::SEND_GROCERY_RECEIPT).format
-      @slack_bot.stub(:post_message)
+      allow(@slack_bot).to receive(:post_message)
       grocery = instance_double('Grocery')
       allow(grocery).to receive_message_chain(:receipt, :url).and_return(url)
 
       @slack_bot.send(:send_grocery_receipt, format, grocery)
 
-      @slack_bot.should have_received(:post_message).with(format, { url: url })
+      expect(@slack_bot).to have_received(:post_message).with(format, { url: url })
     end
   end
 
   describe '#send_checkout_message' do
     it 'should post a checkout message with the payer, payee and payment info' do
-      @slack_bot.stub(:post_message)
+      allow(@slack_bot).to receive(:post_message)
       format = @slack_bot.slack_messages
         .find_by_message_type(SlackMessage::SEND_CHECKOUT_MESSAGE).format
 
@@ -103,7 +102,7 @@ RSpec.describe User, type: :model do
 
       @slack_bot.send(:send_checkout_message, format, grocery)
 
-      @slack_bot.should have_received(:post_message).with(
+      expect(@slack_bot).to have_received(:post_message).with(
         format,
         {
           title: grocery.name,

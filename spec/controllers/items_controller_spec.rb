@@ -5,7 +5,7 @@ RSpec.describe ItemsController, type: :controller do
   include_context 'basic user'
 
   describe 'GET index' do
-    subject { get :index, grocery_id: grocery, format: :json }
+    subject { get :index, params: { grocery_id: grocery } }
 
     it 'should return all items for the grocery' do
       subject
@@ -41,7 +41,7 @@ RSpec.describe ItemsController, type: :controller do
         }
       }
     }
-    subject { patch :update, valid_params, format: :json }
+    subject { patch :update, params: valid_params }
 
     it 'should update the item' do
       subject
@@ -68,7 +68,7 @@ RSpec.describe ItemsController, type: :controller do
 
     it 'returns an item matching the search query' do
       item = grocery.items.first
-      get :auto_complete, grocery_id: grocery, q: item.name
+      get :auto_complete, params: { grocery_id: grocery, q: item.name }
 
       expect(data.length).to eq 1
       expect(data.first['name']).to eq item.name
@@ -76,14 +76,13 @@ RSpec.describe ItemsController, type: :controller do
 
     it 'should always return the exact match' do
       items = %w[breads breadst breadliest breading breader bread].map do |name|
-        item = Item.create(name: name)
-        item.tap do |i|
+        Item.create(name: name).tap do |item|
           grocery.items << item
         end
       end
       item = items.last
 
-      get :auto_complete, grocery_id: grocery, q: item.name
+      get :auto_complete, params: { grocery_id: grocery, q: item.name }
       expect(data.map { |i| i['id'] }).to include(item.id)
     end
 
@@ -92,14 +91,14 @@ RSpec.describe ItemsController, type: :controller do
         it 'returns other public group items' do
           group = create(:user_group, :with_groceries)
           item = group.items.first
-          get :auto_complete, grocery_id: grocery, q: item.name
+          get :auto_complete, params: { grocery_id: grocery, q: item.name }
           expect(data.length).to eq 1
         end
 
         it 'does not return other private group items' do
           group = create(:user_group, :with_groceries, privacy: UserGroup::PRIVATE)
           item = group.items.first
-          get :auto_complete, grocery_id: grocery, q: item.name
+          get :auto_complete, params: { grocery_id: grocery, q: item.name }
           expect(data.length).to eq 0
         end
       end
@@ -110,7 +109,7 @@ RSpec.describe ItemsController, type: :controller do
           other_group = create(:user_group, :with_groceries)
           item = other_group.items.first
 
-          get :auto_complete, grocery_id: grocery, q: item.name
+          get :auto_complete, params: { grocery_id: grocery, q: item.name }
           expect(data.length).to eq 0
         end
 
@@ -118,7 +117,7 @@ RSpec.describe ItemsController, type: :controller do
           user_group.update_attributes(privacy: UserGroup::PRIVATE)
           items = user_group.items - grocery.items
 
-          get :auto_complete, grocery_id: grocery, q: items.first.name
+          get :auto_complete, params: { grocery_id: grocery, q: items.first.name }
           expect(data.length).to eq 1
         end
       end
