@@ -29,6 +29,7 @@ gem 'mysql2'
 gem 'neat'
 gem 'nokogiri'
 gem 'puma'
+gem 'rails', '~> 5.0.0'
 gem 'react-rails', '~> 1.5.0'
 gem 'sass-rails'
 gem 'sdoc', '~> 0.4.0',          group: :doc
