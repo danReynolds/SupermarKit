@@ -1,5 +1,5 @@
 .container.user-groups-new
-  = simple_form_for @user_group do |f|
+  = simple_form_for @user_group, remote: true do |f|
     .row
       .col.l8.offset-l2
         .card
@@ -47,4 +47,4 @@
             .col.l12.s12
               = react_component 'MultiselectForm', @new_data
         .card-action
-          = link_to 'Create', 'javascript:;', class: 'btn submit-group-form'
+          .btn.submit-group-form Create
