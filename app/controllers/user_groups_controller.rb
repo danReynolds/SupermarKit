@@ -31,9 +31,7 @@ class UserGroupsController < ApplicationController
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to @user_group, notice: 'Kit created! When you are ready, create your first grocery list.'
     else
-      @new_data = new_data
-      @banner_image = UserGroup::BANNER_IMAGES.sample
-      render :new
+      render json: @user_group.errors, status: :unprocessable_entity
     end
   end
 

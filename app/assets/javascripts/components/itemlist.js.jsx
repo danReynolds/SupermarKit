@@ -177,16 +177,23 @@ var ItemList = React.createClass({
         });
     },
 
-    componentDidMount: function() {
+    setup: function() {
         var _this = this;
 
-        this.setState({paginationAlwaysShow: true});
-        $(document).ready(function() {
-            _this.reloadItems();
-            $('.item-list').on('removeItem', '.dismissable', function(e) {
-                _this.handleRemove(e);
-            });
+        _this.reloadItems();
+        $('.item-list').on('removeItem', '.dismissable', function(e) {
+            _this.handleRemove(e);
         });
+    },
+
+    componentDidMount: function() {
+
+        this.setState({paginationAlwaysShow: true});
+        document.addEventListener('turbolinks:load', this.setup);
+    },
+
+    componentWillUnmount: function() {
+        document.removeEventListener('turbolinks:load', this.setup);
     },
 
     componentDidUpdate: function(prevProps, prevState) {
@@ -325,12 +332,12 @@ var ItemList = React.createClass({
                         </div>
                         {content}
                         {pagination}
-                        <a
+                        <div
                             onClick={this.toggleModalAndLoading}
                             href={"#" + this.props.modal.id}
                             className="btn-floating">
                             <i className="material-icons">add</i>
-                        </a>
+                        </div>
                     </div>
                 </div>
                 <Modal

@@ -25,7 +25,7 @@ var Recipes = React.createClass({
                     }
                 ),
                 function() {
-                    $(document).ready(function() {
+                    document.addEventListener('turbolinks:load', () => {
                         $('.carousel').carousel({
                             full_width: true,
                             time_constant: 100,
