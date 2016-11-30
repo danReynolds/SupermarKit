@@ -54,9 +54,10 @@ var Pagination = {
                     key={pageNumber}
                     className={this.state.pageNumber === pageNumber ? 'active' : ''}>
                     <a
+                        className='page'
+                        data-no-turbolink
                         data-index={pageNumber}
-                        onClick={this.handlePageChange}
-                        href="#!">
+                        onClick={this.handlePageChange}>
                         {pageNumber + 1}
                     </a>
                 </li>
@@ -65,13 +66,13 @@ var Pagination = {
         return (
             <ul className='pagination'>
                 <li>
-                    <a href="#!" onClick={this.decrementPage}>
+                    <a data-no-turbolink onClick={this.decrementPage}>
                         <i className="material-icons">chevron_left</i>
                     </a>
                 </li>
                 {pages}
                 <li>
-                    <a href="#!" onClick={this.incrementPage}>
+                    <a data-no-turbolink onClick={this.incrementPage}>
                         <i className="material-icons">chevron_right</i>
                     </a>
                 </li>

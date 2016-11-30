@@ -297,12 +297,14 @@ var Modal = React.createClass({
                     </ul>
                     <div className='reveal-controls'>
                         <a
+                            data-no-turbolink
                             className='btn cancel'
                             onClick={this.handleCancel}>
                             <i className='material-icons left'>close</i>
                             Cancel
                         </a>
                         <a
+                            data-no-turbolink
                             className='btn'
                             onClick={this.handleSave}>
                             <i className='material-icons left'>send</i>

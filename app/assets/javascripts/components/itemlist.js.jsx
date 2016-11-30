@@ -177,23 +177,13 @@ var ItemList = React.createClass({
         });
     },
 
-    setup: function() {
+    componentWillMount: function() {
+        this.setState({paginationAlwaysShow: true});
         var _this = this;
-
         _this.reloadItems();
         $('.item-list').on('removeItem', '.dismissable', function(e) {
             _this.handleRemove(e);
         });
-    },
-
-    componentDidMount: function() {
-
-        this.setState({paginationAlwaysShow: true});
-        document.addEventListener('turbolinks:load', this.setup);
-    },
-
-    componentWillUnmount: function() {
-        document.removeEventListener('turbolinks:load', this.setup);
     },
 
     componentDidUpdate: function(prevProps, prevState) {
@@ -277,6 +267,7 @@ var ItemList = React.createClass({
                                     value={data.item.units} />
                             </div>
                             <a
+                                data-no-turbolink
                                 className='btn'
                                 onClick={this.handleItemUpdate}>
                                 Update
