@@ -18,13 +18,13 @@ var UserItem = React.createClass({
     render: function() {
         if (this.props.index) {
             var payContent = (
-                <a
+                <div
                     className='btn'
                     data-index={this.props.index}
                     onClick={this.handleClick}
-                    href='#!'>
+                >
                     Pay
-                </a>
+                </div>
             );
         }
 
