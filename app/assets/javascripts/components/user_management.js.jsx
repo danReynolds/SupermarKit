@@ -129,15 +129,15 @@ var UserManagement = React.createClass({
                         </div>
                     </div>
                     <div className='modal-footer'>
-                        <a
+                        <div
                             className='modal-action modal-close btn cancel'>
                             Cancel
-                        </a>
-                        <a
+                        </div>
+                        <div
                             onClick={this.handleSubmit}
                             className='modal-action modal-close btn'>
                             Confirm
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
