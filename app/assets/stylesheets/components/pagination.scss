@@ -4,12 +4,8 @@
   padding: 0.5rem 0;
   width: initial;
 
-  .material-icons {
+  a {
     color: $sm-dark-gray !important;
-  }
-
-  .page {
-    color: $sm-white !important;
   }
 
   li {
@@ -17,6 +13,7 @@
     margin: 0 2px !important;
     line-height: 1.8rem;
     vertical-align: middle;
+    color: $sm-dark-gray;
 
     &:not(:first-child, :last-child) { height: 1.5rem };
     &.active { background: $sm-green; }
