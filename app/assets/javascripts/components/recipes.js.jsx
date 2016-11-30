@@ -25,12 +25,10 @@ var Recipes = React.createClass({
                     }
                 ),
                 function() {
-                    document.addEventListener('turbolinks:load', () => {
-                        $('.carousel').carousel({
-                            full_width: true,
-                            time_constant: 100,
-                            indicators: true,
-                        });
+                    $('.carousel').carousel({
+                        full_width: true,
+                        time_constant: 100,
+                        indicators: true,
                     });
                 }
             );
@@ -169,7 +167,7 @@ var Recipes = React.createClass({
                     key={'carousel-item-' + index}
                     data-key={index}
                     className='carousel-item'>
-                    <a href="#">
+                    <a data-no-turbolinks>
                         <img src={recipe.imageUrlsBySize[90].replace('s90', 'l90')} />
                     </a>
                     <div className="recipe-listing caption">
@@ -239,6 +237,7 @@ var Recipes = React.createClass({
                 <div className='card-content full-width dark'>
                     {content}
                     <a
+                        data-no-turbolinks
                         onClick={this.toggleModalAndLoading}
                         className="btn-floating">
                         <i className="material-icons">search</i>
