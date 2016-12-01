@@ -9,8 +9,7 @@ class UserSessionsController < ApplicationController
     if @user = login(session_params[:email], session_params[:password])
       redirect_back_or_to root_path
     else
-      flash.now[:alert] = 'Incorrect login information.'
-      render action: 'new', status: :unprocessable_entity
+      render json: 'Incorrect login information.', status: :unprocessable_entity
     end
   end
 

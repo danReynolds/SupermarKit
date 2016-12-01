@@ -2,7 +2,7 @@
   .row
     .col.l8.offset-l2
       .card
-        = simple_form_for :user_session, url: user_sessions_path do |f|
+        = simple_form_for :user_session, url: user_sessions_path, remote: true do |f|
           .card-content
             .row
               .col.l12
