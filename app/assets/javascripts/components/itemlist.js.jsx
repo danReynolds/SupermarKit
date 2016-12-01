@@ -264,7 +264,7 @@ var ItemList = React.createClass({
                                     id={unitsId}
                                     type="text"
                                     data-field="units"
-                                    value={data.item.units} />
+                                    value={data.item.units || ''} />
                             </div>
                             <a
                                 data-no-turbolink
