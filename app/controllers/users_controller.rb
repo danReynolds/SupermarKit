@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to(root_path, notice: 'Welcome to Supermarkit! We have sent you a confirmation email to get started.')
     else
-      render :new, notice: 'Unable to create user.', status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
