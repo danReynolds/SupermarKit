@@ -15,6 +15,10 @@
     vertical-align: middle;
     color: $sm-dark-gray;
 
+    a:not(.page) {
+      padding: 0;
+    }
+
     &:not(:first-child, :last-child) { height: 1.5rem };
     &.active { background: $sm-green; }
   }

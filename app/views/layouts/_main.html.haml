@@ -4,7 +4,7 @@
       .nav-wrapper
         = link_to root_url, class: 'brand-logo center' do
           = inline_svg "svgs/groceries.svg", id: 'groceries-svg'
-        = link_to root_url, class: 'button-collapse', 'data-activates' => 'site-navigation' do
+        = link_to root_url, class: 'button-collapse', data: { no_turbolink: true }, 'data-activates' => 'site-navigation' do
           %i.material-icons menu
 
         - if default = current_user.default_group

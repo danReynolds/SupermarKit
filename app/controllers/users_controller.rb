@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   end
 
   def default_group
-    @user_group = UserGroup.find(params[:user_group][:id])
+    @user_group = UserGroup.find(params[:user_group])
     authorize! :read, @user_group
 
     @user.default_group = @user_group
