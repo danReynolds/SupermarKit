@@ -25,7 +25,8 @@ class OauthsController < ApplicationController
         else
           message = "Our fault! We're unable to create a user with your #{provider.humanize} account."
         end
-        redirect_to :back, alert: message
+        flash[:notice] = message
+        redirect_back(fallback_location: login_path)
       end
     end
   end

@@ -28,8 +28,8 @@ describe OauthsController, type: :controller do
       expect_any_instance_of(OauthsController).to receive(:create_from).and_raise(Exception)
       get :callback, params: { provider: 'github', code: '123' }
 
-      expect(response).to redirect_to new_user_path
-      expect(flash[:alert]).to be_present
+      expect(response).to redirect_to login_path
+      expect(flash[:notice]).to be_present
     end
   end
 end
