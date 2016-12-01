@@ -75,7 +75,7 @@ describe UsersController, type: :controller do
   describe 'PATCH default_group' do
     include_context 'basic user'
     let(:user) { controller.current_user }
-    subject { patch :default_group, params: { id: user, user_group: @user_group } }
+    subject { patch :default_group, params: { id: user, user_group: @user_group.id } }
 
     it 'should set that user group as the default for the user' do
       @user_group = create(:user_group)
