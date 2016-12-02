@@ -2,7 +2,7 @@ $(document).on('ajax:error', 'form', (e, data, status, xhr) => {
   const { responseJSON: errors, responseText: message } = data;
   const toastDuration = 4000;
 
-  if (message) {
+  if (!errors && message) {
     Materialize.toast(message, toastDuration);
   } else {
     Object.keys(errors).forEach(field => {
