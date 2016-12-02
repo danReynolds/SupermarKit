@@ -84,7 +84,9 @@
     }
 
     &.lists {
-      background-image: linear-gradient(rgba($sm-dark-blue-green, 0.9), rgba($sm-mid-blue-green, 0.95)), image-url("homepage/homepage-pattern.jpg");
+      background-image: linear-gradient(rgba($sm-dark-blue-green, 0.9), rgba($sm-mid-blue-green, 0.95)), image-url('homepage/homepage-pattern.jpg');
+
+      img { width: 500px; }
       h1, p { color: $sm-white; }
 
       @media #{$mobile} {
