@@ -1,4 +1,4 @@
-$(document).on('ajax:error', 'form', (e, data, status, xhr) => {
+$(document).ajaxError((e, data, status, xhr) => {
   const { responseJSON: errors, responseText: message } = data;
   const toastDuration = 4000;
 
@@ -9,4 +9,4 @@ $(document).on('ajax:error', 'form', (e, data, status, xhr) => {
       Materialize.toast(`${field}: ${errors[field]}`, toastDuration);
     })
   }
-});
+})

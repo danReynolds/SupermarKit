@@ -138,12 +138,7 @@ class UserGroupsController < ApplicationController
         render json: { redirect_url: user_groups_path }
       end
     else
-      error_data = {
-        errors: @user_group.errors.messages.map do |field, error|
-          "#{field}: #{error.first}"
-        end
-      }
-      render status: :internal_server_error, json: error_data
+      render json: @user_group.errors, status: :unprocessable_entity
     end
   end
 

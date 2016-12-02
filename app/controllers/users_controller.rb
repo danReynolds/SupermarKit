@@ -62,7 +62,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to @user
     else
-      render :edit, notice: 'Unable to update your profile.', status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 

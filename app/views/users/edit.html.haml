@@ -1,7 +1,7 @@
 .container.users-edit
   .row
     .col.l8.offset-l2
-      = simple_form_for @user do |f|
+      = simple_form_for @user, remote: true do |f|
         .card
           .card-content
             %h3 Change profile

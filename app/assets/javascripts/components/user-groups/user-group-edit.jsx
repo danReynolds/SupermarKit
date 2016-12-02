@@ -104,10 +104,7 @@ const UserGroupEdit = React.createClass({
             data: form,
         }).done(response => {
             window.location = response.redirect_url;
-        }).error(response => {
-            const { responseJSON: { errors } } = response;
-            Materialize.toast(errors.join('\n'), 1000);
-        })
+        });
     },
 
     onUserGroupSettingsChange: function(field, value) {
