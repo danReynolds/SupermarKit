@@ -14,16 +14,20 @@ describe PagesController, type: :controller do
       include_context 'basic user'
 
       context 'with default group' do
+        before :each do
+          user_group.user_defaults << controller.current_user
+        end
+
         context 'with active grocery' do
           it 'should redirect to active grocery' do
-            user_group.user_defaults << controller.current_user
             expect(subject).to redirect_to user_group.active_groceries.first
           end
         end
 
         context 'without active grocery' do
-          it 'should redirect to all user groups' do
-            expect(subject).to redirect_to user_groups_path
+          it 'should redirect to default group' do
+            user_group.groceries = []
+            expect(subject).to redirect_to user_group
           end
         end
       end
