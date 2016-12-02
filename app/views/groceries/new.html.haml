@@ -2,13 +2,13 @@
   .row
     .col.l8.offset-l2
       .card
-        = simple_form_for [@user_group, @grocery] do |f|
+        = simple_form_for [@user_group, @grocery], remote: true do |f|
           .card-content
             %h3 New Grocery List
             %p This Kit doesn't have any active grocery lists at the moment. Go ahead and start a new list.
             .row
               .col.l12
-                = f.input :name, input_html: { class: 'input-field', value: "#{Date.today.strftime('%A')}'s List - #{Date.today}" }
+                = f.input :name, input_html: { class: 'input-field', value: "#{Date.today.strftime('%A')}'s List" }
                 = f.input :description, input_html: { class: 'input-field' }
           .card-action
             = f.button :submit, 'Create', class: 'button radius'

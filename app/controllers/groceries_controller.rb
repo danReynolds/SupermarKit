@@ -25,7 +25,7 @@ class GroceriesController < ApplicationController
       current_user.default_group = @user_group unless current_user.default_group
       redirect_to @grocery
     else
-      render :new
+      render json: @grocery.errors, status: :unprocessable_entity
     end
   end
 
