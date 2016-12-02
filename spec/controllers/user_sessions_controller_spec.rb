@@ -14,30 +14,40 @@ describe UserSessionsController, type: :controller do
   describe 'POST create' do
     context 'when valid' do
       it 'logs user in' do
-        post :create, session: { email: @user.email, password: 'valid_password' }
+        post :create, params: { user_session: { email: @user.email, password: 'valid_password' } }
         expect(controller.current_user).to eq @user.reload
       end
     end
 
     context 'when invalid' do
       it 'renders new' do
-        post :create, session: { email: @user.email, password: 'invalid_password' }
-        expect(response).to render_template :new
+        post :create, params: { user_session: { email: @user.email, password: 'invalid_password' } }
+        expect(controller.current_user).to eq nil
+        expect(response).to have_http_status :unprocessable_entity
       end
     end
   end
 
   describe 'DELETE destroy' do
-    include_context 'basic user'
     subject { delete :destroy }
 
-    it 'should log the user out' do
-      subject
-      expect(controller.current_user).to be_nil
+    context 'not logged in' do
+      it 'should redirect to the login page' do
+        expect(subject).to redirect_to login_path
+      end
     end
 
-    it 'should redirect to the homepage' do
-      expect(subject).to redirect_to root_path
+    context 'logged in' do
+      include_context 'basic user'
+
+      it 'should log the user out' do
+        subject
+        expect(controller.current_user).to be_nil
+      end
+
+      it 'should redirect to the login page' do
+        expect(subject).to redirect_to login_path
+      end
     end
   end
 end

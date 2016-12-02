@@ -31,9 +31,7 @@ class UserGroupsController < ApplicationController
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to @user_group, notice: 'Kit created! When you are ready, create your first grocery list.'
     else
-      @new_data = new_data
-      @banner_image = UserGroup::BANNER_IMAGES.sample
-      render :new
+      render json: @user_group.errors, status: :unprocessable_entity
     end
   end
 
@@ -129,6 +127,9 @@ class UserGroupsController < ApplicationController
 
     if @user_group.update(update_params)
       flash[:notice] = 'Kit successfully updated.'
+
+      # Evict cache entry for user's abilities
+      current_user.reload
       @current_ability = nil
 
       if can? :read, @user_group
@@ -137,12 +138,7 @@ class UserGroupsController < ApplicationController
         render json: { redirect_url: user_groups_path }
       end
     else
-      error_data = {
-        errors: @user_group.errors.messages.map do |field, error|
-          "#{field}: #{error.first}"
-        end
-      }
-      render status: :internal_server_error, json: error_data
+      render json: @user_group.errors, status: :unprocessable_entity
     end
   end
 
@@ -169,10 +165,10 @@ class UserGroupsController < ApplicationController
 
   def do_payment
     UserPayment.create!(
-      user_group_payment_params.merge!({
+      user_group_payment_params.merge({
         payer_id: current_user.id,
         user_group_id: @user_group.id
-      })
+      }.to_h)
     )
     render json: {
       data: user_payment_data

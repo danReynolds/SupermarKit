@@ -1,6 +1,6 @@
 class OauthsController < ApplicationController
   skip_authorization_check
-  skip_before_filter :require_login
+  skip_before_action :require_login, raise: false
 
   def oauth
     login_at(auth_params[:provider])
@@ -25,7 +25,8 @@ class OauthsController < ApplicationController
         else
           message = "Our fault! We're unable to create a user with your #{provider.humanize} account."
         end
-        redirect_to new_user_path, alert: message
+        flash[:notice] = message
+        redirect_back(fallback_location: login_path)
       end
     end
   end

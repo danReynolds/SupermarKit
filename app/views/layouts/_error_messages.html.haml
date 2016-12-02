@@ -1,6 +1,6 @@
-#flash-messages
+#error-messages
   - if params[:errors].present?
-    #flash
+    #error
       - params[:errors].each do |msg|
         .alert-box.radius{data: { alert: true }}
           = h(msg)

@@ -1,13 +1,13 @@
 class PagesController < ApplicationController
   skip_authorization_check
-  skip_before_filter :require_login
+  skip_before_action :require_login, raise: false
 
   def home
     group = current_user.try(:default_group)
 
-    if group && grocery = group.active_groceries.first
-      redirect_to grocery
-    elsif current_user
+    if group
+      redirect_to group.active_groceries.first || group
+    elsif logged_in?
       redirect_to user_groups_path
     end
   end

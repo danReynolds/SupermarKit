@@ -1,6 +1,6 @@
-#flash-messages
+#flash-messages{ 'data-turbolinks-permanent' => true }
   - if flash.present?
     #flash
       - flash.each do |key, value|
-        :coffeescript
+        :javascript
           Materialize.toast("#{value}", 4000)

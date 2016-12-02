@@ -30,7 +30,7 @@ shared_examples 'routes' do |routes|
           end
         end
 
-        send(method, k, args)
+        send(method, k, params: args)
         expect(response).to have_http_status(status)
       end
     end

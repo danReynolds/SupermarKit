@@ -1,5 +1,5 @@
 class ErrorsController < ApplicationController
-  skip_before_filter :require_login
+  skip_before_action :require_login, raise: false
   skip_authorization_check
 
   before_action :report

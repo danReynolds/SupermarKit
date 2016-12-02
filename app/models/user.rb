@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   validates :password, confirmation: true
   validates :password_confirmation, length: { minimum: 9 }, if: :new_record?
   validates :password_confirmation, presence: true, if: :new_record?
@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :user_groups_users, class_name: UserGroupsUsers
   has_many :user_groups, through: :user_groups_users
   has_many :groceries, through: :user_groups
-  has_many :friends, -> { uniq }, through: :user_groups, source: :users
+  has_many :friends, -> { distinct }, through: :user_groups, source: :users
   has_many :owned_user_groups, class_name: UserGroup, foreign_key: :owner_id
   belongs_to :default_group, class_name: UserGroup, foreign_key: :user_group_default_id
 
@@ -30,6 +30,6 @@ class User < ActiveRecord::Base
 
   def gravatar_url(size = GRAVATAR_SIZE)
     gravatar = Digest::MD5::hexdigest(email).downcase
-    url = "https://gravatar.com/avatar/#{gravatar}.png?s=#{size}"
+    "https://gravatar.com/avatar/#{gravatar}.png?s=#{size}"
   end
 end

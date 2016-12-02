@@ -1,4 +1,4 @@
-class SlackBot < ActiveRecord::Base
+class SlackBot < ApplicationRecord
   belongs_to :user_group
   has_many :slack_messages
 

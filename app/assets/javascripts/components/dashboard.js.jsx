@@ -52,9 +52,9 @@ var Dashboard = React.createClass({
                     </div>
                     <div className='col l6 dashboard-card'>
                         <Emailer
-                            {...this.props.emailer}/>
+                            {...this.props.emailer} />
                         <Location
-                            {...this.props.location}/>
+                            {...this.props.location} />
                     </div>
                 </div>
             </div>
