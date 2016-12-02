@@ -60,11 +60,11 @@ RSpec.describe User, type: :model do
         { test: 'working example', substitution: 'the tests passing' }
       )
       expect(WebMock).to have_requested(:post, url).with(
-        body: hash_including({
+        body: hash_including(
           as_user: 'true',
           channel: '#general',
           text: 'This is a working example of the tests passing'
-        })
+        )
       )
     end
   end
@@ -80,7 +80,7 @@ RSpec.describe User, type: :model do
 
       @slack_bot.send(:send_grocery_receipt, format, grocery)
 
-      expect(@slack_bot).to have_received(:post_message).with(format, { url: url })
+      expect(@slack_bot).to have_received(:post_message).with(format, url: url)
     end
   end
 

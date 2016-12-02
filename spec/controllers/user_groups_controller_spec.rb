@@ -17,13 +17,13 @@ describe UserGroupsController, type: :controller do
     let(:user_group_params) { attributes_for(:user_group) }
     let(:group_members) { create_list(:user, 3) }
     let(:new_group) { UserGroup.last }
-    let(:subject) {
+    let(:subject) do
       post :create, params: {
         user_group: user_group_params.merge!(
-          user_ids: "#{group_members.map(&:id).join(',')}"
+          user_ids: group_members.map(&:id).join(',')
         )
       }
-    }
+    end
 
     context 'with valid params' do
       it 'creates the new group' do
@@ -97,7 +97,7 @@ describe UserGroupsController, type: :controller do
       }
     }
     let(:subject) {
-      patch :update,params: {
+      patch :update, params: {
         id: group,
         user_group: user_group_params,
         default_group: default_group,

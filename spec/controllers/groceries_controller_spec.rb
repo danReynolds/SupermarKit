@@ -595,9 +595,7 @@ describe GroceriesController, type: :controller do
         id: grocery.id,
         grocery: {
           email: {
-            user_ids: @users.first(2).map do |user|
-              user.id
-            end,
+            user_ids: @users.first(2).map(&:id),
             message: 'test message'
           }
         }
@@ -614,18 +612,18 @@ describe GroceriesController, type: :controller do
 
   describe 'PATCH update_store' do
     let(:store) { create(:grocery_store) }
-    let(:subject) {
+    let(:subject) do
       patch :update_store,
       params: params
-    }
-    let(:params) {
+    end
+    let(:params) do
       {
         id: grocery.id,
         grocery: {
           store: attributes_for(:grocery_store)
         }
       }
-    }
+    end
 
     context 'when valid params' do
       it 'should finish successfully' do
