@@ -79,4 +79,5 @@ group :development, :test do
 	gem 'bullet'
 	gem 'gemsurance'
 	gem 'rack-mini-profiler'
+	gem 'rubocop'
 end
