@@ -26,4 +26,6 @@
 //= require_tree ./pages
 //= require_tree ./user_groups
 
-document.addEventListener('turbolinks:load', () => Dropzone.autoDiscover = false);
+document.addEventListener('turbolinks:load', function() {
+  Dropzone.autoDiscover = false;
+});
