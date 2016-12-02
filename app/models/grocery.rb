@@ -1,4 +1,4 @@
-class Grocery < ActiveRecord::Base
+class Grocery < ApplicationRecord
   has_many :groceries_items, class_name: GroceriesItems
   has_many :payments, class_name: GroceryPayment
   has_many :items, through: :groceries_items

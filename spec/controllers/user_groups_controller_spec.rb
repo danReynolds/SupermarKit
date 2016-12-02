@@ -15,9 +15,15 @@ describe UserGroupsController, type: :controller do
 
   describe 'POST create' do
     let(:user_group_params) { attributes_for(:user_group) }
-    let(:subject) { post :create, user_group: user_group_params.merge!(user_ids: "#{group_members.map(&:id).join(',')}") }
     let(:group_members) { create_list(:user, 3) }
     let(:new_group) { UserGroup.last }
+    let(:subject) do
+      post :create, params: {
+        user_group: user_group_params.merge!(
+          user_ids: group_members.map(&:id).join(',')
+        )
+      }
+    end
 
     context 'with valid params' do
       it 'creates the new group' do
@@ -62,13 +68,6 @@ describe UserGroupsController, type: :controller do
         end
       end
     end
-
-    context 'with invalid params' do
-      it 'should render the new template' do
-        user_group_params[:name] = nil
-        expect(subject).to render_template :new
-      end
-    end
   end
 
   describe 'PATCH update' do
@@ -94,15 +93,16 @@ describe UserGroupsController, type: :controller do
         name: 'Test Name',
         description: 'Test description',
         user_ids: "#{controller.current_user.id},#{user2.id}",
-        owner_id: user1.id,
+        owner_id: user2.id,
       }
     }
     let(:subject) {
-      patch :update,
-      id: group,
-      user_group: user_group_params,
-      default_group: default_group,
-      integrations: integration_params.to_json.to_s
+      patch :update, params: {
+        id: group,
+        user_group: user_group_params,
+        default_group: default_group,
+        integrations: integration_params.to_json.to_s
+      }
     }
 
     context 'current default group' do
@@ -237,7 +237,7 @@ describe UserGroupsController, type: :controller do
     it 'should update the owner of the group' do
       expect(group.owner).to eq controller.current_user
       subject
-      expect(group.reload.owner).to eq user1
+      expect(group.reload.owner).to eq user2
     end
 
     it 'should replace users with new ones' do
@@ -271,7 +271,7 @@ describe UserGroupsController, type: :controller do
       user_group_user = user_group.user_groups_users.find_by_user_id(user2.id)
 
       expect(user_group_user.state).to eq(UserGroupsUsers::INVITED)
-      patch :accept_invitation, id: user_group.id
+      patch :accept_invitation, params: { id: user_group.id }
       expect(user_group_user.reload.state).to eq(UserGroupsUsers::ACCEPTED)
     end
   end
@@ -279,7 +279,7 @@ describe UserGroupsController, type: :controller do
   describe 'PATCH do_payment' do
     let(:payee) { create(:user) }
     let(:group) { create(:user_group, users: [payee, controller.current_user]) }
-    let(:subject) { patch :do_payment, id: group.id, user_group: payment_params }
+    let(:subject) { patch :do_payment, params: { id: group.id, user_group: payment_params } }
     let(:payment_params) {
       {
         reason: 'This is a reason',
@@ -301,7 +301,7 @@ describe UserGroupsController, type: :controller do
 
   describe 'PATCH leave' do
     let(:user) { controller.current_user }
-    subject { patch :leave, id: @user_group }
+    subject { patch :leave, params: { id: @user_group } }
 
     before :each do
       @user_group = create(:user_group)
@@ -316,9 +316,9 @@ describe UserGroupsController, type: :controller do
     end
 
     it 'should remove the user from the user group' do
-      (user.user_groups).should include(@user_group)
+      expect(user.user_groups).to include(@user_group)
       subject
-      (user.reload.user_groups).should_not include(@user_group)
+      expect(user.reload.user_groups).to_not include(@user_group)
     end
   end
 end

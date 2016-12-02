@@ -2,7 +2,7 @@
   .row
     .col.l8.offset-l2
       .card
-        = simple_form_for @user do |f|
+        = simple_form_for @user, remote: true do |f|
           .card-content
             %h1 Sign up
             .row

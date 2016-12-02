@@ -1,4 +1,4 @@
-class ItemsRecipes < ActiveRecord::Base
+class ItemsRecipes < ApplicationRecord
   belongs_to :item
   belongs_to :recipe
 

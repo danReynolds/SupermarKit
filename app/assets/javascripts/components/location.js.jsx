@@ -95,7 +95,7 @@ var Location = React.createClass({
                    $('#pac-input').val(place.name + ', ' + place.vicinity);
                }
            }.bind(this));
-       } else {
+       } else if (coords) {
             // Use their current coordinates to get the closest store
             service.nearbySearch({
                 location: coords,
@@ -116,14 +116,12 @@ var Location = React.createClass({
                 }
             }.bind(this));
 
-            if (coords) {
-                var latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
-                var bounds = {
-                    bounds: new google.maps.Circle({
-                        center: latLng, radius: this.props.radius
-                    }).getBounds()
-                };
-            }
+            var latLng = new google.maps.LatLng(coords.latitude, coords.longitude);
+            var bounds = {
+                bounds: new google.maps.Circle({
+                    center: latLng, radius: this.props.radius
+                }).getBounds()
+            };
         }
 
         // Create the search box and link it to the UI element.

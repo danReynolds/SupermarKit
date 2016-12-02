@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :require_login, only: [:new, :create, :activate]
+  skip_before_action :require_login, only: [:new, :create, :activate], raise: false
   load_and_authorize_resource
   skip_load_and_authorize_resource only: :activate
   skip_authorization_check only: :activate
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to(root_path, notice: 'Welcome to Supermarkit! We have sent you a confirmation email to get started.')
     else
-      render :new, notice: 'Unable to create user.'
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
@@ -62,7 +62,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to @user
     else
-      render :edit, notice: 'Unable to update your profile.'
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 

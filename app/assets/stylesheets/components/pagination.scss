@@ -4,11 +4,20 @@
   padding: 0.5rem 0;
   width: initial;
 
-  a { color: $sm-dark-gray !important; }
+  a {
+    color: $sm-dark-gray !important;
+  }
+
   li {
+    cursor: pointer;
     margin: 0 2px !important;
     line-height: 1.8rem;
     vertical-align: middle;
+    color: $sm-dark-gray;
+
+    a:not(.page) {
+      padding: 0;
+    }
 
     &:not(:first-child, :last-child) { height: 1.5rem };
     &.active { background: $sm-green; }

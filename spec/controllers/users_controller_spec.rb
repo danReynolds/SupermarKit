@@ -17,19 +17,19 @@ describe UsersController, type: :controller do
     let(:data) { JSON.parse(response.body)['data'] }
 
     it 'returns successful match' do
-      get :auto_complete, q: controller.current_user.name
+      get :auto_complete, params: { q: controller.current_user.name }
       expect(data.length).to eq 1
     end
 
     it 'returns nothing for unsuccessful match' do
-      get :auto_complete, q: '#'
+      get :auto_complete, params: { q: '#' }
       expect(data.length).to eq 0
     end
   end
 
   describe 'GET activate' do
     let(:user) { create(:user, password: 'valid_password') }
-    subject { get :activate, id: user.activation_token }
+    subject { get :activate, params: { id: user.activation_token } }
 
     context 'when valid' do
       it 'logs in user from correct token' do
@@ -44,7 +44,7 @@ describe UsersController, type: :controller do
 
     context 'when invalid' do
       it 'fails to activate user from invalid token' do
-        get :activate, id: user.id
+        get :activate, params: { id: user.id }
         expect(controller.current_user).to eq nil
       end
     end
@@ -52,7 +52,7 @@ describe UsersController, type: :controller do
 
   describe 'POST create' do
     context 'when valid' do
-      subject { post :create, user: attributes_for(:user) }
+      subject { post :create, params: { user: attributes_for(:user) } }
       it 'should create the user' do
         expect { subject }.to change(User, :count).by 1
       end
@@ -63,14 +63,11 @@ describe UsersController, type: :controller do
     end
 
     context 'when invalid' do
-      subject { post :create, user: { name: '' } }
+      subject { post :create, params: { user: { name: '' } } }
 
       it 'should not create a user' do
         expect { subject }.to_not change(User, :count)
-      end
-
-      it 'should render the new user template' do
-        expect(subject).to render_template :new
+        expect(response).to have_http_status :unprocessable_entity
       end
     end
   end
@@ -78,7 +75,7 @@ describe UsersController, type: :controller do
   describe 'PATCH default_group' do
     include_context 'basic user'
     let(:user) { controller.current_user }
-    subject { patch :default_group, id: user, user_group: @user_group  }
+    subject { patch :default_group, params: { id: user, user_group: @user_group.id } }
 
     it 'should set that user group as the default for the user' do
       @user_group = create(:user_group)
@@ -92,15 +89,17 @@ describe UsersController, type: :controller do
 
   describe 'PATCH update' do
     include_context 'basic user'
+    let(:user) { controller.current_user }
 
     it 'should update the user when valid' do
-      patch :update, id: controller.current_user, user: { name: 'Updated User' }
-      expect(controller.current_user.reload.name).to eq 'Updated User'
+      patch :update, params: { id: user, user: { name: 'Updated User' } }
+      expect(user.reload.name).to eq 'Updated User'
     end
 
     it 'should render edit when invalid' do
-      patch :update, id: controller.current_user, user: { name: '' }
-      expect(response).to render_template :edit
+      patch :update, params: { id: user, user: { name: '' } }
+      expect(response).to have_http_status :unprocessable_entity
+      expect(user.name).to eq user.reload.name
     end
   end
 end

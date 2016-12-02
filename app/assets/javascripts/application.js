@@ -6,24 +6,24 @@
 //= require jquery_ujs
 //= require highcharts.min
 //= require underscore.min
-//= require materialize-sprockets
 //= require react
 //= require underscore
-//= require react_ujs
 //= require dropzone
 //= require moment
+//= require turbolinks
+//= require react_ujs
+//= require materialize-sprockets
 
 // =============================
 // Page Scripts
 // =============================
 
 //= require_tree ./mixins
+//= require errors
 //= require components
 //= require_tree ./layouts
 //= require_tree ./helpers
 //= require_tree ./pages
 //= require_tree ./user_groups
 
-$(document).ready(function() {
-    Dropzone.autoDiscover = false;
-});
+document.addEventListener('turbolinks:load', () => Dropzone.autoDiscover = false);

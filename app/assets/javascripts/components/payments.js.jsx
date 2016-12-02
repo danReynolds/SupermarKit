@@ -17,7 +17,7 @@ var Payments = React.createClass({
 
     componentDidMount: function() {
         this.updatePagination(this.state.payments.length);
-        $(document).ready(function() {
+        document.addEventListener('turbolinks:load', () => {
             $('.collapsible').collapsible({ accordion: false });
         })
     },

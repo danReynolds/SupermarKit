@@ -3,14 +3,15 @@
   %head
     %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}
     %meta{name: "description", content: "We're a grocery app made in Waterloo. You eat over 82125 times, we can help with that."}
+    %link{href: "https://fonts.googleapis.com/icon?family=Material+Icons", rel: "stylesheet", type: "text/css"}
+    %link{href: "https://fonts.googleapis.com/css?family=Oxygen:400,300", rel: "stylesheet", type: "text/css"}
     %title SupermarKit
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places&key=#{ENV['GOOGLE_MAPS_KEY']}"
     = javascript_include_tag 'application'
     = csrf_meta_tags
     = favicon_link_tag 'favicon.ico'
+    = yield :head
 
-    %link{href: "https://fonts.googleapis.com/icon?family=Material+Icons", rel: "stylesheet", type: "text/css"}
-    %link{href: "https://fonts.googleapis.com/css?family=Oxygen:400,300", rel: "stylesheet", type: "text/css"}
   %body{class: "#{controller_name} #{action_name}"}
     = render partial: 'layouts/main'

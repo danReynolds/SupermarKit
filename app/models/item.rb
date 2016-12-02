@@ -1,4 +1,4 @@
-class Item < ActiveRecord::Base
+class Item < ApplicationRecord
   has_many :groceries_items, class_name: GroceriesItems, inverse_of: :item
   has_many :groceries, through: :groceries_items
   has_many :user_groups, through: :groceries
