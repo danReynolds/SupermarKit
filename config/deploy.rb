@@ -2,6 +2,7 @@
 # Change these
 server '104.131.74.158', roles: [:web, :app, :db], primary: true
 
+set :rvm_ruby_version, '2.3.0'
 set :repo_url,        'git@github.com:danReynolds/softgroceries.git'
 set :application,     'SupermarKit'
 set :user,            'deploy'
