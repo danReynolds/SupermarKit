@@ -181,8 +181,12 @@ var ItemList = React.createClass({
         this.setState({paginationAlwaysShow: true});
         var _this = this;
         _this.reloadItems();
-        $('.item-list').on('removeItem', '.dismissable', function(e) {
-            _this.handleRemove(e);
+
+    },
+
+    componentDidMount: function() {
+        $('.item-list').on('removeItem', '.dismissable', (e) => {
+            this.handleRemove(e);
         });
     },
 
