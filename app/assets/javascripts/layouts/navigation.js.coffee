@@ -1,2 +1,0 @@
-$ ->
-  $('.button-collapse').sideNav()
