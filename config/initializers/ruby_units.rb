@@ -14,9 +14,9 @@ INTERNAL_UNIT_TYPES = %w(
   ounce
   gram
   metric-ton
-  milligram
+  mgram
   kilogram
-  milliliter
+  mliter
   fluid-ounce
 ).each do |unit_type|
   Unit.redefine!(unit_type) do |unit|
