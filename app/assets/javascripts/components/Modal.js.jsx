@@ -22,7 +22,7 @@ var Modal = React.createClass({
             fields: this.props.input.fields,
             results: [],
             backspaceTarget: null,
-            getResults: _.debounce(this.getResults, 300),
+            getResults: _.debounce(this.getResults, 100),
             selection: _.clone(this.props.selection)
         };
     },
