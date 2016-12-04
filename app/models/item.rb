@@ -1,4 +1,5 @@
 class Item < ApplicationRecord
+  before_validation :format_name
   has_many :groceries_items, class_name: GroceriesItems, inverse_of: :item
   has_many :groceries, through: :groceries_items
   has_many :user_groups, through: :groceries
@@ -12,5 +13,11 @@ class Item < ApplicationRecord
 
   def grocery_item(grocery)
     groceries_items.find_by_grocery_id(grocery.id)
+  end
+
+  private
+
+  def format_name
+    name.en.singularize.capitalize
   end
 end

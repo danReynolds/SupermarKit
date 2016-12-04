@@ -48,6 +48,10 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_model_serializers (0.10.3)
+      actionpack (>= 4.1, < 6)
+      activemodel (>= 4.1, < 6)
+      jsonapi (= 0.1.1.beta2)
     active_record_union (1.2.0)
       activerecord (>= 4.0)
     activejob (5.0.0.1)
@@ -237,6 +241,8 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.3)
+    jsonapi (0.1.1.beta2)
+      json (~> 1.8)
     jwt (1.5.6)
     kramdown (1.13.1)
     linguistics (2.1.0)
@@ -467,6 +473,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   active_record_union
   amatch
   aws-sdk
