@@ -194,8 +194,8 @@ class GroceriesController < ApplicationController
   def itemlist_params
     {
       grocery: {
-        name: @grocery.name,
         id: @grocery.id,
+        name: @grocery.name,
         url: update_items_grocery_path(@grocery)
       },
       items: {
