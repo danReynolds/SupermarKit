@@ -109,7 +109,7 @@ var Recipes = React.createClass({
                 recipe = response[0];
                 additionalRecipeData[recipe.id] = {
                     url: recipe.source.sourceRecipeUrl,
-                    ingredientLines: recipe.ingredientLines
+                    ingredientDescriptions: recipe.ingredientLines
                 };
             });
 
@@ -129,7 +129,7 @@ var Recipes = React.createClass({
                                     rating: selected.rating,
                                     timeInSeconds: selected.timeInSeconds,
                                     external_id: selected.externalId,
-                                    items: selected.ingredients,
+                                    ingredients: selected.ingredients,
                                     ...additionalRecipeData[recipe.id]
                                 };
                             }
@@ -144,7 +144,7 @@ var Recipes = React.createClass({
                         _this.state.modal,
                         {
                             selection: {
-                                $set: response.data
+                                $set: response
                             },
                             openWithSelection: {
                                 $set: []
