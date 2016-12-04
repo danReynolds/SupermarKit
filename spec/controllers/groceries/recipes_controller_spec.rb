@@ -57,6 +57,7 @@ describe Groceries::RecipesController, type: :controller do
         grocery_params[:recipes] << {
           name: 'new recipe',
           url: 'http://newrecipe.com',
+          external_id: 'recipe-external-id',
           ingredients: [
             'Ground pepper',
             'Potato',
