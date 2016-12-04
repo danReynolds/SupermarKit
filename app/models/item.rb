@@ -18,6 +18,6 @@ class Item < ApplicationRecord
   private
 
   def format_name
-    name.en.singularize.capitalize
+    self.name = name.en.singularize.capitalize
   end
 end
