@@ -3,5 +3,6 @@ class Recipe < ApplicationRecord
   has_many :items, through: :items_recipes
   has_and_belongs_to_many :groceries
 
-  validates_uniqueness_of :external_id
+  validates :external_id, uniqueness: true, presence: true
+  validates :name, uniqueness: true, presence: true
 end
