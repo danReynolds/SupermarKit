@@ -271,7 +271,7 @@ private
       message_types: CONFIGURABLES[:slack_messages].map do |message_data|
         message_data.dup.tap do |message|
           if slack_message = slack_messages.find_by_message_type(message_data[:id])
-            message.merge(slack_message.as_json
+            message.merge!(slack_message.as_json
               .with_indifferent_access.slice(:format, :enabled))
           end
           message[:enabled] ||= false
