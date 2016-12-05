@@ -24,15 +24,19 @@ Rails.application.routes.draw do
   shallow do
     resources :user_groups do
       resources :groceries, except: [:update, :index, :edit] do
+        resources :recipes, module: :groceries, only: [:index] do
+          collection do
+            patch :update
+          end
+        end
         resources :items, only: [:index, :update] do
           collection do
             get :auto_complete
           end
         end
         member do
-          get :recipes
           get :checkout
-          get :receipt
+          patch :receipt
           patch :do_checkout
           patch :update_items
           patch :update_recipes
