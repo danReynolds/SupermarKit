@@ -1,6 +1,7 @@
 class Groceries::ReceiptsController < ApplicationController
   include Matcher
-  load_and_authorize_resource :grocery
+  include SplitController
+  initialize_split_controller(:grocery)
 
   TOTAL_KEYWORDS = ['Total', 'Subtotal', 'Balance', 'Debit tend'].freeze
 
