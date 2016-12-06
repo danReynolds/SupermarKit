@@ -29,6 +29,7 @@ Rails.application.routes.draw do
             patch :update
           end
         end
+        resources :receipts, module: :groceries, only: [:create]
         resources :items, only: [:index, :update] do
           collection do
             get :auto_complete
@@ -39,10 +40,8 @@ Rails.application.routes.draw do
           patch :receipt
           patch :do_checkout
           patch :update_items
-          patch :update_recipes
           patch :update_store
           post :email_group
-          post :upload_receipt
           post :confirm_receipt
         end
       end
