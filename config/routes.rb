@@ -36,6 +36,7 @@ Rails.application.routes.draw do
           end
         end
         member do
+          get :receipt
           get :checkout
           patch :receipt
           patch :do_checkout
