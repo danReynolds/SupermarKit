@@ -37,10 +37,10 @@ var Receipt = React.createClass({
         }.bind(this));
 
         dropzone.on('success', function(file, response) {
-            this.updatePagination(response.data.matches.length);
+            this.updatePagination(response.matches.length);
             this.setState({
-                matches: response.data.matches,
-                total: response.data.total,
+                matches: response.matches,
+                total: response.total,
                 loading: false
             });
         }.bind(this));
@@ -180,7 +180,7 @@ var Receipt = React.createClass({
             contentType: 'application/json',
             url: this.props.confirm_url
         }).then(function(response) {
-            var uploader_id = response.data.uploader_id;
+            var uploader_id = response.uploader_id;
             window.location = `${this.props.checkout_url}?uploader_id=${uploader_id}&total=${this.state.total}`
         }.bind(this))
     },

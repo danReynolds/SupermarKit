@@ -1,6 +1,7 @@
 class Groceries::RecipesController < ApplicationController
   include Matcher
-  load_and_authorize_resource :grocery
+  include SplitController
+  initialize_split_controller(:grocery)
 
   def update
     recipes = grocery_recipe_params.map do |recipe_params|
