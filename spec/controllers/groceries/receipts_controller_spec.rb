@@ -17,10 +17,9 @@ describe Groceries::ReceiptsController, type: :controller do
     }
 
     before :each do
-      file = double('file')
-      allow(file).to receive(:path) {}
-      allow_any_instance_of(Groceries::ReceiptsController).to receive(:open).and_return(file)
-      allow_any_instance_of(Tesseract::Engine).to receive(:text_for).and_return(processed_receipt)
+      engine = double('Tesseract::Engine', text_for: processed_receipt)
+      allow(Tesseract::Engine).to receive(:new).and_return(engine)
+      allow(Kernel).to receive(:open).and_return(double('file', path: nil))
     end
 
     context 'with matching item on list' do

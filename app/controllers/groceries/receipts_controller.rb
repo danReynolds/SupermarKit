@@ -1,13 +1,16 @@
 class Groceries::ReceiptsController < ApplicationController
   include Matcher
   include SplitController
+  include ReceiptProcessor
   initialize_split_controller(:grocery)
 
   TOTAL_KEYWORDS = ['Total', 'Subtotal', 'Balance', 'Debit tend'].freeze
 
   def create
-    @grocery.update!({ receipt: params[:file] })
-    match_results = find_matches(process_receipt)
+    @grocery.update!(receipt: params[:file])
+    match_results = find_matches(
+      ReceiptProcessor.new(@grocery.receipt.url).process
+    )
     render json: render_matches(match_results)
   end
 
@@ -50,20 +53,5 @@ class Groceries::ReceiptsController < ApplicationController
         end
       end
     end
-  end
-
-  def process_receipt
-    # Initialize Tesseract with English, only capital letters
-    engine = Tesseract::Engine.new do |e|
-      e.path = '/usr/local/share'
-      e.language  = :en
-      e.blacklist = ['|']
-    end
-
-    # Retrieve the cleaned file from Amazon and process its text
-    file = open(@grocery.receipt.url)
-    engine.text_for(file.path).strip.split("\n")
-      .map { |line| line.match(/((?:[A-za-z]+\s)+).*?(\d*\.\d+)/) }
-      .compact.map(&:captures)
   end
 end
