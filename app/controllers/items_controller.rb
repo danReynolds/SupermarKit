@@ -1,33 +1,16 @@
 class ItemsController < ApplicationController
   extend HappyPath
+  include ActiveModelSerializers
   follow_happy_paths
   load_and_authorize_resource :grocery
   load_and_authorize_resource :item, through: :grocery, shallow: true
 
-  def index
-    render json: {
-      data: items_data
-    }
-  end
-
   def update
     grocery_item = @item.grocery_item(@grocery)
-    previous_item_values = {
-      price: grocery_item.price_or_estimated.format(symbol: false).to_f
-    }
-
     @item.update!(item_params)
-    grocery_item.reload
     render json: {
-      data: {
-        previous_item_values: previous_item_values,
-        updated_item_values: {
-          quantity: grocery_item.reload.quantity.to_f,
-          units: grocery_item.units,
-          display_name: grocery_item.display_name,
-          price: grocery_item.price_or_estimated.format(symbol: false).to_f
-        }
-      }
+      grocery_item: SerializableResource.new(grocery_item).as_json,
+      updated_grocery_item: SerializableResource.new(grocery_item.reload).as_json
     }
   end
 

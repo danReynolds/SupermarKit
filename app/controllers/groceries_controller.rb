@@ -142,7 +142,7 @@ class GroceriesController < ApplicationController
       grocery: {
         id: @grocery.id,
         name: @grocery.name,
-        url: update_items_grocery_path(@grocery)
+        url: grocery_items_path(@grocery)
       },
       items: {
         url: grocery_items_path(@grocery),
@@ -246,10 +246,6 @@ class GroceriesController < ApplicationController
 
   def grocery_params
     params.require(:grocery).permit(:name, :description)
-  end
-
-  def grocery_item_params
-    params.require(:grocery).permit(items: [:id, :quantity, :price, :units, :name])
   end
 
   def grocery_payment_params
