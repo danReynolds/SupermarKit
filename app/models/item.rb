@@ -15,9 +15,13 @@ class Item < ApplicationRecord
     groceries_items.find_by_grocery_id(grocery.id)
   end
 
+  def self.format_name(name)
+    name.en.singularize.capitalize
+  end
+
   private
 
   def format_name
-    self.name = name.en.singularize.capitalize
+    self.name = Item.format_name(name)
   end
 end
