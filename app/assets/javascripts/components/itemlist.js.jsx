@@ -137,13 +137,18 @@ var ItemList = React.createClass({
             method: 'PATCH',
             data: JSON.stringify({
                 grocery: {
-                    items: selection.map(function(item) {
+                    items: selection.map(selected => {
+                        const { grocery: { id: groceryId } } = this.props;
                         return {
-                            name: item.name,
-                            id: item.id,
-                            quantity: item.quantity,
-                            price: item.price,
-                            units: item.units
+                            id: selected.id,
+                            name: selected.name,
+                            groceries_items_attributes: selected.grocery_item || {
+                                quantity: selected.quantity,
+                                price: selected.price,
+                                units: selected.units,
+                                grocery_id: groceryId,
+                                id: null,
+                            },
                         }
                     })
                 }

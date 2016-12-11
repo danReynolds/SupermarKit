@@ -8,39 +8,36 @@ class Groceries::ItemsController < ApplicationController
   end
 
   def update
-    items_params = grocery_items_params[:items]
-    existing_groceries_items = @grocery.groceries_items
+    items = @grocery.items
     existing_items = Item.accessible_by(current_ability)
-
-    updated_groceries_items = items_params.map do |item_params|
-      create_or_update_grocery_item(
-        existing_groceries_items,
-        existing_items,
-        item_params
-      )
+    updated_items = grocery_items_params[:items].map do |item_params|
+      item_params[:groceries_items_attributes][:requester_id] ||= current_user.id
+      existing_items.find_or_create_by(
+        name: Item.format_name(item_params[:name])
+      ).tap do |item|
+        item.update!(item_params)
+      end
     end
-    GroceriesItems.delete(existing_groceries_items - updated_groceries_items)
-
+    @grocery.items.delete(items - updated_items)
     head :ok
   end
 
   private
 
-  def create_or_update_grocery_item(groceries_items, items, item_params)
-    groceries_items.find_or_create_by(
-      grocery: @grocery,
-      item: items.find_or_create_by(name: item_params[:name])
-    ).tap do |grocery_item|
-      grocery_item.update!(
-        item_params.slice(:quantity, :price, :units).merge({
-          requester_id: grocery_item.requester_id || current_user.id
-        }).to_h
-      )
-    end
-  end
-
   def grocery_items_params
-    params.require(:grocery)
-      .permit(items: [:id, :quantity, :price, :units, :name])
+    params.require(:grocery).permit(
+      items: [
+        :id,
+        :name,
+        groceries_items_attributes: [
+          :id,
+          :quantity,
+          :price,
+          :units,
+          :requester_id,
+          :grocery_id
+        ]
+      ]
+    )
   end
 end
