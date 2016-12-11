@@ -4,26 +4,6 @@ require 'support/basic_user'
 RSpec.describe ItemsController, type: :controller do
   include_context 'basic user'
 
-  describe 'GET index' do
-    subject { get :index, params: { grocery_id: grocery } }
-
-    it 'should return all items for the grocery' do
-      subject
-      items = JSON.parse(response.body)['data']['items']
-      expect(items.length).to eq grocery.items.length
-    end
-
-    it "should return the total cost of the grocery's items" do
-      subject
-      returned_total = JSON.parse(response.body)['data']['total']
-      expected_total = grocery.items.inject(0) do |acc, item|
-        acc + item.grocery_item(grocery).price_or_estimated.to_f
-      end
-
-      expect(returned_total).to eq expected_total
-    end
-  end
-
   describe 'PATCH update' do
     let(:item) { grocery.items.last }
     let(:grocery_item) { item.grocery_item(grocery) }
@@ -53,13 +33,17 @@ RSpec.describe ItemsController, type: :controller do
     end
 
     it 'should successfully return the old and updated values' do
+      grocery_item = item.grocery_item(grocery)
       subject
-      expect(JSON.parse(response.body)['data']['previous_item_values'])
-        .to eq controller.send(:format_item, grocery_item)
-        .slice(:price).with_indifferent_access
-      expect(JSON.parse(response.body)['data']['updated_item_values'])
-        .to eq controller.send(:format_item, grocery_item.reload)
-        .slice(:price, :quantity, :display_name, :units).with_indifferent_access
+      body = JSON.parse(response.body)
+      expect(body['grocery_item']).to eq(
+        ActiveModelSerializers::SerializableResource.new(grocery_item).as_json
+          .with_indifferent_access
+      )
+      expect(body['updated_grocery_item']).to eq(
+        ActiveModelSerializers::SerializableResource.new(grocery_item.reload)
+          .as_json.with_indifferent_access
+      )
     end
   end
 

@@ -37,7 +37,9 @@ var ItemList = React.createClass({
                 {
                     selection: {
                         [index]: {
-                            [field]: {$set: value}
+                            grocery_item: {
+                                [field]: {$set: value}
+                            }
                         }
                     }
                 }
@@ -55,7 +57,8 @@ var ItemList = React.createClass({
     },
 
     updateItem: function(index) {
-        var item = this.state.modal.selection[index];
+        const item = this.state.modal.selection[index];
+        const { grocery_item } = item;
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -63,22 +66,21 @@ var ItemList = React.createClass({
                 id: item.id,
                 item: {
                     groceries_items_attributes: {
-                        id: item.grocery_item_id,
-                        quantity: item.quantity,
-                        price: item.price,
-                        units: item.units
+                        id: grocery_item.id,
+                        quantity: grocery_item.quantity,
+                        price: grocery_item.price,
+                        units: grocery_item.units
                     }
                 }
             }),
             dataType: 'json',
             contentType: 'application/json',
-            url: item.url
+            url: item.links.self
         }).done(function(response) {
             let {
-                previous_item_values,
-                updated_item_values
-            } = response.data
-
+                grocery_item,
+                updated_grocery_item,
+            } = response;
             this.setState(
                 React.addons.update(
                     this.state,
@@ -86,13 +88,12 @@ var ItemList = React.createClass({
                         modal: {
                             selection: {
                                 [index]: {
-                                    $merge: updated_item_values
+                                    grocery_item: {
+                                        $merge: updated_grocery_item
+                                    }
                                 }
                             }
                         },
-                        total: {
-                            $set: this.state.total + updated_item_values.price - previous_item_values.price
-                        }
                     }
                 )
             );
@@ -136,13 +137,18 @@ var ItemList = React.createClass({
             method: 'PATCH',
             data: JSON.stringify({
                 grocery: {
-                    items: selection.map(function(item) {
+                    items: selection.map(selected => {
+                        const { grocery: { id: groceryId } } = this.props;
                         return {
-                            name: item.name,
-                            id: item.id,
-                            quantity: item.quantity,
-                            price: item.price,
-                            units: item.units
+                            id: selected.id,
+                            name: selected.name,
+                            groceries_items_attributes: selected.grocery_item || {
+                                quantity: selected.quantity,
+                                price: selected.price,
+                                units: selected.units,
+                                grocery_id: groceryId,
+                                id: null,
+                            },
                         }
                     })
                 }
@@ -162,14 +168,11 @@ var ItemList = React.createClass({
                     {
                         modal: {
                             selection: {
-                                $set: response.data.items
+                                $set: response
                             },
                             loading: {
                                 $set: false
                             }
-                        },
-                        total: {
-                            $set: response.data.total
                         }
                     }
                 )
@@ -201,6 +204,15 @@ var ItemList = React.createClass({
             this.initializeAutocomplete(this.props.items.unit_types);
         }
 
+        if (prevState.modal.selection !== modal.selection) {
+            this.setState({
+                total: modal.selection.reduce((acc, selected) => {
+                    const { grocery_item: { price } } = selected;
+                    return acc + price;
+                }, 0)
+            });
+        }
+
         if (prevState.modal.selection.length != modal.selection.length) {
             this.updatePagination(modal.selection.length);
         }
@@ -210,7 +222,7 @@ var ItemList = React.createClass({
         var displayItems = this.itemsForPage(
             this.state.modal.selection.reduce(function(acc, item, index) {
                 var requester = this.state.users.filter(function(user) {
-                    return user.id === item.requester;
+                    return user.id === item.grocery_item.requester_id;
                 })[0];
 
                 if (requester) {
@@ -224,6 +236,7 @@ var ItemList = React.createClass({
             var quantityId = "quantity-" + data.index;
             var priceId = "price-" + data.index;
             var unitsId = "units-" + data.index;
+            const { item, item: { grocery_item } } = data;
             return (
                 <li key={'item-' + data.index}
                     ref={'item-' + data.index}
@@ -232,10 +245,10 @@ var ItemList = React.createClass({
                     <div ref={'collapsible-' + data.index} className='collapsible-header'>
                         <img src={data.requester.image} />
                         <p>
-                            <strong>{data.requester.name}</strong> wants <strong>{data.item.display_name}</strong>
+                            <strong>{data.requester.name}</strong> wants <strong>{grocery_item.display_name}</strong>
                         </p>
                         <div className='badge price'>
-                            ${parseFloat(data.item.price).toFixed(2)}
+                            ${parseFloat(grocery_item.price).toFixed(2)}
                         </div>
                     </div>
                     <div  className='collapsible-body'>
@@ -248,7 +261,7 @@ var ItemList = React.createClass({
                                     data-field="quantity"
                                     type="number"
                                     step="any"
-                                    value={data.item.quantity} />
+                                    value={grocery_item.quantity} />
                             </div>
                             <div className="col s3">
                                 <label htmlFor={priceId}>Price</label>
@@ -258,7 +271,7 @@ var ItemList = React.createClass({
                                     type="number"
                                     data-field="price"
                                     step="any"
-                                    value={data.item.price} />
+                                    value={grocery_item.price} />
                             </div>
                             <div className="col l3 s3">
                                 <label htmlFor={unitsId}>Units</label>
@@ -268,7 +281,7 @@ var ItemList = React.createClass({
                                     id={unitsId}
                                     type="text"
                                     data-field="units"
-                                    value={data.item.units || ''} />
+                                    value={grocery_item.units || ''} />
                             </div>
                             <a
                                 data-no-turbolink

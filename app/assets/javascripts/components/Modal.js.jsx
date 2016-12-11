@@ -106,7 +106,7 @@ var Modal = React.createClass({
 
     addToSelection: function(index) {
         var fieldValues = this.state.fields.reduce(function(acc, field) {
-            if (field.name !== this.props.input.queryField && field.value) {
+            if (field.name !== this.props.input.queryField) {
                 acc[field.name] = field.value;
             }
             return acc;

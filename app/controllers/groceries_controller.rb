@@ -29,33 +29,6 @@ class GroceriesController < ApplicationController
   def edit
   end
 
-  def update_items
-    all_item_params = grocery_item_params[:items] || []
-    existing_items = Item.accessible_by(current_ability)
-      .where(id: all_item_params.map { |i| i[:id] })
-    existing_grocery_items = GroceriesItems.where(grocery: @grocery)
-
-    items = all_item_params.map do |item_params|
-      existing_items.find_or_create_by(
-        name: item_params[:name]
-      ).tap do |item|
-        grocery_item = existing_grocery_items.find_or_create_by(
-          item: item,
-          grocery: @grocery
-        )
-        grocery_item.update!(
-          item_params.slice(:quantity, :price, :units).merge({
-            requester_id: grocery_item.requester_id || current_user.id,
-            units: item_params[:units]
-          }).to_h
-        )
-      end
-    end
-    @grocery.items.delete(@grocery.items - items)
-
-    head :ok
-  end
-
   def receipt
     @receipt_data = {
       token: form_authenticity_token,
@@ -142,7 +115,7 @@ class GroceriesController < ApplicationController
       grocery: {
         id: @grocery.id,
         name: @grocery.name,
-        url: update_items_grocery_path(@grocery)
+        url: grocery_items_path(@grocery)
       },
       items: {
         url: grocery_items_path(@grocery),
@@ -240,16 +213,8 @@ class GroceriesController < ApplicationController
     end
   end
 
-  def find_items(ids)
-    ids.split(',').flat_map { |id| Item.find(id) }
-  end
-
   def grocery_params
     params.require(:grocery).permit(:name, :description)
-  end
-
-  def grocery_item_params
-    params.require(:grocery).permit(items: [:id, :quantity, :price, :units, :name])
   end
 
   def grocery_payment_params
