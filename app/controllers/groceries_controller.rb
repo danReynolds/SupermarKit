@@ -29,33 +29,6 @@ class GroceriesController < ApplicationController
   def edit
   end
 
-  def update_items
-    all_item_params = grocery_item_params[:items] || []
-    existing_items = Item.accessible_by(current_ability)
-      .where(id: all_item_params.map { |i| i[:id] })
-    existing_grocery_items = GroceriesItems.where(grocery: @grocery)
-
-    items = all_item_params.map do |item_params|
-      existing_items.find_or_create_by(
-        name: item_params[:name]
-      ).tap do |item|
-        grocery_item = existing_grocery_items.find_or_create_by(
-          item: item,
-          grocery: @grocery
-        )
-        grocery_item.update!(
-          item_params.slice(:quantity, :price, :units).merge({
-            requester_id: grocery_item.requester_id || current_user.id,
-            units: item_params[:units]
-          }).to_h
-        )
-      end
-    end
-    @grocery.items.delete(@grocery.items - items)
-
-    head :ok
-  end
-
   def receipt
     @receipt_data = {
       token: form_authenticity_token,
@@ -238,10 +211,6 @@ class GroceriesController < ApplicationController
       user_data[:balance] = user_group_user.balance.to_f if balance
       user_data
     end
-  end
-
-  def find_items(ids)
-    ids.split(',').flat_map { |id| Item.find(id) }
   end
 
   def grocery_params

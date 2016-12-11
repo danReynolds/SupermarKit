@@ -46,7 +46,6 @@ Rails.application.routes.draw do
           get :checkout
           patch :receipt
           patch :do_checkout
-          patch :update_items
           patch :update_store
           post :email_group
           post :confirm_receipt
