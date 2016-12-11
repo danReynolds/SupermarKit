@@ -10,14 +10,15 @@ class Groceries::ItemsController < ApplicationController
   def update
     items = @grocery.items
     existing_items = Item.accessible_by(current_ability)
+
     updated_items = grocery_items_params[:items].map do |item_params|
       item_params[:groceries_items_attributes][:requester_id] ||= current_user.id
-      existing_items.find_or_create_by(
-        name: Item.format_name(item_params[:name])
-      ).tap do |item|
+      item_params[:name] = Item.format_name(item_params[:name])
+      existing_items.find_or_create_by(name: item_params[:name]).tap do |item|
         item.update!(item_params)
       end
     end
+
     @grocery.items.delete(items - updated_items)
     head :ok
   end
