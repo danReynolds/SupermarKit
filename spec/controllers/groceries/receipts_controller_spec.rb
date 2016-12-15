@@ -4,6 +4,7 @@ require 'support/routes'
 
 describe Groceries::ReceiptsController, type: :controller do
   include_context 'basic user'
+  it_should_behave_like 'routes', show: {}
 
   describe 'POST create' do
     let(:subject) { post :create, params: { grocery_id: grocery.id } }

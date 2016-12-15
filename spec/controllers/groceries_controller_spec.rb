@@ -10,7 +10,6 @@ describe GroceriesController, type: :controller do
   it_should_behave_like 'routes', {
     new: { user_group_id: true },
     show: { id: true },
-    receipt: { id: true }
   }
 
   describe 'POST create' do

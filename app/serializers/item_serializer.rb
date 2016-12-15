@@ -10,7 +10,7 @@ class ItemSerializer < ActiveModel::Serializer
   end
 
   def with_link?
-    instance_options[:with_link].present?
+    instance_options[:with_link]
   end
 
   def links
