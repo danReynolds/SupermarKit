@@ -23,6 +23,12 @@ var Checkout = React.createClass({
         };
     },
 
+    componentDidMount: function() {
+        document.addEventListener('turbolinks:load', setTimeout(() => (
+            Materialize.updateTextFields()
+        ), 1));
+    },
+
     getIndex: function(e) {
         return parseInt($(e.target).closest('li').data('index'));
     },
