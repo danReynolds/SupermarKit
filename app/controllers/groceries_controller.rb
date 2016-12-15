@@ -8,7 +8,7 @@ class GroceriesController < ApplicationController
   def show
     @dashboard = {
       recipeLength: @grocery.recipes.length,
-      receipt_url: receipt_grocery_path(@grocery),
+      receipt_url: grocery_receipts_path(@grocery),
       manage_url: user_group_path(@grocery.user_group),
       itemList: itemlist_params,
       emailer: emailer_params,

@@ -10,7 +10,7 @@ class Groceries::ReceiptsController < ApplicationController
     @receipt_data = {
       token: form_authenticity_token,
       url: grocery_receipts_path(@grocery),
-      confirm_url: confirm_receipt_grocery_path(@grocery),
+      confirm_url: confirm_grocery_receipts_path(@grocery),
       checkout_url: checkout_grocery_path(@grocery)
     }
   end
