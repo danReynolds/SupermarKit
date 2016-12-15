@@ -10,7 +10,6 @@ describe GroceriesController, type: :controller do
   it_should_behave_like 'routes', {
     new: { user_group_id: true },
     show: { id: true },
-    receipt: { id: true }
   }
 
   describe 'POST create' do
@@ -20,7 +19,11 @@ describe GroceriesController, type: :controller do
         description: 'Test'
       }
     }
-    subject { post :create, params: { grocery: grocery_params, user_group_id: user_group } }
+    subject do
+      post :create, params: {
+        grocery: grocery_params, user_group_id: user_group
+      }
+    end
 
     context 'grocery is valid' do
       it 'should create a new grocery' do
@@ -30,62 +33,7 @@ describe GroceriesController, type: :controller do
       it 'should set the default group if nil' do
         expect(controller.current_user.default_group).to be_nil
         subject
-        expect(controller.current_user.default_group).to eq user_group
-      end
-    end
-  end
-
-  describe 'POST confirm_receipt' do
-    let(:subject) { patch :confirm_receipt, params: { id: grocery.id, grocery: grocery_params } }
-    let(:grocery_params) {
-      {
-        matches: [
-          {
-            name: 'Bacon',
-            price: 4.00
-          }
-        ]
-      }
-    }
-
-    it "should return the uploader's id as the payer" do
-      subject
-      expect(JSON.parse(response.body)).to eq({
-        data: {
-          uploader_id: controller.current_user.id
-        }
-      }.with_indifferent_access)
-    end
-
-    context 'with an existing item' do
-      let (:name) { 'Bacon' }
-      let(:item) { create(:item, name: name) }
-      context 'with the item on the grocery list' do
-        it 'should set the price of the item to the match price' do
-          grocery.items << item
-          subject
-          expect(item.grocery_item(grocery).price).to eq 4.00.to_money
-        end
-      end
-
-      context 'with the item not on the grocery list' do
-        it 'should add the item to the list with the correct price' do
-          expect(grocery.items.find_by_id(item.id)).to eq nil
-          subject
-          expect(item.grocery_item(grocery).price).to eq 4.00.to_money
-          expect(grocery.items.find_by_name(name)).to eq item
-        end
-      end
-    end
-
-    context 'without an existing item' do
-      it 'should create the item and add it to the grocery list with the correct price' do
-        name = 'Bacon'
-        expect(Item.find_by_name(name)).to eq nil
-        subject
-        item = Item.find_by_name(name)
-        expect(item.grocery_item(grocery).price).to eq 4.00.to_money
-        expect(grocery.items.find_by_name(name)).to eq item
+        expect(controller.current_user.reload.default_group).to eq user_group
       end
     end
   end

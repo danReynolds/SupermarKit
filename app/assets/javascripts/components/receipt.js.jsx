@@ -36,11 +36,11 @@ var Receipt = React.createClass({
             this.setState({ loading: true });
         }.bind(this));
 
-        dropzone.on('success', function(file, response) {
-            this.updatePagination(response.matches.length);
+        dropzone.on('success', function(file, matches) {
+            this.updatePagination(matches.list.length);
             this.setState({
-                matches: response.matches,
-                total: response.total,
+                matches: matches.list,
+                total: matches.total,
                 loading: false
             });
         }.bind(this));

@@ -8,7 +8,7 @@ class GroceriesController < ApplicationController
   def show
     @dashboard = {
       recipeLength: @grocery.recipes.length,
-      receipt_url: receipt_grocery_path(@grocery),
+      receipt_url: grocery_receipts_path(@grocery),
       manage_url: user_group_path(@grocery.user_group),
       itemList: itemlist_params,
       emailer: emailer_params,
@@ -18,8 +18,8 @@ class GroceriesController < ApplicationController
   end
 
   def create
-    if @grocery.save
-      current_user.default_group = @user_group unless current_user.default_group
+    current_user.default_group = @user_group unless current_user.default_group
+    if @grocery.save && current_user.save
       redirect_to @grocery
     else
       render json: @grocery.errors, status: :unprocessable_entity
@@ -27,30 +27,6 @@ class GroceriesController < ApplicationController
   end
 
   def edit
-  end
-
-  def receipt
-    @receipt_data = {
-      token: form_authenticity_token,
-      url: grocery_receipts_path(@grocery),
-      confirm_url: confirm_receipt_grocery_path(@grocery),
-      checkout_url: checkout_grocery_path(@grocery)
-    }
-  end
-
-  def confirm_receipt
-    grocery_confirm_receipt_params[:matches].each do |match|
-      item = Item.find_or_create_by(name: match[:name])
-      unless @grocery.items.find_by_id(item.id)
-        @grocery.items << item
-        item.grocery_item(@grocery).update!(requester: current_user)
-      end
-      item.grocery_item(@grocery).update!(price: match[:price])
-    end
-
-    render json: {
-      data: { uploader_id: current_user.id }
-    }
   end
 
   def checkout
@@ -219,10 +195,6 @@ class GroceriesController < ApplicationController
 
   def grocery_payment_params
     params.require(:grocery).permit(payments: [:user_id, :price])
-  end
-
-  def grocery_confirm_receipt_params
-    params.require(:grocery).permit(matches: [:name, :price])
   end
 
   def grocery_email_params

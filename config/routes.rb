@@ -35,20 +35,23 @@ Rails.application.routes.draw do
             patch :update
           end
         end
-        resources :receipts, module: :groceries, only: [:create]
+        resources :receipts, module: :groceries, only: [:create] do
+          collection do
+            get :show
+            post :confirm
+          end
+        end
         resources :items, only: [:update] do
           collection do
             get :auto_complete
           end
         end
         member do
-          get :receipt
           get :checkout
           patch :receipt
           patch :do_checkout
           patch :update_store
           post :email_group
-          post :confirm_receipt
         end
       end
       member do
