@@ -29,10 +29,10 @@ describe Groceries::ReceiptsController, type: :controller do
         grocery.items << Item.create(name: 'Breed')
 
         subject
-        results = JSON.parse(response.body)
+        matches = JSON.parse(response.body)
 
-        expect(results['total']).to eq 0
-        expect(results['matches'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
+        expect(matches['total']).to eq 0
+        expect(matches['list'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
       end
     end
 
@@ -51,10 +51,10 @@ describe Groceries::ReceiptsController, type: :controller do
         Item.create(name: 'Bacon')
 
         subject
-        results = JSON.parse(response.body)
+        matches = JSON.parse(response.body)
 
-        expect(results['total']).to eq 0
-        expect(results['matches'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
+        expect(matches['total']).to eq 0
+        expect(matches['list'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
       end
     end
 
@@ -64,10 +64,10 @@ describe Groceries::ReceiptsController, type: :controller do
         Item.create(name: 'Breed')
 
         subject
-        results = JSON.parse(response.body)
+        matches = JSON.parse(response.body)
 
-        expect(results['total']).to eq 0
-        expect(results['matches'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
+        expect(matches['total']).to eq 0
+        expect(matches['list'].map! { |match| match.slice('name', 'price', 'new') }).to eq expected_matches
       end
     end
 
@@ -83,10 +83,10 @@ describe Groceries::ReceiptsController, type: :controller do
         Item.create(name: Groceries::ReceiptsController::TOTAL_KEYWORDS.first)
 
         subject
-        results = JSON.parse(response.body)
+        matches = JSON.parse(response.body)
 
-        expect(results['total']).to eq 44.45
-        expect(results['matches'].map! { |match| match.slice('name', 'price') }).to eq expected_matches
+        expect(matches['total']).to eq 44.45
+        expect(matches['list'].map! { |match| match.slice('name', 'price') }).to eq expected_matches
       end
     end
 
@@ -103,10 +103,68 @@ describe Groceries::ReceiptsController, type: :controller do
         Item.create(name: Groceries::ReceiptsController::TOTAL_KEYWORDS.first)
 
         subject
-        results = JSON.parse(response.body)
+        matches = JSON.parse(response.body)
 
-        expect(results['total']).to eq 10.40
-        expect(results['matches'].map! { |match| match.slice('name', 'price') }).to eq expected_matches
+        expect(matches['total']).to eq 10.40
+        expect(matches['list'].map! { |match| match.slice('name', 'price') }).to eq expected_matches
+      end
+    end
+  end
+
+  describe 'POST confirm' do
+    let(:subject) do
+      patch :confirm, params: {
+        grocery_id: grocery.id,
+        grocery: grocery_params
+      }
+    end
+    let(:grocery_params) do
+      {
+        matches: [
+          {
+            name: 'Bacon',
+            price: 4.00
+          }
+        ]
+      }
+    end
+
+    it "should return the uploader's id as the payer" do
+      subject
+      expect(JSON.parse(response.body)).to eq({
+        uploader_id: controller.current_user.id
+      }.with_indifferent_access)
+    end
+
+    context 'with an existing item' do
+      let(:name) { 'Bacon' }
+      let(:item) { create(:item, name: name) }
+      context 'with the item on the grocery list' do
+        it 'should set the price of the item to the match price' do
+          grocery.items << item
+          subject
+          expect(item.grocery_item(grocery).price).to eq 4.00.to_money
+        end
+      end
+
+      context 'with the item not on the grocery list' do
+        it 'should add the item to the list with the correct price' do
+          expect(grocery.items.find_by_id(item.id)).to eq nil
+          subject
+          expect(item.grocery_item(grocery).price).to eq 4.00.to_money
+          expect(grocery.items.find_by_name(name)).to eq item
+        end
+      end
+    end
+
+    context 'without an existing item' do
+      it 'should create the item and add it to the grocery list with the correct price' do
+        name = 'Bacon'
+        expect(Item.find_by_name(name)).to eq nil
+        subject
+        item = Item.find_by_name(name)
+        expect(item.grocery_item(grocery).price).to eq 4.00.to_money
+        expect(grocery.items.find_by_name(name)).to eq item
       end
     end
   end
