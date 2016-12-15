@@ -1,5 +1,4 @@
 class GroceriesController < ApplicationController
-  include Matcher
   extend HappyPath
   follow_happy_paths
   load_and_authorize_resource :user_group
