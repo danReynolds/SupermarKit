@@ -18,8 +18,8 @@ class GroceriesController < ApplicationController
   end
 
   def create
-    if @grocery.save
-      current_user.default_group = @user_group unless current_user.default_group
+    current_user.default_group = @user_group unless current_user.default_group
+    if @grocery.save && current_user.save
       redirect_to @grocery
     else
       render json: @grocery.errors, status: :unprocessable_entity
