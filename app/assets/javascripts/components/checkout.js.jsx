@@ -24,6 +24,8 @@ var Checkout = React.createClass({
     },
 
     componentDidMount: function() {
+        // Hack: Input fields have a dynamic method defined on turbolinks
+        // load by Materialize-JS that needs to be called
         document.addEventListener('turbolinks:load', setTimeout(() => (
             Materialize.updateTextFields()
         ), 1));
