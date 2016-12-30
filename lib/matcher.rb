@@ -30,7 +30,8 @@ module Matcher
             })
           end
         end
-        match[:similarity] ? Match.new(match) : nil
       end
+      match[:similarity] ? Match.new(match) : nil
     end
   end
+end

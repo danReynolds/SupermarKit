@@ -179,7 +179,7 @@ describe UserGroupsController, type: :controller do
 
       context 'updating without an api token' do
         it 'should remove the bot and all slack messages' do
-          integration_params[:slack][:api_token] = nil
+          integration_params[:slack][:api_token] = ''
           subject
           expect(group.reload.slack_bot).to eq nil
           expect(group.slack_messages).to be_empty
