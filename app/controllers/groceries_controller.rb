@@ -28,39 +28,6 @@ class GroceriesController < ApplicationController
   def edit
   end
 
-  def checkout
-    @checkout_data = {
-      grocery_id: @grocery.id,
-      users: format_users(true),
-      url: do_checkout_grocery_path(@grocery),
-      redirect_url: user_group_path(@grocery.user_group),
-      total: params[:total].try(:to_f) || @grocery.total_price_or_estimated.to_f,
-      uploader_id: params[:uploader_id].try(:to_i)
-    }
-  end
-
-  def do_checkout
-    grocery_payment_params[:payments].each do |payment|
-      GroceryPayment.create(payment.merge({ grocery_id: @grocery.id }).to_h)
-    end
-    @grocery.finished_at = DateTime.now
-
-    if @grocery.save!
-      if slackbot = @grocery.user_group.slack_bot
-        if (slackbot.enabled?(SlackMessage::SEND_CHECKOUT_MESSAGE))
-          slackbot.send_message(SlackMessage::SEND_CHECKOUT_MESSAGE, @grocery)
-        end
-
-        if (@grocery.receipt.present? && slackbot.enabled?(SlackMessage::SEND_GROCERY_RECEIPT))
-          slackbot.send_message(SlackMessage::SEND_GROCERY_RECEIPT, @grocery)
-        end
-      end
-
-      head :ok
-      flash[:notice] = "Checkout complete! When you're ready, make a new grocery list."
-    end
-  end
-
   def email_group
     grocery_email_params[:email][:user_ids] ||= []
     grocery_email_params[:email][:user_ids].each do |id|
@@ -190,10 +157,6 @@ class GroceriesController < ApplicationController
 
   def grocery_params
     params.require(:grocery).permit(:name, :description)
-  end
-
-  def grocery_payment_params
-    params.require(:grocery).permit(payments: [:user_id, :price])
   end
 
   def grocery_email_params

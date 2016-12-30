@@ -111,7 +111,7 @@ class UserGroupsController < ApplicationController
     api_token = slack[:api_token]
     slackbot = @user_group.slack_bot
 
-    if api_token
+    if api_token.present?
       slackbot ||= SlackBot.create(user_group: @user_group)
       slackbot.slack_messages = slack[:message_types].map do |type, message_params|
         message = slackbot.slack_messages.find_or_create_by(message_type: type)
