@@ -6,19 +6,14 @@ describe Groceries::CheckoutsController, type: :controller do
   include_context 'basic user'
 
   let(:grocery_id) { grocery.id }
-  it_should_behave_like 'routes', {
-    show: { grocery_id: true }
-  }
+  it_should_behave_like 'routes', show: { grocery_id: true }
 
   describe 'POST create' do
     subject { post :create, params: params }
     let (:payments) { [] }
-    let(:params) {
-      {
-        grocery_id: grocery_id,
-        grocery: {}
-      }
-    }
+    let(:params) do
+      { grocery_id: grocery_id, grocery: {} }
+    end
 
     before :each do
       other_user = create(:user)
@@ -79,7 +74,6 @@ describe Groceries::CheckoutsController, type: :controller do
         end
       end
     end
-
 
     context 'with every user contributing' do
       it 'should create payments for each user' do
