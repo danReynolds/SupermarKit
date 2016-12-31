@@ -24,10 +24,7 @@ module Matcher
 
         acc.tap do |acc|
           if (acc[:similarity].nil? || acc[:similarity] < similarity) && similarity >= threshold
-            acc.merge!({
-              similarity: similarity,
-              result: obj
-            })
+            acc.merge!(similarity: similarity, result: obj)
           end
         end
       end
