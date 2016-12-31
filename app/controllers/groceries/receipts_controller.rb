@@ -11,7 +11,7 @@ class Groceries::ReceiptsController < ApplicationController
       token: form_authenticity_token,
       url: grocery_receipts_path(@grocery),
       confirm_url: confirm_grocery_receipts_path(@grocery),
-      checkout_url: checkout_grocery_path(@grocery)
+      checkout_url: grocery_checkouts_path(@grocery)
     }
   end
 

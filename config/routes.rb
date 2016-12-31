@@ -29,6 +29,11 @@ Rails.application.routes.draw do
             patch :update
           end
         end
+        resources :checkouts, module: :groceries, only: [:create] do
+          collection do
+            get :show
+          end
+        end
         resources :items, module: :groceries, only: [] do
           collection do
             get :show
@@ -47,7 +52,6 @@ Rails.application.routes.draw do
           end
         end
         member do
-          get :checkout
           patch :receipt
           patch :do_checkout
           patch :update_store

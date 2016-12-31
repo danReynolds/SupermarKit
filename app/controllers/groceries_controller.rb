@@ -1,5 +1,4 @@
 class GroceriesController < ApplicationController
-  include Matcher
   extend HappyPath
   follow_happy_paths
   load_and_authorize_resource :user_group
@@ -27,39 +26,6 @@ class GroceriesController < ApplicationController
   end
 
   def edit
-  end
-
-  def checkout
-    @checkout_data = {
-      grocery_id: @grocery.id,
-      users: format_users(true),
-      url: do_checkout_grocery_path(@grocery),
-      redirect_url: user_group_path(@grocery.user_group),
-      total: params[:total].try(:to_f) || @grocery.total_price_or_estimated.to_f,
-      uploader_id: params[:uploader_id].try(:to_i)
-    }
-  end
-
-  def do_checkout
-    grocery_payment_params[:payments].each do |payment|
-      GroceryPayment.create(payment.merge({ grocery_id: @grocery.id }).to_h)
-    end
-    @grocery.finished_at = DateTime.now
-
-    if @grocery.save!
-      if slackbot = @grocery.user_group.slack_bot
-        if (slackbot.enabled?(SlackMessage::SEND_CHECKOUT_MESSAGE))
-          slackbot.send_message(SlackMessage::SEND_CHECKOUT_MESSAGE, @grocery)
-        end
-
-        if (@grocery.receipt.present? && slackbot.enabled?(SlackMessage::SEND_GROCERY_RECEIPT))
-          slackbot.send_message(SlackMessage::SEND_GROCERY_RECEIPT, @grocery)
-        end
-      end
-
-      head :ok
-      flash[:notice] = "Checkout complete! When you're ready, make a new grocery list."
-    end
   end
 
   def email_group
@@ -99,7 +65,9 @@ class GroceriesController < ApplicationController
           acc.tap { acc[unit] = nil }
         end
       },
-      users: format_users,
+      users: ActiveModelSerializers::SerializableResource.new(
+        @grocery.user_group.users
+      ).as_json,
       modal: {
         addUnmatchedQuery: true,
         queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
@@ -124,7 +92,9 @@ class GroceriesController < ApplicationController
     {
       buttonText: 'person',
       url: email_group_grocery_path(@grocery),
-      selection: format_users,
+      selection: ActiveModelSerializers::SerializableResource.new(
+        @grocery.user_group.users
+      ).as_json,
       modal: {
         id: 'user-emails',
         queryUrl: auto_complete_users_path(image: true, q: ''),
@@ -152,7 +122,9 @@ class GroceriesController < ApplicationController
 
   def recipes_params
     {
-      selection: ActiveModelSerializers::SerializableResource.new(@grocery.recipes).as_json,
+      selection: ActiveModelSerializers::SerializableResource.new(
+        @grocery.recipes
+      ).as_json,
       yourRecipeHeader: 'Your Recipes',
       suggestedReciperHeader: 'Suggested Recipes',
       modal: {
@@ -176,25 +148,8 @@ class GroceriesController < ApplicationController
     }
   end
 
-  def format_users(balance = false)
-    @grocery.user_group.user_groups_users.includes(:user).map do |user_group_user, h|
-      user_data = {
-        id: user_group_user.user_id,
-        name: user_group_user.user.name,
-        state: user_group_user.state,
-        image: user_group_user.user.gravatar_url(50),
-      }
-      user_data[:balance] = user_group_user.balance.to_f if balance
-      user_data
-    end
-  end
-
   def grocery_params
     params.require(:grocery).permit(:name, :description)
-  end
-
-  def grocery_payment_params
-    params.require(:grocery).permit(payments: [:user_id, :price])
   end
 
   def grocery_email_params

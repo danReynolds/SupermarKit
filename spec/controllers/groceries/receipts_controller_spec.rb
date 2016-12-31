@@ -5,6 +5,9 @@ require 'support/routes'
 describe Groceries::ReceiptsController, type: :controller do
   include_context 'basic user'
 
+  let(:grocery_id) { grocery.id }
+  it_should_behave_like 'routes', show: { grocery_id: true }
+
   describe 'POST create' do
     let(:subject) { post :create, params: { grocery_id: grocery.id } }
     # Add additional text at the end of items to test the regex
