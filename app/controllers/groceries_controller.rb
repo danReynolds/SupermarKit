@@ -65,7 +65,9 @@ class GroceriesController < ApplicationController
           acc.tap { acc[unit] = nil }
         end
       },
-      users: format_users,
+      users: ActiveModelSerializers::SerializableResource.new(
+        @grocery.user_group.users
+      ).as_json,
       modal: {
         addUnmatchedQuery: true,
         queryUrl: auto_complete_grocery_items_path(@grocery, q: ''),
@@ -90,7 +92,9 @@ class GroceriesController < ApplicationController
     {
       buttonText: 'person',
       url: email_group_grocery_path(@grocery),
-      selection: format_users,
+      selection: ActiveModelSerializers::SerializableResource.new(
+        @grocery.user_group.users
+      ).as_json,
       modal: {
         id: 'user-emails',
         queryUrl: auto_complete_users_path(image: true, q: ''),
@@ -118,7 +122,9 @@ class GroceriesController < ApplicationController
 
   def recipes_params
     {
-      selection: ActiveModelSerializers::SerializableResource.new(@grocery.recipes).as_json,
+      selection: ActiveModelSerializers::SerializableResource.new(
+        @grocery.recipes
+      ).as_json,
       yourRecipeHeader: 'Your Recipes',
       suggestedReciperHeader: 'Suggested Recipes',
       modal: {
@@ -140,19 +146,6 @@ class GroceriesController < ApplicationController
         }
       }
     }
-  end
-
-  def format_users(balance = false)
-    @grocery.user_group.user_groups_users.includes(:user).map do |user_group_user, h|
-      user_data = {
-        id: user_group_user.user_id,
-        name: user_group_user.user.name,
-        state: user_group_user.state,
-        image: user_group_user.user.gravatar_url(50),
-      }
-      user_data[:balance] = user_group_user.balance.to_f if balance
-      user_data
-    end
   end
 
   def grocery_params
