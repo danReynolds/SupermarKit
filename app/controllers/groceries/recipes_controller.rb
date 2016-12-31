@@ -65,7 +65,7 @@ class Groceries::RecipesController < ApplicationController
     )
 
     ingredients.map do |ingredient|
-      item = Item.find_or_create_by(name: ingredient)
+      item = Item.find_or_create_by(name: Item.format_name(ingredient))
 
       # Find the ingredients line including units and amount that matches
       # the exact item name returned separately from the API

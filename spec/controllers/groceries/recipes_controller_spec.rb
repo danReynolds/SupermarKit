@@ -61,7 +61,7 @@ describe Groceries::RecipesController, type: :controller do
           ingredients: [
             'Ground pepper',
             'Potato',
-            'Tomato'
+            'tomatoes'
           ],
           ingredientDescriptions: [
             '2.5 cups of fresh ground peppers',
@@ -69,6 +69,12 @@ describe Groceries::RecipesController, type: :controller do
             'tomatoes'
           ]
         }
+      end
+
+      it 'should format the item names' do
+        subject
+        formatted_item = grocery.reload.recipes.last.items.find_by_name('Tomato')
+        expect(formatted_item).not_to eq nil
       end
 
       it 'should not create an item if one by that name already exists' do
