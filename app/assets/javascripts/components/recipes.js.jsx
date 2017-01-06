@@ -120,7 +120,7 @@ var Recipes = React.createClass({
                         recipes: modalSelection.map(function(selected) {
                             if (selected.url) {
                                 return {
-                                    external_id: selected.externalId
+                                    external_id: selected.external_id
                                 }
                             } else {
                                 return {

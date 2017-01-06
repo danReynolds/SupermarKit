@@ -1,4 +1,14 @@
 GIT
+  remote: git@github.com:danReynolds/ruby-tesseract-ocr.git
+  revision: de79ccb87fe1d4edea4ca69fc9c66dc05d87a0f5
+  specs:
+    tesseract-ocr (0.1.8)
+      call-me
+      ffi-extra
+      ffi-inline
+      iso-639
+
+GIT
   remote: https://github.com/danReynolds/ingreedy.git
   revision: 9476ec6a44f8af34aeed682bd6a4807790dec2d0
   specs:
@@ -11,16 +21,6 @@ GIT
   specs:
     materialize-sass (0.97.8)
       sass (~> 3.3)
-
-GIT
-  remote: https://github.com/meh/ruby-tesseract-ocr.git
-  revision: e0180d793cda4ad487364504df099ecbd5e30b28
-  specs:
-    tesseract-ocr (0.1.8)
-      call-me
-      ffi-extra
-      ffi-inline
-      iso-639
 
 GEM
   remote: https://rubygems.org/
