@@ -1,6 +1,8 @@
 # Groceries for <%= @grocery.name %>
 ----
 
+<%= @message %>
+
 ## Items for Recipes
 <% @valid_recipes.sort_by(&:name).each do |recipe| %>
 * <%= recipe.name %>
