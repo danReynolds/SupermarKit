@@ -18,41 +18,10 @@ var ItemList = React.createClass({
         return parseInt($(e.target).closest('.collection-item').attr('data-index'));
     },
 
-    handleItemFieldChange: function(e) {
-        var index = this.getSelectedIndex(e);
-        var field = e.target.getAttribute('data-field');
-        var target = e.target;
-        var value =  target.value;
-
-        if (target.type === 'number') {
-            value = parseFloat(value);
-            if (!Number.isFinite(value)) {
-                value = null;
-            }
-        }
-
-        this.setState({
-            modal: React.addons.update(
-                this.state.modal,
-                {
-                    selection: {
-                        [index]: {
-                            grocery_item: {
-                                [field]: {$set: value}
-                            }
-                        }
-                    }
-                }
-            )
-        });
-    },
-
-    handleItemUpdate: function(e) {
-        var index = this.getSelectedIndex(e);
-
+    handleItemUpdate: function(index, fields) {
         // Close collapsible on update button clicked
         ReactDOM.findDOMNode(this.refs['collapsible-' + index]).click();
-        this.updateItem(index);
+        this.updateItem(index, fields);
     },
 
     isEstimatedTotal: function() {
@@ -62,9 +31,11 @@ var ItemList = React.createClass({
         });
     },
 
-    updateItem: function(index) {
+    updateItem: function(index, fields) {
         const item = this.state.modal.selection[index];
-        const { grocery_item: { id, quantity, price, units } } = item;
+        const { grocery_item: { id } } = item;
+        const { price, units, quantity } = fields;
+
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -74,7 +45,7 @@ var ItemList = React.createClass({
                     groceries_items_attributes: {
                         id: id,
                         quantity: quantity,
-                        price: price === null ? 0 : price,
+                        price: price === "" ? 0 : price,
                         units: units
                     }
                 }
@@ -128,12 +99,6 @@ var ItemList = React.createClass({
     handleSave: function(modalSelection) {
         this.toggleModal();
         this.saveSelection(modalSelection, this.reloadItems);
-    },
-
-    initializeAutocomplete: function(unit_types) {
-        var inputs = $('input.autocomplete');
-        inputs.autocomplete({data: unit_types});
-        inputs.on('change', this.handleItemFieldChange);
     },
 
     saveSelection: function(selection, callback) {
@@ -207,7 +172,6 @@ var ItemList = React.createClass({
             (modal.loading !== prevState.modal.loading && modal.selection.length)) {
             Materialize.initializeDismissable();
             $('.collapsible').collapsible({ accordion: false });
-            this.initializeAutocomplete(this.props.items.unit_types);
         }
 
         if (prevState.modal.selection !== modal.selection) {
@@ -225,6 +189,7 @@ var ItemList = React.createClass({
     },
 
     renderItems: function() {
+        const { items: { unit_types } } = this.props;
         const estimated = this.isEstimatedTotal();
         var displayItems = this.itemsForPage(
             this.state.modal.selection.reduce(function(acc, item, index) {
@@ -244,7 +209,7 @@ var ItemList = React.createClass({
             var priceId = "price-" + data.index;
             var unitsId = "units-" + data.index;
             const { item, item: { grocery_item } } = data;
-            const { price, estimated_price } = grocery_item;
+            const { price, estimated_price, quantity, units } = grocery_item;
 
             return (
                 <li key={'item-' + data.index}
@@ -260,46 +225,16 @@ var ItemList = React.createClass({
                             ${parseFloat(grocery_item.price || grocery_item.estimated_price).toFixed(2)}
                         </div>
                     </div>
-                    <div  className='collapsible-body'>
-                        <div className="valign-wrapper">
-                            <div className="col l3 s3">
-                                <label htmlFor={quantityId}>Quantity</label>
-                                <input
-                                    onChange={this.handleItemFieldChange}
-                                    id={quantityId}
-                                    data-field="quantity"
-                                    type="number"
-                                    step="any"
-                                    value={grocery_item.quantity} />
-                            </div>
-                            <div className="col s3">
-                                <label htmlFor={priceId}>{price ? 'Price' : 'Estimated Price'}</label>
-                                <input
-                                    onChange={this.handleItemFieldChange}
-                                    id={priceId}
-                                    type="number"
-                                    data-field="price"
-                                    step="any"
-                                    value={price === 0 ? estimated_price : price} />
-                            </div>
-                            <div className="col l3 s3">
-                                <label htmlFor={unitsId}>Units</label>
-                                <input
-                                    className='autocomplete'
-                                    onChange={this.handleItemFieldChange}
-                                    id={unitsId}
-                                    type="text"
-                                    data-field="units"
-                                    value={grocery_item.units || ''} />
-                            </div>
-                            <a
-                                data-no-turbolink
-                                className='btn'
-                                onClick={this.handleItemUpdate}>
-                                Update
-                            </a>
-                        </div>
-                    </div>
+                    <ItemListEditor
+                        quantity={quantity}
+                        price={price}
+                        estimatedPrice={estimated_price}
+                        id={data.index}
+                        units={units}
+                        unitTypes={unit_types}
+                        getSelectedIndex={this.getSelectedIndex}
+                        handleItemUpdate={this.handleItemUpdate}
+                    />
                     <div
                         onClick={this.handleRemove}
                         className="remove">
