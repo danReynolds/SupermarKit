@@ -17,26 +17,12 @@ class GroceriesItems < ApplicationRecord
     super(value)
   end
 
-  # Determines the price for the grocery item based on the most common non-zero
-  # price at the closest grocery that has that item
+  def unit_quantity
+    Unit.new("#{quantity.to_f} #{units}")
+  end
+
   def estimated_price
-    grocery_store = grocery.grocery_store
-    groceries_items = GroceriesItems.where(item: item).where.not(price_cents: 0)
-
-    # Calculate the price by looking at the price at each of the closest stores with that name
-    if grocery_store
-      stores = GroceryStore.by_distance(origin: [grocery_store.lat.to_f, grocery_store.lng.to_f])
-        .limit(CLOSEST_STORE_THRESHOLD)
-        .where(name: grocery_store.name)
-
-      stores.each do |store|
-        store_groceries_items = groceries_items.where(grocery: store.groceries)
-        return most_common_price(store_groceries_items) if store_groceries_items.length.nonzero?
-      end
-    end
-
-    # Fallback on the overall most common price of all stores
-    most_common_price(groceries_items)
+    unit_price_mode(store_groceries_items) * quantity.to_f
   end
 
   def price_or_estimated
@@ -54,8 +40,39 @@ class GroceriesItems < ApplicationRecord
 
 private
 
-  def most_common_price(groceries_items)
+  # Finds all instances the item has been added to a grocery list with compatible units
+  def store_groceries_items
+    if store = grocery.grocery_store
+      store_ids = GroceryStore.by_distance(
+        origin: [store.lat.to_f, store.lng.to_f]
+      ).limit(CLOSEST_STORE_THRESHOLD).where(name: store.name).map(&:id)
+      groceries_items = GroceriesItems.joins(:grocery).where(
+        groceries: { grocery_store_id: store_ids },
+        item: item
+      ).where.not(price_cents: 0)
+    end
+
+    if store.nil? || groceries_items.empty?
+      groceries_items = GroceriesItems.where(item: item).where.not(price_cents: 0)
+    end
+
+    if units
+      groceries_items.select { |item| item.units.to_unit.compatible?(units.to_unit) }
+    else
+      groceries_items.select { |item| item.units.nil? }
+    end
+  end
+
+  # Determine the most common price for the item by equivalent quantity
+  def unit_price_mode(groceries_items)
     return 0 if groceries_items.empty?
-    Money.new(groceries_items.group(:price_cents).order('count_id DESC').count(:id).first.first)
+     grocery_item_prices = groceries_items.inject(Hash.new(0)) do |prices, grocery_item|
+      unit_quantity = units ? grocery_item.unit_quantity.convert_to(units).scalar : grocery_item.quantity.to_f
+      unit_price = (grocery_item.price.to_f / unit_quantity).round(2)
+
+      prices.tap do |_|
+        prices[unit_price] += 1
+      end
+    end.to_a.sort_by(&:last).last.first.to_money
   end
 end
