@@ -105,6 +105,11 @@
     }
   }
 
+  .badge.estimated {
+    background: $sm-gray;
+    color: $sm-light-gray;
+  }
+
   .collapsible-body {
     border-bottom: none;
     a { margin-left: auto; }

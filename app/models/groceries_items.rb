@@ -22,11 +22,11 @@ class GroceriesItems < ApplicationRecord
   end
 
   def estimated_price
-    unit_price_mode(store_groceries_items) * quantity.to_f
+    (unit_price_mode(store_groceries_items) * quantity.to_f).to_money
   end
 
   def price_or_estimated
-    Money.new(price.nonzero? ? price : estimated_price)
+    Money.new(price.zero? ? estimated_price : price)
   end
 
   def display_name
@@ -68,11 +68,11 @@ private
     return 0 if groceries_items.empty?
      grocery_item_prices = groceries_items.inject(Hash.new(0)) do |prices, grocery_item|
       unit_quantity = units ? grocery_item.unit_quantity.convert_to(units).scalar : grocery_item.quantity.to_f
-      unit_price = (grocery_item.price.to_f / unit_quantity).round(2)
+      unit_price = (grocery_item.price.to_f / unit_quantity)
 
       prices.tap do |_|
         prices[unit_price] += 1
       end
-    end.to_a.sort_by(&:last).last.first.to_money
+    end.to_a.sort_by(&:last).last.first
   end
 end

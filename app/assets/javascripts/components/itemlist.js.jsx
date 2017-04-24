@@ -52,13 +52,19 @@ var ItemList = React.createClass({
 
         // Close collapsible on update button clicked
         ReactDOM.findDOMNode(this.refs['collapsible-' + index]).click();
-
         this.updateItem(index);
+    },
+
+    isEstimatedTotal: function() {
+        return this.state.modal.selection.some(selected => {
+            const { grocery_item: { price } } = selected;
+            return price === 0 || price === null;
+        });
     },
 
     updateItem: function(index) {
         const item = this.state.modal.selection[index];
-        const { grocery_item } = item;
+        const { grocery_item: { id, quantity, price, units } } = item;
         $.ajax({
             method: 'PATCH',
             data: JSON.stringify({
@@ -66,10 +72,10 @@ var ItemList = React.createClass({
                 id: item.id,
                 item: {
                     groceries_items_attributes: {
-                        id: grocery_item.id,
-                        quantity: grocery_item.quantity,
-                        price: grocery_item.price,
-                        units: grocery_item.units
+                        id: id,
+                        quantity: quantity,
+                        price: price === null ? 0 : price,
+                        units: units
                     }
                 }
             }),
@@ -207,8 +213,8 @@ var ItemList = React.createClass({
         if (prevState.modal.selection !== modal.selection) {
             this.setState({
                 total: modal.selection.reduce((acc, selected) => {
-                    const { grocery_item: { price } } = selected;
-                    return acc + price;
+                    const { grocery_item: { price, estimated_price } } = selected;
+                    return acc + (price || estimated_price);
                 }, 0)
             });
         }
@@ -219,6 +225,7 @@ var ItemList = React.createClass({
     },
 
     renderItems: function() {
+        const estimated = this.isEstimatedTotal();
         var displayItems = this.itemsForPage(
             this.state.modal.selection.reduce(function(acc, item, index) {
                 var requester = this.state.users.filter(function(user) {
@@ -237,6 +244,8 @@ var ItemList = React.createClass({
             var priceId = "price-" + data.index;
             var unitsId = "units-" + data.index;
             const { item, item: { grocery_item } } = data;
+            const { price, estimated_price } = grocery_item;
+
             return (
                 <li key={'item-' + data.index}
                     ref={'item-' + data.index}
@@ -247,8 +256,8 @@ var ItemList = React.createClass({
                         <p>
                             <strong>{data.requester.name}</strong> wants <strong>{grocery_item.display_name}</strong>
                         </p>
-                        <div className='badge price'>
-                            ${parseFloat(grocery_item.price).toFixed(2)}
+                        <div className={`badge price ${price ? '' : 'estimated'}`}>
+                            ${parseFloat(grocery_item.price || grocery_item.estimated_price).toFixed(2)}
                         </div>
                     </div>
                     <div  className='collapsible-body'>
@@ -264,14 +273,14 @@ var ItemList = React.createClass({
                                     value={grocery_item.quantity} />
                             </div>
                             <div className="col s3">
-                                <label htmlFor={priceId}>Price</label>
+                                <label htmlFor={priceId}>{price ? 'Price' : 'Estimated Price'}</label>
                                 <input
                                     onChange={this.handleItemFieldChange}
                                     id={priceId}
                                     type="number"
                                     data-field="price"
                                     step="any"
-                                    value={grocery_item.price} />
+                                    value={price === 0 ? estimated_price : price} />
                             </div>
                             <div className="col l3 s3">
                                 <label htmlFor={unitsId}>Units</label>
@@ -305,8 +314,8 @@ var ItemList = React.createClass({
                 {itemContent}
                 <div className="bottom-row">
                     <span>
-                        Estimated Total:
-                        <div className="badge price">
+                        {`${estimated ? 'Estimated' : ''} Total:`}
+                        <div className={`badge price ${estimated ? 'estimated' : ''}`}>
                             ${this.state.total.toFixed(2)}
                         </div>
                     </span>
