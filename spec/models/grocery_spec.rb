@@ -24,7 +24,7 @@ RSpec.describe Grocery, type: :model do
       item1.grocery_item(other_grocery).update_attribute(:price_cents, 500)
       item1.grocery_item(grocery).update_attribute(:quantity, 2)
       item2.grocery_item(grocery).update_attribute(:price_cents, 724)
-      expect(grocery.total_price_or_estimated.to_f).to eq 12.24
+      expect(grocery.total_price_or_estimated.to_f).to eq 17.24
     end
   end
 

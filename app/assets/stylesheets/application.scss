@@ -22,7 +22,7 @@
 @import 'application-errors';
 @import 'groceries/*';
 @import 'errors/*';
-@import 'components/*';
+@import 'components/**/*';
 @import 'pages/*';
 @import 'user_sessions/*';
 @import 'user_groups/*';

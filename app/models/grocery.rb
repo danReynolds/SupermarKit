@@ -13,7 +13,7 @@ class Grocery < ApplicationRecord
   def total_price_or_estimated
     Money.new(
       groceries_items.includes(:item).inject(0) do |acc, grocery_item|
-        acc += grocery_item.price_or_estimated
+        acc + grocery_item.price_or_estimated
       end
     )
   end
