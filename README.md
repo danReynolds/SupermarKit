@@ -4,7 +4,7 @@
 # SupermarKit.
 SupermarKit is a free grocery-tracking application born out of the need for a better solution to get food from the store to our mouths. If you also struggle with this issue, or just want to see what we're all about, make an account and try us out.
 
-Need groceries? We have plenty of details about how we can help at [SupermarKit](http://supermarkit.io).
+Need groceries? We have plenty of details about how we can help at [SupermarKit](http://supermarkit.org).
 Want to contact us? Email team@supermarkit.io to let us know about suggestions or concerns.
 ## Installation
 
