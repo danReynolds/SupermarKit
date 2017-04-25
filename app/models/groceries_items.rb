@@ -43,7 +43,9 @@ private
 
   # Finds all instances the item has been added to a grocery list with compatible units
   def store_groceries_items
-    if store = grocery.grocery_store
+    store = grocery.grocery_store
+
+    if store
       store_ids = GroceryStore.by_distance(
         origin: [store.lat.to_f, store.lng.to_f]
       ).limit(CLOSEST_STORE_THRESHOLD).where(name: store.name).map(&:id)
@@ -51,22 +53,24 @@ private
         groceries: { grocery_store_id: store_ids },
         item: item
       ).where.not(price_cents: 0)
+
+      return groceries_items if groceries_items.present?
     end
 
-    if store.nil? || groceries_items.empty?
-      groceries_items = GroceriesItems.where(item: item).where.not(price_cents: 0)
-    end
-
-    if units
-      groceries_items.select { |item| item.units && item.units.to_unit.compatible?(units.to_unit) }
-    else
-      groceries_items.select { |item| item.units.nil? }
-    end
+    GroceriesItems.where(item: item).where.not(price_cents: 0)
   end
 
   # Determine the unit pricing for grocery items, converting to common unit if needed
   def calculate_unit_prices(groceries_items)
-    groceries_items.map do |grocery_item|
+    compatible_items = if units
+      groceries_items.select do |item|
+        item.units && item.units.to_unit.compatible?(units.to_unit)
+      end
+    else
+      groceries_items.select { |item| item.units.nil? }
+    end
+
+    compatible_items.map do |grocery_item|
       unit_quantity = units ? grocery_item.unit_quantity.convert_to(units).scalar : grocery_item.quantity.to_f
       grocery_item.price.to_f / unit_quantity
     end
@@ -74,8 +78,11 @@ private
 
   def unit_price_mode(prices)
     return 0 if prices.empty?
-    prices.inject(Hash.new(0)) do |price_frequency, price|
+    price_frequencies = prices.inject(Hash.new(0)) do |price_frequency, price|
       price_frequency.tap { price_frequency[price] += 1 }
-    end.to_a.sort_by(&:last).last.first
+    end
+
+    # sort by price frequency and return the mode
+    price_frequencies.to_a.sort_by(&:last).last.first
   end
 end
