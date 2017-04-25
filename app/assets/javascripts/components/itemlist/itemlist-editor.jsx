@@ -12,7 +12,6 @@ class ItemListEditor extends React.Component {
 
     constructor(props)  {
         super(props);
-
         this.state = this.updatedFields(props);
         this.handleItemFieldChange = this.handleItemFieldChange.bind(this);
         this.handleItemUpdate = this.handleItemUpdate.bind(this);
@@ -78,7 +77,7 @@ class ItemListEditor extends React.Component {
         const unitsId = `units-${id}`;
 
         return (
-            <div className='collapsible-body'>
+            <div className='itemlist-editor collapsible-body'>
                 <div className="valign-wrapper">
                     <div className="col l3 s3">
                         <label htmlFor={quantityId}>Quantity</label>
@@ -91,7 +90,12 @@ class ItemListEditor extends React.Component {
                             value={quantity} />
                     </div>
                     <div className="col s3">
-                        <label htmlFor={priceId}>{oldPrice ? 'Price' : 'Estimated Price'}</label>
+                        <label
+                            className={oldPrice ? '' : 'estimated'}
+                            htmlFor={priceId}
+                        >
+                            {oldPrice ? 'Price' : 'Estimated Price'}
+                        </label>
                         <input
                             onChange={this.handleItemFieldChange}
                             id={priceId}
