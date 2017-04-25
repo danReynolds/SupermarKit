@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   get 'about' => 'pages#about', as: :about
   root to: 'pages#home'
 
-  get '.well-known/acme-challenge/GcKxDz-FUSVaVZPxS0usQ-D2pjx2oJLsEL4kapxOGns', to: 'pages#letsencrypt'
+  get '.well-known/acme-challenge/r5HDrACnaM2ybg60aqyLe_dEp12KUKF08dvxEqpB-EU', to: 'pages#letsencrypt1'
+  get '.well-known/acme-challenge/aFTJ-03bQlZyNNyf6aEBqRbgq9V5zv30RstBfyj7RWg', to: 'pages#letsencrypt2'
+  get '.well-known/acme-challenge/Xhf5BYHEqjCK80Kt7IXnM8c_u4XsZhhROQXgFOYPdlM', to: 'pages#letsencrypt3'
+  get '.well-known/acme-challenge/GcKxDz-FUSVaVZPxS0usQ-D2pjx2oJLsEL4kapxOGns', to: 'pages#letsencrypt4'
 
   resources :user_sessions
   resources :users, except: [:index] do
