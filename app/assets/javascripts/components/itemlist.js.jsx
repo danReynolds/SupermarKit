@@ -221,7 +221,7 @@ var ItemList = React.createClass({
                         <p>
                             <strong>{data.requester.name}</strong> wants <strong>{grocery_item.display_name}</strong>
                         </p>
-                        <div className={`badge price ${price ? '' : 'estimated'}`}>
+                        <div className={`badge price ${price ? 'confirmed' : ''}`}>
                             ${parseFloat(grocery_item.price || grocery_item.estimated_price).toFixed(2)}
                         </div>
                     </div>
@@ -250,7 +250,7 @@ var ItemList = React.createClass({
                 <div className="bottom-row">
                     <span>
                         {`${estimated ? 'Estimated' : ''} Total:`}
-                        <div className={`badge price ${estimated ? 'estimated' : ''}`}>
+                        <div className={`badge price ${estimated ? '' : 'confirmed'}`}>
                             ${this.state.total.toFixed(2)}
                         </div>
                     </span>
