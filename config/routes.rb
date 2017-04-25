@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'about' => 'pages#about', as: :about
   root to: 'pages#home'
 
+  get '.well-known/acme-challenge/GADqDFG2NMEic8bRFbipI_1-ax91ooux-VSK5VaIlqg', to: 'pages#letsencrypt'
+
   resources :user_sessions
   resources :users, except: [:index] do
     member do
