@@ -71,7 +71,12 @@ private
     end
 
     compatible_items.map do |grocery_item|
-      unit_quantity = units ? grocery_item.unit_quantity.convert_to(units).scalar : grocery_item.quantity.to_f
+      unit_quantity = if units
+        grocery_item.unit_quantity.convert_to(units).scalar
+      else
+        grocery_item.quantity.to_f
+      end
+      
       grocery_item.price.to_f / unit_quantity
     end
   end
