@@ -22,7 +22,8 @@ class GroceriesItems < ApplicationRecord
   end
 
   def estimated_price
-    (unit_price_mode(store_groceries_items) * quantity.to_f).to_money
+    unit_prices = calculate_unit_prices(store_groceries_items)
+    (unit_price_mode(unit_prices) * quantity.to_f).to_money
   end
 
   def price_or_estimated
@@ -57,22 +58,24 @@ private
     end
 
     if units
-      groceries_items.select { |item| item.units.to_unit.compatible?(units.to_unit) }
+      groceries_items.select { |item| item.units && item.units.to_unit.compatible?(units.to_unit) }
     else
       groceries_items.select { |item| item.units.nil? }
     end
   end
 
-  # Determine the most common price for the item by equivalent quantity
-  def unit_price_mode(groceries_items)
-    return 0 if groceries_items.empty?
-     grocery_item_prices = groceries_items.inject(Hash.new(0)) do |prices, grocery_item|
+  # Determine the unit pricing for grocery items, converting to common unit if needed
+  def calculate_unit_prices(groceries_items)
+    groceries_items.map do |grocery_item|
       unit_quantity = units ? grocery_item.unit_quantity.convert_to(units).scalar : grocery_item.quantity.to_f
-      unit_price = (grocery_item.price.to_f / unit_quantity)
+      grocery_item.price.to_f / unit_quantity
+    end
+  end
 
-      prices.tap do |_|
-        prices[unit_price] += 1
-      end
+  def unit_price_mode(prices)
+    return 0 if prices.empty?
+    prices.inject(Hash.new(0)) do |price_frequency, price|
+      price_frequency.tap { price_frequency[price] += 1 }
     end.to_a.sort_by(&:last).last.first
   end
 end
