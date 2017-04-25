@@ -62,22 +62,16 @@ private
 
   # Determine the unit pricing for grocery items, converting to common unit if needed
   def calculate_unit_prices(groceries_items)
-    compatible_items = if units
+    if units
       groceries_items.select do |item|
         item.units && item.units.to_unit.compatible?(units.to_unit)
+      end.map do |grocery_item|
+        grocery_item.price.to_f / grocery_item.unit_quantity.convert_to(units).scalar
       end
     else
-      groceries_items.select { |item| item.units.nil? }
-    end
-
-    compatible_items.map do |grocery_item|
-      unit_quantity = if units
-        grocery_item.unit_quantity.convert_to(units).scalar
-      else
-        grocery_item.quantity.to_f
+      groceries_items.select { |item| item.units.nil? }.map do |grocery_item|
+        grocery_item.price.to_f / grocery_item.quantity.to_f
       end
-      
-      grocery_item.price.to_f / unit_quantity
     end
   end
 
