@@ -7,7 +7,7 @@ class Groceries::CheckoutsController < ApplicationController
       grocery_id: @grocery.id,
       users: ActiveModelSerializers::SerializableResource.new(
         @grocery.user_group.users,
-        with_balance: @grocery.user_group
+        user_group: @grocery.user_group
       ).as_json,
       url: grocery_checkouts_path(@grocery),
       redirect_url: user_group_path(@grocery.user_group),

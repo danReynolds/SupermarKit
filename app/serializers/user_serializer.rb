@@ -3,12 +3,12 @@ class UserSerializer < ActiveModel::Serializer
   attribute :gravatar_url, key: :image do
     object.gravatar_url(50)
   end
-  attribute :balance, if: :with_balance? do
+  attribute :balance, if: :user_group? do
     object.user_groups_users
-      .find_by_user_group_id(instance_options[:with_balance]).balance.to_f
+      .find_by_user_group_id(instance_options[:user_group]).balance.to_f
   end
 
-  def with_balance?
-    instance_options[:with_balance]
+  def user_group?
+    instance_options[:user_group]
   end
 end

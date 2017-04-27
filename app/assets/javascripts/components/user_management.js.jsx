@@ -4,29 +4,47 @@ var UserManagement = React.createClass({
     propTypes: {
         url: React.PropTypes.string.isRequired,
         modal: React.PropTypes.string.isRequired,
-        users: React.PropTypes.array.isRequired
+        users: React.PropTypes.object.isRequired
     },
 
     getInitialState: function() {
         return {
-            payeeIndex: 0,
+            loading: false,
+            editing: false,
             paymentAmount: 0,
             paymentReason: '',
-            users: this.props.users
+            users: []
         }
+    },
+
+    componentWillMount: function() {
+        this.reloadUsers();
+    },
+
+    reloadUsers: function() {
+        const { users: { get_url } } = this.props;
+        let loadingTimer = setTimeout(() => {
+            this.setState({ loading: true });
+        }, 100);
+
+        $.getJSON(get_url, (data) => {
+            clearTimeout(loadingTimer);
+            this.setState({ loading: false, users: data });
+        });
     },
 
     modalTrigger: function(index) {
         $(this.props.modal).openModal({
             complete: function() {
                 this.setState({
+                    editing: false,
                     paymentAmount: 0,
-                    payeeIndex: 0,
+                    payeeIndex: null,
                     paymentReason: ''
                 });
             }.bind(this)
         });
-        this.setState({payeeIndex: index});
+        this.setState({ editing: true, payeeIndex: index });
     },
 
     renderUserItems: function() {
@@ -44,8 +62,13 @@ var UserManagement = React.createClass({
         );
     },
 
-    componentDidMount: function() {
-        this.updatePagination(this.state.users.length);
+    componentDidUpdate: function(_, prevState) {
+        const { users } = this.state;
+        const { users: oldUsers } = prevState;
+
+        if (oldUsers.length !== users.length) {
+            this.updatePagination(users.length);
+        }
     },
 
     handlePayment: function(e) {
@@ -56,7 +79,9 @@ var UserManagement = React.createClass({
         this.setState({paymentReason: e.target.value});
     },
 
-    handleSubmit: function() {
+    handleSubmit: function(e) {
+        e.preventDefault();
+        let loadingTimer;
         $.ajax({
             method: 'PATCH',
             url: this.props.url,
@@ -68,78 +93,103 @@ var UserManagement = React.createClass({
                     payee_id: this.state.users[this.state.payeeIndex].id
                 }
             })
-        }).done(function(response) {
-            this.setState({ users: response.data });
+        }).done(function() {
+            this.reloadUsers();
         }.bind(this));
     },
 
-    render: function() {
-        var payee = React.addons.update(
-            this.state.users[this.state.payeeIndex],
-            { balance: { $set: this.state.users[this.state.payeeIndex].balance + this.state.paymentAmount } }
-        );
+    renderContent: function() {
+        const { loading } = this.state;
 
-        var payer = React.addons.update(
-            this.state.users[0],
-            { balance: { $set: this.state.users[0].balance - this.state.paymentAmount } }
-        );
+        if (loading) {
+            return <Loader />;
+        }
 
         return (
-            <div className='user-management'>
+            <div>
+                <h3>Kit members</h3>
+                {this.renderUserItems()}
+                {this.renderPagination()}
+            </div>
+        )
+    },
+
+    render: function() {
+        let modalContent;
+        const { editing } = this.state;
+
+        if (editing) {
+            const payee = React.addons.update(
+                this.state.users[this.state.payeeIndex],
+                { balance: { $set: this.state.users[this.state.payeeIndex].balance + this.state.paymentAmount } }
+            );
+
+            const payer = React.addons.update(
+                this.state.users[0],
+                { balance: { $set: this.state.users[0].balance - this.state.paymentAmount } }
+            );
+
+            modalContent = (
+                <div className='modal-content'>
+                    <h4>Pay to {payee.name}</h4>
+                    <div className='row'>
+                        <div className='col l6'>
+                            <label
+                                htmlFor='payment'>
+                                Amount
+                            </label>
+                            <input
+                                value={this.state.paymentAmount}
+                                onChange={this.handlePayment}
+                                id='payment'
+                                type='number'/>
+                            <label
+                                htmlFor='reason'>
+                                Reason
+                            </label>
+                            <input
+                                id='reason'
+                                value={this.state.paymentReason}
+                                onChange={this.handleReason}
+                                className='input-field'/>
+
+                        </div>
+                        <div className='col l6'>
+                            <li className='user-item'>
+                                <UserItemContent user={payer}/>
+                            </li>
+                            <li className='user-item'>
+                                <UserItemContent user={payee}/>
+                            </li>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div id='test' className='user-management'>
                 <div className='card'>
                     <div className='card-content'>
-                        <h3>Kit members</h3>
-                        {this.renderUserItems()}
-                        {this.renderPagination()}
+                        {this.renderContent()}
                     </div>
                 </div>
-                <div id='pay-modal' className='modal'>
-                    <div className='modal-content'>
-                        <h4>Pay to {payee.name}</h4>
-                        <div className='row'>
-                            <div className='col l6'>
-                                <label
-                                    htmlFor='payment'>
-                                    Amount
-                                </label>
-                                <input
-                                    value={this.state.paymentAmount}
-                                    onChange={this.handlePayment}
-                                    id='payment'
-                                    type='number'/>
-                                <label
-                                    htmlFor='reason'>
-                                    Reason
-                                </label>
-                                <input
-                                    id='reason'
-                                    value={this.state.paymentReason}
-                                    onChange={this.handleReason}
-                                    className='input-field'/>
-
+                <form onSubmit={this.handleSubmit}>
+                    <div id='pay-modal' className='modal'>
+                        {modalContent}
+                        <div className='modal-footer'>
+                            <div
+                                className='modal-action modal-close btn cancel'>
+                                Cancel
                             </div>
-                            <div className='col l6'>
-                                <li className='user-item'>
-                                    <UserItemContent user={payer}/>
-                                </li>
-                                <li className='user-item'>
-                                    <UserItemContent user={payee}/>
-                                </li>
-                            </div>
+                            <input
+                                type='submit'
+                                value='Confirm'
+                                className='modal-action modal-close btn'
+                            />
                         </div>
                     </div>
-                    <div className='modal-footer'>
-                        <div
-                            className='modal-action modal-close btn cancel'>
-                            Cancel
-                        </div>
-                        <div
-                            onClick={this.handleSubmit}
-                            className='modal-action modal-close btn'>
-                            Confirm
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         )
     }
