@@ -8,17 +8,14 @@ class OauthsController < ApplicationController
 
   def callback
     provider = auth_params[:provider]
-
     begin
       unless login_from(provider)
         user_hash = sorcery_fetch_user_hash(provider).with_indifferent_access
-
         unless @user = User.find_by_email(user_hash[:user_info][:email])
           @user = create_from(provider)
           @user.activate!
           notice = "Welcome #{@user.name}! Start by creating your first Kit with the people you want to shop with."
         end
-
         reset_session # protect from session fixation attack
         auto_login(@user)
         flash[:notice] = notice
