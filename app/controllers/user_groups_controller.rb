@@ -20,7 +20,9 @@ class UserGroupsController < ApplicationController
   end
 
   def create
-    @user_group.user_ids = user_group_params[:user_ids].split(',') << current_user.id
+    user_ids = user_group_params[:user_ids].split(',')
+    user_ids << current_user.id unless user_ids.include?(current_user.id)
+    @user_group.user_ids = user_ids
     @user_group.owner = current_user
 
     if @user_group.save
@@ -212,13 +214,9 @@ private
       title: 'Kit members',
       formElement: 'user_group_user_ids',
       buttonText: 'person',
-      selection: @user_group.users.map do |user|
-        {
-          name: user.name,
-          id: user.id,
-          image: user.gravatar_url
-        }
-      end,
+      selection: [
+        ActiveModelSerializers::SerializableResource.new(current_user).as_json
+      ],
       modal: {
         id: 'change-members',
         queryUrl: auto_complete_users_path(image: true, q: ''),

@@ -1,6 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  config.action_mailer.default_url_options = { host: 'supermarkit.io' }
+  config.action_mailer.default_url_options = { host: 'supermarkit.org' }
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.

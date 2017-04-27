@@ -2,7 +2,7 @@ class User < ApplicationRecord
   validates :password, confirmation: true
   validates :password_confirmation, length: { minimum: 9 }, if: :new_record?
   validates :password_confirmation, presence: true, if: :new_record?
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
   validates :email, uniqueness: true, presence: true
 
   has_many :grocery_payments

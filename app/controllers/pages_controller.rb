@@ -3,7 +3,6 @@ class PagesController < ApplicationController
   skip_before_action :require_login, raise: false
 
   def home
-    File.write("test.txt", ENV["GOOGLE_CALLBACK"])
     group = current_user.try(:default_group)
 
     if group
