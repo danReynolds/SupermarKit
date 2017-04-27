@@ -9,10 +9,9 @@ Rails.application.config.sorcery.configure do |config|
   # -- core --
   # What controller action to call for non-authenticated users. You can also
   # override the 'not_authenticated' method of course.
-  # Default: `:not_authenticated`
+# Default: `:not_authenticated`
   #
   # config.not_authenticated_action =
-
 
   # When a non logged in user tries to enter a page that requires login, save
   # the URL he wanted to reach, and send him there after login, using 'redirect_back_or_to'.

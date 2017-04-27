@@ -48,7 +48,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'sentry-raven'
 gem 'simple_form'
 gem 'slack-ruby-client'
-gem 'sorcery'
+gem 'sorcery', git: 'https://github.com/danReynolds/sorcery.git'
 gem 'turbolinks', '~> 5.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'underscore-rails'

@@ -23,7 +23,7 @@ class OauthsController < ApplicationController
         auto_login(@user)
         flash[:notice] = notice
       end
-      redirect_back(fallback_location: root_path)
+      redirect_to root_path
     rescue Exception => e
       redirect_to login_path, notice: "Our fault! We're unable to create a user with your #{provider.humanize} account."
     end
