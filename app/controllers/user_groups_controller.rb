@@ -3,9 +3,6 @@ class UserGroupsController < ApplicationController
   follow_happy_paths
   load_and_authorize_resource
 
-  def index
-  end
-
   def show
     @components = {
       userManagement: user_management_params
@@ -25,8 +22,8 @@ class UserGroupsController < ApplicationController
 
     if @user_group.save
       @user_group.user_groups_users
-       .find_by_user_id(current_user.id)
-       .update_attribute(:state, UserGroupsUsers::ACCEPTED)
+                 .find_by_user_id(current_user.id)
+                 .update_attribute(:state, UserGroupsUsers::ACCEPTED)
 
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to @user_group, notice: 'Kit created! When you are ready, create your first grocery list.'
