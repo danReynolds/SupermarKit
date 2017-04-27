@@ -21,6 +21,16 @@ GIT
       oauth (~> 0.4, >= 0.4.4)
       oauth2 (~> 1.0, >= 0.8.0)
 
+GIT
+  remote: https://github.com/meh/ruby-tesseract-ocr.git
+  revision: e0180d793cda4ad487364504df099ecbd5e30b28
+  specs:
+    tesseract-ocr (0.1.8)
+      call-me
+      ffi-extra
+      ffi-inline
+      iso-639
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -186,7 +196,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.10.0)
       faraday (>= 0.7.4, < 0.10)
-    ffi (1.9.14)
+    ffi (1.9.18)
     ffi-extra (0.1.0)
       ffi
     ffi-inline (0.0.4.3)
