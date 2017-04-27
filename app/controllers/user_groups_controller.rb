@@ -3,14 +3,9 @@ class UserGroupsController < ApplicationController
   follow_happy_paths
   load_and_authorize_resource
 
-  def index
-  end
-
   def show
-    @management_data = {
-      modal: '#pay-modal',
-      url: do_payment_user_group_path(@user_group),
-      users: user_payment_data
+    @components = {
+      userManagement: user_management_params
     }
   end
 
@@ -27,8 +22,8 @@ class UserGroupsController < ApplicationController
 
     if @user_group.save
       @user_group.user_groups_users
-       .find_by_user_id(current_user.id)
-       .update_attribute(:state, UserGroupsUsers::ACCEPTED)
+                 .find_by_user_id(current_user.id)
+                 .update_attribute(:state, UserGroupsUsers::ACCEPTED)
 
       current_user.update_attribute(:default_group, @user_group) unless current_user.default_group
       redirect_to @user_group, notice: 'Kit created! When you are ready, create your first grocery list.'
@@ -172,9 +167,6 @@ class UserGroupsController < ApplicationController
         user_group_id: @user_group.id
       }.to_h)
     )
-    render json: {
-      data: user_payment_data
-    }
   end
 
 private
@@ -196,17 +188,14 @@ private
     )
   end
 
-  def user_payment_data
-    @user_group.user_groups_users.includes(:user)
-      .partition { |u| u.user == current_user }.flatten.map do |user_group_user|
-      user = user_group_user.user
-      {
-        id: user.id,
-        image: user.gravatar_url,
-        name: user.name,
-        balance: user_group_user.balance.to_f
+  def user_management_params
+    {
+      modal: '#pay-modal',
+      url: do_payment_user_group_path(@user_group),
+      users: {
+        get_url: user_group_users_path(@user_group)
       }
-    end
+    }
   end
 
   def new_data
