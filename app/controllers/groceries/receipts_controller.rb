@@ -7,11 +7,13 @@ class Groceries::ReceiptsController < ApplicationController
   TOTAL_KEYWORDS = ['Total', 'Subtotal', 'Balance', 'Debit tend'].freeze
 
   def show
-    @receipt_data = {
-      token: form_authenticity_token,
-      url: grocery_receipts_path(@grocery),
-      confirm_url: confirm_grocery_receipts_path(@grocery),
-      checkout_url: grocery_checkouts_path(@grocery)
+    @components = {
+      receipt: {
+        token: form_authenticity_token,
+        url: grocery_receipts_path(@grocery),
+        confirm_url: confirm_grocery_receipts_path(@grocery),
+        checkout_url: grocery_checkouts_path(@grocery)
+      }
     }
   end
 

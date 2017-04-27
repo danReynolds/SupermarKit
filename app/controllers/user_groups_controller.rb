@@ -7,10 +7,8 @@ class UserGroupsController < ApplicationController
   end
 
   def show
-    @management_data = {
-      modal: '#pay-modal',
-      url: do_payment_user_group_path(@user_group),
-      users: user_payment_data
+    @components = {
+      userManagement: user_management_params
     }
   end
 
@@ -172,9 +170,6 @@ class UserGroupsController < ApplicationController
         user_group_id: @user_group.id
       }.to_h)
     )
-    render json: {
-      data: user_payment_data
-    }
   end
 
 private
@@ -196,17 +191,14 @@ private
     )
   end
 
-  def user_payment_data
-    @user_group.user_groups_users.includes(:user)
-      .partition { |u| u.user == current_user }.flatten.map do |user_group_user|
-      user = user_group_user.user
-      {
-        id: user.id,
-        image: user.gravatar_url,
-        name: user.name,
-        balance: user_group_user.balance.to_f
+  def user_management_params
+    {
+      modal: '#pay-modal',
+      url: do_payment_user_group_path(@user_group),
+      users: {
+        get_url: user_group_users_path(@user_group)
       }
-    end
+    }
   end
 
   def new_data
