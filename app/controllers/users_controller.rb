@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     if @user = User.load_from_activation_token(params[:id])
       @user.activate!
       auto_login(@user)
-      redirect_to user_groups_path, notice: "Welcome #{@user.name}! Start by creating your first Kit with the people you want to shop with."
+      redirect_to user_groups_path, notice: "Welcome #{@user.name}! Get started by creating your first Kit."
     else
       flash[:notice] = 'Invalid confirmation token.'
       not_authenticated
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
   def create
     if @user.save
-      redirect_to(root_path, notice: 'Welcome to Supermarkit! We have sent you a confirmation email to get started.')
+      redirect_to root_path, notice: 'Welcome to Supermarkit! We have sent you a confirmation email with a link to activate your account.'
     else
       render json: @user.errors, status: :unprocessable_entity
     end

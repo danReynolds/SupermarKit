@@ -49,7 +49,7 @@ var Multiselect = React.createClass({
         if (this.props.buttonText) {
             var button = (
                 <a
-                    data-no-turbolinks
+                    data-no-turbolink
                     onClick={this.props.toggleModal}
                     className="btn-floating">
                     <i className="material-icons">{this.props.buttonText}</i>

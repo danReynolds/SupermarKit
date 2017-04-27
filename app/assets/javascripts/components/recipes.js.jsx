@@ -167,7 +167,7 @@ var Recipes = React.createClass({
                     key={'carousel-item-' + index}
                     data-key={index}
                     className='carousel-item'>
-                    <a data-no-turbolinks>
+                    <a data-no-turbolink>
                         <img src={recipe.imageUrlsBySize[90].replace('s90', 'l90')} />
                     </a>
                     <div className="recipe-listing caption">
@@ -237,7 +237,7 @@ var Recipes = React.createClass({
                 <div className='card-content full-width dark'>
                     {content}
                     <a
-                        data-no-turbolinks
+                        data-no-turbolink
                         onClick={this.toggleModalAndLoading}
                         className="btn-floating">
                         <i className="material-icons">search</i>
