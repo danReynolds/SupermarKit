@@ -81,7 +81,12 @@ var Pagination = {
     },
 
     lastPageNumber: function() {
-        return Math.floor((this.state.paginationTotal - 1) / this.state.pageSize);
+        const { paginationTotal, pageSize } = this.state;
+
+        if (paginationTotal === 0) {
+            return 0;
+        }
+        return Math.floor((paginationTotal - 1) / pageSize);
     },
 
     incrementPage: function() {

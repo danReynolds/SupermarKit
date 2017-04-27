@@ -12,7 +12,7 @@ var Payments = React.createClass({
     },
 
     componentWillMount: function() {
-        this.setState({pageSize: 10, defaultPage: this.firstPage })
+        this.setState({pageSize: 6, defaultPage: this.firstPage })
     },
 
     componentDidMount: function() {

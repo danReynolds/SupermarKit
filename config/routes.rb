@@ -23,6 +23,11 @@ Rails.application.routes.draw do
   # Only the collection routes of the children get member routes of the parent
   shallow do
     resources :user_groups do
+      resources :users, module: :user_groups, only: [] do
+        collection do
+          get :show
+        end
+      end
       resources :groceries, except: [:update, :index, :edit] do
         resources :recipes, module: :groceries, only: [] do
           collection do
