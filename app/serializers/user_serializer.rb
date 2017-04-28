@@ -1,5 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :name, :id
+  attribute :links
   attribute :gravatar_url, key: :image do
     object.gravatar_url(50)
   end
@@ -10,5 +11,9 @@ class UserSerializer < ActiveModel::Serializer
 
   def user_group?
     instance_options[:user_group]
+  end
+
+  def links
+    { get_url: user_path(object) }
   end
 end
