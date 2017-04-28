@@ -6,6 +6,9 @@
           %h3 Profile
           .row
             .col.l12
+              = image_tag @user.gravatar_url
+          .row
+            .col.l12
               %label Name
               %p= @user.name
           - if can? :view_email, @user
