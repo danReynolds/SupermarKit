@@ -7,16 +7,20 @@ class ItemsController < ApplicationController
 
   def update
     grocery_item = @item.grocery_item(@grocery)
-    @item.update!(item_params)
-    render json: {
-      grocery_item: SerializableResource.new(grocery_item).as_json,
-      updated_grocery_item: SerializableResource.new(grocery_item.reload).as_json
-    }
+    if @item.update(item_params)
+      render json: {
+        grocery_item: SerializableResource.new(grocery_item).as_json,
+        updated_grocery_item: SerializableResource.new(grocery_item.reload).as_json
+      }
+    else
+      render json: @item.errors, status: :unprocessable_entity
+    end
   end
 
   def auto_complete
     items = @grocery.user_group.privacy_items.select(:id, :description, :name)
-      .with_name(params[:q]).order('LENGTH(items.name) ASC').limit(5)
+                    .with_name(params[:q]).order('LENGTH(items.name) ASC')
+                    .limit(5)
 
     render json: {
       data: items.map do |item|

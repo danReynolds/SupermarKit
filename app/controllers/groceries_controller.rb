@@ -25,9 +25,6 @@ class GroceriesController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def email_group
     grocery_email_params[:email][:user_ids] ||= []
     grocery_email_params[:email][:user_ids].each do |id|

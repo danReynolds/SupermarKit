@@ -13,7 +13,7 @@ class GroceriesItems < ApplicationRecord
   CLOSEST_STORE_THRESHOLD = 10
 
   def units=(value)
-    value = Unit.new(value).units if value.present?
+    value = Unit.new(value).units if value.present? && UNIT_TYPES.include?(value)
     super(value)
   end
 
@@ -62,9 +62,9 @@ private
 
   # Determine the unit pricing for grocery items, converting to common unit if needed
   def calculate_unit_prices(groceries_items)
-    if units
+    if units.present?
       groceries_items.select do |item|
-        item.units && item.units.to_unit.compatible?(units.to_unit)
+        item.units.present? && item.units.to_unit.compatible?(units.to_unit)
       end.map do |grocery_item|
         grocery_item.price.to_f / grocery_item.unit_quantity.convert_to(units).scalar
       end
