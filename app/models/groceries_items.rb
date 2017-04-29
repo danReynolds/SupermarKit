@@ -13,7 +13,7 @@ class GroceriesItems < ApplicationRecord
   CLOSEST_STORE_THRESHOLD = 10
 
   def units=(value)
-    value = Unit.new(value).units if value.present? && UNIT_TYPES.include?(value)
+    value = Unit.new(value).units rescue value
     super(value)
   end
 
