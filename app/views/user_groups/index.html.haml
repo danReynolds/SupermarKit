@@ -22,7 +22,7 @@
                   You have been invited to join this Kit.
                 - elsif group.description.present?
                   = group.description
-                - else
+                - elsif can? :update, group
                   Describe your
                   = link_to 'your Kit.', edit_user_group_path(group), class: :highlight
             .card-action
