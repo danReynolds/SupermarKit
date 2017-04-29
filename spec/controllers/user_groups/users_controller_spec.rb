@@ -19,7 +19,8 @@ describe UserGroups::UsersController, type: :controller do
           id: user.id,
           name: user.name,
           balance: user.user_groups_users.find_by_user_group_id(user_group.id).balance.to_f,
-          image: user.gravatar_url
+          image: user.gravatar_url,
+          links: { get_url: user_path(user) }
         }.with_indifferent_access
       end
       expect(JSON.parse(response.body)).to eq user_response
