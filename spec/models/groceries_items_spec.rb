@@ -1,6 +1,48 @@
 require 'rails_helper'
 
 RSpec.describe GroceriesItems, type: :model do
+  describe '#units=' do
+    let(:item) { create(:item) }
+    let(:grocery) { create(:grocery, items: [item]) }
+    let(:grocery_item) { item.grocery_item(grocery) }
+
+    context 'with a unit in the list' do
+      it 'should return that unit' do
+        unit = 'cup'
+        grocery_item.units = unit
+        expect(grocery_item.units).to eq unit
+        expect(grocery_item.valid?).to eq true
+      end
+    end
+
+    context 'with a unit whose singular is in the list' do
+      it 'should return that unit' do
+        unit = 'cups'
+        grocery_item.units = unit
+        expect(grocery_item.units).to eq unit.singularize
+        expect(grocery_item.valid?).to eq true
+      end
+    end
+
+    context 'with a unit not in the list' do
+      it 'should not be valid' do
+        unit = 'gorbag'
+        grocery_item.units = unit
+        expect(grocery_item.units).to eq unit
+        expect(grocery_item.valid?).to eq false
+      end
+    end
+
+    context 'with a blank unit' do
+      it 'should be valid' do
+        unit = ''
+        grocery_item.units = unit
+        expect(grocery_item.units).to eq unit
+        expect(grocery_item.valid?).to eq true
+      end
+    end
+  end
+
   describe '#estimated_price' do
     context 'with units and quantity' do
       let(:item) { create(:item) }
