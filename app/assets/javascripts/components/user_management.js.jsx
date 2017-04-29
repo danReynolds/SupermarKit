@@ -108,7 +108,9 @@ var UserManagement = React.createClass({
         return (
             <div>
                 <h3>Kit members</h3>
-                {this.renderUserItems()}
+                <ul>
+                    {this.renderUserItems()}
+                </ul>
                 {this.renderPagination()}
             </div>
         )

@@ -30,17 +30,25 @@ var UserItemContent = React.createClass({
     },
 
     render: function() {
+        const { user: { id, name, image, links: { get_url } } } = this.props;
         var balance = this.balanceResult(this.props.user.balance);
 
         return (
             <div className='user-item-content'>
-                <div className='valign-wrapper'>
-                    <img src={this.props.user.image}/>
-                    <p className='name'>{this.props.user.name}</p>
+                <img src={image}/>
+                <div className='name-wrapper'>
+                    <label htmlFor={'name-section-' + id}>Name</label>
+                    <div className='name-section' id={'name-section-' + id}>
+                        <a
+                            className='dark'
+                            id={`name-section-${id}`}
+                            href={get_url}
+                        >{name}</a>
+                    </div>
                 </div>
                 <div className={'balance-wrapper ' + balance.class}>
-                    <label className='balance-label' htmlFor={'balance-section' + this.props.user.id}>Kit balance</label>
-                    <div className='balance-section' id={'balance-section-' + this.props.user.id}>
+                    <label className='balance-label' htmlFor={'balance-section-' + id}>Kit balance</label>
+                    <div className='balance-section' id={'balance-section-' + id}>
                         <i className='material-icons'>{balance.icon}</i>
                         <div className='balance'>${Math.abs(this.props.user.balance).toFixed(2)}</div>
                     </div>

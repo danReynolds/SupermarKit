@@ -2,8 +2,13 @@
   margin-bottom: 1.5rem;
   @extend .valign-wrapper;
 
+  &:first-child {
+    margin-right: 54px;
+  }
+
   .user-item-content {
     @extend .valign-wrapper;
+    flex: 1;
   }
 
   .btn {
@@ -19,14 +24,14 @@
     border-radius: 50%;
   }
 
-  .name {
-    margin: 0 1rem !important;
-  }
-
-  .balance-wrapper {
-    font-size: 1.5rem;
-    margin-top: -1rem;
+  .balance-wrapper, .name-wrapper {
+    font-size: 1.3rem;
+    margin-top: -0.5rem;
     line-height: 1.35;
+    padding: 0 1rem;
+    flex: 1;
+
+    &.name-wrapper { font-size: 1.2rem; }
   }
 
   .balance {
@@ -64,17 +69,6 @@
 
   .zero {
     i { color: $sm-blue; }
-  }
-
-  p {
-    width: 4rem;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-    word-wrap: normal;
-
-    @media #{$mobile} {
-      width: 2rem;
-    }
   }
 
   .input-field {

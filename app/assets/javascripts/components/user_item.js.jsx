@@ -16,11 +16,12 @@ var UserItem = React.createClass({
     },
 
     render: function() {
-        if (this.props.index) {
+        const { index, user } = this.props;
+        if (index) {
             var payContent = (
                 <div
                     className='btn'
-                    data-index={this.props.index}
+                    data-index={index}
                     onClick={this.handleClick}
                 >
                     Pay
@@ -30,7 +31,7 @@ var UserItem = React.createClass({
 
         return (
             <li className='user-item'>
-                <UserItemContent user={this.props.user}/>
+                <UserItemContent user={user}/>
                 {payContent}
             </li>
         );
