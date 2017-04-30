@@ -161,8 +161,8 @@ class UserGroupsController < ApplicationController
   end
 
   def do_payment
-    UserPayment.create!(
-      user_group_payment_params.merge({
+    Payment.create!(
+      payment_params.merge({
         payer_id: current_user.id,
         user_group_id: @user_group.id
       }.to_h)
@@ -174,7 +174,7 @@ private
     params.require(:user_group).permit(:name, :description, :privacy, :banner, :user_ids)
   end
 
-  def user_group_payment_params
+  def payment_params
     params.require(:user_group).permit(:payee_id, :reason, :price)
   end
 

@@ -1,5 +1,6 @@
-class UserPayment < ApplicationRecord
+class Payment < ApplicationRecord
   belongs_to :user_group
+  belongs_to :grocery
   belongs_to :payee, class_name: User
   belongs_to :payer, class_name: User
 

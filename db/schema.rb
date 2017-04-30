@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161126174755) do
+ActiveRecord::Schema.define(version: 20170430174807) do
 
   create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "user_id"
@@ -54,16 +54,6 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.integer "recipe_id",  null: false
   end
 
-  create_table "grocery_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "grocery_id"
-    t.integer  "user_id"
-    t.integer  "price_cents"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["grocery_id"], name: "index_grocery_payments_on_grocery_id", using: :btree
-    t.index ["user_id", "grocery_id"], name: "index_grocery_payments_on_user_id_and_grocery_id", unique: true, using: :btree
-  end
-
   create_table "grocery_stores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string  "name"
     t.decimal "lat",      precision: 10, scale: 6
@@ -89,6 +79,21 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.integer "recipe_id",                                          null: false
     t.string  "units"
     t.decimal "quantity",  precision: 16, scale: 2, default: "1.0"
+  end
+
+  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.integer  "price_cents"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "payer_id"
+    t.integer  "payee_id"
+    t.integer  "user_group_id"
+    t.string   "reason"
+    t.integer  "grocery_id"
+    t.index ["grocery_id"], name: "index_payments_on_grocery_id", using: :btree
+    t.index ["payee_id"], name: "index_payments_on_payee_id", using: :btree
+    t.index ["payer_id"], name: "index_payments_on_payer_id", using: :btree
+    t.index ["user_group_id"], name: "index_payments_on_user_group_id", using: :btree
   end
 
   create_table "recipes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -134,19 +139,6 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.string  "state",         default: "invited"
     t.index ["user_group_id"], name: "index_user_groups_users_on_user_group_id", using: :btree
     t.index ["user_id", "user_group_id"], name: "index_user_groups_users_on_user_id_and_user_group_id", unique: true, using: :btree
-  end
-
-  create_table "user_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "price_cents"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "payer_id"
-    t.integer  "payee_id"
-    t.integer  "user_group_id"
-    t.string   "reason"
-    t.index ["payee_id"], name: "index_user_payments_on_payee_id", using: :btree
-    t.index ["payer_id"], name: "index_user_payments_on_payer_id", using: :btree
-    t.index ["user_group_id"], name: "index_user_payments_on_user_group_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|

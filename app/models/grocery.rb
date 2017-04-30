@@ -1,6 +1,6 @@
 class Grocery < ApplicationRecord
   has_many :groceries_items, class_name: GroceriesItems
-  has_many :payments, class_name: GroceryPayment
+  has_many :payments
   has_many :items, through: :groceries_items
   has_and_belongs_to_many :recipes
   has_attached_file :receipt, styles: { clean: { processors: [:text_cleaner] } }
