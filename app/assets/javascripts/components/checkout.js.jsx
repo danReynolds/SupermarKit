@@ -26,6 +26,8 @@ var Checkout = React.createClass({
     componentDidMount: function() {
         // Hack: Input fields have a dynamic method defined on turbolinks
         // load by Materialize-JS that needs to be called
+        $('.collapsible').collapsible({ accordion: false });
+
         document.addEventListener('turbolinks:load', setTimeout(() => (
             Materialize.updateTextFields()
         ), 1));
@@ -154,21 +156,16 @@ var Checkout = React.createClass({
 
         return (
             <div className='checkout'>
-                <div className='card'>
-                    <form
-                        onSubmit={this.handleSubmit}
-                        className='checkoutForm'>
+                <form
+                    onSubmit={this.handleSubmit}
+                    className='checkoutForm'>
+                    <div className='card'>
                         <div className='card-content'>
-                            <h3>Pay for your groceries</h3>
-                            <div className='row'>
-                                <div className='col l12'>
-                                    {this.renderUsers()}
-                                </div>
+                            <div className='card-header'>
+                                <h3>Payments</h3>
                             </div>
-                            <div className='totals'>
-                                <div className='total'>Total: ${total}</div>
-                            <div className='estimated-total'>Estimated Total: ${this.props.total}</div>
-                            </div>
+                            <PaymentList
+                            />
                         </div>
                         <div className='card-action'>
                             <input
@@ -176,8 +173,8 @@ var Checkout = React.createClass({
                                 value='Checkout'
                                 className='btn'/>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         );
     }

@@ -1,8 +1,9 @@
 class GroceriesItems < ApplicationRecord
   include FractionalNumberToWords
-  belongs_to :requester, class_name: User
   belongs_to :item
   belongs_to :grocery
+  has_and_belongs_to_many :payments
+  has_and_belongs_to_many :requesters, class_name: User, join_table: 'groceries_items_users'
 
 	validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }

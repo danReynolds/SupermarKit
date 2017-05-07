@@ -1,5 +1,5 @@
 class GroceriesItemsSerializer < ActiveModel::Serializer
-  attributes :id, :units, :display_name, :requester_id
+  attributes :id, :units, :display_name, :requester_ids
   attribute :price do
     object.price.format(symbol: false).to_f
   end

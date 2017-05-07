@@ -1,4 +1,4 @@
-class ItemListEditor extends React.Component {
+class ItemListItemEditor extends React.Component {
     static propTypes = {
         price: React.PropTypes.any,
         estimatedPrice: React.PropTypes.any,
@@ -79,7 +79,7 @@ class ItemListEditor extends React.Component {
         return (
             <div className='itemlist-editor collapsible-body'>
                 <div className="valign-wrapper">
-                    <div className="col l3 s3">
+                    <div className="col l2 s3">
                         <label htmlFor={quantityId}>Quantity</label>
                         <input
                             onChange={this.handleItemFieldChange}
@@ -89,7 +89,7 @@ class ItemListEditor extends React.Component {
                             step="any"
                             value={quantity} />
                     </div>
-                    <div className="col s3">
+                    <div className="col l2 s3">
                         <label
                             className={oldPrice ? '' : 'estimated'}
                             htmlFor={priceId}
@@ -104,7 +104,7 @@ class ItemListEditor extends React.Component {
                             step="any"
                             value={newPrice} />
                     </div>
-                    <div className="col l3 s3">
+                    <div className="col l2 s3">
                         <label htmlFor={unitsId}>Units</label>
                         <input
                             ref={(input) => { this.autocomplete = input; }}

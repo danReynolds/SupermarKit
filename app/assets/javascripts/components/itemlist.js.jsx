@@ -190,46 +190,45 @@ var ItemList = React.createClass({
 
     renderItems: function() {
         const { items: { unit_types } } = this.props;
+        const { users, modal: { selection } } = this.state;
         const estimated = this.isEstimatedTotal();
-        var displayItems = this.itemsForPage(
-            this.state.modal.selection.reduce(function(acc, item, index) {
-                var requester = this.state.users.filter(function(user) {
-                    return user.id === item.grocery_item.requester_id;
-                })[0];
+        const displayItems = this.itemsForPage(selection);
 
-                if (requester) {
-                    acc.push({item: item, requester: requester, index: index});
-                }
-                return acc;
-            }.bind(this), [])
-        );
-
-        var itemContent = displayItems.map(function(data) {
-            var quantityId = "quantity-" + data.index;
-            var priceId = "price-" + data.index;
-            var unitsId = "units-" + data.index;
-            const { item, item: { grocery_item } } = data;
-            const { price, estimated_price, quantity, units } = grocery_item;
+        var itemContent = displayItems.map(function(displayItem, index) {
+            var quantityId = `quantity-${index}`;
+            var priceId = `price-${index}`;
+            var unitsId = `units-${index}`;
+            const { grocery_item } = displayItem;
+            const {
+                price,
+                estimated_price,
+                quantity,
+                units,
+                requester_ids
+            } = grocery_item;
 
             return (
-                <li key={'item-' + data.index}
-                    ref={'item-' + data.index}
-                    data-index={data.index}
+                <li key={`item-${index}`}
+                    ref={`item-${index}`}
+                    data-index={index}
                     className='collection-item dismissable'>
-                    <div ref={'collapsible-' + data.index} className='collapsible-header'>
-                        <img src={data.requester.image} />
+                    <div ref={`collapsible-${index}`} className='collapsible-header'>
+                        <ItemRequesters
+                            index={index}
+                            requesterIds={requester_ids}
+                            users={users} />
                         <p>
-                            <strong>{data.requester.name}</strong> wants <strong>{grocery_item.display_name}</strong>
+                            test
                         </p>
                         <div className={`badge price ${price ? 'confirmed' : ''}`}>
                             ${parseFloat(grocery_item.price || grocery_item.estimated_price).toFixed(2)}
                         </div>
                     </div>
-                    <ItemListEditor
+                    <ItemListItemEditor
                         quantity={quantity}
                         price={price}
                         estimatedPrice={estimated_price}
-                        id={data.index}
+                        id={index}
                         units={units}
                         unitTypes={unit_types}
                         getSelectedIndex={this.getSelectedIndex}
@@ -270,7 +269,7 @@ var ItemList = React.createClass({
     render: function() {
         var content, pagination;
         if (this.state.modal.loading || !this.state.modal.selection) {
-            content = <Loader />
+            content = <Loader />;
         } else {
             content = this.state.modal.selection.length ? this.renderItems() : this.renderNoItems();
         }

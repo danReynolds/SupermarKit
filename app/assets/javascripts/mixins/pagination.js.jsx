@@ -26,7 +26,7 @@ var Pagination = {
     },
 
     itemsForPage: function(items) {
-        return items.splice(this.state.pageSize * this.state.pageNumber, this.state.pageSize);
+        return items.slice(this.state.pageSize * this.state.pageNumber, this.state.pageSize);
     },
 
     handlePageChange: function(e) {

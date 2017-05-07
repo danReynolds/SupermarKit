@@ -162,10 +162,10 @@ class UserGroupsController < ApplicationController
 
   def do_payment
     Payment.create!(
-      payment_params.merge({
+      payment_params.merge(
         payer_id: current_user.id,
         user_group_id: @user_group.id
-      }.to_h)
+      )
     )
   end
 

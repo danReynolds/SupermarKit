@@ -7,12 +7,12 @@ class User < ApplicationRecord
 
   has_many :grocery_payments
   has_many :user_payments
-  has_many :requests, class_name: GroceriesItems, foreign_key: :requester_id
   has_many :user_groups_users, class_name: UserGroupsUsers
   has_many :user_groups, through: :user_groups_users
   has_many :groceries, through: :user_groups
   has_many :friends, -> { distinct }, through: :user_groups, source: :users
   has_many :owned_user_groups, class_name: UserGroup, foreign_key: :owner_id
+  has_and_belongs_to_many :requests, class_name: GroceriesItems, join_table: 'groceries_items_users'
   belongs_to :default_group, class_name: UserGroup, foreign_key: :user_group_default_id
 
   acts_as_user roles: :admin
