@@ -18,5 +18,11 @@ services:
       - "3000:3000"
     depends_on:
       - db
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
 networks:
   webnet:
