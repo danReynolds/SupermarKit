@@ -15,13 +15,19 @@ WORKDIR /SupermarKit
 # Install all needed gems
 ADD Gemfile /SupermarKit/Gemfile
 ADD Gemfile.lock /SupermarKit/Gemfile.lock
-RUN bundle install
+RUN bundle install --without development test
 
 # Copy the current directory contents into the container at /SupermarKit
 ADD . /SupermarKit
 
 # Make port 80 available to the world outside this container
 EXPOSE 3000
+
+# Precompile assets for production
+RUN bundle exec rake assets:precompile --trace
+
+# Set Rails environment mode to production
+ENV RAILS ENV production
 
 # Start server
 CMD ["rails","server","-b", "0.0.0.0"]

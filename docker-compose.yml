@@ -1,38 +1,11 @@
 version: '3'
 services:
-  db:
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks:
-      - webnet
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    image: mariadb
   web:
-    deploy:
-      mode: global
-      restart_policy:
-        condition: none
-    image: danreynolds/supermarkit:1.0.3
-    networks:
-      - webnet
-    volumes:
-      - .:/SupermarKit
     ports:
       - "3000:3000"
     depends_on:
       - db
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks:
-      - webnet
-networks:
-  webnet:
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb

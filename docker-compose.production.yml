@@ -1,0 +1,18 @@
+version: '3'
+services:
+  web:
+    image: danreynolds/supermarkit:1.0.4
+    deploy:
+      mode: global
+      restart_policy:
+        condition: none
+    networks:
+      - webnet
+  db:
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+networks:
+  webnet:
