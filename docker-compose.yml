@@ -1,9 +1,9 @@
 version: '3'
 services:
   db:
-   deploy:
-    placement:
-      constraints: [node.role == manager]
+    deploy:
+      placement:
+        constraints: [node.role == manager]
     networks:
       - webnet
     environment:
