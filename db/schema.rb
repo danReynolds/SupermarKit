@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20161126174755) do
 
-  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "authentications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["user_id"], name: "index_authentications_on_user_id", using: :btree
   end
 
-  create_table "groceries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "groceries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["user_group_id"], name: "index_groceries_on_user_group_id", using: :btree
   end
 
-  create_table "groceries_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "groceries_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "item_id",                                               null: false
     t.integer "grocery_id",                                            null: false
     t.decimal "quantity",     precision: 16, scale: 2, default: "1.0"
@@ -49,12 +49,12 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["item_id", "grocery_id"], name: "index_groceries_items_on_item_id_and_grocery_id", unique: true, using: :btree
   end
 
-  create_table "groceries_recipes", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "groceries_recipes", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "grocery_id", null: false
     t.integer "recipe_id",  null: false
   end
 
-  create_table "grocery_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "grocery_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "grocery_id"
     t.integer  "user_id"
     t.integer  "price_cents"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["user_id", "grocery_id"], name: "index_grocery_payments_on_user_id_and_grocery_id", unique: true, using: :btree
   end
 
-  create_table "grocery_stores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "grocery_stores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "name"
     t.decimal "lat",      precision: 10, scale: 6
     t.decimal "lng",      precision: 10, scale: 6
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["place_id"], name: "index_grocery_stores_on_place_id", using: :btree
   end
 
-  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at"
@@ -84,14 +84,14 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["name"], name: "index_items_on_name", using: :btree
   end
 
-  create_table "items_recipes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "items_recipes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "item_id",                                            null: false
     t.integer "recipe_id",                                          null: false
     t.string  "units"
     t.decimal "quantity",  precision: 16, scale: 2, default: "1.0"
   end
 
-  create_table "recipes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "recipes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "url"
     t.datetime "created_at"
@@ -102,19 +102,19 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.string   "external_id"
   end
 
-  create_table "slack_bots", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "slack_bots", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "api_token"
     t.integer "user_group_id"
   end
 
-  create_table "slack_messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "slack_messages", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string  "format"
     t.string  "message_type"
     t.integer "slack_bot_id"
     t.boolean "enabled",      default: false
   end
 
-  create_table "user_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "user_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "description"
     t.datetime "created_at"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.integer  "owner_id"
   end
 
-  create_table "user_groups_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "user_groups_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_group_id",                     null: false
     t.integer "user_id",                           null: false
     t.string  "state",         default: "invited"
@@ -136,7 +136,7 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["user_id", "user_group_id"], name: "index_user_groups_users_on_user_id_and_user_group_id", unique: true, using: :btree
   end
 
-  create_table "user_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "user_payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "price_cents"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20161126174755) do
     t.index ["user_group_id"], name: "index_user_payments_on_user_group_id", using: :btree
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                           null: false
     t.string   "crypted_password"
     t.string   "salt"

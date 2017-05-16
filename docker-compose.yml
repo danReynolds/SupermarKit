@@ -1,20 +1,14 @@
 version: '3'
 services:
   db:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
     image: mariadb
   web:
-    image: danreynolds/supermarkit:1.0.0
-    deploy:
-      replicas: 1
-      restart_policy:
-          condition: on-failure
+    build: .
     volumes:
       - .:/SupermarKit
     ports:
       - "3000:3000"
-    networks:
-      - webnet
     depends_on:
       - db
-networks:
-  webnet:
