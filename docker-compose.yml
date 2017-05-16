@@ -14,7 +14,7 @@ services:
       mode: global
       restart_policy:
         condition: none
-    image: danreynolds/supermarkit:1.0.2
+    image: danreynolds/supermarkit:1.0.3
     networks:
       - webnet
     volumes:

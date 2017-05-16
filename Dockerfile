@@ -24,10 +24,10 @@ ADD . /SupermarKit
 EXPOSE 3000
 
 # Define environment variable
-# TEST hello
+# ENV RAILS ENV production
 
+# RUN bundle exec rake assets:precompile --trace
 # Precompile assets for production
-RUN RAILS_ENV=production bundle exec rake assets:precompile --trace
 
 # Start server
 CMD ["rails","server","-b", "0.0.0.0"]
