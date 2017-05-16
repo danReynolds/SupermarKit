@@ -7,8 +7,10 @@ services:
       MYSQL_ROOT_PASSWORD: root
     image: mariadb
   web:
-    links:
-      - db
+    deploy:
+      mode: global
+      restart_policy:
+        condition: none
     image: danreynolds/supermarkit:1.0.2
     networks:
       - webnet
