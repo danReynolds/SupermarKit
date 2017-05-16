@@ -1,18 +1,14 @@
 version: '3'
 services:
   web:
-    image: danreynolds/supermarkit:1.0.4
-    deploy:
-      mode: global
-      restart_policy:
-        condition: none
-    networks:
-      - webnet
+    image: danreynolds/supermarkit:1.0.6
+    environment:
+      - SECRET_KEY_BASE=dd049c1592063baf0f259f48e07f38b108f164277821db0fed37844dfd5002a2f8710d95a6dfe8a7aeeafaf22b794471004570dc106a0676f16dd1cfbb20a3e1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
   db:
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-    networks:
-      - webnet
-networks:
-  webnet:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb

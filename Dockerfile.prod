@@ -15,7 +15,7 @@ WORKDIR /SupermarKit
 # Install all needed gems
 ADD Gemfile /SupermarKit/Gemfile
 ADD Gemfile.lock /SupermarKit/Gemfile.lock
-RUN bundle install --without development test
+RUN gem install bundler && bundle install --without development test
 
 # Copy the current directory contents into the container at /SupermarKit
 ADD . /SupermarKit
@@ -27,7 +27,8 @@ EXPOSE 3000
 RUN bundle exec rake assets:precompile --trace
 
 # Set Rails environment mode to production
-ENV RAILS ENV production
+ENV RAILS_ENV production
+ENV RACK_ENV production
 
 # Start server
 CMD ["rails","server","-b", "0.0.0.0"]
