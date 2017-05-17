@@ -1,5 +1,5 @@
 # Base Ruby layer
-FROM ruby:2.3.0
+FROM circleci/ruby:2.3
 
 # Add system libraries layer
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs libleptonica-dev libtesseract-dev
