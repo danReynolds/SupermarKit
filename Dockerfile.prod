@@ -21,7 +21,7 @@ RUN gem install bundler && bundle install --without development test
 ADD . /app
 
 # Precompile assets for production
-RUN bundle exec rake assets:precompile --trace
+RUN RAILS_ENV=production bundle exec rake assets:precompile --trace
 
 # Set Rails environment mode to production
 ENV RAILS_ENV production
