@@ -20,9 +20,6 @@ RUN gem install bundler && bundle install --without development test
 # Copy the current directory contents into the container at /app
 ADD . /app
 
-# Make port 80 available to the world outside this container
-EXPOSE 3000
-
 # Precompile assets for production
 RUN bundle exec rake assets:precompile --trace
 

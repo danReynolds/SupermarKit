@@ -2,12 +2,12 @@ version: '3'
 services:
   app:
     image: danreynolds/supermarkit:1.0.6
-    volumes:
-      - assets:/app/public/assets/
+    # Expose makes the internal port in the container available to other services
+    # (like nginx) without publishing them to the host machine like in a ports mapping
+    expose:
+      - 3000
     environment:
       - SECRET_KEY_BASE=dd049c1592063baf0f259f48e07f38b108f164277821db0fed37844dfd5002a2f8710d95a6dfe8a7aeeafaf22b794471004570dc106a0676f16dd1cfbb20a3e1
-    ports:
-      - "3000:3000"
     depends_on:
       - db
   nginx:
@@ -23,8 +23,6 @@ services:
       nginx_default:
         aliases:
           - SUPERMARKIT
-volumes:
-  assets:
 networks:
   nginx_default:
     external: true
