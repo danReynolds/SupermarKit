@@ -8,19 +8,19 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs li
 RUN mkdir /usr/local/share/tessdata
 RUN curl -L https://github.com/danReynolds/ruby-tesseract-ocr/raw/master/eng.traineddata > /usr/local/share/tessdata/eng.traineddata
 
-# Set the working directory to /SupermarKit
-RUN mkdir /SupermarKit
-WORKDIR /SupermarKit
+# Set the working directory to /app
+RUN mkdir /app
+WORKDIR /app
 
 # Install all needed gems
-ADD Gemfile /SupermarKit/Gemfile
-ADD Gemfile.lock /SupermarKit/Gemfile.lock
+ADD Gemfile /app/Gemfile
+ADD Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 
-# Copy the current directory contents into the container at /SupermarKit
-ADD . /SupermarKit
+# Copy the current directory contents into the container at /app
+ADD . /app
 
-# Make port 80 available to the world outside this container
+# Make port 3000 available to the world outside this container
 EXPOSE 3000
 
 # Start server

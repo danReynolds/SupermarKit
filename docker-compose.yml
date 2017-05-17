@@ -1,11 +1,13 @@
 version: '3'
 services:
-  web:
+  app:
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
       - db
   db:
+    volumes:
+     - /lib/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
     image: mariadb
