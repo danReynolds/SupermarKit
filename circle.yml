@@ -1,51 +1,23 @@
-machine:
-  # Start by updating docker-compose
-  pre:
-    - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    - sudo apt-get update
-    - sudo apt-get install docker-ce
-    - curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /home/ubuntu/bin/docker-compose
-    - chmod +x /home/ubuntu/bin/docker-compose
-
-  # set the time zone to your local so server logs are easy to understand
-  # useful if you SSH into a build (https://circleci.com/docs/ssh-build)
-  timezone: America/Toronto
-
-  # tell CircleCI that we need Docker (Compose) available for our build
-  services:
-    - docker
-
-  # set the Rails test environment at the server level
-  environment:
-    RAILS_ENV: test
-
-# configure project dependencies
-# https://circleci.com/docs/configuration#dependencies
-dependencies:
-  override:
-    # output information about the docker environment
-    - docker info
-
-    # build our Docker images
-    - docker-compose build
-
-#configure the database
-# https://circleci.com/docs/configuration#database
-database:
-  pre:
-    # boot all containers
-    - docker-compose up -d
-
-    # wait to make sure all containers are up and running before the next step
-    - sleep 5
-
-  # create our test DB and load the schema.
-  override:
-    - docker-compose run app rake db:setup
-
-# configure the test run
-# https://circleci.com/docs/configuration#test
-test:
-  # run the test suite in the application container
-  override:
-    - docker-compose run app rspec
+version: 2
+jobs:
+  build:
+    working_directory: /home/circleci/SupermarKit
+    docker:
+      - image: danreynolds/supermarkit_circle:1.0.0
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+      - image: circleci/mysql
+    steps:
+      - checkout
+      - run:
+          name: Use Circle Database Config
+          command: cp config/{database_circleci,database}.yml
+      - run:
+          name: Setup Dependencies and Database
+          command: |
+            bundle install
+            bundle exec rake db:setup --trace
+      - run:
+          name: Run Tests
+          command: rspec
