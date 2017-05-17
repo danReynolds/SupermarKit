@@ -65,6 +65,8 @@ group :test do
 end
 
 group :development, :test do
+	gem 'sshkit', '~> 1.13.0'
+	gem 'net-ssh', '~> 4.1.0'
 	gem 'better_errors'
 	gem 'binding_of_caller'
 	gem 'stackprof'

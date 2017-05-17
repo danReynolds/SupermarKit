@@ -15,6 +15,7 @@ WORKDIR /app
 # Install all needed gems
 ADD Gemfile /app/Gemfile
 ADD Gemfile.lock /app/Gemfile.lock
+RUN gem install bundler
 RUN bundle install
 
 # Copy the current directory contents into the container at /app

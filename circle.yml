@@ -7,6 +7,7 @@ jobs:
         environment:
           RAILS_ENV: test
           RACK_ENV: test
+          DEPLOY_TAG: ${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1:0:7}
 
       - image: circleci/mysql
     steps:
@@ -37,7 +38,6 @@ jobs:
       - deploy:
           name: Deploy to Production
           command: |
-            TAG=0.1.$CIRCLE_BUILD_NUM
-            docker build -f Dockerfile.prod -t danreynolds/supermarkit:$TAG .
+            docker build -f Dockerfile.prod -t danreynolds/supermarkit:$DEPLOY_TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push danreynolds/supermarkit:$TAG
+            docker push danreynolds/supermarkit:$DEPLOY_TAG
