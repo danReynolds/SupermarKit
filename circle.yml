@@ -3,10 +3,11 @@ jobs:
   build:
     working_directory: /home/circleci/SupermarKit
     docker:
-      - image: danreynolds/supermarkit_circle:1.0.0
+      - image: danreynolds/supermarkit_circle:1.0.1
         environment:
           RAILS_ENV: test
           RACK_ENV: test
+
       - image: circleci/mysql
     steps:
       - checkout
@@ -21,3 +22,22 @@ jobs:
       - run:
           name: Run Tests
           command: rspec
+
+
+      - deploy:
+          name: Deploy Check
+          command: |
+            if [ "${CIRCLE_BRANCH}" != "master" ]; then
+              exit 1
+            fi
+
+      # Activate the Remote Docker Environment
+      - setup_remote_docker
+
+      - deploy:
+          name: Deploy to Production
+          command: |
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            docker build -f Dockerfile.prod -t danreynolds/supermarkit:$TAG .
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push danreynolds/supermarkit:$TAG
