@@ -1,4 +1,9 @@
 machine:
+  # Start by updating docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /home/ubuntu/bin/docker-compose
+    - chmod +x /home/ubuntu/bin/docker-compose
+
+  pre:
   # set the time zone to your local so server logs are easy to understand
   # useful if you SSH into a build (https://circleci.com/docs/ssh-build)
   timezone: America/Toronto
