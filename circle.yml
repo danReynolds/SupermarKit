@@ -7,7 +7,7 @@ jobs:
         environment:
           RAILS_ENV: test
           RACK_ENV: test
-          DEPLOY_TAG: ${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1:0:7}
+          DEPLOY_TAG: "${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1:0:7}"
 
       - image: circleci/mysql
     steps:
