@@ -36,7 +36,7 @@ jobs:
 
       - deploy:
           name: Use Production Database Config
-          command: cp config/{database.sample,database}.yml
+          command: cp config/{database.yml.sample,database.yml}
 
       - deploy:
           name: Deploy to Production
