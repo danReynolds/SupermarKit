@@ -10,7 +10,7 @@ deploy_tag = ENV['DEPLOY_TAG']
 deploy_env = ENV['DEPLOY_ENV']
 
 # set the location on the server of where we want files copied to and commands executed from
-deploy_path = ENV['DEPLOY_PATH'] || "/home/#{ENV['SERVER_USER']}"
+deploy_path = ENV['DEPLOY_PATH']
 
 # connect to server
 server = SSHKit::Host.new hostname: ENV['SERVER_HOST'], port: ENV['SERVER_PORT'], user: ENV['SERVER_USER'], password: ENV['SERVER_PASS']
@@ -30,7 +30,7 @@ namespace :docker do
   task :login do
     on server do
       within deploy_path do
-        execute 'sudo docker', 'login', '-e' , ENV['DOCKER_EMAIL'], '-u', ENV['DOCKER_USER'], '-p', "'#{ENV['DOCKER_PASS']}'"
+        execute 'docker', 'login', '-e' , ENV['DOCKER_EMAIL'], '-u', ENV['DOCKER_USER'], '-p', "'#{ENV['DOCKER_PASS']}'"
       end
     end
   end
@@ -49,7 +49,7 @@ namespace :docker do
     on server do
       within deploy_path do
         with rails_env: deploy_env, deploy_tag: deploy_tag do
-          execute 'sudo docker-compose stop'
+          execute 'docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.production.yml', 'stop'
         end
       end
     end
@@ -60,7 +60,7 @@ namespace :docker do
     on server do
       within deploy_path do
         with rails_env: deploy_env, deploy_tag: deploy_tag do
-          execute 'docker-compose', 'run', 'app', 'bundle', 'exec', 'rake', 'db:migrate'
+          execute 'docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.production.yml','run', 'app', 'bundle', 'exec', 'rake', 'db:migrate'
         end
       end
     end
