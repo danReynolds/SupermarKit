@@ -14,8 +14,8 @@ default: &default
   encoding: utf8
   pool: 5
   username:
-  password:
-  socket: /var/run/mysqld/mysqld.sock
+  password: root
+  host: db
 
 development:
   <<: *default
@@ -27,3 +27,7 @@ development:
 test:
   <<: *default
   database: softgroceries_test
+
+production:
+  <<: *default
+  database: softgroceries_production

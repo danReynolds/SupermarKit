@@ -35,6 +35,10 @@ jobs:
       - setup_remote_docker
 
       - deploy:
+          name: Use Production Database Config
+          command: cp config/{database.sample,database}.yml
+
+      - deploy:
           name: Deploy to Production
           command: |
             DEPLOY_TAG="${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1:0:7}"
