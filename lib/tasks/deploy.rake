@@ -21,6 +21,7 @@ namespace :deploy do
     on server do
       upload! File.expand_path('../../docker-compose.yml', __dir__), deploy_path
       upload! File.expand_path('../../docker-compose.production.yml', __dir__), deploy_path
+      upload! File.expand_path('../../nginx.production.conf', __dir__), deploy_path
     end
   end
 end
