@@ -23,7 +23,6 @@ jobs:
           name: Run Tests
           command: rspec
 
-
       - deploy:
           name: Deploy Check
           command: |
@@ -45,3 +44,4 @@ jobs:
             docker build -f Dockerfile.prod -t danreynolds/supermarkit:$DEPLOY_TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push danreynolds/supermarkit:$DEPLOY_TAG
+            docker-compose run app rake docker:deploy

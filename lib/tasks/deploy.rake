@@ -13,7 +13,7 @@ deploy_env = ENV['DEPLOY_ENV']
 deploy_path = ENV['DEPLOY_PATH'] || "/home/#{ENV['SERVER_USER']}"
 
 # connect to server
-server = SSHKit::Host.new hostname: ENV['SERVER_HOST'], port: ENV['SERVER_PORT'], user: ENV['SERVER_USER']
+server = SSHKit::Host.new hostname: ENV['SERVER_HOST'], port: ENV['SERVER_PORT'], user: ENV['SERVER_USER'], password: ENV['SERVER_PASS']
 
 namespace :deploy do
   desc 'copy to server files needed to run and manage Docker containers'
