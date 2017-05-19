@@ -6,12 +6,6 @@ gem 'amatch'
 gem 'aws-sdk'
 gem 'bourbon'
 gem 'canard', '0.4.2.pre'
-gem 'capistrano-rails',   require: false
-gem 'capistrano-bundler', require: false
-gem 'capistrano-rails-console', require: false
-gem 'capistrano-rvm',     require: false
-gem 'capistrano',         require: false
-gem 'capistrano3-puma',   require: false
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails'
 gem 'coveralls', require: false

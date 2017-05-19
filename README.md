@@ -2,23 +2,28 @@
 [![Code Climate](https://codeclimate.com/github/danReynolds/SupermarKit/badges/gpa.svg)](https://codeclimate.com/github/danReynolds/SupermarKit)
 [![Coverage Status](https://coveralls.io/repos/github/danReynolds/SupermarKit/badge.svg?branch=master)](https://coveralls.io/github/danReynolds/SupermarKit?branch=master)
 # SupermarKit.
-SupermarKit is a free grocery-tracking application born out of the need for a better solution to get food from the store to our mouths. If you also struggle with this issue, or just want to see what we're all about, make an account and try us out.
 
-Need groceries? We have plenty of details about how we can help at [SupermarKit](http://supermarkit.org).
-Want to contact us? Email team@supermarkit.io to let us know about suggestions or concerns.
+SupermarKit helps you maintain grocery lists with features including:
+
+1. Isolated shopping groups called kits
+2. Support for searching and adding recipes to lists
+3. Making payments between kit members and maintaining kit balances
+4. Estimated pricing based on past grocery list item price information
+5. Receipt tracking
+6. Cooking units
+
+Feel free to try it out at [SupermarKit](http://supermarkit.org).
+
 ## Installation
 
-To run the app, you can do so natively or use vagrant. The following steps are for running the app under Vagrant on Ubuntu, but are easy to change for other distros.
+Additionally, you can install pretty simply after installing docker and docker-compose.
 
-Note: the vagrant version on Ubuntu 14.04 was too old for me using the official repositories, so if that one doesn't work, it can be downloaded from the vagrant site.
-
-Clone and navigate to the repository and run:
+Navigate to the cloned directory and run:
 
 ```
-sudo apt-get install virtualbox vagrant
-vagrant plugin install vagrant-librarian-chef-nochef vagrant-vbguest vagrant-omnibus
-vagrant up
+docker-compose up
+docker-compose run app rake:db setup
 ```
-And visit localhost:4000 in your browser.
+And visit localhost:3000 in your browser.
 
-Happy developing!
+Let us know how we can make it better.
