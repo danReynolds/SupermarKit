@@ -45,6 +45,7 @@ gem 'sorcery', git: 'https://github.com/danReynolds/sorcery.git'
 gem 'turbolinks', '~> 5.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'underscore-rails'
+gem 'sshkit', '~> 1.13.0'
 
 if ENV["LOCAL_ENVIRONMENT"] == "development"
 	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
@@ -59,7 +60,6 @@ group :test do
 end
 
 group :development, :test do
-	gem 'sshkit', '~> 1.13.0'
 	gem 'net-ssh', '~> 4.1.0'
 	gem 'better_errors'
 	gem 'binding_of_caller'
