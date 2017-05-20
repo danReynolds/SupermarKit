@@ -12,33 +12,27 @@ module YourApp
       decipher.decrypt
 
       # Set decryption key from environment or prompt
-      if ENV['ENV_KEY']
-        deciper.key = ENV['ENV_KEY']
+      if key = ENV['ENV_KEY']
+        decipher.key = key
       else
         while true do
-          key = IO.console.getpass('Secrets key: ')
+          key = IO.console.getpass('Secrets key (Empty to skip): ')
+          break if key.blank?
           begin
             decipher.key = key
             break
           rescue OpenSSL::Cipher::CipherError
-            puts 'Incorrect key'
+            puts 'Incorrect key.'
           end
         end
       end
 
-
-        # Load IV from .env.iv
+      if key.present?
+        # Set public decryption IV
         env_iv_file = File.open('.env.iv', 'rb')
         env_iv = env_iv_file.read
         env_iv_file.close
-
-        # Set decryption key and iv
-        begin
-          decipher.key = ENV['ENV_KEY']
-          decipher.iv = env_iv
-        rescue OpenSSL::Cipher::CipherError
-          puts "Incorrect key provided."
-        end
+        decipher.iv = env_iv
 
         # Decrypt secrets file and write to environment variables
         env_plain = "#{decipher.update(env_secret)}#{decipher.final}"

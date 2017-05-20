@@ -21,7 +21,9 @@ Additionally, you can install pretty simply after installing docker and docker-c
 Navigate to the cloned directory and run:
 
 ```
-docker-compose up
+# Run creates a TTY session the app can connect to for interactive debugging
+# exposing ports like in docker-compose up which does not create a TTY session
+sudo docker-compose run --service-ports app
 docker-compose run app rake:db setup
 ```
 And visit localhost:3000 in your browser.

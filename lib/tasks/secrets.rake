@@ -9,7 +9,14 @@ namespace :secrets do
     # Set cipher to encryption mode and provide key/IV
     cipher = OpenSSL::Cipher::AES256.new(:CBC)
     cipher.encrypt
-    cipher.key = ENV['ENV_KEY'] || IO.console.getpass('Secrets key: ')
+    while true
+      begin
+        cipher.key = IO.console.getpass('Secrets key: ')
+        break
+      rescue OpenSSL::Cipher::CipherError
+        puts "Invalid key. Key must be 32 characters."
+      end
+    end
     iv = cipher.random_iv
 
     # IV is public and stored at .env.iv
