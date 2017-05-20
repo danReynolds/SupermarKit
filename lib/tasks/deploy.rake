@@ -51,7 +51,7 @@ namespace :docker do
   end
 
   desc 'Decrypt the latest environment variables to .env'
-  task :decrypt do
+  task decrypt: 'deploy:configs' do
     on server do
       within deploy_path do
         with rails_env: deploy_env, deploy_tag: deploy_tag, env_key: env_key do
@@ -61,12 +61,13 @@ namespace :docker do
     end
   end
 
-  desc 'stops all Docker containers via Docker Compose'
+  desc 'stops all Docker containers via Docker Compose and rebuild assets'
   task stop: 'deploy:configs' do
     on server do
       within deploy_path do
         with rails_env: deploy_env, deploy_tag: deploy_tag do
-          execute 'docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.production.yml', 'stop'
+          execute 'docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.production.yml', 'down'
+          execute 'docker', 'rm', 'volume', 'supermarkit_assets'
         end
       end
     end

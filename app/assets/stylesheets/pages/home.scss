@@ -4,6 +4,7 @@
   .container { padding-top: 0 }
 
   #signup {
+    background-image: linear-gradient(rgba($sm-light-green, 0.9), rgba($sm-blue-green, 0.75)), image-url("homepage/elevator-background.jpg");
     text-align: center;
     height: 100vh;
     padding: 20vh 0;
