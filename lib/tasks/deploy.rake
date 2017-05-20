@@ -9,6 +9,9 @@ deploy_tag = ENV['DEPLOY_TAG']
 # set the name of the environment we are deploying to (e.g. staging, production, etc.)
 deploy_env = ENV['DEPLOY_ENV']
 
+# set the key used to decrypt the environment variables secret file into .env
+env_key = ENV['ENV_KEY']
+
 # set the location on the server of where we want files copied to and commands executed from
 deploy_path = ENV['DEPLOY_PATH']
 
@@ -42,6 +45,17 @@ namespace :docker do
       within deploy_path do
         with deploy_tag: deploy_tag do
           execute 'docker', 'pull', "#{ENV['DOCKER_USER']}/#{ENV['APP_NAME']}:#{deploy_tag}"
+        end
+      end
+    end
+  end
+
+  desc 'Decrypt the latest environment variables to .env'
+  task :decrypt do
+    on server do
+      within deploy_path do
+        with rails_env: deploy_env, deploy_tag: deploy_tag, env_key: env_key do
+          execute 'docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.production.yml', 'run', 'app', 'bundle', 'exec', 'rake', 'secrets:decrypt'
         end
       end
     end
@@ -84,5 +98,5 @@ namespace :docker do
   end
 
   desc 'pulls images, stops old containers, updates the database, and starts new containers'
-  task deploy: %w{docker:pull docker:stop docker:migrate docker:start} # pull images manually to reduce down time
+  task deploy: %w{docker:pull docker:decrypt docker:stop docker:migrate docker:start} # pull images manually to reduce down time
 end

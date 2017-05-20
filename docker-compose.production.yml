@@ -8,7 +8,9 @@ services:
     env_file:
       - .env
     environment:
+      - ENV_KEY=$ENV_KEY
       - DEPLOY_TAG=$DEPLOY_TAG
+      - SECRET_KEY_BASE=$SECRET_KEY_BASE
     depends_on:
       - db
   nginx:
