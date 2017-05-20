@@ -38,6 +38,10 @@ jobs:
           command: cp config/{database.yml.sample,database.yml}
 
       - deploy:
+          name: Create Environment File
+          command: touch .env
+
+      - deploy:
           name: Deploy to Production
           command: |
             export DEPLOY_TAG="${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1:0:7}"
