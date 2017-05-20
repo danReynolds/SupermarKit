@@ -38,8 +38,8 @@ jobs:
           command: cp config/{database.yml.sample,database.yml}
 
       - deploy:
-        name: Load Environment File
-        command: bundle exec rake secrets:decrypt
+          name: Load Environment File
+          command: bundle exec rake secrets:decrypt
 
       - deploy:
           name: Deploy to Production
