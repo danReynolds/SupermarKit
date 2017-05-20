@@ -40,16 +40,9 @@ namespace :docker do
   task pull: 'docker:login' do
     on server do
       within deploy_path do
-        execute 'docker', 'pull', "#{ENV['DOCKER_USER']}/#{ENV['APP_NAME']}:#{deploy_tag}"
-      end
-    end
-  end
-
-  desc 'decrypts environment variables'
-  task decrypt: 'docker:decrypt' do
-    on server do
-      within deploy_path do
-        execute 'docker', 'pull', "#{ENV['DOCKER_USER']}/#{ENV['APP_NAME']}:#{deploy_tag}"
+        with deploy_tag: deploy_tag do
+          execute 'docker', 'pull', "#{ENV['DOCKER_USER']}/#{ENV['APP_NAME']}:#{deploy_tag}"
+        end
       end
     end
   end
