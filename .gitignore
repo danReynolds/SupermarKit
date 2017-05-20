@@ -14,7 +14,7 @@
 /log/*.log
 /tmp
 config/secrets.yml
-.env
+.env.yml
 .tags
 .tags_sorted_by_file
 /coverage

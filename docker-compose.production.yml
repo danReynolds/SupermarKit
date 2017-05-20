@@ -5,7 +5,6 @@ services:
       - assets:/app/public/assets/
       - logs:/app/log/
     image: danreynolds/supermarkit:$DEPLOY_TAG
-    env_file: './.env'
     environment:
       - SECRET_KEY_BASE=dd049c1592063baf0f259f48e07f38b108f164277821db0fed37844dfd5002a2f8710d95a6dfe8a7aeeafaf22b794471004570dc106a0676f16dd1cfbb20a3e1
     depends_on:

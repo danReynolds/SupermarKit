@@ -12,6 +12,9 @@ deploy_env = ENV['DEPLOY_ENV']
 # set the location on the server of where we want files copied to and commands executed from
 deploy_path = ENV['DEPLOY_PATH']
 
+# environment variables decryption key
+env_key = ENV['ENV_KEY']
+
 # connect to server
 server = SSHKit::Host.new hostname: ENV['SERVER_HOST'], user: ENV['SERVER_USER'], password: ENV['SERVER_PASS']
 
@@ -38,6 +41,15 @@ namespace :docker do
 
   desc 'pulls images from Docker Hub'
   task pull: 'docker:login' do
+    on server do
+      within deploy_path do
+        execute 'docker', 'pull', "#{ENV['DOCKER_USER']}/#{ENV['APP_NAME']}:#{deploy_tag}"
+      end
+    end
+  end
+
+  desc 'decrypts environment variables'
+  task decrypt: 'docker:decrypt' do
     on server do
       within deploy_path do
         execute 'docker', 'pull', "#{ENV['DOCKER_USER']}/#{ENV['APP_NAME']}:#{deploy_tag}"
