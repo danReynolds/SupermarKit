@@ -44,4 +44,4 @@ jobs:
             docker build -f Dockerfile.prod -t danreynolds/supermarkit:$DEPLOY_TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push danreynolds/supermarkit:$DEPLOY_TAG
-            docker-compose -f docker-compose.yml -f docker-compose.production.yml run -e ENV_KEY=$ENV_KEY app rake docker:deploy
+            docker-compose -f docker-compose.yml -f docker-compose.production.yml run app rake docker:deploy
