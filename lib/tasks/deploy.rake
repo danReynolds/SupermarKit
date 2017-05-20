@@ -1,26 +1,16 @@
 # use SSHKit directly instead of Capistrano
 require 'sshkit'
 require 'sshkit/dsl'
-require_relative '../../lib/secrets.rb'
 include SSHKit::DSL
-include Secrets
-
-load_secrets
 
 # set the identifier used to used to tag our Docker images
 deploy_tag = ENV['DEPLOY_TAG']
-
-# set the env key used for decrypting secrets
-env_key = ENV['ENV_KEY']
 
 # set the name of the environment we are deploying to (e.g. staging, production, etc.)
 deploy_env = ENV['DEPLOY_ENV']
 
 # set the location on the server of where we want files copied to and commands executed from
 deploy_path = ENV['DEPLOY_PATH']
-
-# environment variables decryption key
-env_key = ENV['ENV_KEY']
 
 # connect to server
 server = SSHKit::Host.new hostname: ENV['SERVER_HOST'], user: ENV['SERVER_USER'], password: ENV['SERVER_PASS']
@@ -90,7 +80,7 @@ namespace :docker do
   task start: 'deploy:configs' do
     on server do
       within deploy_path do
-        with rails_env: deploy_env, deploy_tag: deploy_tag, env_key: env_key do
+        with rails_env: deploy_env, deploy_tag: deploy_tag do
           execute 'docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.production.yml', 'up', '-d'
 
           # write the deploy tag to file so we can easily identify the running build
