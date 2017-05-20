@@ -26,4 +26,4 @@ docker-compose run app rake:db setup
 ```
 And visit localhost:3000 in your browser.
 
-Let us know how we can make it better.
+Let us know how we can make grocery shopping better.

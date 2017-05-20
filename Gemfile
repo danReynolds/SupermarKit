@@ -46,14 +46,7 @@ gem 'turbolinks', '~> 5.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'underscore-rails'
 gem 'sshkit', '~> 1.13.0'
-
-if ENV["LOCAL_ENVIRONMENT"] == "development"
-	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
-else
-	TESSERACT_GEM = 'https://github.com/meh/ruby-tesseract-ocr.git'
-end
-
-gem 'tesseract-ocr', git: TESSERACT_GEM
+gem 'tesseract-ocr', git: 'https://github.com/meh/ruby-tesseract-ocr.git'
 
 group :test do
 	gem 'webmock'
