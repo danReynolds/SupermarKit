@@ -10,7 +10,6 @@ gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails'
 gem 'coveralls', require: false
 gem 'dogapi', '>=1.3.0'
-gem 'dotenv-rails'
 gem 'dropzonejs-rails'
 gem 'font-awesome-sass', '~> 4.5.0'
 gem 'fractional'
