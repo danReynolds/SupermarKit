@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    ports:
+      - 3000
+    depends_on:
+      - db
+  db:
+    volumes:
+     - /lib/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    image: mariadb
+  nginx:
+    image: nginx
+    depends_on:
+      - app

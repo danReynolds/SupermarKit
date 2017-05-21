@@ -1,3 +1,41 @@
-dependencies:
-  pre:
-    - sudo bash /home/ubuntu/SupermarKit/scripts/tesseract.sh
+version: 2
+jobs:
+  build:
+    working_directory: /home/circleci/SupermarKit
+    docker:
+      - image: danreynolds/supermarkit_circle:1.0.1
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+
+      - image: circleci/mysql
+    steps:
+      - checkout
+      - run:
+          name: Use Circle Database Config
+          command: cp config/{database_circleci,database}.yml
+      - run:
+          name: Setup Dependencies and Database
+          command: |
+            bundle install
+            bundle exec rake db:setup --trace
+      - run:
+          name: Run Tests
+          command: rspec
+
+      - deploy:
+          name: Deploy Check
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              exit 0
+            fi
+
+      # Enables the remote environment necessary for deployment
+      - setup_remote_docker
+
+      - deploy:
+          name: Deploy to Production
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ./deploy.sh
+            fi

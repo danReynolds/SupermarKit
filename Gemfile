@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
 
 gem 'active_model_serializers'
 gem 'active_record_union'
@@ -7,17 +6,10 @@ gem 'amatch'
 gem 'aws-sdk'
 gem 'bourbon'
 gem 'canard', '0.4.2.pre'
-gem 'capistrano-rails',   require: false
-gem 'capistrano-bundler', require: false
-gem 'capistrano-rails-console', require: false
-gem 'capistrano-rvm',     require: false
-gem 'capistrano',         require: false
-gem 'capistrano3-puma',   require: false
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'coffee-rails'
 gem 'coveralls', require: false
 gem 'dogapi', '>=1.3.0'
-gem 'dotenv-rails'
 gem 'dropzonejs-rails'
 gem 'font-awesome-sass', '~> 4.5.0'
 gem 'fractional'
@@ -52,20 +44,15 @@ gem 'sorcery', git: 'https://github.com/danReynolds/sorcery.git'
 gem 'turbolinks', '~> 5.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'underscore-rails'
-
-if ENV["LOCAL_ENVIRONMENT"] == "development"
-	TESSERACT_GEM = 'git@github.com:danReynolds/ruby-tesseract-ocr.git'
-else
-	TESSERACT_GEM = 'https://github.com/meh/ruby-tesseract-ocr.git'
-end
-
-gem 'tesseract-ocr', git: TESSERACT_GEM
+gem 'sshkit', '~> 1.13.0'
+gem 'tesseract-ocr', git: 'https://github.com/meh/ruby-tesseract-ocr.git'
 
 group :test do
 	gem 'webmock'
 end
 
 group :development, :test do
+	gem 'net-ssh', '~> 4.1.0'
 	gem 'better_errors'
 	gem 'binding_of_caller'
 	gem 'stackprof'

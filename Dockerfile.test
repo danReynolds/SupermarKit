@@ -1,0 +1,9 @@
+# Base Ruby layer
+FROM circleci/ruby:2.3
+
+# Add system libraries layer
+RUN sudo apt-get update -qq && sudo apt-get install -y build-essential libpq-dev nodejs libleptonica-dev libtesseract-dev
+
+# Create directory for tesseract and fetch training data
+RUN sudo mkdir /usr/local/share/tessdata
+RUN sudo sh -c 'curl -L https://github.com/danReynolds/ruby-tesseract-ocr/raw/master/eng.traineddata > /usr/local/share/tessdata/eng.traineddata'

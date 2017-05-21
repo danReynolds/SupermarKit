@@ -1,0 +1,30 @@
+version: '3'
+services:
+  app:
+    volumes:
+      - ./.env:/app/.env
+      - assets:/app/public/assets/
+      - logs:/app/log/
+    image: danreynolds/supermarkit:$DEPLOY_TAG
+    env_file:
+      - .env
+    environment:
+      - ENV_KEY=$ENV_KEY
+      - DEPLOY_TAG=$DEPLOY_TAG
+    depends_on:
+      - db
+  nginx:
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - logs:/etc/nginx/log/
+      - assets:/app/public/assets/
+      - /etc/letsencrypt/live/supermarkit.org/fullchain.pem:/etc/nginx/certs/fullchain.pem
+      - /etc/letsencrypt/live/supermarkit.org/privkey.pem:/etc/nginx/certs/privkey.pem
+      - /etc/letsencrypt/live/supermarkit.org/chain.pem:/etc/nginx/certs/chain.pem
+      - /etc/ssl/certs/dhparam.pem:/etc/nginx/certs/dhparam.pem
+      - ./nginx.production.conf:/etc/nginx/conf.d/default.conf
+volumes:
+  assets:
+  logs:
