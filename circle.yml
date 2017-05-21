@@ -26,26 +26,35 @@ jobs:
       - deploy:
           name: Deploy Check
           command: |
-            if [ "${CIRCLE_BRANCH}" != "master" ]; then
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
               exit 0
             fi
 
-      # Activate the Remote Docker Environment
+      # Begin Deployment
+      # Not sure how to do nice conditionals
       - setup_remote_docker
 
       - deploy:
           name: Use Production Database Config
-          command: cp config/{database.yml.sample,database.yml}
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              cp config/{database.yml.sample,database.yml}
+            fi
 
       - deploy:
           name: Load Environment File
-          command: bundle exec rake secrets:decrypt
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              bundle exec rake secrets:decrypt
+            fi
 
       - deploy:
           name: Deploy to Production
           command: |
-            export DEPLOY_TAG="${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1:0:7}"
-            docker build -f Dockerfile.prod -t danreynolds/supermarkit:$DEPLOY_TAG .
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push danreynolds/supermarkit:$DEPLOY_TAG
-            docker-compose -f docker-compose.yml -f docker-compose.production.yml run app rake docker:deploy
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              export DEPLOY_TAG="${CIRCLE_BUILD_NUM}_${CIRCLE_SHA1:0:7}"
+              docker build -f Dockerfile.prod -t danreynolds/supermarkit:$DEPLOY_TAG .
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push danreynolds/supermarkit:$DEPLOY_TAG
+              docker-compose -f docker-compose.yml -f docker-compose.production.yml run app rake docker:deploy
+            fi
