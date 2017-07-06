@@ -91,7 +91,8 @@ namespace :docker do
         with rails_env: deploy_env, deploy_tag: deploy_tag do
           execute 'docker-compose', '-f', 'docker-compose.yml', '-f', 'docker-compose.production.yml', 'up', '-d'
 
-          # write the deploy tag to file so we can easily identify the running build
+          # Remove the old image and write the new deploy tag to a log file
+          execute 'docker rm', '$(cat deploy.tag)'
           execute 'echo', deploy_tag , '>', 'deploy.tag'
         end
       end

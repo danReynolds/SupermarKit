@@ -6,8 +6,6 @@ services:
       - assets:/app/public/assets/
       - logs:/app/log/
     image: danreynolds/supermarkit:$DEPLOY_TAG
-    env_file:
-      - .env
     environment:
       - ENV_KEY=$ENV_KEY
       - DEPLOY_TAG=$DEPLOY_TAG
