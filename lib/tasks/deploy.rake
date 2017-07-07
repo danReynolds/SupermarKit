@@ -3,7 +3,7 @@ require 'sshkit'
 require 'sshkit/dsl'
 include SSHKit::DSL
 
-# set the identifier used to used to tag our Docker images
+# set the identifier used to tag Docker images
 deploy_tag = ENV['DEPLOY_TAG']
 
 # set the name of the environment we are deploying to (e.g. staging, production, etc.)
