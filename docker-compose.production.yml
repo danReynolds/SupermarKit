@@ -12,9 +12,11 @@ services:
     depends_on:
       - db
   nginx:
-    ports:
-      - 80:80
-      - 443:443
+    networks:
+      default:
+      nginx_default:
+        aliases:
+          - SUPERMARKIT
     volumes:
       - logs:/etc/nginx/log/
       - assets:/app/public/assets/
@@ -26,3 +28,6 @@ services:
 volumes:
   assets:
   logs:
+networks:
+  nginx_default:
+    external: true
