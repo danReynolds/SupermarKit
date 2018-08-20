@@ -12,7 +12,7 @@ SupermarKit helps you maintain grocery lists with features including:
 5. Receipt tracking
 6. Cooking units
 
-Feel free to try it out at [SupermarKit](http://supermarkit.org).
+Feel free to try it out at [SupermarKit](http://supermarkit.ca).
 
 ## Installation
 
