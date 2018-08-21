@@ -8,7 +8,7 @@ jobs:
           RAILS_ENV: test
           RACK_ENV: test
 
-      - image: circleci/mysql
+      - image: circleci/mariadb
     steps:
       - checkout
       - run:
